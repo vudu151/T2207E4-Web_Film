@@ -39,10 +39,10 @@ BEGIN
     AND (m.name LIKE CONCAT('%', searchKeyword, '%')
          OR m.keywords LIKE CONCAT('%', searchKeyword, '%'));
 
-    -- Calculate the total number of pages
+  -- Tính tổng số trang
     SET totalPages = CEIL(totalRecords / CAST(pageSize AS DECIMAL));
 
-    -- Query the data with pagination and search, considering the account payment status and view status
+     -- Truy vấn dữ liệu phân trang và tìm kiếm dựa theo payment status
     SELECT
         m.id,
         m.name,
@@ -77,7 +77,8 @@ BEGIN
     ORDER BY m.id DESC
     LIMIT startIdx, pageSize;
 
-    -- Return the total number of pages
+
+    -- Trả về tổng số trang
     SELECT totalPages AS TotalPages;
 END;
 
