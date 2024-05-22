@@ -79,8 +79,8 @@ CREATE TABLE `roles` (
   UNIQUE KEY `id` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-INSERT INTO `roles` (`id`, `name`) VALUES ('4772806e-2fd3-31', 'commodi');
-INSERT INTO `roles` (`id`, `name`) VALUES ('4c4c2af7-7017-32', 'sunt');
+INSERT INTO `roles` (`id`, `name`) VALUES ('4772806e-2fd3-31', 'ADMIN');
+INSERT INTO `roles` (`id`, `name`) VALUES ('4c4c2af7-7017-32', 'CUSTOMER');
 INSERT INTO `roles` (`id`, `name`) VALUES ('4f166e31-6c3f-3f', 'harum');
 INSERT INTO `roles` (`id`, `name`) VALUES ('6252055e-d3e9-3c', 'est');
 INSERT INTO `roles` (`id`, `name`) VALUES ('d1b55722-05ec-3d', 'expedita');
@@ -132,9 +132,9 @@ CREATE TABLE `crew_role` (
   UNIQUE KEY `id` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-INSERT INTO `crew_role` (`id`, `roles_name`) VALUES ('55626a67-48ed-3d', 'Monahan');
-INSERT INTO `crew_role` (`id`, `roles_name`) VALUES ('939614a2-25bd-3b', 'Fisher');
-INSERT INTO `crew_role` (`id`, `roles_name`) VALUES ('a698c050-b812-38', 'Bailey');
+INSERT INTO `crew_role` (`id`, `roles_name`) VALUES ('55626a67-48ed-3d', 'Writer');
+INSERT INTO `crew_role` (`id`, `roles_name`) VALUES ('939614a2-25bd-3b', 'Actor');
+INSERT INTO `crew_role` (`id`, `roles_name`) VALUES ('a698c050-b812-38', 'Director');
 
 #
 # TABLE STRUCTURE FOR: categories
