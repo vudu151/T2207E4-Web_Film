@@ -76,7 +76,7 @@ CREATE TABLE `genres` (
 CREATE TABLE `images_director` (
 	`id` BINARY(16) NOT NULL UNIQUE,
 	`link` VARCHAR(255),
-	`director` BINARY(1),
+	`director` BINARY(16),
 	PRIMARY KEY(`id`)
 );
 
@@ -209,8 +209,8 @@ CREATE TABLE `helps` (
 
 CREATE TABLE `payments` (
 	`id` INT NOT NULL AUTO_INCREMENT UNIQUE,
-	`account_id` BINARY(1),
-	`movie_id` BINARY(1),
+	`account_id` BINARY(16),
+	`movie_id` BINARY(16),
 	`created_at` DATETIME,
 	`bank` VARCHAR(255),
 	`price` DECIMAL(12,4),
@@ -287,8 +287,8 @@ ON UPDATE CASCADE ON DELETE SET NULL;
 ALTER TABLE `reviews`
 ADD FOREIGN KEY(`account_id`) REFERENCES `accounts`(`id`)
 ON UPDATE CASCADE ON DELETE SET NULL;
-ALTER TABLE `movies`
-ADD FOREIGN KEY(`id`) REFERENCES `episodes`(`movie_id`)
+ALTER TABLE `episodes`
+ADD FOREIGN KEY(`movie_id`) REFERENCES `movies`(`id`)
 ON UPDATE CASCADE ON DELETE SET NULL;
 ALTER TABLE `payments`
 ADD FOREIGN KEY(`movie_id`) REFERENCES `movies`(`id`)
