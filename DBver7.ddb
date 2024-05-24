@@ -1,13 +1,13 @@
 {
   "author": "Unnamed",
   "title": "Untitled Diagram",
-  "date": "2024-05-22T09:24:20.593Z",
+  "date": "2024-05-24T09:01:26.432Z",
   "tables": [
     {
       "id": 0,
       "name": "movies",
-      "x": -207.6464429260527,
-      "y": -182.76811570022528,
+      "x": -206.44644292605278,
+      "y": -181.56811570022535,
       "fields": [
         {
           "name": "id",
@@ -140,7 +140,7 @@
         },
         {
           "name": "level",
-          "type": "BOOLEAN",
+          "type": "SMALLINT",
           "default": "",
           "check": "",
           "primary": false,
@@ -155,7 +155,7 @@
         {
           "name": "status",
           "type": "SMALLINT",
-          "default": "",
+          "default": "1",
           "check": "",
           "primary": false,
           "unique": false,
@@ -176,6 +176,34 @@
           "comment": "",
           "id": 12,
           "size": 16
+        },
+        {
+          "name": "create_at",
+          "type": "DATETIME",
+          "default": "",
+          "check": "",
+          "primary": false,
+          "unique": false,
+          "notNull": false,
+          "increment": false,
+          "comment": "",
+          "id": 13,
+          "size": "",
+          "values": []
+        },
+        {
+          "name": "movie_or_series",
+          "type": "BOOLEAN",
+          "default": "",
+          "check": "",
+          "primary": false,
+          "unique": false,
+          "notNull": false,
+          "increment": false,
+          "comment": "",
+          "id": 14,
+          "size": "",
+          "values": []
         }
       ],
       "comment": "",
@@ -186,8 +214,8 @@
     {
       "id": 1,
       "name": "roles",
-      "x": 1395.1627804818092,
-      "y": -150.25411549697264,
+      "x": 1314.210399529428,
+      "y": -188.34935359221072,
       "fields": [
         {
           "name": "id",
@@ -224,8 +252,8 @@
     {
       "id": 2,
       "name": "accounts",
-      "x": 1046.5497031219934,
-      "y": -489.10273319397834,
+      "x": 1027.5020840743741,
+      "y": -503.3884474796927,
       "fields": [
         {
           "name": "id",
@@ -360,8 +388,8 @@
         },
         {
           "name": "level",
-          "type": "BOOLEAN",
-          "default": "",
+          "type": "SMALLINT",
+          "default": "0",
           "check": "",
           "primary": false,
           "unique": false,
@@ -475,6 +503,18 @@
           "comment": "",
           "id": 6,
           "size": 255
+        },
+        {
+          "name": "status",
+          "type": "SMALLINT",
+          "default": "1",
+          "check": "",
+          "primary": false,
+          "unique": false,
+          "notNull": false,
+          "increment": false,
+          "comment": "",
+          "id": 7
         }
       ],
       "comment": "",
@@ -529,7 +569,7 @@
           "size": 16
         },
         {
-          "name": "crew_roles",
+          "name": "job_id",
           "type": "BINARY",
           "default": "",
           "check": "",
@@ -643,6 +683,18 @@
           "comment": "",
           "id": 6,
           "size": 16
+        },
+        {
+          "name": "status",
+          "type": "SMALLINT",
+          "default": "1",
+          "check": "",
+          "primary": false,
+          "unique": false,
+          "notNull": false,
+          "increment": false,
+          "comment": "",
+          "id": 7
         }
       ],
       "comment": "",
@@ -653,8 +705,8 @@
     {
       "id": 6,
       "name": "genres",
-      "x": -475.33377067975584,
-      "y": 484.8205646720229,
+      "x": -142.3704243940415,
+      "y": 518.5848130529753,
       "fields": [
         {
           "name": "id",
@@ -698,7 +750,7 @@
         {
           "name": "status",
           "type": "INT",
-          "default": "",
+          "default": "1",
           "check": "",
           "primary": false,
           "unique": false,
@@ -767,8 +819,8 @@
     {
       "id": 8,
       "name": "movies_genres",
-      "x": -654.0662142057739,
-      "y": 358.1338103620467,
+      "x": -501.89162220577384,
+      "y": 399.1634423620469,
       "fields": [
         {
           "name": "id",
@@ -886,6 +938,18 @@
           "comment": "",
           "id": 4,
           "size": 16
+        },
+        {
+          "name": "status",
+          "type": "SMALLINT",
+          "default": "1",
+          "check": "",
+          "primary": false,
+          "unique": false,
+          "notNull": false,
+          "increment": false,
+          "comment": "",
+          "id": 5
         }
       ],
       "comment": "",
@@ -896,8 +960,8 @@
     {
       "id": 10,
       "name": "favourites",
-      "x": 696.7634371267386,
-      "y": -521.4363860272763,
+      "x": 514.6184131267387,
+      "y": -342.2773460272763,
       "fields": [
         {
           "name": "id",
@@ -914,7 +978,7 @@
           "values": []
         },
         {
-          "name": "account_id",
+          "name": "accounts_id",
           "type": "BINARY",
           "default": "",
           "check": "",
@@ -948,8 +1012,8 @@
     {
       "id": 11,
       "name": "news",
-      "x": 1336.1820643446338,
-      "y": 24.10759743051267,
+      "x": 1205.2296833922526,
+      "y": -2.082878759963478,
       "fields": [
         {
           "name": "id",
@@ -1016,6 +1080,18 @@
           "comment": "",
           "id": 4,
           "size": 65535
+        },
+        {
+          "name": "status",
+          "type": "SMALLINT",
+          "default": "1",
+          "check": "",
+          "primary": false,
+          "unique": false,
+          "notNull": false,
+          "increment": false,
+          "comment": "",
+          "id": 5
         }
       ],
       "comment": "",
@@ -1025,9 +1101,9 @@
     },
     {
       "id": 12,
-      "name": "categories",
-      "x": 1264.309829452958,
-      "y": 487.31219001776685,
+      "name": "category",
+      "x": 1223.8336389767676,
+      "y": 494.4550471606242,
       "fields": [
         {
           "name": "id",
@@ -1064,8 +1140,8 @@
     {
       "id": 13,
       "name": "categories_news",
-      "x": 1377.9240505076891,
-      "y": 278.8543491127625,
+      "x": 1180.3050028886419,
+      "y": 278.8543491127623,
       "fields": [
         {
           "name": "id",
@@ -1116,8 +1192,8 @@
     {
       "id": 14,
       "name": "favorite_genres",
-      "x": 627.1289260910514,
-      "y": 556.1542526777864,
+      "x": 561.4372780910514,
+      "y": 541.2243326777864,
       "fields": [
         {
           "name": "id",
@@ -1134,7 +1210,7 @@
           "values": []
         },
         {
-          "name": "accout_id",
+          "name": "accounts_id",
           "type": "BINARY",
           "default": "",
           "check": "",
@@ -1167,7 +1243,7 @@
     },
     {
       "id": 15,
-      "name": "crew_role",
+      "name": "job",
       "x": 606.6295464521302,
       "y": 343.3398566614502,
       "fields": [
@@ -1247,6 +1323,18 @@
           "comment": "",
           "id": 2,
           "size": 16
+        },
+        {
+          "name": "status",
+          "type": "SMALLINT",
+          "default": "1",
+          "check": "",
+          "primary": false,
+          "unique": false,
+          "notNull": false,
+          "increment": false,
+          "comment": "",
+          "id": 3
         }
       ],
       "comment": "",
@@ -1266,8 +1354,8 @@
     {
       "id": 17,
       "name": "category_movie",
-      "x": -498.06236002988726,
-      "y": 181.35841191174177,
+      "x": -694.8623600298872,
+      "y": 136.9584119117418,
       "fields": [
         {
           "name": "id",
@@ -1311,7 +1399,7 @@
         {
           "name": "status",
           "type": "SMALLINT",
-          "default": "",
+          "default": "1",
           "check": "",
           "primary": false,
           "unique": false,
@@ -1329,8 +1417,8 @@
     {
       "id": 18,
       "name": "helps",
-      "x": 984.9073490659571,
-      "y": 138.05049935935733,
+      "x": 932.5263966850048,
+      "y": 33.288594597452516,
       "fields": [
         {
           "name": "id",
@@ -1369,6 +1457,18 @@
           "comment": "",
           "id": 2,
           "size": 65535
+        },
+        {
+          "name": "status",
+          "type": "SMALLINT",
+          "default": "1",
+          "check": "",
+          "primary": false,
+          "unique": false,
+          "notNull": false,
+          "increment": false,
+          "comment": "",
+          "id": 3
         }
       ],
       "comment": "",
@@ -1379,8 +1479,8 @@
     {
       "id": 19,
       "name": "payments",
-      "x": 153.27447144817666,
-      "y": -617.6585624447291,
+      "x": 185.72429508133382,
+      "y": -687.7067987762989,
       "fields": [
         {
           "name": "id",
@@ -1400,7 +1500,7 @@
           "default": "",
           "check": "",
           "primary": false,
-          "unique": false,
+          "unique": true,
           "notNull": false,
           "increment": false,
           "comment": "",
@@ -1435,19 +1535,6 @@
           "values": []
         },
         {
-          "name": "bank",
-          "type": "VARCHAR",
-          "default": "",
-          "check": "",
-          "primary": false,
-          "unique": false,
-          "notNull": false,
-          "increment": false,
-          "comment": "",
-          "id": 4,
-          "size": 255
-        },
-        {
           "name": "price",
           "type": "DECIMAL",
           "default": "",
@@ -1457,8 +1544,46 @@
           "notNull": false,
           "increment": false,
           "comment": "",
-          "id": 5,
+          "id": 4,
           "size": "12,4"
+        },
+        {
+          "name": "creditcard_type",
+          "type": "VARCHAR",
+          "default": "",
+          "check": "",
+          "primary": false,
+          "unique": false,
+          "notNull": false,
+          "increment": false,
+          "comment": "",
+          "id": 5,
+          "size": 255
+        },
+        {
+          "name": "creditcard_number",
+          "type": "VARCHAR",
+          "default": "",
+          "check": "",
+          "primary": false,
+          "unique": false,
+          "notNull": false,
+          "increment": false,
+          "comment": "",
+          "id": 6,
+          "size": 255
+        },
+        {
+          "name": "status",
+          "type": "SMALLINT",
+          "default": "1",
+          "check": "",
+          "primary": false,
+          "unique": false,
+          "notNull": false,
+          "increment": false,
+          "comment": "",
+          "id": 7
         }
       ],
       "comment": "",
@@ -1469,8 +1594,8 @@
     {
       "id": 20,
       "name": "account_role",
-      "x": 1402.0653367078398,
-      "y": -455.1386429165619,
+      "x": 1294.9224795649825,
+      "y": -440.8529286308476,
       "fields": [
         {
           "name": "id",
@@ -1486,7 +1611,7 @@
           "size": 16
         },
         {
-          "name": "account_id",
+          "name": "accounts_id",
           "type": "BINARY",
           "default": "",
           "check": "",
@@ -1519,7 +1644,7 @@
     },
     {
       "id": 21,
-      "name": "job",
+      "name": "celebrity_job",
       "x": 676.4681599999997,
       "y": -130.0723200000001,
       "fields": [
@@ -1550,7 +1675,7 @@
           "size": 16
         },
         {
-          "name": "crew_role_id",
+          "name": "job_id",
           "type": "BINARY",
           "default": "",
           "check": "",

@@ -40,7 +40,7 @@ BEGIN
         LEFT JOIN favourites f ON m.id = f.movie_id
         WHERE f.account_id = accountId AND a.level > 0 
         GROUP BY m.id
-        ORDER BY m.id DESC
+        ORDER BY m.release DESC
         LIMIT startIndex, pageSize;
     ELSE
         SELECT m.*, GROUP_CONCAT(g.name) AS genres
@@ -49,7 +49,7 @@ BEGIN
         INNER JOIN genres g ON mg.genres_id = g.id
         WHERE m.level = 0
         GROUP BY m.id
-        ORDER BY m.id DESC
+        ORDER BY m.release DESC
         LIMIT startIndex, pageSize;
     END IF;
     --trả số trang

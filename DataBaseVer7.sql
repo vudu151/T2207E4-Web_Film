@@ -9,9 +9,11 @@ CREATE TABLE `movies` (
 	`keywords` VARCHAR(255),
 	`description` TEXT(65535),
 	`view` INT,
-	`level` BOOLEAN,
-	`status` SMALLINT,
+	`level` SMALLINT,
+	`status` SMALLINT DEFAULT 1,
 	`categories_movies_id` BINARY(16),
+	`create_at` DATETIME,
+	`movie_or_series` BOOLEAN,
 	PRIMARY KEY(`id`)
 );
 
@@ -32,11 +34,11 @@ CREATE TABLE `accounts` (
 	`google_id` VARCHAR(255),
 	`remember` VARCHAR(255),
 	`avatar` VARCHAR(255),
-	`level` BOOLEAN,
+	`level` SMALLINT DEFAULT 0,
 	PRIMARY KEY(`id`)
 );
 
-CREATE TABLE `directors` (
+CREATE TABLE `celebrity` (
 	`id` BINARY(16) NOT NULL UNIQUE,
 	`name` VARCHAR(255),
 	`birthday` DATE,
@@ -44,13 +46,15 @@ CREATE TABLE `directors` (
 	`keywords` VARCHAR(255),
 	`bio` TEXT(65535),
 	`poster` VARCHAR(255),
+	`status` SMALLINT DEFAULT 1,
 	PRIMARY KEY(`id`)
 );
 
-CREATE TABLE `movies_directors` (
+CREATE TABLE `movies_celebrity` (
 	`id` BINARY(16) NOT NULL UNIQUE,
 	`movie_id` BINARY(16),
-	`director_id` BINARY(16),
+	`celebrity_id` BINARY(16),
+	`job_id` BINARY(16),
 	PRIMARY KEY(`id`)
 );
 
@@ -62,6 +66,7 @@ CREATE TABLE `reviews` (
 	`created_at` DATETIME,
 	`movie_id` BINARY(16),
 	`account_id` BINARY(16),
+	`status` SMALLINT DEFAULT 1,
 	PRIMARY KEY(`id`)
 );
 
@@ -69,50 +74,14 @@ CREATE TABLE `genres` (
 	`id` BINARY(16) NOT NULL UNIQUE,
 	`name` VARCHAR(255),
 	`slug` VARCHAR(255),
-	`status` INT,
+	`status` INT DEFAULT 1,
 	PRIMARY KEY(`id`)
 );
 
-CREATE TABLE `images_director` (
+CREATE TABLE `images_celebrity` (
 	`id` BINARY(16) NOT NULL UNIQUE,
 	`link` VARCHAR(255),
-	`director` BINARY(16),
-	PRIMARY KEY(`id`)
-);
-
-CREATE TABLE `writers` (
-	`id` BINARY(16) NOT NULL UNIQUE,
-	`name` VARCHAR(255),
-	`birthday` DATE,
-	`country` VARCHAR(255),
-	`keywords` VARCHAR(255),
-	`bio` TEXT(65535),
-	`poster` VARCHAR(255),
-	PRIMARY KEY(`id`)
-);
-
-CREATE TABLE `movies_writers` (
-	`id` BINARY(16) NOT NULL UNIQUE,
-	`movie_id` BINARY(16),
-	`writer_id` BINARY(16),
-	PRIMARY KEY(`id`)
-);
-
-CREATE TABLE `actors` (
-	`id` BINARY(16) NOT NULL UNIQUE,
-	`name` VARCHAR(255),
-	`birthday` DATE,
-	`country` VARCHAR(255),
-	`keywords` VARCHAR(255),
-	`bio` TEXT(65535),
-	`poster` VARCHAR(255),
-	PRIMARY KEY(`id`)
-);
-
-CREATE TABLE `movies_actors` (
-	`id` BINARY(16) NOT NULL UNIQUE,
-	`movie_id` BINARY(16),
-	`actors_id` BINARY(16),
+	`celebrity_id` BINARY(16),
 	PRIMARY KEY(`id`)
 );
 
@@ -129,12 +98,13 @@ CREATE TABLE `episodes` (
 	`link` VARCHAR(255),
 	`description` TEXT(65535),
 	`movie_id` BINARY(16),
+	`status` SMALLINT DEFAULT 1,
 	PRIMARY KEY(`id`)
 );
 
 CREATE TABLE `favourites` (
 	`id` BINARY(16) NOT NULL UNIQUE,
-	`account_id` BINARY(16),
+	`accounts_id` BINARY(16),
 	`movie_id` BINARY(16),
 	PRIMARY KEY(`id`)
 );
@@ -145,10 +115,11 @@ CREATE TABLE `news` (
 	`created_at` DATETIME,
 	`tag` VARCHAR(255),
 	`description` TEXT(65535),
+	`status` SMALLINT DEFAULT 1,
 	PRIMARY KEY(`id`)
 );
 
-CREATE TABLE `categories` (
+CREATE TABLE `category` (
 	`id` BINARY(16) NOT NULL UNIQUE,
 	`name` VARCHAR(255),
 	PRIMARY KEY(`id`)
@@ -163,22 +134,14 @@ CREATE TABLE `categories_news` (
 
 CREATE TABLE `favorite_genres` (
 	`id` BINARY(16) NOT NULL UNIQUE,
-	`accout_id` BINARY(16),
+	`accounts_id` BINARY(16),
 	`genres_id` BINARY(16),
 	PRIMARY KEY(`id`)
 );
 
-CREATE TABLE `images_actor` (
+CREATE TABLE `job` (
 	`id` BINARY(16) NOT NULL UNIQUE,
-	`link` VARCHAR(255),
-	`actor_id` BINARY(16),
-	PRIMARY KEY(`id`)
-);
-
-CREATE TABLE `images_writer` (
-	`id` BINARY(16) NOT NULL UNIQUE,
-	`link` VARCHAR(255),
-	`writer_id` BINARY(16),
+	`roles_name` VARCHAR(255),
 	PRIMARY KEY(`id`)
 );
 
@@ -186,6 +149,7 @@ CREATE TABLE `images_movies` (
 	`id` BINARY(16) NOT NULL UNIQUE,
 	`link` VARCHAR(255),
 	`movies_id` BINARY(16),
+	`status` SMALLINT DEFAULT 1,
 	PRIMARY KEY(`id`)
 );
 
@@ -196,7 +160,7 @@ CREATE TABLE `category_movie` (
 	`id` BINARY(16) NOT NULL UNIQUE,
 	`name` VARCHAR(255),
 	`slug` VARCHAR(255),
-	`status` SMALLINT,
+	`status` SMALLINT DEFAULT 1,
 	PRIMARY KEY(`id`)
 );
 
@@ -204,6 +168,7 @@ CREATE TABLE `helps` (
 	`id` INT NOT NULL AUTO_INCREMENT UNIQUE,
 	`question` TEXT(65535),
 	`answer` TEXT(65535),
+	`status` SMALLINT DEFAULT 1,
 	PRIMARY KEY(`id`)
 );
 
@@ -212,59 +177,44 @@ CREATE TABLE `payments` (
 	`account_id` BINARY(16),
 	`movie_id` BINARY(16),
 	`created_at` DATETIME,
-	`bank` VARCHAR(255),
 	`price` DECIMAL(12,4),
+	`creditcard_type` VARCHAR(255),
+	`creditcard_number` VARCHAR(255),
+	`status` SMALLINT DEFAULT 1,
 	PRIMARY KEY(`id`)
 );
 
 CREATE TABLE `account_role` (
 	`id` BINARY(16) NOT NULL UNIQUE,
-	`account_id` BINARY(16),
+	`accounts_id` BINARY(16),
 	`role_id` BINARY(16),
+	PRIMARY KEY(`id`)
+);
+
+CREATE TABLE `celebrity_job` (
+	`id` INT NOT NULL AUTO_INCREMENT UNIQUE,
+	`celebrity_id` BINARY(16),
+	`job_id` BINARY(16),
 	PRIMARY KEY(`id`)
 );
 
 ALTER TABLE `images_movies`
 ADD FOREIGN KEY(`movies_id`) REFERENCES `movies`(`id`)
 ON UPDATE CASCADE ON DELETE SET NULL;
-ALTER TABLE `images_actor`
-ADD FOREIGN KEY(`actor_id`) REFERENCES `actors`(`id`)
-ON UPDATE CASCADE ON DELETE SET NULL;
-ALTER TABLE `images_writer`
-ADD FOREIGN KEY(`writer_id`) REFERENCES `writers`(`id`)
-ON UPDATE CASCADE ON DELETE SET NULL;
-ALTER TABLE `images_director`
-ADD FOREIGN KEY(`director`) REFERENCES `directors`(`id`)
-ON UPDATE CASCADE ON DELETE SET NULL;
 ALTER TABLE `movies`
 ADD FOREIGN KEY(`categories_movies_id`) REFERENCES `category_movie`(`id`)
 ON UPDATE CASCADE ON DELETE SET NULL;
-ALTER TABLE `movies_actors`
-ADD FOREIGN KEY(`actors_id`) REFERENCES `actors`(`id`)
-ON UPDATE CASCADE ON DELETE SET NULL;
-ALTER TABLE `movies_directors`
-ADD FOREIGN KEY(`director_id`) REFERENCES `directors`(`id`)
-ON UPDATE CASCADE ON DELETE SET NULL;
-ALTER TABLE `movies_directors`
+ALTER TABLE `movies_celebrity`
 ADD FOREIGN KEY(`movie_id`) REFERENCES `movies`(`id`)
-ON UPDATE CASCADE ON DELETE SET NULL;
-ALTER TABLE `movies_actors`
-ADD FOREIGN KEY(`movie_id`) REFERENCES `movies`(`id`)
-ON UPDATE CASCADE ON DELETE SET NULL;
-ALTER TABLE `movies_writers`
-ADD FOREIGN KEY(`movie_id`) REFERENCES `movies`(`id`)
-ON UPDATE CASCADE ON DELETE SET NULL;
-ALTER TABLE `movies_writers`
-ADD FOREIGN KEY(`writer_id`) REFERENCES `writers`(`id`)
 ON UPDATE CASCADE ON DELETE SET NULL;
 ALTER TABLE `favorite_genres`
-ADD FOREIGN KEY(`accout_id`) REFERENCES `accounts`(`id`)
+ADD FOREIGN KEY(`accounts_id`) REFERENCES `accounts`(`id`)
 ON UPDATE CASCADE ON DELETE SET NULL;
 ALTER TABLE `favorite_genres`
 ADD FOREIGN KEY(`genres_id`) REFERENCES `genres`(`id`)
 ON UPDATE CASCADE ON DELETE SET NULL;
 ALTER TABLE `categories_news`
-ADD FOREIGN KEY(`category_id`) REFERENCES `categories`(`id`)
+ADD FOREIGN KEY(`category_id`) REFERENCES `category`(`id`)
 ON UPDATE CASCADE ON DELETE SET NULL;
 ALTER TABLE `categories_news`
 ADD FOREIGN KEY(`news_id`) REFERENCES `news`(`id`)
@@ -276,7 +226,7 @@ ALTER TABLE `movies_genres`
 ADD FOREIGN KEY(`genres_id`) REFERENCES `genres`(`id`)
 ON UPDATE CASCADE ON DELETE SET NULL;
 ALTER TABLE `favourites`
-ADD FOREIGN KEY(`account_id`) REFERENCES `accounts`(`id`)
+ADD FOREIGN KEY(`accounts_id`) REFERENCES `accounts`(`id`)
 ON UPDATE CASCADE ON DELETE SET NULL;
 ALTER TABLE `favourites`
 ADD FOREIGN KEY(`movie_id`) REFERENCES `movies`(`id`)
@@ -286,9 +236,6 @@ ADD FOREIGN KEY(`movie_id`) REFERENCES `movies`(`id`)
 ON UPDATE CASCADE ON DELETE SET NULL;
 ALTER TABLE `reviews`
 ADD FOREIGN KEY(`account_id`) REFERENCES `accounts`(`id`)
-ON UPDATE CASCADE ON DELETE SET NULL;
-ALTER TABLE `episodes`
-ADD FOREIGN KEY(`movie_id`) REFERENCES `movies`(`id`)
 ON UPDATE CASCADE ON DELETE SET NULL;
 ALTER TABLE `payments`
 ADD FOREIGN KEY(`movie_id`) REFERENCES `movies`(`id`)
@@ -300,5 +247,33 @@ ALTER TABLE `account_role`
 ADD FOREIGN KEY(`role_id`) REFERENCES `roles`(`id`)
 ON UPDATE CASCADE ON DELETE SET NULL;
 ALTER TABLE `account_role`
-ADD FOREIGN KEY(`account_id`) REFERENCES `accounts`(`id`)
+ADD FOREIGN KEY(`accounts_id`) REFERENCES `accounts`(`id`)
 ON UPDATE CASCADE ON DELETE SET NULL;
+ALTER TABLE `episodes`
+ADD FOREIGN KEY(`movie_id`) REFERENCES `movies`(`id`)
+ON UPDATE CASCADE ON DELETE SET NULL;
+ALTER TABLE `celebrity_job`
+ADD FOREIGN KEY(`celebrity_id`) REFERENCES `celebrity`(`id`)
+ON UPDATE CASCADE ON DELETE SET NULL;
+ALTER TABLE `celebrity_job`
+ADD FOREIGN KEY(`job_id`) REFERENCES `job`(`id`)
+ON UPDATE CASCADE ON DELETE SET NULL;
+ALTER TABLE `images_celebrity`
+ADD FOREIGN KEY(`celebrity_id`) REFERENCES `celebrity`(`id`)
+ON UPDATE CASCADE ON DELETE SET NULL;
+ALTER TABLE `movies_celebrity`
+ADD FOREIGN KEY(`celebrity_id`) REFERENCES `celebrity`(`id`)
+ON UPDATE CASCADE ON DELETE SET NULL;
+ALTER TABLE `movies_celebrity`
+ADD FOREIGN KEY(`job_id`) REFERENCES `job`(`id`)
+ON UPDATE CASCADE ON DELETE SET NULL;
+
+
+--bỏ movie_id ở payments
+ALTER TABLE payments DROP FOREIGN KEY `payments_ibfk_1`;
+ALTER TABLE payments DROP COLUMN movie_id;
+
+-- sửa account_id ở payments là unique do mỗi tài khoản chỉ cần trả tiền 1 lần là được(theo yêu cầu của nhóm trưởng)
+
+ALTER IGNORE TABLE `payments` ADD UNIQUE (`account_id`);
+
