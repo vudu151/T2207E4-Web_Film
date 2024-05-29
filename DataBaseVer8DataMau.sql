@@ -862,3 +862,6 @@ ALTER TABLE payments DROP COLUMN movie_id;
 
 ALTER IGNORE TABLE `payments` ADD UNIQUE (`account_id`);
 
+-- bỏ keyword ở cebrility và remember ở account
+ALTER TABLE accounts DROP COLUMN  remember;
+ALTER TABLE celebrity DROP COLUMN keywords;

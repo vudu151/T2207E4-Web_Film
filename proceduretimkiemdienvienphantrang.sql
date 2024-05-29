@@ -21,7 +21,7 @@ BEGIN
     INNER JOIN job j on d.job_id = j.id
     WHERE c.status = 1
     AND (c.name LIKE CONCAT('%', searchKeyword, '%')
-    OR c.keywords LIKE CONCAT('%', searchKeyword, '%') 
+    --OR c.keywords LIKE CONCAT('%', searchKeyword, '%') 
     or j.roles_name LIKE CONCAT('%', searchKeyword, '%') 
     );
 
@@ -37,7 +37,7 @@ BEGIN
     INNER JOIN job j on d.job_id = j.id
     WHERE c.status = 1
 AND (c.name LIKE CONCAT('%', searchKeyword, '%')
-    OR c.keywords LIKE CONCAT('%', searchKeyword, '%') 
+    --OR c.keywords LIKE CONCAT('%', searchKeyword, '%') 
     or j.roles_name LIKE CONCAT('%', searchKeyword, '%') )
     GROUP BY c.id, c.name
     ORDER BY c.name DESC
