@@ -10,9 +10,8 @@ CREATE TABLE `movies` (
 	`description` TEXT(65535),
 	`totalview` INT,
 	`level` SMALLINT,
-	`distributors_id` BINARY(16),
 	`create_at` DATETIME,
-	`movie_or_series` BOOLEAN,
+	`category_movie_id` BINARY(16),
 	`budget` DECIMAL(12,6),
 	`grossing` DECIMAL(12,6),
 	`status` BOOLEAN DEFAULT true,
@@ -65,12 +64,12 @@ CREATE TABLE `casting` (
 );
 
 CREATE TABLE `reviews` (
+	`account_id` BINARY(16) NOT NULL,
 	`id` BINARY(16) NOT NULL UNIQUE,
-	`title` VARCHAR(255),
 	`star` INT,
 	`comment` TEXT(65535),
 	`created_at` DATETIME,
-	`account_id` BINARY(16) NOT NULL,
+	`title` VARCHAR(255),
 	`movie_id` BINARY(16),
 	`status` BOOLEAN DEFAULT true,
 	PRIMARY KEY(`id`)
@@ -93,8 +92,8 @@ CREATE TABLE `images_celebrity` (
 );
 
 CREATE TABLE `movies_genres` (
-	`id` BINARY(16) NOT NULL UNIQUE,
 	`genres_id` BINARY(16) NOT NULL,
+	`id` BINARY(16) NOT NULL UNIQUE,
 	`movie_id` BINARY(16) NOT NULL,
 	`status` BOOLEAN,
 	PRIMARY KEY(`id`)
@@ -108,7 +107,6 @@ CREATE TABLE `episodes` (
 	`movie_id` BINARY(16) NOT NULL,
 	`duration` DATETIME,
 	`file_size` INT,
-	`license_production_id` BINARY(16),
 	`license_price` DECIMAL(12,6),
 	`license_start` DATETIME,
 	`license_end` DATETIME,
@@ -155,6 +153,7 @@ CREATE TABLE `favorite_genres` (
 	`id` BINARY(16) NOT NULL UNIQUE,
 	`accounts_id` BINARY(16) NOT NULL,
 	`genres_id` BINARY(16) NOT NULL,
+	`favorites_at` DATETIME,
 	`status` BOOLEAN,
 	PRIMARY KEY(`id`)
 );
@@ -217,9 +216,9 @@ CREATE TABLE `celebrity_job` (
 CREATE TABLE `watch_movie_status` (
 	`id` BINARY(16) NOT NULL UNIQUE,
 	`account_id` BINARY(16),
-	`movie_id` BINARY(16),
-	`watch_status_id` INT NOT NULL,
 	`view_status` BINARY(16),
+	`watch_status_id` INT NOT NULL,
+	`movie_id` BINARY(16),
 	`status` BOOLEAN,
 	PRIMARY KEY(`id`)
 );
@@ -259,16 +258,6 @@ CREATE TABLE `account_status` (
 	PRIMARY KEY(`id`)
 );
 
-CREATE TABLE `license_production` (
-	`id` BINARY(16) NOT NULL UNIQUE,
-	`license_name` VARCHAR(255),
-	`company_type	` VARCHAR(255),
-	`tax_number` VARCHAR(255),
-	`country` VARCHAR(255),
-	`status` BOOLEAN,
-	PRIMARY KEY(`id`)
-);
-
 CREATE TABLE `account_online` (
 	`id` INT NOT NULL AUTO_INCREMENT UNIQUE,
 	`status_name` VARCHAR(255),
@@ -281,9 +270,72 @@ CREATE TABLE `account_online` (
 CREATE TABLE ` distributors` (
 	`id` BINARY(16) NOT NULL UNIQUE,
 	`distributors_name` VARCHAR(255),
-	`company_type` VARCHAR(255),
+	`company_type_id` INT,
 	`tax_number` VARCHAR(255),
 	`country` VARCHAR(255),
+	`headquarters` VARCHAR(255),
+	`email` VARCHAR(255),
+	`phone` VARCHAR(255),
+	`credit_card_type` VARCHAR(255),
+	`creditcard_number` VARCHAR(255),
+	`representor_id` BINARY(16),
+	`status` BOOLEAN,
+	PRIMARY KEY(`id`)
+);
+
+CREATE TABLE `movie_distributors` (
+	`id` INT NOT NULL AUTO_INCREMENT UNIQUE,
+	`movies_id` BINARY(16),
+	`distributors` BINARY(16),
+	PRIMARY KEY(`id`)
+);
+
+CREATE TABLE `representor` (
+	`id` BINARY(16) NOT NULL UNIQUE,
+	`name` VARCHAR(255),
+	`citizen identification` VARCHAR(255),
+	`gender` BOOLEAN,
+	`zip_code` INT,
+	`credit_card_type` VARCHAR(255),
+	`credit_card_number` VARCHAR(255),
+	`email` VARCHAR(255),
+	`phone` VARCHAR(255),
+	`country` VARCHAR(255),
+	`address` VARCHAR(255),
+	PRIMARY KEY(`id`)
+);
+
+CREATE TABLE `representor_distributor` (
+	`id` BINARY(16) NOT NULL UNIQUE,
+	`representor_id` BINARY(16),
+	`distributor_id` BINARY(16),
+	PRIMARY KEY(`id`)
+);
+
+CREATE TABLE `company_type` (
+	`id` INT NOT NULL AUTO_INCREMENT UNIQUE,
+	`name` VARCHAR(255),
+	PRIMARY KEY(`id`)
+);
+
+CREATE TABLE `license_payment` (
+	`id` BINARY(16) NOT NULL UNIQUE,
+	`total_price` DECIMAL(12,6),
+	`credit_card_number` VARCHAR(255),
+	`pay_at` DATETIME,
+	`credit_card_type` VARCHAR(255),
+	`accounts_id` BINARY(1),
+	`distributors_id` BINARY(16),
+	`representor_id` BINARY(16),
+	`movies_id` BINARY(16),
+	`status` BOOLEAN,
+	PRIMARY KEY(`id`)
+);
+
+CREATE TABLE `category_movie` (
+	`id` BINARY(1) NOT NULL UNIQUE,
+	`name` VARCHAR(255),
+	`slug` VARCHAR(255),
 	`status` BOOLEAN,
 	PRIMARY KEY(`id`)
 );
@@ -363,9 +415,6 @@ ON UPDATE CASCADE ON DELETE SET NULL;
 ALTER TABLE `accounts`
 ADD FOREIGN KEY(`account_status_id`) REFERENCES `account_status`(`id`)
 ON UPDATE CASCADE ON DELETE SET NULL;
-ALTER TABLE `episodes`
-ADD FOREIGN KEY(`license_production_id`) REFERENCES `license_production`(`id`)
-ON UPDATE NO ACTION ON DELETE NO ACTION;
 ALTER TABLE `reviews`
 ADD FOREIGN KEY(`movie_id`) REFERENCES `movies`(`id`)
 ON UPDATE CASCADE ON DELETE SET NULL;
@@ -375,6 +424,33 @@ ON UPDATE CASCADE ON DELETE SET NULL;
 ALTER TABLE `accounts`
 ADD FOREIGN KEY(`account_online_id`) REFERENCES `account_online`(`id`)
 ON UPDATE CASCADE ON DELETE SET NULL;
-ALTER TABLE `movies`
+ALTER TABLE `movie_distributors`
+ADD FOREIGN KEY(`movies_id`) REFERENCES `movies`(`id`)
+ON UPDATE CASCADE ON DELETE SET NULL;
+ALTER TABLE `movie_distributors`
+ADD FOREIGN KEY(`distributors`) REFERENCES ` distributors`(`id`)
+ON UPDATE CASCADE ON DELETE SET NULL;
+ALTER TABLE `representor_distributor`
+ADD FOREIGN KEY(`representor_id`) REFERENCES `representor`(`id`)
+ON UPDATE CASCADE ON DELETE SET NULL;
+ALTER TABLE `representor_distributor`
+ADD FOREIGN KEY(`distributor_id`) REFERENCES ` distributors`(`id`)
+ON UPDATE CASCADE ON DELETE SET NULL;
+ALTER TABLE `license_payment`
+ADD FOREIGN KEY(`accounts_id`) REFERENCES `accounts`(`id`)
+ON UPDATE CASCADE ON DELETE SET NULL;
+ALTER TABLE `license_payment`
 ADD FOREIGN KEY(`distributors_id`) REFERENCES ` distributors`(`id`)
+ON UPDATE CASCADE ON DELETE SET NULL;
+ALTER TABLE `license_payment`
+ADD FOREIGN KEY(`representor_id`) REFERENCES `representor`(`id`)
+ON UPDATE CASCADE ON DELETE SET NULL;
+ALTER TABLE `license_payment`
+ADD FOREIGN KEY(`movies_id`) REFERENCES `movies`(`id`)
+ON UPDATE CASCADE ON DELETE SET NULL;
+ALTER TABLE `movies`
+ADD FOREIGN KEY(`category_movie_id`) REFERENCES `category_movie`(`id`)
+ON UPDATE CASCADE ON DELETE SET NULL;
+ALTER TABLE ` distributors`
+ADD FOREIGN KEY(`company_type_id`) REFERENCES `company_type`(`id`)
 ON UPDATE CASCADE ON DELETE SET NULL;

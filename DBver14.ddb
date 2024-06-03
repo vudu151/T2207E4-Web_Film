@@ -1,13 +1,13 @@
 {
   "author": "Unnamed",
   "title": "Untitled Diagram",
-  "date": "2024-06-03T12:45:09.024Z",
+  "date": "2024-06-03T14:17:28.445Z",
   "tables": [
     {
       "id": 0,
       "name": "movies",
-      "x": -516.800817233916,
-      "y": -436.93910130376923,
+      "x": -314.4198648529639,
+      "y": -758.3676727323409,
       "fields": [
         {
           "name": "id",
@@ -155,19 +155,6 @@
           "values": []
         },
         {
-          "name": "distributors_id",
-          "type": "BINARY",
-          "default": "",
-          "check": "",
-          "primary": false,
-          "unique": false,
-          "notNull": false,
-          "increment": false,
-          "comment": "",
-          "id": 11,
-          "size": 16
-        },
-        {
           "name": "create_at",
           "type": "DATETIME",
           "default": "",
@@ -177,13 +164,13 @@
           "notNull": false,
           "increment": false,
           "comment": "",
-          "id": 12,
+          "id": 11,
           "size": "",
           "values": []
         },
         {
-          "name": "movie_or_series",
-          "type": "BOOLEAN",
+          "name": "category_movie_id",
+          "type": "BINARY",
           "default": "",
           "check": "",
           "primary": false,
@@ -191,8 +178,8 @@
           "notNull": false,
           "increment": false,
           "comment": "",
-          "id": 13,
-          "size": "",
+          "id": 12,
+          "size": 16,
           "values": []
         },
         {
@@ -205,7 +192,7 @@
           "notNull": false,
           "increment": false,
           "comment": "",
-          "id": 14,
+          "id": 13,
           "size": "12,6"
         },
         {
@@ -218,7 +205,7 @@
           "notNull": false,
           "increment": false,
           "comment": "",
-          "id": 15,
+          "id": 14,
           "size": "12,6"
         },
         {
@@ -231,7 +218,7 @@
           "notNull": false,
           "increment": false,
           "comment": "",
-          "id": 16,
+          "id": 15,
           "size": "",
           "values": []
         }
@@ -244,8 +231,8 @@
     {
       "id": 1,
       "name": "roles",
-      "x": 1283.2580185770473,
-      "y": -197.87316311602035,
+      "x": 1588.0199233389524,
+      "y": -762.1588774017345,
       "fields": [
         {
           "name": "id",
@@ -296,8 +283,8 @@
     {
       "id": 2,
       "name": "accounts",
-      "x": 971.4666466435879,
-      "y": -573.8757121530035,
+      "x": 1311.9428371197787,
+      "y": -764.3519026291938,
       "fields": [
         {
           "name": "id",
@@ -492,8 +479,8 @@
     {
       "id": 3,
       "name": "celebrity",
-      "x": 523.3647872952736,
-      "y": 154.58700248126843,
+      "x": 742.4124063428926,
+      "y": 128.39652629079228,
       "fields": [
         {
           "name": "id",
@@ -597,8 +584,8 @@
     {
       "id": 4,
       "name": "casting",
-      "x": -19.703438735807595,
-      "y": 286.7463162508618,
+      "x": 482.6775136451449,
+      "y": 193.88917339371892,
       "fields": [
         {
           "name": "id",
@@ -676,9 +663,22 @@
     {
       "id": 5,
       "name": "reviews",
-      "x": -32.87682659853385,
-      "y": -677.1926060816705,
+      "x": 224.26603054432326,
+      "y": -515.2878441769087,
       "fields": [
+        {
+          "name": "account_id",
+          "type": "BINARY",
+          "default": "",
+          "check": "",
+          "primary": false,
+          "unique": false,
+          "notNull": true,
+          "increment": false,
+          "comment": "",
+          "id": 0,
+          "size": 16
+        },
         {
           "name": "id",
           "type": "BINARY",
@@ -689,21 +689,8 @@
           "notNull": true,
           "increment": false,
           "comment": "",
-          "id": 0,
-          "size": 16
-        },
-        {
-          "name": "title",
-          "type": "VARCHAR",
-          "default": "",
-          "check": "",
-          "primary": false,
-          "unique": false,
-          "notNull": false,
-          "increment": false,
-          "comment": "",
           "id": 1,
-          "size": 255
+          "size": 16
         },
         {
           "name": "star",
@@ -745,17 +732,17 @@
           "values": []
         },
         {
-          "name": "account_id",
-          "type": "BINARY",
+          "name": "title",
+          "type": "VARCHAR",
           "default": "",
           "check": "",
           "primary": false,
           "unique": false,
-          "notNull": true,
+          "notNull": false,
           "increment": false,
           "comment": "",
           "id": 5,
-          "size": 16
+          "size": 255
         },
         {
           "name": "movie_id",
@@ -793,8 +780,8 @@
     {
       "id": 6,
       "name": "genres",
-      "x": 221.08472510762,
-      "y": -769.3443120854517,
+      "x": 825.8466298695248,
+      "y": -664.5824073235472,
       "fields": [
         {
           "name": "id",
@@ -858,8 +845,8 @@
     {
       "id": 7,
       "name": "images_celebrity",
-      "x": 934.1640200530458,
-      "y": 51.47841617772906,
+      "x": 1031.7830676720935,
+      "y": 203.85936855868135,
       "fields": [
         {
           "name": "id",
@@ -923,23 +910,9 @@
     {
       "id": 8,
       "name": "movies_genres",
-      "x": -442.70003859558597,
-      "y": -704.9893815582184,
+      "x": 226.34758045203284,
+      "y": -738.322714891552,
       "fields": [
-        {
-          "name": "id",
-          "type": "BINARY",
-          "default": "",
-          "check": "",
-          "primary": true,
-          "unique": true,
-          "notNull": true,
-          "increment": false,
-          "comment": "",
-          "id": 0,
-          "size": 16,
-          "values": []
-        },
         {
           "name": "genres_id",
           "type": "BINARY",
@@ -950,8 +923,23 @@
           "notNull": true,
           "increment": false,
           "comment": "",
+          "id": 0,
+          "size": 16,
+          "values": []
+        },
+        {
+          "name": "id",
+          "type": "BINARY",
+          "default": "",
+          "check": "",
+          "primary": true,
+          "unique": true,
+          "notNull": true,
+          "increment": false,
+          "comment": "",
           "id": 1,
-          "size": 16
+          "size": 16,
+          "values": []
         },
         {
           "name": "movie_id",
@@ -989,8 +977,8 @@
     {
       "id": 9,
       "name": "episodes",
-      "x": -805.8662835386859,
-      "y": -666.241249051353,
+      "x": -703.4853311577338,
+      "y": -718.6222014323052,
       "fields": [
         {
           "name": "id",
@@ -1084,20 +1072,6 @@
           "id": 6
         },
         {
-          "name": "license_production_id",
-          "type": "BINARY",
-          "default": "",
-          "check": "",
-          "primary": false,
-          "unique": false,
-          "notNull": false,
-          "increment": false,
-          "comment": "",
-          "id": 7,
-          "size": 16,
-          "values": []
-        },
-        {
           "name": "license_price",
           "type": "DECIMAL",
           "default": "",
@@ -1107,7 +1081,7 @@
           "notNull": false,
           "increment": false,
           "comment": "",
-          "id": 8,
+          "id": 7,
           "size": "12,6"
         },
         {
@@ -1120,7 +1094,7 @@
           "notNull": false,
           "increment": false,
           "comment": "",
-          "id": 9,
+          "id": 8,
           "size": "",
           "values": []
         },
@@ -1134,7 +1108,7 @@
           "notNull": false,
           "increment": false,
           "comment": "",
-          "id": 10,
+          "id": 9,
           "size": "",
           "values": []
         },
@@ -1148,7 +1122,7 @@
           "notNull": false,
           "increment": false,
           "comment": "",
-          "id": 11,
+          "id": 10,
           "size": "12,6"
         },
         {
@@ -1161,7 +1135,7 @@
           "notNull": false,
           "increment": false,
           "comment": "",
-          "id": 12,
+          "id": 11,
           "size": "",
           "values": []
         }
@@ -1174,8 +1148,8 @@
     {
       "id": 10,
       "name": "favourites",
-      "x": -116.83230669607474,
-      "y": -1.9118975222927475,
+      "x": 226.02483616106815,
+      "y": -59.05475466514986,
       "fields": [
         {
           "name": "id",
@@ -1255,8 +1229,8 @@
     {
       "id": 11,
       "name": "news",
-      "x": 1322.8930277997827,
-      "y": -18.63880345542293,
+      "x": 1322.893027799783,
+      "y": 95.64691083029129,
       "fields": [
         {
           "name": "id",
@@ -1347,8 +1321,8 @@
     {
       "id": 12,
       "name": "category",
-      "x": 1604.8413909147519,
-      "y": 356.5812930078,
+      "x": 1609.6032956766564,
+      "y": 454.2003406268475,
       "fields": [
         {
           "name": "id",
@@ -1399,8 +1373,8 @@
     {
       "id": 13,
       "name": "categories_news",
-      "x": 1289.5519574844338,
-      "y": 278.1898972855199,
+      "x": 1318.1233860558623,
+      "y": 416.285135380758,
       "fields": [
         {
           "name": "id",
@@ -1465,8 +1439,8 @@
     {
       "id": 14,
       "name": "favorite_genres",
-      "x": 612.489326817519,
-      "y": -731.699255362081,
+      "x": 1055.3464696746616,
+      "y": -655.5087791716048,
       "fields": [
         {
           "name": "id",
@@ -1509,6 +1483,20 @@
           "size": 16
         },
         {
+          "name": "favorites_at",
+          "type": "DATETIME",
+          "default": "",
+          "check": "",
+          "primary": false,
+          "unique": false,
+          "notNull": false,
+          "increment": false,
+          "comment": "",
+          "id": 3,
+          "size": "",
+          "values": []
+        },
+        {
           "name": "status",
           "type": "BOOLEAN",
           "default": "",
@@ -1518,7 +1506,7 @@
           "notNull": false,
           "increment": false,
           "comment": "",
-          "id": 3,
+          "id": 4,
           "size": "",
           "values": []
         }
@@ -1531,8 +1519,8 @@
     {
       "id": 15,
       "name": "job",
-      "x": 293.6727358209007,
-      "y": 452.97440815646655,
+      "x": 743.6727358209007,
+      "y": 469.64107482313307,
       "fields": [
         {
           "name": "id",
@@ -1583,8 +1571,8 @@
     {
       "id": 16,
       "name": "images_movies",
-      "x": -815.6688056644107,
-      "y": 211.36083082850882,
+      "x": -689.4783294739345,
+      "y": -191.02012155244324,
       "fields": [
         {
           "name": "id",
@@ -1657,8 +1645,8 @@
     {
       "id": 17,
       "name": "helps",
-      "x": 1594.4311585897667,
-      "y": 111.86002316888062,
+      "x": 1603.954968113576,
+      "y": 214.24097554983314,
       "fields": [
         {
           "name": "id",
@@ -1721,8 +1709,8 @@
     {
       "id": 18,
       "name": "payments",
-      "x": 1581.9590680602928,
-      "y": -580.1209737486133,
+      "x": 1598.6257347269593,
+      "y": -522.9781166057561,
       "fields": [
         {
           "name": "id",
@@ -1852,8 +1840,8 @@
     {
       "id": 19,
       "name": "account_role",
-      "x": 1219.2857132305412,
-      "y": -428.39445687005,
+      "x": 1314.5238084686362,
+      "y": -142.68017115576447,
       "fields": [
         {
           "name": "id",
@@ -1917,8 +1905,8 @@
     {
       "id": 20,
       "name": "celebrity_job",
-      "x": 905.7594113842736,
-      "y": 342.62978409745233,
+      "x": 1048.6165542414162,
+      "y": 430.72502219269063,
       "fields": [
         {
           "name": "id",
@@ -1982,8 +1970,8 @@
     {
       "id": 21,
       "name": "watch_movie_status",
-      "x": -77.32115171650071,
-      "y": -306.36434108527203,
+      "x": 475.0598006644516,
+      "y": -311.1262458471766,
       "fields": [
         {
           "name": "id",
@@ -2012,7 +2000,7 @@
           "size": 16
         },
         {
-          "name": "movie_id",
+          "name": "view_status",
           "type": "BINARY",
           "default": "",
           "check": "",
@@ -2037,7 +2025,7 @@
           "id": 3
         },
         {
-          "name": "view_status",
+          "name": "movie_id",
           "type": "BINARY",
           "default": "",
           "check": "",
@@ -2072,8 +2060,8 @@
     {
       "id": 22,
       "name": "view_status",
-      "x": 249.58914728682294,
-      "y": -133.82834994462894,
+      "x": 794.8272425249188,
+      "y": -150.49501661129557,
       "fields": [
         {
           "name": "id",
@@ -2139,8 +2127,8 @@
     {
       "id": 23,
       "name": "package",
-      "x": 1590.5714285714291,
-      "y": -177.23809523809496,
+      "x": 1600.0952380952388,
+      "y": -91.52380952380929,
       "fields": [
         {
           "name": "id",
@@ -2229,8 +2217,8 @@
     {
       "id": 24,
       "name": "watch_status",
-      "x": 238.71428571428578,
-      "y": -415.6666666666664,
+      "x": 798.238095238095,
+      "y": -432.33333333333314,
       "fields": [
         {
           "name": "id",
@@ -2293,8 +2281,8 @@
     {
       "id": 25,
       "name": "account_status",
-      "x": 640,
-      "y": -373.9523809523813,
+      "x": 1020.9523809523807,
+      "y": -331.0952380952383,
       "fields": [
         {
           "name": "id",
@@ -2370,100 +2358,9 @@
     },
     {
       "id": 26,
-      "name": "license_production",
-      "x": -800.4761904761904,
-      "y": -107.28571428571445,
-      "fields": [
-        {
-          "name": "id",
-          "type": "BINARY",
-          "default": "",
-          "check": "",
-          "primary": true,
-          "unique": true,
-          "notNull": true,
-          "increment": false,
-          "comment": "",
-          "id": 0,
-          "size": 16
-        },
-        {
-          "name": "license_name",
-          "type": "VARCHAR",
-          "default": "",
-          "check": "",
-          "primary": false,
-          "unique": false,
-          "notNull": false,
-          "increment": false,
-          "comment": "",
-          "id": 1,
-          "size": 255
-        },
-        {
-          "name": "company_type\t",
-          "type": "VARCHAR",
-          "default": "",
-          "check": "",
-          "primary": false,
-          "unique": false,
-          "notNull": false,
-          "increment": false,
-          "comment": "",
-          "id": 2,
-          "size": 255
-        },
-        {
-          "name": "tax_number",
-          "type": "VARCHAR",
-          "default": "",
-          "check": "",
-          "primary": false,
-          "unique": false,
-          "notNull": false,
-          "increment": false,
-          "comment": "",
-          "id": 3,
-          "size": 255
-        },
-        {
-          "name": "country",
-          "type": "VARCHAR",
-          "default": "",
-          "check": "",
-          "primary": false,
-          "unique": false,
-          "notNull": false,
-          "increment": false,
-          "comment": "",
-          "id": 4,
-          "size": 255
-        },
-        {
-          "name": "status",
-          "type": "BOOLEAN",
-          "default": "",
-          "check": "",
-          "primary": false,
-          "unique": false,
-          "notNull": false,
-          "increment": false,
-          "comment": "",
-          "id": 5,
-          "size": "",
-          "values": []
-        }
-      ],
-      "comment": "",
-      "indices": [],
-      "color": "#175e7a",
-      "key": 1717411926555
-    },
-    {
-      "id": 27,
       "name": "account_online",
-      "x": 631.5714285714284,
-      "y": -134.61904761904793,
+      "x": 1038.7142857142853,
+      "y": -67.95238095238142,
       "fields": [
         {
           "name": "id",
@@ -2538,10 +2435,10 @@
       "key": 1717415211207
     },
     {
-      "id": 28,
+      "id": 27,
       "name": " distributors",
-      "x": -289.85714285714266,
-      "y": 272.5238095238094,
+      "x": -51.76190476190459,
+      "y": 162.99999999999977,
       "fields": [
         {
           "name": "id",
@@ -2570,8 +2467,8 @@
           "size": 255
         },
         {
-          "name": "company_type",
-          "type": "VARCHAR",
+          "name": "company_type_id",
+          "type": "INT",
           "default": "",
           "check": "",
           "primary": false,
@@ -2609,6 +2506,90 @@
           "size": 255
         },
         {
+          "name": "headquarters",
+          "type": "VARCHAR",
+          "default": "",
+          "check": "",
+          "primary": false,
+          "unique": false,
+          "notNull": false,
+          "increment": false,
+          "comment": "",
+          "id": 5,
+          "size": 255,
+          "values": []
+        },
+        {
+          "name": "email",
+          "type": "VARCHAR",
+          "default": "",
+          "check": "",
+          "primary": false,
+          "unique": false,
+          "notNull": false,
+          "increment": false,
+          "comment": "",
+          "id": 6,
+          "size": 255,
+          "values": []
+        },
+        {
+          "name": "phone",
+          "type": "VARCHAR",
+          "default": "",
+          "check": "",
+          "primary": false,
+          "unique": false,
+          "notNull": false,
+          "increment": false,
+          "comment": "",
+          "id": 7,
+          "size": 255,
+          "values": []
+        },
+        {
+          "name": "credit_card_type",
+          "type": "VARCHAR",
+          "default": "",
+          "check": "",
+          "primary": false,
+          "unique": false,
+          "notNull": false,
+          "increment": false,
+          "comment": "",
+          "id": 8,
+          "size": 255,
+          "values": []
+        },
+        {
+          "name": "creditcard_number",
+          "type": "VARCHAR",
+          "default": "",
+          "check": "",
+          "primary": false,
+          "unique": false,
+          "notNull": false,
+          "increment": false,
+          "comment": "",
+          "id": 9,
+          "size": 255,
+          "values": []
+        },
+        {
+          "name": "representor_id",
+          "type": "BINARY",
+          "default": "",
+          "check": "",
+          "primary": false,
+          "unique": false,
+          "notNull": false,
+          "increment": false,
+          "comment": "",
+          "id": 10,
+          "size": 16,
+          "values": []
+        },
+        {
           "name": "status",
           "type": "BOOLEAN",
           "default": "",
@@ -2618,7 +2599,446 @@
           "notNull": false,
           "increment": false,
           "comment": "",
+          "id": 11,
+          "size": "",
+          "values": []
+        }
+      ],
+      "comment": "",
+      "indices": [],
+      "color": "#bc49c4",
+      "key": 1717415322583
+    },
+    {
+      "id": 28,
+      "name": "movie_distributors",
+      "x": -685.1428571428573,
+      "y": 21.666666666666742,
+      "fields": [
+        {
+          "name": "id",
+          "type": "INT",
+          "default": "",
+          "check": "",
+          "primary": true,
+          "unique": true,
+          "notNull": true,
+          "increment": true,
+          "comment": "",
+          "id": 0
+        },
+        {
+          "name": "movies_id",
+          "type": "BINARY",
+          "default": "",
+          "check": "",
+          "primary": false,
+          "unique": false,
+          "notNull": false,
+          "increment": false,
+          "comment": "",
+          "id": 1,
+          "size": 16
+        },
+        {
+          "name": "distributors",
+          "type": "BINARY",
+          "default": "",
+          "check": "",
+          "primary": false,
+          "unique": false,
+          "notNull": false,
+          "increment": false,
+          "comment": "",
+          "id": 2,
+          "size": 16
+        }
+      ],
+      "comment": "",
+      "indices": [],
+      "color": "#175e7a",
+      "key": 1717419748539
+    },
+    {
+      "id": 29,
+      "name": "representor",
+      "x": -663.7142857142856,
+      "y": 214.52380952380918,
+      "fields": [
+        {
+          "name": "id",
+          "type": "BINARY",
+          "default": "",
+          "check": "",
+          "primary": true,
+          "unique": true,
+          "notNull": true,
+          "increment": false,
+          "comment": "",
+          "id": 0,
+          "size": 16
+        },
+        {
+          "name": "name",
+          "type": "VARCHAR",
+          "default": "",
+          "check": "",
+          "primary": false,
+          "unique": false,
+          "notNull": false,
+          "increment": false,
+          "comment": "",
+          "id": 1,
+          "size": 255
+        },
+        {
+          "name": "citizen identification",
+          "type": "VARCHAR",
+          "default": "",
+          "check": "",
+          "primary": false,
+          "unique": false,
+          "notNull": false,
+          "increment": false,
+          "comment": "",
+          "id": 2,
+          "size": 255
+        },
+        {
+          "name": "gender",
+          "type": "BOOLEAN",
+          "default": "",
+          "check": "",
+          "primary": false,
+          "unique": false,
+          "notNull": false,
+          "increment": false,
+          "comment": "",
+          "id": 3,
+          "size": "",
+          "values": []
+        },
+        {
+          "name": "zip_code",
+          "type": "INT",
+          "default": "",
+          "check": "",
+          "primary": false,
+          "unique": false,
+          "notNull": false,
+          "increment": false,
+          "comment": "",
+          "id": 4
+        },
+        {
+          "name": "credit_card_type",
+          "type": "VARCHAR",
+          "default": "",
+          "check": "",
+          "primary": false,
+          "unique": false,
+          "notNull": false,
+          "increment": false,
+          "comment": "",
           "id": 5,
+          "size": 255
+        },
+        {
+          "name": "credit_card_number",
+          "type": "VARCHAR",
+          "default": "",
+          "check": "",
+          "primary": false,
+          "unique": false,
+          "notNull": false,
+          "increment": false,
+          "comment": "",
+          "id": 6,
+          "size": 255
+        },
+        {
+          "name": "email",
+          "type": "VARCHAR",
+          "default": "",
+          "check": "",
+          "primary": false,
+          "unique": false,
+          "notNull": false,
+          "increment": false,
+          "comment": "",
+          "id": 7,
+          "size": 255
+        },
+        {
+          "name": "phone",
+          "type": "VARCHAR",
+          "default": "",
+          "check": "",
+          "primary": false,
+          "unique": false,
+          "notNull": false,
+          "increment": false,
+          "comment": "",
+          "id": 8,
+          "size": 255
+        },
+        {
+          "name": "country",
+          "type": "VARCHAR",
+          "default": "",
+          "check": "",
+          "primary": false,
+          "unique": false,
+          "notNull": false,
+          "increment": false,
+          "comment": "",
+          "id": 9,
+          "size": 255,
+          "values": []
+        },
+        {
+          "name": "address",
+          "type": "VARCHAR",
+          "default": "",
+          "check": "",
+          "primary": false,
+          "unique": false,
+          "notNull": false,
+          "increment": false,
+          "comment": "",
+          "id": 10,
+          "size": 255
+        }
+      ],
+      "comment": "",
+      "indices": [],
+      "color": "#bc49c4",
+      "key": 1717420069597
+    },
+    {
+      "id": 30,
+      "name": "representor_distributor",
+      "x": -406.57142857142867,
+      "y": -35.47619047619037,
+      "fields": [
+        {
+          "name": "id",
+          "type": "BINARY",
+          "default": "",
+          "check": "",
+          "primary": true,
+          "unique": true,
+          "notNull": true,
+          "increment": false,
+          "comment": "",
+          "id": 0,
+          "size": 16
+        },
+        {
+          "name": "representor_id",
+          "type": "BINARY",
+          "default": "",
+          "check": "",
+          "primary": false,
+          "unique": false,
+          "notNull": false,
+          "increment": false,
+          "comment": "",
+          "id": 1,
+          "size": 16
+        },
+        {
+          "name": "distributor_id",
+          "type": "BINARY",
+          "default": "",
+          "check": "",
+          "primary": false,
+          "unique": false,
+          "notNull": false,
+          "increment": false,
+          "comment": "",
+          "id": 2,
+          "size": 16
+        }
+      ],
+      "comment": "",
+      "indices": [],
+      "color": "#175e7a",
+      "key": 1717420412611
+    },
+    {
+      "id": 31,
+      "name": "company_type",
+      "x": 250.5714285714282,
+      "y": 524.0476190476193,
+      "fields": [
+        {
+          "name": "id",
+          "type": "INT",
+          "default": "",
+          "check": "",
+          "primary": true,
+          "unique": true,
+          "notNull": true,
+          "increment": true,
+          "comment": "",
+          "id": 0
+        },
+        {
+          "name": "name",
+          "type": "VARCHAR",
+          "default": "",
+          "check": "",
+          "primary": false,
+          "unique": false,
+          "notNull": false,
+          "increment": false,
+          "comment": "",
+          "id": 1,
+          "size": 255
+        }
+      ],
+      "comment": "",
+      "indices": [],
+      "color": "#ff4f81",
+      "key": 1717420660908
+    },
+    {
+      "id": 32,
+      "name": "license_payment",
+      "x": -336.7619047619046,
+      "y": 264.8095238095236,
+      "fields": [
+        {
+          "name": "id",
+          "type": "BINARY",
+          "default": "",
+          "check": "",
+          "primary": true,
+          "unique": true,
+          "notNull": true,
+          "increment": false,
+          "comment": "",
+          "id": 0,
+          "size": 16
+        },
+        {
+          "name": "total_price",
+          "type": "DECIMAL",
+          "default": "",
+          "check": "",
+          "primary": false,
+          "unique": false,
+          "notNull": false,
+          "increment": false,
+          "comment": "",
+          "id": 1,
+          "size": "12,6"
+        },
+        {
+          "name": "credit_card_number",
+          "type": "VARCHAR",
+          "default": "",
+          "check": "",
+          "primary": false,
+          "unique": false,
+          "notNull": false,
+          "increment": false,
+          "comment": "",
+          "id": 2,
+          "size": 255,
+          "values": []
+        },
+        {
+          "name": "pay_at",
+          "type": "DATETIME",
+          "default": "",
+          "check": "",
+          "primary": false,
+          "unique": false,
+          "notNull": false,
+          "increment": false,
+          "comment": "",
+          "id": 3,
+          "size": "",
+          "values": []
+        },
+        {
+          "name": "credit_card_type",
+          "type": "VARCHAR",
+          "default": "",
+          "check": "",
+          "primary": false,
+          "unique": false,
+          "notNull": false,
+          "increment": false,
+          "comment": "",
+          "id": 4,
+          "size": 255
+        },
+        {
+          "name": "accounts_id",
+          "type": "BINARY",
+          "default": "",
+          "check": "",
+          "primary": false,
+          "unique": false,
+          "notNull": false,
+          "increment": false,
+          "comment": "",
+          "id": 5,
+          "size": 1
+        },
+        {
+          "name": "distributors_id",
+          "type": "BINARY",
+          "default": "",
+          "check": "",
+          "primary": false,
+          "unique": false,
+          "notNull": false,
+          "increment": false,
+          "comment": "",
+          "id": 6,
+          "size": 16
+        },
+        {
+          "name": "representor_id",
+          "type": "BINARY",
+          "default": "",
+          "check": "",
+          "primary": false,
+          "unique": false,
+          "notNull": false,
+          "increment": false,
+          "comment": "",
+          "id": 7,
+          "size": 16
+        },
+        {
+          "name": "movies_id",
+          "type": "BINARY",
+          "default": "",
+          "check": "",
+          "primary": false,
+          "unique": false,
+          "notNull": false,
+          "increment": false,
+          "comment": "",
+          "id": 8,
+          "size": 16
+        },
+        {
+          "name": "status",
+          "type": "BOOLEAN",
+          "default": "",
+          "check": "",
+          "primary": false,
+          "unique": false,
+          "notNull": false,
+          "increment": false,
+          "comment": "",
+          "id": 9,
           "size": "",
           "values": []
         }
@@ -2626,7 +3046,72 @@
       "comment": "",
       "indices": [],
       "color": "#175e7a",
-      "key": 1717415322583
+      "key": 1717421328510
+    },
+    {
+      "id": 33,
+      "name": "category_movie",
+      "x": -167.23809523809518,
+      "y": -104.33333333333303,
+      "fields": [
+        {
+          "name": "id",
+          "type": "BINARY",
+          "default": "",
+          "check": "",
+          "primary": true,
+          "unique": true,
+          "notNull": true,
+          "increment": false,
+          "comment": "",
+          "id": 0,
+          "size": 1
+        },
+        {
+          "name": "name",
+          "type": "VARCHAR",
+          "default": "",
+          "check": "",
+          "primary": false,
+          "unique": false,
+          "notNull": false,
+          "increment": false,
+          "comment": "",
+          "id": 1,
+          "size": 255
+        },
+        {
+          "name": "slug",
+          "type": "VARCHAR",
+          "default": "",
+          "check": "",
+          "primary": false,
+          "unique": false,
+          "notNull": false,
+          "increment": false,
+          "comment": "",
+          "id": 2,
+          "size": 255
+        },
+        {
+          "name": "status",
+          "type": "BOOLEAN",
+          "default": "",
+          "check": "",
+          "primary": false,
+          "unique": false,
+          "notNull": false,
+          "increment": false,
+          "comment": "",
+          "id": 3,
+          "size": "",
+          "values": []
+        }
+      ],
+      "comment": "",
+      "indices": [],
+      "color": "#bc49c4",
+      "key": 1717422532737
     }
   ],
   "relationships": [
@@ -2709,7 +3194,7 @@
     },
     {
       "startTableId": 8,
-      "startFieldId": 1,
+      "startFieldId": 0,
       "endTableId": 6,
       "endFieldId": 0,
       "cardinality": "Many to one",
@@ -2742,7 +3227,7 @@
     },
     {
       "startTableId": 5,
-      "startFieldId": 5,
+      "startFieldId": 0,
       "endTableId": 2,
       "endFieldId": 0,
       "cardinality": "Many to one",
@@ -2841,7 +3326,7 @@
     },
     {
       "startTableId": 21,
-      "startFieldId": 2,
+      "startFieldId": 4,
       "endTableId": 0,
       "endFieldId": 0,
       "cardinality": "Many to one",
@@ -2906,17 +3391,6 @@
       "id": 24
     },
     {
-      "startTableId": 9,
-      "startFieldId": 7,
-      "endTableId": 26,
-      "endFieldId": 0,
-      "cardinality": "One to one",
-      "updateConstraint": "No action",
-      "deleteConstraint": "No action",
-      "name": "episodes_license_by_fk",
-      "id": 25
-    },
-    {
       "startTableId": 5,
       "startFieldId": 6,
       "endTableId": 0,
@@ -2925,40 +3399,139 @@
       "updateConstraint": "Cascade",
       "deleteConstraint": "Set null",
       "name": "reviews_movie_id_fk",
-      "id": 26
+      "id": 25
     },
     {
       "startTableId": 21,
-      "startFieldId": 4,
+      "startFieldId": 2,
       "endTableId": 22,
       "endFieldId": 0,
       "cardinality": "Many to one",
       "updateConstraint": "Cascade",
       "deleteConstraint": "Set null",
       "name": "watch_movie_status_view_status_fk",
-      "id": 27
+      "id": 26
     },
     {
       "startTableId": 2,
       "startFieldId": 12,
-      "endTableId": 27,
+      "endTableId": 26,
       "endFieldId": 0,
       "cardinality": "Many to one",
       "updateConstraint": "Cascade",
       "deleteConstraint": "Set null",
       "name": "accounts_account_online_id_fk",
-      "id": 28
+      "id": 27
     },
     {
-      "startTableId": 0,
-      "startFieldId": 11,
-      "endTableId": 28,
+      "startTableId": 28,
+      "startFieldId": 1,
+      "endTableId": 0,
       "endFieldId": 0,
       "cardinality": "Many to one",
       "updateConstraint": "Cascade",
       "deleteConstraint": "Set null",
-      "name": "movies_production_id_fk",
+      "name": "movie_distributors_movies_id_fk",
+      "id": 28
+    },
+    {
+      "startTableId": 28,
+      "startFieldId": 2,
+      "endTableId": 27,
+      "endFieldId": 0,
+      "cardinality": "Many to one",
+      "updateConstraint": "Cascade",
+      "deleteConstraint": "Set null",
+      "name": "movie_distributors_distributors_fk",
       "id": 29
+    },
+    {
+      "startTableId": 30,
+      "startFieldId": 1,
+      "endTableId": 29,
+      "endFieldId": 0,
+      "cardinality": "Many to one",
+      "updateConstraint": "Cascade",
+      "deleteConstraint": "Set null",
+      "name": "representor_distributor_representor_id_fk",
+      "id": 30
+    },
+    {
+      "startTableId": 30,
+      "startFieldId": 2,
+      "endTableId": 27,
+      "endFieldId": 0,
+      "cardinality": "Many to one",
+      "updateConstraint": "Cascade",
+      "deleteConstraint": "Set null",
+      "name": "representor_distributor_distributor_id_fk",
+      "id": 31
+    },
+    {
+      "startTableId": 32,
+      "startFieldId": 5,
+      "endTableId": 2,
+      "endFieldId": 0,
+      "cardinality": "Many to one",
+      "updateConstraint": "Cascade",
+      "deleteConstraint": "Set null",
+      "name": "license_payment_accounts_id_fk",
+      "id": 32
+    },
+    {
+      "startTableId": 32,
+      "startFieldId": 6,
+      "endTableId": 27,
+      "endFieldId": 0,
+      "cardinality": "Many to one",
+      "updateConstraint": "Cascade",
+      "deleteConstraint": "Set null",
+      "name": "license_payment_distributors_id_fk",
+      "id": 33
+    },
+    {
+      "startTableId": 32,
+      "startFieldId": 7,
+      "endTableId": 29,
+      "endFieldId": 0,
+      "cardinality": "Many to one",
+      "updateConstraint": "Cascade",
+      "deleteConstraint": "Set null",
+      "name": "license_payment_representor_id_fk",
+      "id": 34
+    },
+    {
+      "startTableId": 32,
+      "startFieldId": 8,
+      "endTableId": 0,
+      "endFieldId": 0,
+      "cardinality": "Many to one",
+      "updateConstraint": "Cascade",
+      "deleteConstraint": "Set null",
+      "name": "license_payment_movies_id_fk",
+      "id": 35
+    },
+    {
+      "startTableId": 0,
+      "startFieldId": 12,
+      "endTableId": 33,
+      "endFieldId": 0,
+      "cardinality": "Many to one",
+      "updateConstraint": "Cascade",
+      "deleteConstraint": "Set null",
+      "name": "movies_category_movie_id_fk",
+      "id": 36
+    },
+    {
+      "startTableId": 27,
+      "startFieldId": 2,
+      "endTableId": 31,
+      "endFieldId": 0,
+      "cardinality": "Many to one",
+      "updateConstraint": "Cascade",
+      "deleteConstraint": "Set null",
+      "name": " distributors_company_type_id_fk",
+      "id": 37
     }
   ],
   "notes": [],
