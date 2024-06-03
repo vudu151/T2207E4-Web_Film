@@ -1,7 +1,7 @@
 {
   "author": "Unnamed",
   "title": "Untitled Diagram",
-  "date": "2024-06-03T14:17:28.445Z",
+  "date": "2024-06-03T14:21:21.360Z",
   "tables": [
     {
       "id": 0,
@@ -977,8 +977,8 @@
     {
       "id": 9,
       "name": "episodes",
-      "x": -703.4853311577338,
-      "y": -718.6222014323052,
+      "x": -677.2948549672576,
+      "y": -737.6698204799243,
       "fields": [
         {
           "name": "id",
@@ -1571,8 +1571,8 @@
     {
       "id": 16,
       "name": "images_movies",
-      "x": -689.4783294739345,
-      "y": -191.02012155244324,
+      "x": -677.5735675691726,
+      "y": -229.11535964768132,
       "fields": [
         {
           "name": "id",
@@ -2612,8 +2612,8 @@
     {
       "id": 28,
       "name": "movie_distributors",
-      "x": -685.1428571428573,
-      "y": 21.666666666666742,
+      "x": -697.0476190476193,
+      "y": -37.85714285714266,
       "fields": [
         {
           "name": "id",
@@ -2652,6 +2652,20 @@
           "comment": "",
           "id": 2,
           "size": 16
+        },
+        {
+          "name": "status",
+          "type": "BOOLEAN",
+          "default": "",
+          "check": "",
+          "primary": false,
+          "unique": false,
+          "notNull": false,
+          "increment": false,
+          "comment": "",
+          "id": 3,
+          "size": "",
+          "values": []
         }
       ],
       "comment": "",
@@ -2662,8 +2676,8 @@
     {
       "id": 29,
       "name": "representor",
-      "x": -663.7142857142856,
-      "y": 214.52380952380918,
+      "x": -682.7619047619046,
+      "y": 181.19047619047592,
       "fields": [
         {
           "name": "id",
@@ -2808,6 +2822,20 @@
           "comment": "",
           "id": 10,
           "size": 255
+        },
+        {
+          "name": "status",
+          "type": "BOOLEAN",
+          "default": "",
+          "check": "",
+          "primary": false,
+          "unique": false,
+          "notNull": false,
+          "increment": false,
+          "comment": "",
+          "id": 11,
+          "size": "",
+          "values": []
         }
       ],
       "comment": "",
@@ -2859,6 +2887,20 @@
           "comment": "",
           "id": 2,
           "size": 16
+        },
+        {
+          "name": "status",
+          "type": "BOOLEAN",
+          "default": "",
+          "check": "",
+          "primary": false,
+          "unique": false,
+          "notNull": false,
+          "increment": false,
+          "comment": "",
+          "id": 3,
+          "size": "",
+          "values": []
         }
       ],
       "comment": "",
@@ -2896,6 +2938,20 @@
           "comment": "",
           "id": 1,
           "size": 255
+        },
+        {
+          "name": "status",
+          "type": "BOOLEAN",
+          "default": "",
+          "check": "",
+          "primary": false,
+          "unique": false,
+          "notNull": false,
+          "increment": false,
+          "comment": "",
+          "id": 2,
+          "size": "",
+          "values": []
         }
       ],
       "comment": "",

@@ -287,6 +287,7 @@ CREATE TABLE `movie_distributors` (
 	`id` INT NOT NULL AUTO_INCREMENT UNIQUE,
 	`movies_id` BINARY(16),
 	`distributors` BINARY(16),
+	`status` BOOLEAN,
 	PRIMARY KEY(`id`)
 );
 
@@ -302,6 +303,7 @@ CREATE TABLE `representor` (
 	`phone` VARCHAR(255),
 	`country` VARCHAR(255),
 	`address` VARCHAR(255),
+	`status` BOOLEAN,
 	PRIMARY KEY(`id`)
 );
 
@@ -309,12 +311,14 @@ CREATE TABLE `representor_distributor` (
 	`id` BINARY(16) NOT NULL UNIQUE,
 	`representor_id` BINARY(16),
 	`distributor_id` BINARY(16),
+	`status` BOOLEAN,
 	PRIMARY KEY(`id`)
 );
 
 CREATE TABLE `company_type` (
 	`id` INT NOT NULL AUTO_INCREMENT UNIQUE,
 	`name` VARCHAR(255),
+	`status` BOOLEAN,
 	PRIMARY KEY(`id`)
 );
 
