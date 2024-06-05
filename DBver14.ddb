@@ -1,7 +1,7 @@
 {
   "author": "Unnamed",
   "title": "Untitled Diagram",
-  "date": "2024-06-03T14:21:21.360Z",
+  "date": "2024-06-05T10:55:57.070Z",
   "tables": [
     {
       "id": 0,
@@ -953,20 +953,6 @@
           "comment": "",
           "id": 2,
           "size": 16
-        },
-        {
-          "name": "status",
-          "type": "BOOLEAN",
-          "default": "",
-          "check": "",
-          "primary": false,
-          "unique": false,
-          "notNull": false,
-          "increment": false,
-          "comment": "",
-          "id": 3,
-          "size": "",
-          "values": []
         }
       ],
       "comment": "",
@@ -1439,8 +1425,8 @@
     {
       "id": 14,
       "name": "favorite_genres",
-      "x": 1055.3464696746616,
-      "y": -655.5087791716048,
+      "x": 1058.8024696746618,
+      "y": -653.7807791716048,
       "fields": [
         {
           "name": "id",
@@ -1571,8 +1557,8 @@
     {
       "id": 16,
       "name": "images_movies",
-      "x": -677.5735675691726,
-      "y": -229.11535964768132,
+      "x": -687.9415675691725,
+      "y": -236.0273596476813,
       "fields": [
         {
           "name": "id",
@@ -2652,20 +2638,6 @@
           "comment": "",
           "id": 2,
           "size": 16
-        },
-        {
-          "name": "status",
-          "type": "BOOLEAN",
-          "default": "",
-          "check": "",
-          "primary": false,
-          "unique": false,
-          "notNull": false,
-          "increment": false,
-          "comment": "",
-          "id": 3,
-          "size": "",
-          "values": []
         }
       ],
       "comment": "",
@@ -2887,20 +2859,6 @@
           "comment": "",
           "id": 2,
           "size": 16
-        },
-        {
-          "name": "status",
-          "type": "BOOLEAN",
-          "default": "",
-          "check": "",
-          "primary": false,
-          "unique": false,
-          "notNull": false,
-          "increment": false,
-          "comment": "",
-          "id": 3,
-          "size": "",
-          "values": []
         }
       ],
       "comment": "",

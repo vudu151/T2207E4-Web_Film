@@ -95,7 +95,6 @@ CREATE TABLE `movies_genres` (
 	`genres_id` BINARY(16) NOT NULL,
 	`id` BINARY(16) NOT NULL UNIQUE,
 	`movie_id` BINARY(16) NOT NULL,
-	`status` BOOLEAN,
 	PRIMARY KEY(`id`)
 );
 
@@ -287,7 +286,6 @@ CREATE TABLE `movie_distributors` (
 	`id` INT NOT NULL AUTO_INCREMENT UNIQUE,
 	`movies_id` BINARY(16),
 	`distributors` BINARY(16),
-	`status` BOOLEAN,
 	PRIMARY KEY(`id`)
 );
 
@@ -311,7 +309,6 @@ CREATE TABLE `representor_distributor` (
 	`id` BINARY(16) NOT NULL UNIQUE,
 	`representor_id` BINARY(16),
 	`distributor_id` BINARY(16),
-	`status` BOOLEAN,
 	PRIMARY KEY(`id`)
 );
 
