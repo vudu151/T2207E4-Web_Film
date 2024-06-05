@@ -1,7 +1,7 @@
 {
   "author": "Unnamed",
   "title": "Untitled Diagram",
-  "date": "2024-06-05T10:55:57.070Z",
+  "date": "2024-06-05T11:32:21.508Z",
   "tables": [
     {
       "id": 0,
@@ -231,8 +231,8 @@
     {
       "id": 1,
       "name": "roles",
-      "x": 1588.0199233389524,
-      "y": -762.1588774017345,
+      "x": 1734.5315512459294,
+      "y": -738.903063448246,
       "fields": [
         {
           "name": "id",
@@ -326,7 +326,7 @@
           "size": 255
         },
         {
-          "name": "fullname",
+          "name": "address",
           "type": "VARCHAR",
           "default": "",
           "check": "",
@@ -339,19 +339,6 @@
           "size": 255
         },
         {
-          "name": "address",
-          "type": "VARCHAR",
-          "default": "",
-          "check": "",
-          "primary": false,
-          "unique": false,
-          "notNull": false,
-          "increment": false,
-          "comment": "",
-          "id": 4,
-          "size": 255
-        },
-        {
           "name": "gender",
           "type": "BOOLEAN",
           "default": "",
@@ -361,7 +348,7 @@
           "notNull": false,
           "increment": false,
           "comment": "",
-          "id": 5,
+          "id": 4,
           "size": "",
           "values": []
         },
@@ -375,7 +362,7 @@
           "notNull": false,
           "increment": false,
           "comment": "",
-          "id": 6,
+          "id": 5,
           "size": 255
         },
         {
@@ -388,7 +375,7 @@
           "notNull": false,
           "increment": false,
           "comment": "",
-          "id": 7,
+          "id": 6,
           "size": 255
         },
         {
@@ -401,7 +388,7 @@
           "notNull": false,
           "increment": false,
           "comment": "",
-          "id": 8,
+          "id": 7,
           "size": 255
         },
         {
@@ -414,7 +401,7 @@
           "notNull": false,
           "increment": false,
           "comment": "",
-          "id": 9,
+          "id": 8,
           "size": "",
           "values": []
         },
@@ -428,7 +415,7 @@
           "notNull": false,
           "increment": false,
           "comment": "",
-          "id": 10,
+          "id": 9,
           "size": "",
           "values": []
         },
@@ -442,7 +429,7 @@
           "notNull": false,
           "increment": false,
           "comment": "",
-          "id": 11
+          "id": 10
         },
         {
           "name": "account_online_id",
@@ -454,7 +441,7 @@
           "notNull": false,
           "increment": false,
           "comment": "",
-          "id": 12
+          "id": 11
         },
         {
           "name": "status",
@@ -466,7 +453,7 @@
           "notNull": false,
           "increment": false,
           "comment": "",
-          "id": 13,
+          "id": 12,
           "size": "",
           "values": []
         }
@@ -634,7 +621,7 @@
           "check": "",
           "primary": false,
           "unique": false,
-          "notNull": true,
+          "notNull": false,
           "increment": false,
           "comment": "",
           "id": 3,
@@ -673,7 +660,7 @@
           "check": "",
           "primary": false,
           "unique": false,
-          "notNull": true,
+          "notNull": false,
           "increment": false,
           "comment": "",
           "id": 0,
@@ -920,7 +907,7 @@
           "check": "",
           "primary": false,
           "unique": false,
-          "notNull": true,
+          "notNull": false,
           "increment": false,
           "comment": "",
           "id": 0,
@@ -948,7 +935,7 @@
           "check": "",
           "primary": false,
           "unique": false,
-          "notNull": true,
+          "notNull": false,
           "increment": false,
           "comment": "",
           "id": 2,
@@ -1025,7 +1012,7 @@
           "check": "",
           "primary": false,
           "unique": false,
-          "notNull": true,
+          "notNull": false,
           "increment": false,
           "comment": "",
           "id": 4,
@@ -1134,8 +1121,8 @@
     {
       "id": 10,
       "name": "favourites",
-      "x": 226.02483616106815,
-      "y": -59.05475466514986,
+      "x": 230.6759989517659,
+      "y": -54.403591874452104,
       "fields": [
         {
           "name": "id",
@@ -1158,7 +1145,7 @@
           "check": "",
           "primary": false,
           "unique": false,
-          "notNull": true,
+          "notNull": false,
           "increment": false,
           "comment": "",
           "id": 1,
@@ -1172,7 +1159,7 @@
           "check": "",
           "primary": false,
           "unique": false,
-          "notNull": true,
+          "notNull": false,
           "increment": false,
           "comment": "",
           "id": 2,
@@ -1425,8 +1412,8 @@
     {
       "id": 14,
       "name": "favorite_genres",
-      "x": 1058.8024696746618,
-      "y": -653.7807791716048,
+      "x": 456.476888279313,
+      "y": -611.9203140553257,
       "fields": [
         {
           "name": "id",
@@ -1449,7 +1436,7 @@
           "check": "",
           "primary": false,
           "unique": false,
-          "notNull": true,
+          "notNull": false,
           "increment": false,
           "comment": "",
           "id": 1,
@@ -1462,7 +1449,7 @@
           "check": "",
           "primary": false,
           "unique": false,
-          "notNull": true,
+          "notNull": false,
           "increment": false,
           "comment": "",
           "id": 2,
@@ -1695,8 +1682,8 @@
     {
       "id": 18,
       "name": "payments",
-      "x": 1598.6257347269593,
-      "y": -522.9781166057561,
+      "x": 1682.3466649595175,
+      "y": -553.2106747452909,
       "fields": [
         {
           "name": "id",
@@ -1798,7 +1785,7 @@
           "check": "",
           "primary": false,
           "unique": false,
-          "notNull": true,
+          "notNull": false,
           "increment": false,
           "comment": "",
           "id": 7
@@ -1849,7 +1836,7 @@
           "check": "",
           "primary": false,
           "unique": false,
-          "notNull": true,
+          "notNull": false,
           "increment": false,
           "comment": "",
           "id": 1,
@@ -1862,7 +1849,7 @@
           "check": "",
           "primary": false,
           "unique": false,
-          "notNull": true,
+          "notNull": false,
           "increment": false,
           "comment": "",
           "id": 2,
@@ -2648,8 +2635,8 @@
     {
       "id": 29,
       "name": "representor",
-      "x": -682.7619047619046,
-      "y": 181.19047619047592,
+      "x": -680.4363233665557,
+      "y": 176.53931339977817,
       "fields": [
         {
           "name": "id",
@@ -2921,7 +2908,7 @@
       "id": 32,
       "name": "license_payment",
       "x": -336.7619047619046,
-      "y": 264.8095238095236,
+      "y": 267.1351052048724,
       "fields": [
         {
           "name": "id",
@@ -3257,7 +3244,7 @@
       "endFieldId": 0,
       "cardinality": "Many to one",
       "updateConstraint": "Cascade",
-      "deleteConstraint": "Set null",
+      "deleteConstraint": "No action",
       "name": "payments_account_id_fk",
       "id": 11
     },
@@ -3395,7 +3382,7 @@
     },
     {
       "startTableId": 2,
-      "startFieldId": 11,
+      "startFieldId": 10,
       "endTableId": 25,
       "endFieldId": 0,
       "cardinality": "Many to one",
@@ -3428,7 +3415,7 @@
     },
     {
       "startTableId": 2,
-      "startFieldId": 12,
+      "startFieldId": 11,
       "endTableId": 26,
       "endFieldId": 0,
       "cardinality": "Many to one",

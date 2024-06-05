@@ -29,7 +29,6 @@ CREATE TABLE `accounts` (
 	`id` BINARY(16) NOT NULL UNIQUE,
 	`username` VARCHAR(255) UNIQUE,
 	`password` VARCHAR(255),
-	`fullname` VARCHAR(255),
 	`address` VARCHAR(255),
 	`gender` BOOLEAN,
 	`email` VARCHAR(255) UNIQUE,
@@ -142,8 +141,8 @@ CREATE TABLE `category` (
 
 CREATE TABLE `categories_news` (
 	`id` BINARY(16) NOT NULL UNIQUE,
-	`category_id` BINARY(16) NOT NULL,
-	`news_id` BINARY(16) NOT NULL,
+	`category_id` BINARY(16),
+	`news_id` BINARY(16),
 	`status` BOOLEAN,
 	PRIMARY KEY(`id`)
 );
@@ -216,7 +215,7 @@ CREATE TABLE `watch_movie_status` (
 	`id` BINARY(16) NOT NULL UNIQUE,
 	`account_id` BINARY(16),
 	`view_status` BINARY(16),
-	`watch_status_id` INT NOT NULL,
+	`watch_status_id` INT,
 	`movie_id` BINARY(16),
 	`status` BOOLEAN,
 	PRIMARY KEY(`id`)
@@ -376,7 +375,7 @@ ADD FOREIGN KEY(`account_id`) REFERENCES `accounts`(`id`)
 ON UPDATE CASCADE ON DELETE SET NULL;
 ALTER TABLE `payments`
 ADD FOREIGN KEY(`account_id`) REFERENCES `accounts`(`id`)
-ON UPDATE CASCADE ON DELETE SET NULL;
+ON UPDATE CASCADE ON DELETE NO ACTION;
 ALTER TABLE `account_role`
 ADD FOREIGN KEY(`role_id`) REFERENCES `roles`(`id`)
 ON UPDATE CASCADE ON DELETE SET NULL;
