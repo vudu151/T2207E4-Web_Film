@@ -58,13 +58,13 @@ CREATE TABLE `casting` (
 	`id` BINARY(16) NOT NULL UNIQUE,
 	`movie_id` BINARY(16),
 	`celebrity_id` BINARY(16),
-	`job_id` BINARY(16) NOT NULL,
+	`job_id` BINARY(16),
 	`status` BOOLEAN,
 	PRIMARY KEY(`id`)
 );
 
 CREATE TABLE `reviews` (
-	`account_id` BINARY(16) NOT NULL,
+	`account_id` BINARY(16),
 	`id` BINARY(16) NOT NULL UNIQUE,
 	`star` INT,
 	`comment` TEXT(65535),
@@ -92,9 +92,9 @@ CREATE TABLE `images_celebrity` (
 );
 
 CREATE TABLE `movies_genres` (
-	`genres_id` BINARY(16) NOT NULL,
+	`genres_id` BINARY(16),
 	`id` BINARY(16) NOT NULL UNIQUE,
-	`movie_id` BINARY(16) NOT NULL,
+	`movie_id` BINARY(16),
 	PRIMARY KEY(`id`)
 );
 
@@ -103,7 +103,7 @@ CREATE TABLE `episodes` (
 	`name` VARCHAR(255),
 	`link` VARCHAR(255),
 	`description` TEXT(65535),
-	`movie_id` BINARY(16) NOT NULL,
+	`movie_id` BINARY(16),
 	`duration` DATETIME,
 	`file_size` INT,
 	`license_price` DECIMAL(12,6),
@@ -116,8 +116,8 @@ CREATE TABLE `episodes` (
 
 CREATE TABLE `favourites` (
 	`id` BINARY(16) NOT NULL UNIQUE,
-	`movie_id` BINARY(16) NOT NULL,
-	`accounts_id` BINARY(16) NOT NULL,
+	`movie_id` BINARY(16),
+	`accounts_id` BINARY(16),
 	`favourite_at` DATETIME,
 	`status` BOOLEAN,
 	PRIMARY KEY(`id`)
@@ -150,8 +150,8 @@ CREATE TABLE `categories_news` (
 
 CREATE TABLE `favorite_genres` (
 	`id` BINARY(16) NOT NULL UNIQUE,
-	`accounts_id` BINARY(16) NOT NULL,
-	`genres_id` BINARY(16) NOT NULL,
+	`accounts_id` BINARY(16),
+	`genres_id` BINARY(16),
 	`favorites_at` DATETIME,
 	`status` BOOLEAN,
 	PRIMARY KEY(`id`)
@@ -191,15 +191,15 @@ CREATE TABLE `payments` (
 	`creditcard_type` VARCHAR(255),
 	`creditcard_number` VARCHAR(255),
 	`email_sended` BOOLEAN,
-	`package_id` INT NOT NULL,
+	`package_id` INT,
 	`status` BOOLEAN DEFAULT true,
 	PRIMARY KEY(`id`)
 );
 
 CREATE TABLE `account_role` (
 	`id` BINARY(16) NOT NULL UNIQUE,
-	`accounts_id` BINARY(16) NOT NULL,
-	`role_id` BINARY(16) NOT NULL,
+	`accounts_id` BINARY(16),
+	`role_id` BINARY(16),
 	`status` BOOLEAN,
 	PRIMARY KEY(`id`)
 );
