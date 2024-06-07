@@ -7,7 +7,7 @@ BEGIN
     FROM movies m
     INNER JOIN movies_genres mg on m.id = mg.movie_id
     INNER JOIN genres g on mg.genres_id = g.id
-    INNER JOIN category c on m.category_movie_id = c.id
+    INNER JOIN category_movie c on m.category_movie_id = c.id
     WHERE c.name = 'series'
     ORDER BY m.totalview DESC
     LIMIT 10;

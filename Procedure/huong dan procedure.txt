@@ -16,7 +16,9 @@ tu dong cap nhat tong luot view cua phim khi co nguoi da xem hoac xem lai: proce
 select top 10 phim co totalview cao nhat de hien len dau trang lam slider: proceduretopphimhot.sql
                  phim le :proceduretopphimle.sql
                  phim bo :proceduretopphimbo.sql
+select top 10 phim le co totalview cao nhat theo genres yeu thich cua account de hien len dau trang lam slider: proceduretopphimyeuthichle.sql
 
+select top 10 phim bo co totalview cao nhat theo genres yeu thich cua account de hien len dau trang lam slider: proceduretopphimyeuthichbo.sql
 
              
 
