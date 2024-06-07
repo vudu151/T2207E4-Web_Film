@@ -23,5 +23,5 @@ kiem tra tuong thich level cua account va movie: procedurkiemtratuongthichlevel.
 bao cao doanh thu tien mua ban quyen trong nam: 
            tong the:  proceduredoanhthumovietong.sql
            theo id:proceduredoanhthumovieid.sql
-             
+kiem tra xem account da xem phim chua , neu xem roi thi return true: procedurekiemtrareview.sql             
 
