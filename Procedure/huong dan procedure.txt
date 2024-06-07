@@ -1,0 +1,21 @@
+danh sach procedure:
+
+Tim kiem phim theo keyword va  phan trang (ok) : procedureTimMoviephantrang.sql
+tim kiem dien vien va doan lam phim theo keyword co phan trang (ok) : proceduretimkiemdienvienphantrang.sql
+thong ke tien theo nam duoc nhap (ok): procedurethongketientheonam.sql
+thong ke luot view cua  movie theo ngay bat dau va ngay ket thuc duoc nhap :
+            khong phan trang :procedurethongkeviewphim.sql
+           co phan trang: procedurethongkeviewphimpaging.sql
+           tim theo id phim: procedurethongkeviewphimmovieid.sql
+thong ke phim xem, the loai cua user  trong ngay duoc nhap:
+             tong user: procedurethongkeviewphimcuauser.sql
+             tim theo movie id: procedurethongkeviewphimcuausertheomovie.sql
+             tim theo user id :procedurethongkeviewphimcuausertheoid.sql
+auto doi level cua nguoi dung ve 0 theo nam sau khi mua: procedruecapnhattrangthaiuser.sql
+tu dong cap nhat tong luot view cua phim khi co nguoi da xem hoac xem lai: procedureupdatemovieview.sql
+select top 10 phim co totalview cao nhat de hien len dau trang lam slider: proceduretopphimhot.sql
+ 
+
+
+             
+
