@@ -20,5 +20,8 @@ select top 10 phim le co totalview cao nhat theo genres yeu thich cua account de
 
 select top 10 phim bo co totalview cao nhat theo genres yeu thich cua account de hien len dau trang lam slider: proceduretopphimyeuthichbo.sql
 kiem tra tuong thich level cua account va movie: procedurkiemtratuongthichlevel.sql
+bao cao doanh thu tien mua ban quyen trong nam: 
+           tong the:  proceduredoanhthumovietong.sql
+           theo id:proceduredoanhthumovieid.sql
              
 
