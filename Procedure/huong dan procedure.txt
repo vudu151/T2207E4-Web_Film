@@ -19,6 +19,6 @@ select top 10 phim co totalview cao nhat de hien len dau trang lam slider: proce
 select top 10 phim le co totalview cao nhat theo genres yeu thich cua account de hien len dau trang lam slider: proceduretopphimyeuthichle.sql
 
 select top 10 phim bo co totalview cao nhat theo genres yeu thich cua account de hien len dau trang lam slider: proceduretopphimyeuthichbo.sql
-
+kiem tra tuong thich level cua account va movie: procedurkiemtratuongthichlevel.sql
              
 
