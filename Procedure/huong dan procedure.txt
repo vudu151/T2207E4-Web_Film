@@ -14,7 +14,8 @@ thong ke phim xem, the loai cua user  trong ngay duoc nhap:
 auto doi level cua nguoi dung ve 0 theo nam sau khi mua: procedruecapnhattrangthaiuser.sql
 tu dong cap nhat tong luot view cua phim khi co nguoi da xem hoac xem lai: procedureupdatemovieview.sql
 select top 10 phim co totalview cao nhat de hien len dau trang lam slider: proceduretopphimhot.sql
- 
+                 phim le :proceduretopphimle.sql
+                 phim bo :proceduretopphimbo.sql
 
 
              
