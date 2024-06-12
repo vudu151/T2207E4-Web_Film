@@ -10,22 +10,12 @@ body{
   min-height: 100vh;
   background: #E3F2FD;
 }
-body, .container, .video-controls, .video-timer, .options{
+ .container, .video-controls, .video-timer, .options{
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.container{
-  width: 98%;
-  user-select: none;
-  overflow: hidden;
-  max-width: 900px;
-  border-radius: 5px;
-  background: #000;
-  aspect-ratio: 16 / 9;
-  position: relative;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-}
+
 .container.fullscreen{
   max-width: 100%;
   width: 100%;
@@ -33,7 +23,7 @@ body, .container, .video-controls, .video-timer, .options{
   border-radius: 0px;
 }
 .wrapper{
-  position: absolute;
+  position: relative;
   left: 0;
   right: 0;
   z-index: 1;
@@ -51,8 +41,7 @@ body, .container, .video-controls, .video-timer, .options{
   bottom: 0;
   width: 100%;
   z-index: -1;
-  position: absolute;
-  height: calc(100% + 35px);
+  position: relative;
   pointer-events: none;
   background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
 }
