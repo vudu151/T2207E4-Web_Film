@@ -53,7 +53,7 @@ public class Celebrity {
 
     //ManyToMany: Celebrity-Job
     @ManyToMany(fetch = FetchType.LAZY, cascade = {
-            CascadeType.DETACH, CascadeType.MERGE,CascadeType.REMOVE,
+            CascadeType.DETACH, CascadeType.MERGE,
             CascadeType.PERSIST, CascadeType.REFRESH
     })
     @JoinTable(

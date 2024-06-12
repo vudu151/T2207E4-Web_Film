@@ -1,15 +1,13 @@
-package org.example.film.models.requests.job;
+package org.example.film.models.requests.celebrities;
 
 import lombok.*;
 import org.example.film.commons.cqrs.IRequest;
-
-import java.util.UUID;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @Builder
-public class DeleteJobRequest implements IRequest<String> {
+public class DeleteCelebrityRequest implements IRequest<String> {
     private String id;
 }

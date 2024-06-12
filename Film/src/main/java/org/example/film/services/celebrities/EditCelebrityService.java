@@ -1,16 +1,15 @@
-package org.example.film.services.celebrity;
+package org.example.film.services.celebrities;
 
 import com.github.slugify.Slugify;
 import org.example.film.commons.cqrs.HandleResponse;
 import org.example.film.commons.cqrs.IRequestHandler;
 import org.example.film.models.entities.Celebrity;
-import org.example.film.models.requests.celebrity.EditCelebrityRequest;
+import org.example.film.models.requests.celebrities.EditCelebrityRequest;
 import org.example.film.repositories.ICelebrityRepository;
 import org.example.film.repositories.IJobRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;

@@ -3,10 +3,11 @@ package org.example.film.controllers.rest;
 import jakarta.validation.Valid;
 import org.example.film.commons.cqrs.ISender;
 import org.example.film.models.entities.Celebrity;
-import org.example.film.models.entities.Job;
-import org.example.film.models.requests.celebrity.AddCelebrityRequest;
-import org.example.film.models.requests.celebrity.EditCelebrityRequest;
-import org.example.film.services.celebrity.ICelebritiesService;
+import org.example.film.models.requests.celebrities.AddCelebrityRequest;
+import org.example.film.models.requests.celebrities.DeleteCelebrityRequest;
+import org.example.film.models.requests.celebrities.EditCelebrityRequest;
+import org.example.film.models.requests.jobs.DeleteJobRequest;
+import org.example.film.services.celebrities.ICelebritiesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -68,5 +69,12 @@ public class CelebritiesRestController {
         } catch (Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to edit celebrity: " + e.getMessage());
         }
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> delete(@PathVariable String id){
+        if (id == null) throw new IllegalArgumentException("Id is null.");
+        iSender.send(new DeleteCelebrityRequest(id));
+        return ResponseEntity.ok("Delete celebrity successfully.");
     }
 }

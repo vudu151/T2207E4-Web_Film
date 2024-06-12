@@ -1,10 +1,10 @@
-package org.example.film.services.celebrity;
+package org.example.film.services.celebrities;
 
 import com.github.slugify.Slugify;
 import org.example.film.commons.cqrs.HandleResponse;
 import org.example.film.commons.cqrs.IRequestHandler;
 import org.example.film.models.entities.Celebrity;
-import org.example.film.models.requests.celebrity.AddCelebrityRequest;
+import org.example.film.models.requests.celebrities.AddCelebrityRequest;
 import org.example.film.repositories.ICelebrityRepository;
 import org.example.film.repositories.IJobRepository;
 import org.springframework.beans.factory.annotation.Autowired;

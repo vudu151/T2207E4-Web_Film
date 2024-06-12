@@ -95,15 +95,6 @@ public class HomeController {
 
 
     //============================================
-    @GetMapping("/celebrities")
-    public String actors(){
-        return "public/celebrities/index";
-    }
-
-    @GetMapping("/actors/actor-detail")
-    public String actor_detail(){
-        return "public/celebrities/celebrity-detail";
-    }
 
     @GetMapping("/news")
     public String news(){

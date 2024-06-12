@@ -1,9 +1,9 @@
-package org.example.film.services.job;
+package org.example.film.services.jobs;
 
 import org.example.film.commons.cqrs.HandleResponse;
 import org.example.film.commons.cqrs.IRequestHandler;
 import org.example.film.models.entities.Job;
-import org.example.film.models.requests.job.DeleteJobRequest;
+import org.example.film.models.requests.jobs.DeleteJobRequest;
 import org.example.film.repositories.IJobRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

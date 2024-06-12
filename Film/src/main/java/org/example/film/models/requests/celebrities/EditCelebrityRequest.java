@@ -1,4 +1,4 @@
-package org.example.film.models.requests.celebrity;
+package org.example.film.models.requests.celebrities;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -15,7 +15,9 @@ import java.util.List;
 @Getter
 @Setter
 @Builder
-public class AddCelebrityRequest implements IRequest<String> {
+public class EditCelebrityRequest implements IRequest<String> {
+    private String id;
+
     @NotBlank(message = "The name is not null.")
     @Size(min = 1, message = "Minimum length is 1.")
     private String name;
