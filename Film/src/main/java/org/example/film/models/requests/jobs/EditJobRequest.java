@@ -1,4 +1,4 @@
-package org.example.film.models.requests.job;
+package org.example.film.models.requests.jobs;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
@@ -9,7 +9,10 @@ import org.example.film.commons.cqrs.IRequest;
 @Getter
 @Setter
 @Builder
-public class AddJobRequest implements IRequest<String> {
+public class EditJobRequest implements IRequest<String> {
+
+    private String id;
+
     @NotBlank(message = "The name is not null.")
     private String name;
 }

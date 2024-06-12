@@ -1,8 +1,8 @@
 package org.example.film.controllers.admin;
 
 import org.example.film.models.entities.Job;
-import org.example.film.models.requests.job.AddJobRequest;
-import org.example.film.services.job.IJobsService;
+import org.example.film.models.requests.jobs.AddJobRequest;
+import org.example.film.services.jobs.IJobsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

@@ -1,6 +1,7 @@
-package org.example.film.services.celebrity;
+package org.example.film.services.celebrities;
 
 import org.example.film.models.entities.Celebrity;
+import org.example.film.models.entities.Job;
 import org.example.film.repositories.ICelebrityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,4 +22,5 @@ public class CelebritiesService implements ICelebritiesService{
     public Optional<Celebrity> getCelebrityById(String id) {
         return iCelebrityRepository.findById(id);
     }
+
 }

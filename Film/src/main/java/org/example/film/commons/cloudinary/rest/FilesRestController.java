@@ -1,6 +1,7 @@
 package org.example.film.commons.cloudinary.rest;
 
 import lombok.RequiredArgsConstructor;
+import org.example.film.commons.cloudinary.requests.DeleteFileRequest;
 import org.example.film.commons.cloudinary.requests.FileRequest;
 import org.example.film.commons.cloudinary.requests.MultipartFileRequest;
 import org.example.film.commons.cqrs.ISender;
@@ -29,5 +30,19 @@ public class FilesRestController {
         var result = iSender.send(multipartFileRequest);
         String[] arrays = result.get().toArray(new String[0]);       //Lấy kết quả từ result (dạng Collection<String>), chuyển đổi thanh String[].
         return ResponseEntity.ok(arrays);
+    }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<String> deleteFile(@RequestParam("url") String url){
+        try{
+            var deleteFileRequest = new DeleteFileRequest(url);
+            var result = iSender.send(deleteFileRequest);
+            if (result.isOk()) {
+                return ResponseEntity.ok("File deleted successfully.");
+            } else {
+                return ResponseEntity.status(500).body("Failed to delete file: " + result.getError());
+            }        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Failed to delete file: " + e.getMessage());
+        }
     }
 }
