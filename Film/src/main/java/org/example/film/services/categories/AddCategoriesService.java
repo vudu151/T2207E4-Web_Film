@@ -20,9 +20,8 @@ public class AddCategoriesService implements IRequestHandler<AddCategoriesReques
     public HandleResponse<String> handle(AddCategoriesRequest addCategoriesRequest) throws Exception {
         if (iCategoriesRepository.findByName(addCategoriesRequest.getName()).isPresent()){
             return HandleResponse.error("category news already exists");
-        } else if (iCategoriesRepository.findBySlug(addCategoriesRequest.getSlug()).isPresent()) {
-            return HandleResponse.error("category slug already exists");
-        } else {
+        }
+        else {
             Category setCategory = new Category();
             setCategory.setName(addCategoriesRequest.getName());
             Slugify slg = new Slugify();

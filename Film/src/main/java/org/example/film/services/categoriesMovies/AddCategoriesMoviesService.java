@@ -19,9 +19,8 @@ public class AddCategoriesMoviesService implements IRequestHandler<AddCategoryMo
     public HandleResponse<String> handle(AddCategoryMovieRequest addCategoryMovieRequest) throws Exception {
         if (iCategoriesMovieRepository.findByName(addCategoryMovieRequest.getName()).isPresent()){
             return HandleResponse.error("category movie already exists");
-        } else if (iCategoriesMovieRepository.findBySlug(addCategoryMovieRequest.getSlug()).isPresent()) {
-            return HandleResponse.error("slug category movie already exists");
-        } else {
+        }
+        else {
             CategoryMovie categoryMovie = new CategoryMovie();
             categoryMovie.setName(addCategoryMovieRequest.getName());
             Slugify slg = new Slugify();

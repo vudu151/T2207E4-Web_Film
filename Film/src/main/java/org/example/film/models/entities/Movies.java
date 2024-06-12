@@ -1,10 +1,12 @@
 package org.example.film.models.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "movies")
@@ -64,4 +66,13 @@ public class Movies {
 
     @Column(name = "status")
     private int status;
+
+//
+//    @ElementCollection                          //1 celebrity co nhieu image => Nhung khong can tao Entity rieng cho imgae ma luu tru truc tiep trong Entity Celebrity
+//    @CollectionTable(name = "celebrity_image",
+//            joinColumns = @JoinColumn(name = "celebrity_id")
+//    )
+//    @Column(name = "images", columnDefinition = "LONGTEXT")
+//    private List<String> images;
+
 }
