@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light" data-menu-color="brand" data-topbar-color="light"
+      th:replace="~{/admin/layout/layout :: main-fragment(
+                                    ~{:: title},
+                                    ~{:: #css-resources},
+                                    ~{:: #main-content},
+                                    ~{:: #js-resources}
+                                 )}">
+<head>
+    <meta charset="utf-8" />
+    <title>Accounts | Index</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
+    <meta content="Myra Studio" name="author" />
+    <th:block id="css-resources">
+    </th:block>
+</head>
+<body>
+
+<main id="main-content">
+    <div class="px-3">
+        <div class="container-fluid">
+            <!-- start page title -->
+            <div class="py-3 py-lg-4">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <h4 class="page-title mb-0">List Accounts</h4>
+                    </div>
+                </div>
+            </div>
+            <!-- end page title -->
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <table id="datatable-buttons" class="table table-striped dt-responsive nowrap w-100">
+                                <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th th:hidden="hidden">Id</th>
+                                    <th>Username</th>
+                                    <th>Address</th>
+                                    <th>Gender</th>
+                                    <th>Email</th>
+                                    <th>Avatar</th>
+                                    <th>Active</th>
+                                    <th>Level</th>
+                                    <th>Role</th>
+                                </tr>
+                                </thead>
+
+                                <tbody>
+                                    <tr th:each="account, index : ${accounts}">
+                                        <td th:text="${index.count}"></td>
+                                        <td th:text="${account.id}" th:hidden="hidden"></td>
+                                        <td th:text="${account.userName}"></td>
+                                        <td th:text="${account.address}"></td>
+                                        <td>
+                                            <span th:if="${account.gender == null}">Null</span>
+                                            <span th:if="${account.gender == false}">Female</span>
+                                            <span th:if="${account.gender == true}">Male</span>
+                                        </td>
+                                        <td th:text="${account.email}"></td>
+                                        <td>
+                                            <img th:src="${account.avatar}"  alt="image" class="img-fluid rounded" width="56" style="max-width: 100%;object-fit: cover;max-height: 32px; height: auto;"/>
+                                        </td>
+                                        <td>
+                                            <span th:if="${account.active.FALSE}">Locked</span>
+                                            <span th:if="${account.active.TRUE}">Active</span>
+                                        </td>
+                                        <td>
+                                            <span th:if="${account.level == 0}">Free</span>
+                                            <span th:if="${account.level == 1}">Premium</span>
+                                        </td>
+                                        <td>
+                                            <span th:each="role : ${account.roles}" th:text="${role.name}"></span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div> <!-- end card body-->
+                    </div> <!-- end card -->
+                </div><!-- end col-->
+            </div>
+        </div>
+    </div>
+</main>
+
+<th:block id="js-resources">
+</th:block>
+</body>
+</html>

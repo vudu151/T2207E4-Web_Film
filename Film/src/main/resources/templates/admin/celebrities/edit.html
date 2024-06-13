@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en" data-bs-theme="light" data-menu-color="brand"
+      data-topbar-color="light"
+      th:replace="~{/admin/layout/layout :: main-fragment(
+                                    ~{:: title},
+                                    ~{:: #css-resources},
+                                    ~{:: #main-content},
+                                    ~{:: #js-resources}
+                                 )}">
+<head>
+    <meta charset="utf-8"/>
+    <title>Celebrities | Edit</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description"/>
+    <meta content="Myra Studio" name="author"/>
+    <th:block id="css-resources">
+        <style>
+            .img-container {
+                position: relative;
+                display: inline-block;
+            }
+            .delete-btn {
+                position: absolute;
+                top: 8px;
+                right: 0;
+                transform: translate(50%, -50%);
+                z-index: 10;
+                padding: 0;
+                width: 20px;
+                height: 20px;
+                border-radius: 50%;
+                font-size: 12px;
+                line-height: 1;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+        </style>
+    </th:block>
+</head>
+<body>
+
+<main id="main-content">
+    <div class="px-3">
+        <div class="container-fluid">
+            <div id="alertError"
+                 style="position: fixed; top: 80px; right: -90px;transform: translateX(-50%); z-index: 9999;"></div>
+
+            <!-- start page title -->
+            <div class="py-3 py-lg-4">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <h4 class="page-title mb-0">Edit Celebrity</h4>
+                    </div>
+                </div>
+            </div>
+            <!-- end page title -->
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="p-2">
+                                        <form class="form-horizontal" role="form">
+                                            <div class="mb-2 row">
+                                                <label class="col-md-2 col-form-label" for="input-name">Name</label>
+                                                <div class="col-md-10">
+                                                    <input type="text" id="input-name" class="form-control"
+                                                           placeholder="Some text value...">
+                                                    <span class="invalid-feedback text-danger"
+                                                          id="invalid-feedback-name">Minimum length is 1.</span>
+                                                </div>
+                                            </div>
+
+                                            <div class="mb-2 row">
+                                                <label class="col-md-2 col-form-label" for="input-date">Birthday</label>
+                                                <div class="col-md-10">
+                                                    <input class="form-control" type="date" name="date" id="input-date">
+                                                    <span class="invalid-feedback text-danger"
+                                                          id="invalid-feedback-birthday">The birthday is not null.</span>
+                                                </div>
+                                            </div>
+
+                                            <div class="mb-2 row">
+                                                <label class="col-md-2 col-form-label">Country</label>
+                                                <div class="col-md-10">
+                                                    <select class="form-select" id="country-select">
+                                                        <option selected>Select country</option>
+                                                        <option th:each="country : ${countries}" th:value="${country}"
+                                                                th:text="${country.name()}"></option>
+                                                    </select>
+                                                    <span class="invalid-feedback text-danger"
+                                                          id="invalid-feedback-country">The country is not null.</span>
+                                                </div> <!-- end col -->
+                                            </div>
+
+                                            <div class="mb-2 row">
+                                                <label class="col-md-2 col-form-label">Jobs</label>
+                                                <div class="col-md-10">
+                                                    <select id="selectize-maximum">
+                                                        <option value="">Select job...</option>
+                                                        <option th:each="job : ${jobs}" th:value="${job.id}"
+                                                                th:text="${job.name}"></option>
+                                                    </select>
+                                                    <span class="invalid-feedback text-danger"
+                                                          id="invalid-feedback-job">The job is not null.</span>
+                                                </div>
+                                            </div>
+
+                                            <div class="mb-2 row">
+                                                <label class="col-md-2 col-form-label">Status</label>
+                                                <div class="col-md-10">
+                                                    <select class="form-select" id="select-status">
+                                                        <option selected>Select status</option>
+                                                        <option value=1>Enable</option>
+                                                        <option value=0>Disable</option>
+                                                    </select>
+                                                    <span class="invalid-feedback text-danger"
+                                                          id="invalid-feedback-status">The status is not null.</span>
+                                                </div> <!-- end col -->
+                                            </div>
+
+                                            <div class="row mb-2">
+                                                <label class="col-md-2 col-form-label">Bio</label>
+                                                <div class="col-md-10">
+                                                    <div id="snow-editor" style="width: 100%; height: 200px">
+                                                    </div>
+                                                    <span class="invalid-feedback text-danger"
+                                                          id="invalid-feedback-bio">The bio is not null.</span>
+                                                </div><!-- end col -->
+                                            </div>
+
+                                            <div class="mb-2 row">
+                                                <label class="col-md-2 col-form-label" for="file-poster">Poster</label>
+                                                <div class="col-md-10">
+                                                    <input type="file" class="form-control" id="file-poster">
+                                                    <div class="d-flex justify-content-start align-items-center mt-3 mb-3">
+                                                        <p>Poster preview : </p>
+                                                        <div class="img-container" style="margin-left: 280px">
+                                                            <img src="" id="poster-preview" class="img-fluid mt-2" style="max-height: 80px;" alt="Current poster">
+                                                            <button id="delete-poster-btn" class="btn btn-danger delete-btn">X</button>
+                                                        </div>
+                                                    </div>
+                                                    <span class="invalid-feedback text-danger" id="invalid-feedback-poster">The poster is not null.</span>
+                                                </div>
+                                            </div>
+
+                                        </form>
+
+                                        <div class="mb-2 row">
+                                            <label class="col-md-2 col-form-label">Images</label>
+                                            <div class="col-md-10">
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <div class="card">
+                                                            <div class="card-body">
+                                                                <form action="#" class="dropzone" id="myAwesomeDropzone"
+                                                                      data-plugin="dropzone"
+                                                                      data-previews-container="#file-previews"
+                                                                      data-upload-preview-template="#uploadPreviewTemplate">
+                                                                    <div class="fallback">
+                                                                        <input name="file" type="file" multiple/>
+                                                                    </div>
+
+                                                                    <div class="dz-message needsclick">
+                                                                        <i class="h1 text-muted ri-upload-cloud-2-line"></i>
+                                                                        <h3>Drop files here or click to upload.</h3>
+                                                                        <span class="text-muted font-size-13">Selected files are<strong>not</strong> actually uploaded.)</span>
+                                                                    </div>
+                                                                </form>
+
+                                                                <!-- Preview -->
+                                                                <div class="dropzone-previews mt-3"
+                                                                     id="file-previews"></div>
+
+                                                            </div> <!-- end card-body-->
+                                                        </div> <!-- end card-->
+                                                    </div><!-- end col -->
+                                                </div>
+                                                <!-- file preview template -->
+                                                <div class="d-none" id="uploadPreviewTemplate">
+                                                    <div class="card mt-1 mb-0 shadow-none border">
+                                                        <div class="p-2">
+                                                            <div class="row align-items-center">
+                                                                <div class="col-auto">
+                                                                    <img src=""
+                                                                          class="avatar-sm rounded bg-light" alt="">
+                                                                </div>
+                                                                <div class="col ps-0">
+                                                                    <a href=""
+                                                                       class="text-muted fw-bold" data-dz-name></a>
+                                                                    <p class="mb-0" data-dz-size></p>
+                                                                </div>
+                                                                <div class="col-auto">
+                                                                    <!-- Button -->
+                                                                    <a href="" class="btn btn-link btn-lg text-muted"
+                                                                       data-dz-remove>
+                                                                        <i class="fe-x"></i>
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <span class="invalid-feedback text-danger" id="invalid-feedback-image">The image is not null.</span>
+                                            </div>
+                                        </div>
+
+                                        <a th:href="@{/admin-celebrities}" type="submit" class="btn btn-primary float-right" style="margin-left: 200px">Back</a>
+                                        <button type="submit" class="btn btn-primary float-end btn-add-celebrity">Save Celebrity
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- end row -->
+                        </div>
+                    </div> <!-- end card -->
+                </div><!-- end col -->
+            </div>
+        </div>
+    </div>
+</main>
+
+<th:block id="js-resources">
+    <script>
+        //1.Function to get celebrity by id and populate the form fields
+        function getCelebrityByIdAndPopulateForm(id){
+            $.ajax({
+                type: 'GET',
+                url: '/v1/celebrities/' + id,
+                success: function (response){
+                    if(response){
+                        var celebrity = response;
+                        $('#input-name').val(celebrity.name);
+                        $('#input-date').val(celebrity.birthday);
+                        $('#country-select').val(celebrity.country);
+                        $('#select-status').val(celebrity.status ? 1 : 0);
+                        var quill = new Quill('#snow-editor');
+                        quill.setText(celebrity.bio);
+
+                        var selectize = $('#selectize-maximum')[0].selectize;
+                        celebrity.jobs.forEach(function(job) {
+                            selectize.addOption({ value: job.id, text: job.name });
+                        });
+                        selectize.setValue(celebrity.jobs.map(function(job) { return job.id; }));
+
+
+                        if (celebrity.poster) {
+                            $('#poster-preview').attr('src', celebrity.poster).show();
+                        } else {
+                            $('#poster-preview').hide();
+                        }
+
+                        // if(celebrity.images){
+                        //     $('.avatar-sm').each(function (index)){
+                        //         $(this).attr('src', celebrity.images[index]);
+                        //     }
+                        // }
+                    }
+                },
+                error: function(err) {
+                    var errorHtml = '<div class="float-end alert alert-danger alert-dismissible fade show" style="margin-right: 16px" role="alert">\n' +
+                        '                                            Not found Celebrity Id !\n' +
+                        '                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>\n' +
+                        '                                        </div>';
+                    $("#alertError").html(errorHtml);
+                    setTimeout(function() {
+                        $("#alertError").empty();
+                    }, 2000);
+                }
+            })
+        }
+
+        //Get Id to URL
+        var urlParams = new URLSearchParams(window.location.search);
+        var celebrityId = urlParams.get('id');
+        if(celebrityId){
+            getCelebrityByIdAndPopulateForm(celebrityId)
+        } else {
+            console.log(error);
+            var errorHtml = '<div class="float-end alert alert-danger alert-dismissible fade show" style="margin-right: 16px" role="alert">\n' +
+                '                                            Not found Celebrity Id !\n' +
+                '                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>\n' +
+                '                                        </div>';
+            $("#alertError").html(errorHtml);
+            setTimeout(function() {
+                $("#alertError").empty();
+            }, 2000);
+        }
+    </script>
+</th:block>
+</body>
+</html>

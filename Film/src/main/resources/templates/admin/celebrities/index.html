@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light" data-menu-color="brand" data-topbar-color="light"
+      th:replace="~{/admin/layout/layout :: main-fragment(
+                                    ~{:: title},
+                                    ~{:: #css-resources},
+                                    ~{:: #main-content},
+                                    ~{:: #js-resources}
+                                 )}">
+<head>
+    <meta charset="utf-8" />
+    <title>Celebrities | Index</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
+    <meta content="Myra Studio" name="author" />
+    <th:block id="css-resources">
+        <style>
+            /* Thiết lập độ rộng cố định và dấu "..." cho các cột */
+            .table td {
+                max-width: 100px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+        </style>
+    </th:block>
+</head>
+<body>
+
+<main id="main-content">
+    <div class="px-3">
+        <div class="container-fluid">
+            <!-- start page title -->
+            <div class="py-3 py-lg-4">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <h4 class="page-title mb-0">List Celebrities</h4>
+                    </div>
+                </div>
+            </div>
+            <!-- end page title -->
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <table id="datatable-buttons" class="table table-striped dt-responsive nowrap w-100">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th th:hidden="hidden">Id</th>
+                                        <th>Name</th>
+                                        <th>Birthday</th>
+                                        <th>Country</th>
+                                        <th>Bio</th>
+                                        <th>Poster</th>
+                                        <th>Slug</th>
+                                        <th>Status</th>
+                                        <th th:hidden="hidden">Images</th>
+                                        <th>Jobs</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="celebrity, index : ${celebrities}">
+                                        <td th:text="${index.count}"></td>
+                                        <td th:text="${celebrity.id}" th:hidden="hidden"></td>
+                                        <td th:text="${celebrity.name}"></td>
+                                        <td th:text="${celebrity.birthday}"></td>
+                                        <td th:text="${celebrity.country}"></td>
+                                        <td th:text="${celebrity.bio}"></td>
+                                        <td>
+                                            <img th:src="${celebrity.poster}"  alt="image" class="img-fluid rounded" width="56" style="max-width: 100%;object-fit: cover;max-height: 32px; height: auto;"/>
+                                        </td>
+                                        <td th:text="${celebrity.slug}"></td>
+                                        <td>
+                                            <span th:if="${celebrity.status == true}">Enable</span>
+                                            <span th:if="${celebrity.status == false}">Disable</span>
+                                        </td>
+                                        <td th:src="@{celebrity.images}" th:hidden="hidden"></td>
+                                        <td>
+                                            <span th:if="${celebrity.jobs.size() > 0}">
+                                                <span th:each="job, index : ${celebrity.jobs}">
+                                                    <span th:text="${job.name}"></span>
+                                                    <span th:if="${!index.last}">,</span>
+                                                    <!--Thêm dấu PHẨY giữa 2 name cua Job-->
+                                                </span>
+                                            </span>
+                                        </td>
+
+                                        <td>
+                                            <div class="button-list">
+                                                <a th:href="@{/admin-celebrities/edit(id=${celebrity.id})}" type="button" class="btn btn-warning waves-effect waves-light"><i class="mdi mdi-pencil"></i></a>
+                                                <a th:href="@{/admin-celebrities}" type="button" class="btn btn-danger waves-effect waves-light btn-job-delete"><i class="mdi mdi-delete"></i></a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div> <!-- end card body-->
+                    </div> <!-- end card -->
+                </div><!-- end col-->
+            </div>
+        </div>
+    </div>
+</main>
+
+<th:block id="js-resources">
+</th:block>
+</body>
+</html>

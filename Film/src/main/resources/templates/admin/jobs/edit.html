@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en" data-bs-theme="light" data-menu-color="brand" data-topbar-color="light"
+      th:replace="~{/admin/layout/layout :: main-fragment(
+                                    ~{:: title},
+                                    ~{:: #css-resources},
+                                    ~{:: #main-content},
+                                    ~{:: #js-resources}
+                                 )}">
+<head>
+  <meta charset="utf-8" />
+  <title>Jobs | Edit</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
+  <meta content="Myra Studio" name="author" />
+  <th:block id="css-resources">
+  </th:block>
+</head>
+<body>
+
+<main id="main-content">
+  <div class="px-3">
+    <div class="container-fluid">
+      <div id="alertError" style="position: fixed; top: 80px; right: -90px;transform: translateX(-50%); z-index: 9999;"></div>
+
+      <!-- start page title -->
+      <div class="py-3 py-lg-4">
+        <div class="row">
+          <div class="col-lg-6">
+            <h4 class="page-title mb-0">Edit Job</h4>
+          </div>
+        </div>
+      </div>
+      <!-- end page title -->
+
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-12">
+                  <div class="p-2">
+                    <form method="post" id="formEditJob" class="form-horizontal" role="form">
+                      <div class="mb-2 row">
+                        <label class="col-md-2 col-form-label" for="job-id">Id</label>
+                        <div class="col-md-10">
+                          <input id="job-id" class="form-control" readonly style="color: #5d5b5b; opacity: 70%; border-color: #ccc9c9">
+                        </div>
+                      </div>
+                      <div class="mb-2 row">
+                        <label class="col-md-2 col-form-label" for="job-name">Name</label>
+                        <div class="col-md-10">
+                          <input type="text" id="job-name" class="form-control">
+                          <span class="error job-name_err"></span>
+                        </div>
+                      </div>
+
+                      <a th:href="@{/admin-jobs}" type="submit" class="btn btn-primary float-right" style="margin-left: 200px">Back</a>
+                      <button type="submit" class="btn btn-primary float-end">Save Job</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+              <!-- end row -->
+            </div>
+          </div> <!-- end card -->
+        </div><!-- end col -->
+      </div>
+    </div>
+  </div>
+</main>
+
+<th:block id="js-resources">
+  <script>
+    // 1.Function to get job by id and populate the form fields:
+    function getJobByIdAndPopulateForm(id) {
+      $.ajax({
+        type: 'GET',
+        url: '/v1/jobs/' + id,
+        success: function(response) {
+            var job = response;               // Get job to response
+            $('#job-id').val(job.id);         //Get the job-id displayed on the form
+            $('#job-name').val(job.name);
+        },
+        error: function(err) {
+          var errorHtml = '<div class="float-end alert alert-danger alert-dismissible fade show" style="margin-right: 16px" role="alert">\n' +
+                  '                                            Not found Job Id !\n' +
+                  '                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>\n' +
+                  '                                        </div>';
+          $("#alertError").html(errorHtml);
+          setTimeout(function() {
+            $("#alertError").empty();
+          }, 2000);
+        }
+      });
+    }
+
+    // Get id to URL
+    var urlParams = new URLSearchParams(window.location.search);
+    var jobId = urlParams.get('id');
+    if (jobId) {
+      getJobByIdAndPopulateForm(jobId);
+    } else {
+      console.log(error);
+      var errorHtml = '<div class="float-end alert alert-danger alert-dismissible fade show" style="margin-right: 16px" role="alert">\n' +
+              '                                            Not found Job Id !\n' +
+              '                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>\n' +
+              '                                        </div>';
+      $("#alertError").html(errorHtml);
+      setTimeout(function() {
+        $("#alertError").empty();
+      }, 2000);
+    }
+
+
+    //2. Save edit data:
+    $(document).ready(function () {
+      function validateName() {
+        var jobName = $("#job-name").val();
+        if (jobName.trim() === "") {
+          $(".job-name_err").text("The name is not null.");
+          return false;
+        } else if (jobName.length < 2) {
+          $(".job-name_err").text("The name must be at least 2 characters long.");
+          return false;
+        } else {
+          $(".job-name_err").text("")
+          return true;
+        }
+      }
+      // Check if #job-name has a value initially
+      if ($("#job-name").val().trim() !== "") {
+        validateName();
+      }
+
+      $("#job-name").on("input", validateName);
+
+      //Event listener for form submit
+      $("#formEditJob").submit(function (event) {
+        event.preventDefault();                 //Prevent default form submission
+        // Check if any validation fails
+        if (!validateName()) {
+          return false;                         // Prevent form submission if validation fails
+        }
+
+        //Send an Ajax request to server
+        var jobId = $("#job-id").val();
+        var jobName = $("#job-name").val();
+        $.ajax({
+          url: "/v1/jobs/edit",
+          type: "PUT",
+          contentType: "application/json; charset=utf-8",
+          data: JSON.stringify({id:jobId, name: jobName}),
+          success: function () {
+            setTimeout(function () {
+              window.location.href = "/admin-jobs";
+            });
+          },
+          error: function (error) {
+            var errorHtml = '<div class="float-end alert alert-danger alert-dismissible fade show" role="alert">\n' +
+                    '                                            <i class="mdi mdi-block-helper me-2"></i>\n' +
+                    '                                           An error has occurred !\n' +
+                    '                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>\n' +
+                    '                                        </div>';
+            $("#alertError").html(errorHtml);
+            setTimeout(function() {
+              $("#alertError").empty(); // Ẩn đi cái alert sau 3s
+            }, 2000);
+          }
+        });
+      });
+    });
+  </script>
+</th:block>
+</body>
+</html>
