@@ -19,18 +19,15 @@ public class EditCategoriesMoviesService implements IRequestHandler<EditCategory
     public HandleResponse<String> handle(EditCategoryMovieRequest editCategoryMovieRequest) throws Exception {
         Optional<CategoryMovie> categoryMovieIdExist = iCategoriesMovieRepository.findById(editCategoryMovieRequest.getId());
         Optional<CategoryMovie> categoryMovieNameExist = iCategoriesMovieRepository.findByName(editCategoryMovieRequest.getName());
-        Optional<CategoryMovie> categoryMovieSlugExist = iCategoriesMovieRepository.findBySlug(editCategoryMovieRequest.getSlug());
         if(categoryMovieNameExist.isPresent()){
             return HandleResponse.error("category movie name does exist.");
         } else if (categoryMovieIdExist.isEmpty()) {
             return HandleResponse.error("category movie id  does not exist.");
-        } else if (categoryMovieSlugExist.isPresent()) {
-            return HandleResponse.error("category movie does not id exist.");
-        } else {
+        }else {
             CategoryMovie categoryMovie = categoryMovieIdExist.get();
             categoryMovie.setName(editCategoryMovieRequest.getName());
             Slugify slg = new Slugify();
-            categoryMovie.setSlug(slg.slugify(editCategoryMovieRequest.getSlug()));
+            categoryMovie.setSlug(slg.slugify(editCategoryMovieRequest.getName()));
             categoryMovie.setStatus(editCategoryMovieRequest.getStatus());
             iCategoriesMovieRepository.save(categoryMovie);
             return HandleResponse.ok("Category Movie successfully Update : " + categoryMovie.getName());

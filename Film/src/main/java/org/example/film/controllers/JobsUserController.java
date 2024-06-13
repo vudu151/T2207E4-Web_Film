@@ -25,4 +25,5 @@ public class JobsUserController {
         model.addAttribute("latestJobs", latestJobs);
         return "public/layout/header";
     }
+
 }

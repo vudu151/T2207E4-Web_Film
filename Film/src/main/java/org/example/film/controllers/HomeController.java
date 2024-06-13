@@ -3,11 +3,13 @@ package org.example.film.controllers;
 import lombok.RequiredArgsConstructor;
 import org.example.film.configurations.securities.CustomUserDetails;
 import org.example.film.models.entities.Account;
+import org.example.film.models.entities.CategoryMovie;
 import org.example.film.models.requests.auth.ForgotPasswordRequest;
 import org.example.film.models.requests.auth.LoginRequest;
 import org.example.film.models.requests.auth.RegisterRequest;
 import org.example.film.models.requests.auth.ResetPasswordRequest;
 import org.example.film.repositories.IAccountRepository;
+import org.example.film.services.categoriesMovies.ICategoriesMoviesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,15 +20,20 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.List;
+
 @Controller
 @RequiredArgsConstructor
 public class HomeController {
     @Autowired
     private IAccountRepository iAccountRepository;
-
+    @Autowired
+    private ICategoriesMoviesService iCategoriesMoviesService;
     @GetMapping("")
     public String index(Model model){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        model.addAttribute("categoryMovieList", getCategoryMovieList());
+
         if(authentication != null && authentication.isAuthenticated()){
             Object principal = authentication.getPrincipal();
             if(principal instanceof CustomUserDetails){
@@ -45,6 +52,11 @@ public class HomeController {
             }
         }
         return "public/home/home";
+    }
+
+
+    private List<CategoryMovie> getCategoryMovieList() {
+        return iCategoriesMoviesService.getListCategoriesMovies();
     }
 
     @GetMapping("/register")
