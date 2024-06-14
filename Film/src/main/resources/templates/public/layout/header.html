@@ -35,10 +35,8 @@
                                 <li class="it-last"><a >Action</a></li>
                             </ul>
                         </li>
-                        <li>
-                            <a th:href="@{/movies}" class="btn btn-default">
-                                Movies
-                            </a>
+                        <li th:each="category : ${categoryMovieList}">
+                            <a th:href="@{/movies}" class="btn btn-default" th:text="${category.name}"></a>
                         </li>
                         <li class="dropdown first">
                             <a class="btn btn-default dropdown-toggle lv1" data-toggle="dropdown" data-hover="dropdown">
@@ -48,6 +46,9 @@
                                 <li><a th:href="@{/celebrities}">Actors</a></li>
                                 <li><a th:href="@{/celebrities}">Directors</a></li>
                                 <li class="it-last"><a th:href="@{/celebrities}">Writers</a></li>
+<!--                                <li th:each="job : ${latestJobs}">-->
+<!--                                    <a th:href="@{/celebrities}" th:text="${job.name}"></a>-->
+<!--                                </li>-->
                             </ul>
                         </li>
                         <li>

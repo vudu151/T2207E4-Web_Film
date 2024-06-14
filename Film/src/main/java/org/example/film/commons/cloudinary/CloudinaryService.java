@@ -2,6 +2,7 @@ package org.example.film.commons.cloudinary;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import org.example.film.commons.cqrs.HandleResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -37,10 +38,11 @@ public class CloudinaryService implements ICloudinaryService {
     }
 
     @Override
-    public void deleteFile(String url) {
+    public String deleteFile(String url) {
         try {
             var publicId = url.substring(url.lastIndexOf("/") + 1, url.lastIndexOf("."));       //Trả về phần của URL giữa dấu / và dấu .
-            cloudinary.uploader().destroy("/fptaptech" + publicId, ObjectUtils.emptyMap());     // Xóa tệp trên Cloudinary
+            cloudinary.uploader().destroy("fptaptech/" + publicId, ObjectUtils.emptyMap());     // Xóa tệp trên Cloudinary
+            return "Delete file successfully.";
         } catch (Exception e){
             throw new RuntimeException("Failed to delete file :" + e.getMessage());
         }

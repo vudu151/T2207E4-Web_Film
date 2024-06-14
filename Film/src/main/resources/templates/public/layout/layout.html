@@ -19,15 +19,7 @@
     <!-- CSS files -->
     <link rel="stylesheet" th:href="@{/public/css/plugins.css}">
     <link rel="stylesheet" th:href="@{/public/css/style.css}">
-<!--    <link rel="stylesheet"  th:href="@{/public/css/style_movie_home.css}">-->
-<!--    <link rel="stylesheet" th:href="@{/public/css/all.min.css}">-->
-<!--    <link rel="stylesheet"-->
-<!--          th:href="@{/public/css/googleiconapi.css}" />-->
-<!--    <link rel="stylesheet" th:href="@{/public/css/goolefontapi.css}">-->
-<!--    <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css}">-->
-<!--    <link rel="stylesheet"-->
-<!--          th:href="@{https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200}" />-->
-<!--    <link rel="stylesheet" th:href="@{https://fonts.googleapis.com/icon?family=Material+Icons}">-->
+
     <th:block th:replace="${cssResources} ?: ~{}"></th:block>
 </head>
 <body>
@@ -38,16 +30,16 @@
 
 <!--Main-->
 <th:block th:replace="${mainContent} ?: ~{}"></th:block>
+
 <!--Footer-->
 <th:block th:replace="~{public/layout/footer :: footer}"></th:block>
-
 
 <script th:src="@{/public/js/jquery.js}"></script>
 <script th:src="@{/public/js/plugins.js}"></script>
 <script th:src="@{/public/js/plugins2.js}"></script>
 <script th:src="@{/public/js/custom.js}"></script>
 <script th:src="@{/public/js/myjs.js}"></script>
-<!--<script th:src="@{/public/js/script_movie_home.js}"></script>-->
+
 <th:block th:replace="${jsResources} ?: ~{}"></th:block>
 </body>
 </html>

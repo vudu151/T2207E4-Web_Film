@@ -152,7 +152,7 @@
                                                 </div>
                                                 <!-- file preview template -->
                                                 <div class="d-none" id="uploadPreviewTemplate">
-                                                    <div class="card mt-1 mb-0 shadow-none border">
+                                                    <div class="card-preview-image card mt-1 mb-0 shadow-none border">
                                                         <div class="p-2">
                                                             <div class="row align-items-center">
                                                                 <div class="col-auto">
@@ -165,12 +165,7 @@
                                                                     <p class="mb-0" data-dz-size></p>
                                                                 </div>
                                                                 <div class="col-auto">
-                                                                    <!-- Button -->
-                                                                    <a href="" class="btn btn-link btn-lg text-muted"
-                                                                       data-dz-remove>
-                                                                        <i class="mdi-delete-circle"></i>
-<!--                                                                        <i class="fe-x"></i>-->
-                                                                    </a>
+                                                                    <button class="btn-delete-image btn btn-danger">X</button>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -198,15 +193,12 @@
 <th:block id="js-resources">
     <script>
         $(document).ready(function () {
-
-            let images = [];
-            let posterURL;
-
             //1.Upload 1 file of Poster
+            let posterURL;
             $('#file-poster').change(function () {
                 var file = this.files[0];                                               //lay tep hinh anh duoc chon
-                var formData = new FormData();                              //Tao doi tuong formData de luu anh duoc chon
-                formData.append('file', file);                                  //Them tep hinh anh vao formData
+                var formData = new FormData();                                          //Tao doi tuong formData de luu anh duoc chon
+                formData.append('file', file);                                          //Them tep hinh anh vao formData
                 $.ajax({
                     url: '/v1/files/upload',
                     type: 'POST',
@@ -223,8 +215,8 @@
                 });
             });
 
-
             //2.Upload nhieu file
+            let images = [];
             $('input[type="file"]').change(function(event) {
                 var formData = new FormData();
                 var dropzone = $('#myAwesomeDropzone').get(0).dropzone;
@@ -254,15 +246,27 @@
                 });
             });
 
-            function formatBytes(bytes, decimals = 2) {     // Hàm định dạng kích thước của file của upload nhieu files
-                if (bytes === 0) return '0 Bytes';
-                const k = 1024;
-                const dm = decimals < 0 ? 0 : decimals;
-                const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
-                const i = Math.floor(Math.log(bytes) / Math.log(k));
-                return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
-            }
+            //3.Xoa File
+            $(document).on('click', '.btn-delete-image', function (){
+                var $this = $(this);
+                var $previewImage = $this.closest('.card-preview-image');
+                var imageURL = $previewImage.find('img').attr('src');
+                var url = encodeURIComponent(imageURL);
+                $.ajax({
+                    url: '/v1/files/delete?url=' + url,
+                    type: 'DELETE',
+                    data: {url: imageURL},
+                    success: function (response){
+                        $previewImage.remove();
+                        console.log("File deleted successfully.");
+                    },
+                    error: function (error) {
+                        console.error('Failed to delete file:', error);
+                    }
+                });
+            })
 
+            //4.Set quill cho bio
             var quill = new Quill('#snow-editor', {
                 modules: {
                     toolbar: [
@@ -278,6 +282,7 @@
                 theme: 'snow'                                                    // giao diện trắng của trình soạn thảo
             });
 
+            //5.Add new Celebrity
             $('.btn-add-celebrity').click(function () {
                 let name = $('#input-name').val();
                 let birthday = $('#input-date').val();

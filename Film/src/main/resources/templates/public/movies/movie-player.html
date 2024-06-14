@@ -59,6 +59,8 @@
                         <div class="video-container">
                             <video id="video" >
                                 <source src="https://storage.cloud.google.com/testcloudvido/test.mp4" type=video/mp4>
+<!--                                <source id="video-source" type="video/mp4">-->
+                                Your browser does not support the video tag.
                             </video>
                             <span class="custom-loader"></span>
 
@@ -366,6 +368,9 @@
 <script th:src="@{/public/js/custom.js}"></script>
 <script th:src="@{/public/js/myjs.js}"></script>
 <script th:src="@{/public/js/script_movie_home.js}"></script>
-
+<!--<script th:src="@{/public/js/video-loader.js}"></script>-->
+<!--<script>-->
+<!--    loadVideoFromGoogleCloud('video-source', 'https://storage.cloud.google.com/testcloudvido/test.mp4');-->
+<!--</script>-->
 </body>
 </html>
