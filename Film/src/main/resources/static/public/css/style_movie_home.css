@@ -1,228 +1,424 @@
-/* Import Google font - Poppins */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
-*{
+body {
   margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Montserrat", sans-serif;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background: #131418;
 }
-body{
-  min-height: 100vh;
-  background: #E3F2FD;
-}
- .container, .video-controls, .video-timer, .options{
+
+.video-container {
+  width: 1000;
+  height: calc((9 / 16) * 1000);
+  position: relative;
+  color: #fff;
+  overflow: hidden;
+  background: rgb(25, 25, 25);
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.container.fullscreen{
+.video-container video {
   max-width: 100%;
-  width: 100%;
-  height: 100vh;
-  border-radius: 0px;
-}
-.wrapper{
-  position: relative;
-  left: 0;
-  right: 0;
-  z-index: 1;
-  opacity: 0;
-  bottom: -15px;
-  transition: all 0.08s ease;
-}
-.container.show-controls .wrapper{
-  opacity: 1;
-  bottom: 0;
-  transition: all 0.13s ease;
-}
-.wrapper::before{
-  content: "";
-  bottom: 0;
-  width: 100%;
-  z-index: -1;
-  position: relative;
-  pointer-events: none;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
-}
-.video-timeline{
-  height: 7px;
-  width: 100%;
-  cursor: pointer;
-}
-.video-timeline .progress-area{
-  height: 3px;
-  position: relative;
-  background: rgba(255, 255, 255, 0.6);
-}
-.progress-area span{
-  position: absolute;
-  left: 50%;
-  top: -25px;
-  font-size: 13px;
-  color: #fff;
-  pointer-events: none;
-  transform: translateX(-50%);
-}
-.progress-area .progress-bar{
-  width: 0%;
-  height: 100%;
-  position: relative;
-  background: #2289ff;
-}
-.progress-bar::before{
-  content: "";
-  right: 0;
-  top: 50%;
-  height: 13px;
-  width: 13px;
-  position: absolute;
-  border-radius: 50%;
-  background: #2289ff;
-  transform: translateY(-50%);
-}
-.progress-bar::before, .progress-area span{
-  display: none;
-}
-.video-timeline:hover .progress-bar::before,
-.video-timeline:hover .progress-area span{
-  display: block;
-}
-.wrapper .video-controls{
-  padding: 5px 20px 10px;
-}
-.video-controls .options{
-  width: 100%;
-}
-.video-controls .options:first-child{
-  justify-content: flex-start;
-}
-.video-controls .options:last-child{
-  justify-content: flex-end;
-}
-.options button{
-  height: 40px;
-  width: 40px;
-  font-size: 19px;
-  border: none;
-  cursor: pointer;
-  background: none;
-  color: #efefef;
-  border-radius: 3px;
-  transition: all 0.3s ease;
-}
-.options button :where(i, span) {
-  height: 100%;
-  width: 100%;
-  line-height: 40px;
-}
-.options button:hover :where(i, span){
-  color: #fff;
-}
-.options button:active :where(i, span){
-  transform: scale(0.9);
-}
-.options button span{
-  font-size: 23px;
-}
-.options input{
-  height: 4px;
-  margin-left: 3px;
-  max-width: 75px;
-  accent-color: #0078FF;
-}
-.options .video-timer{
-  color: #efefef;
-  margin-left: 15px;
-  font-size: 14px;
-}
-.video-timer .separator{
-  margin: 0 5px;
-  font-size: 16px;
-  font-family: "Open sans";
-}
-.playback-content{
-  display: flex;
-  position: relative;
-}
-.playback-content .speed-options{
-  position: absolute;
-  list-style: none;
-  left: -40px;
-  bottom: 40px;
-  width: 95px;
-  overflow: hidden;
-  opacity: 0;
-  border-radius: 4px;
-  pointer-events: none;
-  background: rgba(255, 255, 255, 0.9);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-  transition: opacity 0.13s ease;
-}
-.playback-content .speed-options.show{
-  opacity: 1;
-  pointer-events: auto;
-}
-.speed-options li{
-  cursor: pointer;
-  color: #000;
-  font-size: 14px;
-  margin: 2px 0;
-  padding: 5px 0 5px 15px;
-  transition: all 0.1s ease;
-}
-.speed-options li:where(:first-child, :last-child){
-  margin: 0px;
-}
-.speed-options li:hover{
-  background: #dfdfdf;
-}
-.speed-options li.active{
-  color: #fff;
-  background: #3e97fd;
-}
-.container video{
-  width: 100%;
+  max-height: 100%;
 }
 
-@media screen and (max-width: 540px) {
-  .wrapper .video-controls{
-    padding: 3px 10px 7px;
+.custom-loader {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border-top: 5px solid transparent;
+  border-right: 5px solid #ffffff;
+  border-left: 5px solid #ffffff;
+  border-bottom: 5px solid #ffffff;
+  z-index: 9999;
+  animation: rotation 2s infinite ease;
+  -webkit-animation: rotation 2s infinite ease;
+  display: none;
+}
+
+.player-state {
+  display: flex;
+  position: absolute;
+  width: 100%;
+  justify-content: space-around;
+}
+
+.state-btn {
+  font-size: 2.3rem;
+  width: 80px;
+  height: 80px;
+  cursor: pointer;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  background: rgba(36, 36, 36, 0.667);
+  z-index: 9999;
+  -webkit-tap-highlight-color: transparent;
+  opacity: 0;
+  user-select: none;
+  transform: scale(0);
+}
+
+.state-forward,
+.state-backward {
+  font-size: 1.5rem;
+}
+
+.state-forward .forward-duration {
+  margin-right: 0.5rem;
+}
+.state-backward .backward-duration {
+  margin-left: 0.5rem;
+}
+
+.animate-state {
+  animation: playPause 0.5s forwards;
+}
+
+.show-state {
+  transform: scale(1);
+  opacity: 1;
+}
+
+.show-controls {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+  visibility: visible !important;
+}
+
+.controls {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  padding: 5rem 1rem 0.5rem 1rem;
+  width: 100%;
+  background: linear-gradient(to top, #000000b8 -100%, transparent);
+  box-sizing: border-box;
+  opacity: 0;
+  transform: translateY(40px);
+  visibility: hidden;
+  z-index: 99;
+  transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.duration {
+  position: relative;
+  width: 100%;
+  height: 5px;
+  background: #62626274;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.duration:hover {
+  height: 5px;
+}
+
+.duration .buffer {
+  height: 20%;
+  position: absolute;
+  inset: 0;
+  background-color: #eb0404;
+  z-index: 9;
+  width: 0;
+}
+
+.hover-time {
+  height: 20%;
+  position: absolute;
+  inset: 0;
+  background: #ffffff9a;
+  z-index: 99;
+  display: flex;
+  align-items: center;
+  width: 0;
+}
+
+.hover-time .hover-duration {
+  position: absolute;
+  right: calc((-25px / 2));
+  top: -25px;
+  background: #3c3c3ca7;
+  padding: 0.2rem;
+  border-radius: 5px;
+
+  font-size: 0.7rem;
+  visibility: hidden;
+  font-weight: bold;
+  opacity: 0;
+  transform: scale(0);
+}
+
+.duration:hover .hover-time .hover-duration {
+  visibility: visible;
+  opacity: 1;
+  transition: all 0.2s;
+  transform: scale(1);
+}
+
+.duration .current-time {
+  height: 20%;
+  position: absolute;
+  inset: 0;
+  background: #eb0404;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  width: 0;
+}
+
+.current-time::before {
+  content: "";
+  position: absolute;
+  right: calc((-25px / 2));
+  background: #eb0404;
+  width: 8px;
+  height: 8px;
+  border-radius: 10%;
+  transition: all 0.2s;
+  visibility: hidden;
+  transform: scale(0);
+}
+
+.duration:hover .current-time::before {
+  visibility: visible;
+  transform: scale(1);
+}
+
+.btn-controls {
+  padding-top: 1rem;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.btn-con {
+  display: flex;
+  align-items: center;
+}
+
+.btn-con,
+.btn-controls > span {
+  cursor: pointer;
+}
+
+.play-pause {
+  display: flex;
+  margin-right: 0.5rem;
+}
+
+.control-btn {
+  width: 2.2rem;
+  height: 2.2rem;
+  border-radius: 50%;
+  background: #33333372;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid transparent;
+  box-sizing: border-box;
+  position: relative;
+  margin-right: 0.5rem;
+}
+
+.control-btn:last-child {
+  margin-right: 0;
+}
+
+.control-btn:hover {
+  border: 1px solid #3131315c;
+}
+
+.control-btn::before {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: #2424246a;
+  position: absolute;
+  transition: all 0.1s;
+  transform: scale(0);
+}
+
+.control-btn:active::before {
+  transform: scale(1);
+  border: 1px solid #3131315c;
+}
+
+.time-container {
+  font-size: 13px;
+  font-weight: 500;
+  padding-left: 0.7rem;
+}
+
+.volume {
+  display: flex;
+  align-items: center;
+  cursor: default;
+}
+
+.mute-unmute {
+  display: flex;
+  cursor: pointer;
+}
+
+.max-vol {
+  height: 3px;
+  cursor: pointer;
+  background: #ffffff6e;
+  transition: all 0.1s;
+  width: 0;
+  visibility: hidden;
+  transform: scaleX(0);
+  transform-origin: left;
+  display: flex;
+  align-items: center;
+}
+
+.max-vol.show {
+  width: 56px;
+  visibility: visible;
+  transform: scaleX(1);
+}
+
+.current-vol {
+  position: absolute;
+  inset: 0;
+  width: 20%;
+  height: 100%;
+  background: #fff;
+  display: flex;
+  transition: none;
+  align-items: center;
+}
+
+.current-vol::before {
+  content: "";
+  position: absolute;
+  right: -5px;
+  width: 12px;
+  height: 12px;
+  display: block;
+  border-radius: 50%;
+  background: #eee;
+}
+
+.setting-menu {
+  opacity: 0;
+  visibility: hidden;
+  list-style: none;
+  padding-inline-start: 0;
+  margin-block-start: 0;
+  margin-block-end: 0;
+  position: absolute;
+  bottom: 4.5rem;
+  transition: all 0.2s;
+  background: rgba(28, 28, 28, 0.9);
+  transform: scaleY(0);
+  transform-origin: bottom;
+  border-radius: 5px;
+}
+
+.setting-menu li {
+  padding: 0.3rem 2rem;
+  margin: 0.5rem;
+  transition: all 0.2s;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.speed-active {
+  background: rgb(23, 23, 23);
+}
+
+.setting-menu li:hover {
+  background: rgb(31, 31, 31);
+}
+
+.setting-btn {
+  display: flex;
+}
+
+.show-setting-menu {
+  opacity: 1;
+  transform: scaleY(1);
+  visibility: visible;
+}
+
+.theater {
+  width: 100% !important;
+}
+
+.theater-btn .theater-default,
+.theater-btn .theater-active {
+  display: flex;
+}
+.video-container.theater .theater-default {
+  display: none;
+}
+
+.video-container:not(.theater) .theater-active {
+  display: none;
+}
+
+.fullscreen {
+  position: absolute !important;
+  max-width: 100% !important;
+  width: 100% !important;
+  height: 100% !important;
+  display: flex !important;
+  background: #000 !important;
+  align-items: center !important;
+}
+
+.right-controls {
+  display: flex;
+  align-items: center;
+}
+
+.right-controls span {
+  cursor: pointer;
+}
+
+.full,
+.contract {
+  display: none;
+}
+
+.video-container:not(.fullscreen) .full {
+  display: flex;
+}
+
+.video-container.fullscreen .contract {
+  display: flex;
+}
+
+@keyframes playPause {
+  50% {
+    opacity: 1;
+    transform: scale(1.1);
   }
-  .options input, .progress-area span{
-    display: none!important;
+  100% {
+    opacity: 0;
+    transform: scale(1);
   }
-  .options button{
-    height: 30px;
-    width: 30px;
-    font-size: 17px;
+}
+
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
   }
-  .options .video-timer{
-    margin-left: 5px;
-  }
-  .video-timer .separator{
-    font-size: 14px;
-    margin: 0 2px;
-  }
-  .options button :where(i, span) {
-    line-height: 30px;
-  }
-  .options button span{
-    font-size: 21px;
-  }
-  .options .video-timer, .progress-area span, .speed-options li{
-    font-size: 12px;
-  }
-  .playback-content .speed-options{
-    width: 75px;
-    left: -30px;
-    bottom: 30px;
-  }
-  .speed-options li{
-    margin: 1px 0;
-    padding: 3px 0 3px 10px;
-  }
-  .right .pic-in-pic{
-    display: none;
+  to {
+    transform: rotate(360deg);
   }
 }
