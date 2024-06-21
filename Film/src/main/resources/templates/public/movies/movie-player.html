@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<!--th:replace="~{/public/layout/layout :: main-fragment(-->
-<!--~{:: title},-->
-<!--~{:: #css-resources},-->
-<!--~{:: #main-content},-->
-<!--~{:: #js-resources}-->
-<!--)}"-->
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{/public/layout/layout :: main-fragment(
+~{:: title},
+~{:: #css-resources},
+~{:: #main-content},
+~{:: #js-resources}
+)}">
+
 <head>
     <!-- Basic need -->
     <title>Block Buster | Movie Player</title>
@@ -13,32 +13,28 @@
     <meta name="description" content="">
     <meta name="keywords" content="">
     <meta name="author" content="">
-    <link rel="stylesheet" href='http://fonts.googleapis.com/css?family=Dosis:400,700,500|Nunito:300,400,600' />
-    <link rel="icon" th:href="@{/public/images/movie-reel.png}">
-    <link rel="stylesheet" th:href="@{/public/css/plugins.css}">
-    <link rel="stylesheet" th:href="@{/public/css/style.css}">
-    <link rel="stylesheet" th:href="@{/public/css/style_movie_home.css}">
-    <link rel="stylesheet" th:href="@{/public/css/all.min.css}">
-    <link rel="stylesheet" th:href="@{/public/css/google-fonts-fallback.css}">
-    <link rel="stylesheet"
-          th:href="@{https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200}" />
-    <link rel="stylesheet" th:href="@{https://fonts.googleapis.com/icon?family=Material+Icons}">
-    <script
-            type="module"
-            src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"
-    ></script>
-    <script
-            nomodule
-            src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"
-    ></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-            href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600;700;800;900&display=swap"
-            rel="stylesheet"
-    />
 
-<!--    <th:block id="css-resources"></th:block>-->
+
+
+
+    <th:block id="css-resources">
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+                href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600;700;800;900&display=swap"
+                rel="stylesheet"
+        />
+        <link rel="stylesheet" href='http://fonts.googleapis.com/css?family=Dosis:400,700,500|Nunito:300,400,600' />
+        <link rel="icon" th:href="@{/public/images/movie-reel.png}">
+        <link rel="stylesheet" th:href="@{/public/css/plugins.css}">
+        <link rel="stylesheet" th:href="@{/public/css/style.css}">
+        <link rel="stylesheet" th:href="@{/public/css/style_movie_home.css}">
+        <link rel="stylesheet" th:href="@{/public/css/all.min.css}">
+        <link rel="stylesheet" th:href="@{/public/css/google-fonts-fallback.css}">
+        <link rel="stylesheet"
+              th:href="@{https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200}" />
+        <link rel="stylesheet" th:href="@{https://fonts.googleapis.com/icon?family=Material+Icons}">
+    </th:block>
 </head>
 <body>
 
@@ -360,14 +356,23 @@
 
 </main>
 
-<!--<th:block id="js-resources">-->
-<!--</th:block>-->
-<script th:src="@{/public/js/jquery.js}"></script>
-<script th:src="@{/public/js/plugins.js}"></script>
-<script th:src="@{/public/js/plugins2.js}"></script>
-<script th:src="@{/public/js/custom.js}"></script>
-<script th:src="@{/public/js/myjs.js}"></script>
-<script th:src="@{/public/js/script_movie_home.js}"></script>
+<th:block id="js-resources">
+    <script
+            type="module"
+            src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"
+    ></script>
+    <script
+            nomodule
+            src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"
+    ></script>
+    <script th:src="@{/public/js/jquery.js}"></script>
+    <script th:src="@{/public/js/plugins.js}"></script>
+    <script th:src="@{/public/js/plugins2.js}"></script>
+    <script th:src="@{/public/js/custom.js}"></script>
+    <script th:src="@{/public/js/myjs.js}"></script>
+    <script th:src="@{/public/js/script_movie_home.js}"></script>
+</th:block>
+
 <!--<script th:src="@{/public/js/video-loader.js}"></script>-->
 <!--<script>-->
 <!--    loadVideoFromGoogleCloud('video-source', 'https://storage.cloud.google.com/testcloudvido/test.mp4');-->

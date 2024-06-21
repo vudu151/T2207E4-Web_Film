@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Movies</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+<h1>Movie List</h1>
+<ul id="movie-list"></ul>
+
+<script>
+    $(document).ready(function() {
+        // Fetch movies from the REST API
+        $.ajax({
+            url: "/api/public/movies",
+            type: "GET",
+            success: function(data) {
+                 // Populate the movie list
+                    $.each(data, function(index, movie) {
+                        $("#movie-list").append("<li><a href='/moviesdetail2?id=" + movie.id + "' class='movie-link'>" + movie.name + "</a></li>");
+                    });
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error fetching movies: ", error);
+                }
+        });
+
+
+    });
+</script>
+</body>
+</html>

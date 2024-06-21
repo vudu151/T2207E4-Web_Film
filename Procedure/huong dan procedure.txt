@@ -25,3 +25,4 @@ bao cao doanh thu tien mua ban quyen trong nam:
            theo id:proceduredoanhthumovieid.sql
 kiem tra xem account da xem phim chua , neu xem roi thi return true: procedurekiemtrareview.sql             
 list danh sach phim ngau nhien theo genres yeu thich:procedurephimtheoloaiyeuthich.sql
+lay so tap theo movie id :laysotaptheomovieid.sql

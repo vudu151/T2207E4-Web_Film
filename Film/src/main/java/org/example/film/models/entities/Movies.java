@@ -7,6 +7,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "movies")
@@ -67,6 +68,8 @@ public class Movies {
     @Column(name = "status")
     private int status;
 
+//    @OneToMany(mappedBy = "movie_id")
+//    private Set<Episode> episodes;
 //
 //    @ElementCollection                          //1 celebrity co nhieu image => Nhung khong can tao Entity rieng cho imgae ma luu tru truc tiep trong Entity Celebrity
 //    @CollectionTable(name = "celebrity_image",

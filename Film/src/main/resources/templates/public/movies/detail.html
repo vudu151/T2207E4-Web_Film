@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Movie Details</title>
+</head>
+<body>
+
+<h1 th:text="${movie.name}"></h1>
+<p th:text="${movie.totalEpisode}"></p>
+<p>Release: <span th:text="${movie.poster}"></span></p>
+<p>Runtime: <span th:text="${movie.release}"></span> minutes</p>
+<p>MPAA Rating: <span th:text="${movie.totalDuration}"></span></p>
+<p>Categories: <span th:text="${movie.mmpaRating}"></span></p>
+<p>Views: <span th:text="${movie.keyWords}"></span></p>
+<p>Level: <span th:text="${movie.description}"></span></p>
+<p>Status: <span th:text="${movie.totalView}"></span></p>
+<p>Status: <span th:text="${movie.isSeries}"></span></p>
+<p>Status: <span th:text="${movie.level}"></span></p>
+<p>Status: <span th:text="${movie.categoryMovieId}"></span></p>
+<p>Status: <span th:text="${movie.status}"></span></p>
+
+<h2>Episodes</h2>
+<table>
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="episode : ${episodes}">
+        <td><a th:href="@{/episodes/{id}(id=${episode.id})}" th:text="${episode.name}"></a></td>
+        <td th:text="${episode.description}"></td>
+    </tr>
+    </tbody>
+</table>
+
+<button onclick="playFirstEpisode()">Play</button>
+
+<script th:inline="javascript">
+    function playFirstEpisode() {
+        var firstEpisodeId = /*[[${episodes[0].id}]]*/ '';
+        window.location.href = '/episodes/' + firstEpisodeId;
+    }
+</script>
+</body>
+</html>

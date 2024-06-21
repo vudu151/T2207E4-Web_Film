@@ -1,0 +1,241 @@
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org" th:replace="~{/public/layout/layout :: main-fragment(-->
+<!--                                                ~{:: title},-->
+<!--                                                ~{:: #css-resources},-->
+<!--                                                ~{:: #main-content},-->
+<!--                                                ~{:: #js-resources}-->
+<!--                                               )}">-->
+<!--<head>-->
+<!--    &lt;!&ndash; Basic need &ndash;&gt;-->
+<!--    <title>Block Buster | Actors</title>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <meta name="description" content="">-->
+<!--    <meta name="keywords" content="">-->
+<!--    <meta name="author" content="">-->
+
+<!--    <th:block id="css-resources">-->
+<!--        <style>-->
+<!--            span.error {-->
+<!--                display: block;-->
+<!--                margin-top: 8px;-->
+<!--                font-size: 14px;-->
+<!--                font-weight: 500;-->
+<!--                color: red;-->
+<!--            }-->
+<!--        </style>-->
+<!--    </th:block>-->
+<!--</head>-->
+<!--<body>-->
+
+<!--<main id="main-content">-->
+<!--    <div class="hero user-hero">-->
+<!--        <div class="container">-->
+<!--            <div id="alertError" style="position: fixed; top: 80px; right: -90px;transform: translateX(-50%); z-index: 9999;"></div>-->
+
+<!--            <div class="row">-->
+<!--                <div class="col-md-12">-->
+<!--                    <div class="hero-ct">-->
+<!--                        <ul class="breadcumb">-->
+<!--                            <li class="active"><a href="#">Home</a></li>-->
+<!--                            <li> <span class="ion-ios-arrow-right"></span>Profile</li>-->
+<!--                        </ul>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--    <div class="page-single">-->
+<!--        <div class="container">-->
+<!--            <div class="row ipad-width">-->
+<!--                <div class="col-md-3 col-sm-12 col-xs-12">-->
+<!--                    <div class="user-information">-->
+<!--                        <div class="user-img">-->
+<!--                            <a href="#"><img th:src="${account.avatar}" alt=""><br></a>-->
+<!--                            <a href="#" class="redbtn">Change avatar</a>-->
+<!--                        </div>-->
+<!--                        <div class="user-fav">-->
+<!--                            <p>Account Details</p>-->
+<!--                            <ul>-->
+<!--                                <li  class="active"><a href="userprofile.html">Profile</a></li>-->
+<!--                                <li><a href="userfavoritelist.html">Favorite movies</a></li>-->
+<!--                                <li><a href="userrate.html">Rated movies</a></li>-->
+<!--                            </ul>-->
+<!--                        </div>-->
+<!--                        <div class="user-fav">-->
+<!--                            <p>Others</p>-->
+<!--                            <ul>-->
+<!--                                <li><a href="#">Change password</a></li>-->
+<!--                            </ul>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="col-md-9 col-sm-12 col-xs-12">-->
+<!--                    <div class="form-style-1 user-pro">-->
+<!--                        <form id="formProfile" class="user" style="padding-bottom: 0">-->
+<!--                            <div class="row">-->
+<!--                                <h4 class="col-md-6">Profile details</h4>-->
+<!--                                <div class="col-md-6" style="float: right; color: #d4e82a;font-weight: bold;margin-top: -4px;font-family: 'Dosis', sans-serif;">-->
+<!--                                    LEVEL ACCOUNT :-->
+<!--                                    <span id="level" style="color: #d4e82a; margin-left: 20px"></span>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="row" hidden="">-->
+<!--                                <div class="col-md-6 form-it">-->
+<!--                                    <label>Id</label>-->
+<!--                                    <input type="text" id="account_id" >-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="row">-->
+<!--                                <div class="col-md-6 form-it">-->
+<!--                                    <label>Username</label>-->
+<!--                                    <input type="text" id="username" th:value="${account.username}" >-->
+<!--                                    <span class="error username_err"></span>-->
+<!--                                </div>-->
+<!--                                <div class="col-md-6 form-it">-->
+<!--                                    <label>Fullname</label>-->
+<!--                                    <input type="text" id="fullname" th:value="${account.fullname}" >-->
+<!--                                    <span class="error fullname_err"></span>-->
+<!--                                </div>-->
+<!--                                <div class="col-md-6 form-it">-->
+<!--                                    <label>Email</label>-->
+<!--                                    <input type="text" id="email" th:value="${account.email}">-->
+<!--                                    <span class="error email_err"></span>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="row">-->
+<!--                                <div class="col-md-6 form-it">-->
+<!--                                    <label>Address</label>-->
+<!--                                    <input type="text" id="address" th:value="${account.address}">-->
+<!--                                    <span class="error address_err"></span>-->
+<!--                                </div>-->
+<!--                                <div class="col-md-6 form-it">-->
+<!--                                    <label>Gender</label>-->
+<!--                                    <select id="gender" th:field="*{account.gender}">-->
+<!--                                        <option value="true">Male</option>-->
+<!--                                        <option value="false">Female</option>-->
+<!--                                    </select>-->
+<!--                                    <span class="error gender_err"></span>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="row">-->
+<!--                                <div class="col-md-2" style="float: right; margin-top: 16px">-->
+<!--                                    <input class="submit" type="submit" value="save">-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </form>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</main>-->
+
+<!--<th:block id="js-resources">-->
+<!--    <script>-->
+<!--        $(document).ready(function() {-->
+<!--            //1.Function to get account by id and populate the form fields-->
+<!--            $.ajax({-->
+<!--                type: 'GET',-->
+<!--                url: '/profile/accountId',-->
+<!--                success: function(response) {-->
+<!--                    var accountId = response;-->
+<!--                    $.ajax({-->
+<!--                        type: 'GET',-->
+<!--                        url: 'v1/auth/accounts/' + accountId,-->
+<!--                        success: function(account) {-->
+<!--                            $('#account_id').val(account.id);-->
+<!--                            $('#username').val(account.userName);-->
+<!--                            $('#email').val(account.email);-->
+<!--                            $('#address').val(account.address);-->
+<!--                            let genderValue = account.gender ? 1 : 0;-->
+<!--                            $('#gender').val(genderValue);-->
+<!--                            $('#level').text(account.level);-->
+<!--                        },-->
+<!--                        error: function(err) {-->
+<!--                            console.error('An error occurred while fetching account details: ' + err.responseText);-->
+<!--                        }-->
+<!--                    })-->
+<!--                }-->
+<!--            });-->
+
+<!--            //2.Save edit data-->
+<!--            function validateUsername(){-->
+<!--                var username = $("#username").val();-->
+<!--                if(username.trim() === ""){-->
+<!--                    $(".username_err").text("The username is not null.");-->
+<!--                    return false;-->
+<!--                } else if(username.length < 2){-->
+<!--                    $(".username_err").text("The username must be at least 2 characters long.");-->
+<!--                    return false;-->
+<!--                } else {-->
+<!--                    $(".username_err").text("");-->
+<!--                    return true;-->
+<!--                }-->
+<!--            }-->
+<!--            function validateEmail(){-->
+<!--                var email = $("#email").val();-->
+<!--                var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;-->
+
+<!--                if(email.trim() === ""){-->
+<!--                    $(".email_err").text("The email is not null.");-->
+<!--                    return false;-->
+<!--                } else if(!emailRegex.test(email)){-->
+<!--                    $(".email_err").text("Email is not valid.");-->
+<!--                    return false;-->
+<!--                } else {-->
+<!--                    $(".email_err").text("");-->
+<!--                    return true;-->
+<!--                }-->
+<!--            }-->
+
+<!--            $("#username").on("input", validateUsername);-->
+<!--            $("#email").on("input", validateEmail);-->
+
+<!--            $("#formProfile").submit(function (event){-->
+<!--                event.preventDefault();-->
+<!--                if(!validateUsername()){-->
+<!--                    return false;-->
+<!--                }-->
+<!--                if(!validateEmail()){-->
+<!--                    return false;-->
+<!--                }-->
+
+
+<!--                var username = $("#username").val();-->
+<!--                var email = $("#email").val();-->
+<!--                var address = $("#address").val();-->
+<!--                var gender = $("#gender").val() == 1 ? true : false;-->
+<!--                var formData = {-->
+<!--                    userName: username,-->
+<!--                    email: email,-->
+<!--                    address: address,-->
+<!--                    gender: gender-->
+<!--                };-->
+<!--                $.ajax({-->
+<!--                    url: '/v1/auth/edit',-->
+<!--                    type: 'PUT',-->
+<!--                    contentType: "application/json; charset=utf-8",-->
+<!--                    data: JSON.stringify(formData),-->
+<!--                    success: function (){-->
+<!--                        setTimeout(function (){-->
+<!--                            window.location.reload();-->
+<!--                        });-->
+<!--                    },-->
+<!--                    error: function (error){-->
+<!--                        var errorHtml = '<div class="float-end alert alert-danger alert-dismissible fade show" role="alert">\n' +-->
+<!--                            '                                            <i class="mdi mdi-block-helper me-2"></i>\n' +-->
+<!--                            '                                           An error has occurred !\n' +-->
+<!--                            '                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>\n' +-->
+<!--                            '                                        </div>';-->
+<!--                        $("#alertError").html(errorHtml);-->
+<!--                        setTimeout(function() {-->
+<!--                            $("#alertError").empty();-->
+<!--                        }, 2000);-->
+<!--                    }-->
+<!--                });-->
+<!--            });-->
+<!--        });-->
+<!--    </script>-->
+<!--</th:block>-->
+<!--</body>-->
+<!--</html>-->

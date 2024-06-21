@@ -71,6 +71,7 @@ public class SecurityConfig {
                     request.requestMatchers("/getCategories").denyAll();
                     request.requestMatchers("/").permitAll();
                     request.requestMatchers(GET,"/admin/**").hasAuthority("ROLE_ADMIN");
+
                     request.anyRequest().permitAll();
         })
                 .rememberMe(rememberMe -> {
@@ -113,4 +114,6 @@ public class SecurityConfig {
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
+
+
 }
