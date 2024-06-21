@@ -40,7 +40,7 @@ public class AddEpisodeService implements IRequestHandler<AddEpisodeRequest,Stri
                 setEpisode.setLicenseEnd(addEpisodeRequest.getLicenseEnd());
                 setEpisode.setTax(addEpisodeRequest.getTax());
                 setEpisode.setStatus(addEpisodeRequest.getStatus());
-                setEpisode.setMovie_id(existingMovieId.get());
+                setEpisode.setMovieId(existingMovieId.get());
                 iEpisodeRepository.save(setEpisode);
                 return HandleResponse.ok("Episode successfully added : " + setEpisode.getName());
         }

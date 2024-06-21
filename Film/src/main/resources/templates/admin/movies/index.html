@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light" data-menu-color="brand" data-topbar-color="light"
+      th:replace="~{/admin/layout/layout :: main-fragment(
+                                    ~{:: title},
+                                    ~{:: #css-resources},
+                                    ~{:: #main-content},
+                                    ~{:: #js-resources}
+                                 )}">
+<head>
+    <meta charset="utf-8" />
+    <title>Movie | Index</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
+    <meta content="Myra Studio" name="author" />
+    <th:block id="css-resources">
+        <style>
+            /* Thiết lập độ rộng cố định và dấu "..." cho các cột */
+            .table td {
+                max-width: 100px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+        </style>
+    </th:block>
+</head>
+<body>
+
+<main id="main-content">
+    <div class="px-3">
+        <div class="container-fluid">
+            <div id="alertError" style="position: fixed; top: 80px; right: -90px;transform: translateX(-50%); z-index: 9999;"></div>
+            <div id="alertSuccess" style="position: fixed; top: 80px; right: -152px;width: 360px; max-width: 360px; transform: translateX(-50%); z-index: 9999;"></div>
+
+            <!-- start page title -->
+            <div class="py-3 py-lg-4">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <h4 class="page-title mb-0">List Movie</h4>
+                    </div>
+                </div>
+            </div>
+            <!-- end page title -->
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <table id="datatable-buttons" class="table table-striped dt-responsive nowrap w-100">
+                                <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th th:hidden="hidden">Id</th>
+                                    <th>Name</th>
+                                    <th>Poster</th>
+                                    <th style="width: 56px">Total Episode</th>
+                                    <th>Description</th>
+                                    <th>Level</th>
+                                    <th>Category</th>
+                                    <th>List Genre</th>
+                                    <th>Action Episode</th>
+                                    <th>Action Movie</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="movie, index : ${getListMovie}">
+                                    <td th:text="${index.count}"></td>
+                                    <td th:text="${movie.id}" th:hidden="hidden"></td>
+                                    <td th:text="${movie.name}"></td>
+                                    <td>
+                                        <img th:src="${movie.poster}"  alt="image" class="img-fluid rounded" width="56" style="max-width: 100%;object-fit: cover;max-height: 32px; height: auto;"/>
+                                    </td>
+                                    <td th:text="${movie.totalEpisode}" style="width: 56px"></td>
+                                    <td th:text="${movie.description}"></td>
+                                    <td>
+                                        <span th:if="${movie.level == 0}">Free</span>
+                                        <span th:if="${movie.level == 1}">Not Free</span>
+                                    </td>
+                                    <td>
+                                            <span th:if="${!movie.categoryMovieId.id.isEmpty()}">
+                                                <span th:text="${movie.categoryMovieId.name}"></span>
+                                            </span>
+                                    </td>
+
+                                    <td>
+                                            <span th:if="${!movie.genreList.isEmpty()}">
+                                                <span th:each="movie, index : ${movie.genreList}">
+                                                    <span th:text="${movie.name}"></span>
+                                                    <span th:if="${!index.last}">,</span>
+                                                    <!--Thêm dấu PHẨY giữa 2 name cua Job-->
+                                                </span>
+                                            </span>
+                                    </td>
+
+                                    <td>
+                                        <div class="button-list">
+                                            <a th:href="@{/admin-movie/episode/add(id=${movie.id})}" type="button" class="btn btn-warning waves-effect waves-light"><i class="mdi mdi-movie-open"></i></a>
+                                            <a th:href="@{/admin-movie/episode/edit(id=${movie.id})}" type="button" class="btn btn-warning waves-effect waves-light"><i class="mdi mdi-movie-edit"></i></a>
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <div class="button-list">
+                                            <a th:href="@{/admin-movie/edit(id=${movie.id})}" type="button" class="btn btn-warning waves-effect waves-light"><i class="mdi mdi-pencil"></i></a>
+                                            <a th:href="@{/admin-movie}" type="button" class="btn btn-danger waves-effect waves-light btn-movie-delete"><i class="mdi mdi-delete"></i></a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div> <!-- end card body-->
+                    </div> <!-- end card -->
+                </div><!-- end col-->
+            </div>
+        </div>
+    </div>
+</main>
+
+<th:block id="js-resources">
+    <script>
+        $('.btn-movie-delete').click(function (e){
+            e.preventDefault();
+            var movieId = $(this).closest('tr').find('td:hidden').text();         //closest: tim phan tu cha gan nhat cua nut Xoa (Tuc la xoa hang do)
+
+            if (confirm('Are you sure you want to delete this celebrity?')) {
+                $.ajax({
+                    type: 'DELETE',
+                    url: '/v1/movies/delete/' + movieId,
+                    success: function() {
+                        var successHtml = '<div style="color: #28a745" class="alert alert-success alert-dismissible fade show" role="alert">\n' +
+                            '                                            Celebrity deleted successfully' +
+                            '                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>\n' +
+                            '                                        </div>';
+                        $("#alertSuccess").html(successHtml);
+                        setTimeout(function() {
+                            $("#alertSuccess").empty();
+                            window.location.reload();
+                        }, 1200);
+                    },
+                    error: function(err) {
+                        var errorHtml = '<div class="float-end alert alert-danger alert-dismissible fade show" role="alert">\n' +
+                            '                                            <i class="mdi mdi-block-helper me-2"></i>\n' +
+                            '                                           An error has occurred !\n' +
+                            '                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>\n' +
+                            '                                        </div>';
+                        $("#alertError").html(errorHtml);
+                        setTimeout(function() {
+                            $("#alertError").empty();
+                        }, 2000);
+                    }
+                });
+            }
+        });
+    </script>
+</th:block>
+</body>
+</html>

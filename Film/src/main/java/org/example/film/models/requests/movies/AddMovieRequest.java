@@ -5,8 +5,10 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.example.film.commons.cqrs.IRequest;
 import org.example.film.models.entities.CategoryMovie;
+import org.example.film.models.entities.Genre;
 
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -48,5 +50,12 @@ public class AddMovieRequest implements IRequest<String> {
     private int status;
 
     @NotNull(message = "The category movies is not null.")
-    private CategoryMovie categoriesMoviesId;
+    private String categoriesMoviesId;
+
+    @NotNull(message = "The genre movies is not null.")
+    private String genreId;
+
+    private List<String> genreListId;
+
+    private List<String> imagesId;
 }

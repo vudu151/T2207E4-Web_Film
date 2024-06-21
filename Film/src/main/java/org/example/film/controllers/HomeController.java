@@ -4,12 +4,14 @@ import lombok.RequiredArgsConstructor;
 import org.example.film.configurations.securities.CustomUserDetails;
 import org.example.film.models.entities.Account;
 import org.example.film.models.entities.CategoryMovie;
+import org.example.film.models.entities.Movies;
 import org.example.film.models.requests.auth.ForgotPasswordRequest;
 import org.example.film.models.requests.auth.LoginRequest;
 import org.example.film.models.requests.auth.RegisterRequest;
 import org.example.film.models.requests.auth.ResetPasswordRequest;
 import org.example.film.repositories.IAccountRepository;
 import org.example.film.services.categoriesMovies.ICategoriesMoviesService;
+import org.example.film.services.movies.IMoviesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -29,9 +31,12 @@ public class HomeController {
     private IAccountRepository iAccountRepository;
     @Autowired
     private ICategoriesMoviesService iCategoriesMoviesService;
+    @Autowired
+    private IMoviesService iMoviesService;
     @GetMapping("")
     public String index(Model model){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        List<Movies> getMovieSlide = iMoviesService.getListMovies();
         model.addAttribute("categoryMovieList", getCategoryMovieList());
 
         if(authentication != null && authentication.isAuthenticated()){
@@ -49,8 +54,10 @@ public class HomeController {
                 model.addAttribute("role", role);
                 model.addAttribute("level", level);
                 model.addAttribute("avatar", avatar);
+                model.addAttribute("accountId",account_id);
             }
         }
+        model.addAttribute("getMovieSlide",getMovieSlide);
         return "public/home/home";
     }
 
