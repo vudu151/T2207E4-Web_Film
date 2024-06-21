@@ -147,4 +147,8 @@ public class HomeController {
     public String movie_episodeapi(){
         return "public/episodes/detail2";
     }
+    @GetMapping("/episodesdetail3")
+    public String movie_episodeapi2(){
+        return "public/episodes/detail3";
+    }
 }

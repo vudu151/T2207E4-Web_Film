@@ -117,10 +117,12 @@
                                 <div><a href="#" class="item item-1 redbtn"> <i class="ion-play"></i> Watch Trailer</a></div>
                                 <div><a href="https://www.youtube.com/embed/o-0hcF97wy0" class="item item-2 redbtn fancybox-media hvr-grow"><i class="ion-play"></i></a></div>
                             </div>
-                            <div class="btn-transform transform-vertical">
-                                <div><a  th:href="@{/movies/movie-player}" class="item item-1 yellowbtn"> <i class="ion-card"></i> Play</a></div>
-                                <div><a th:href="@{/movies/movie-player}" class="item item-2 yellowbtn"><i class="ion-card"></i></a></div>
+
+                            <div class="btn-transform transform-vertical episodedetail2" id="episodedetail2" >
+<!--                                <div><a  th:href="@{/movies/movie-player}" class="item item-1 yellowbtn"> <i class="ion-card"></i> Play</a></div>-->
+<!--                                <div><a th:href="@{/movies/movie-player}" class="item item-2 yellowbtn"><i class="ion-card"></i></a></div>-->
                             </div>
+
                         </div>
                     </div>
 
@@ -128,7 +130,7 @@
                 </div>
                 <div class="col-md-8 col-sm-12 col-xs-12">
                     <div class="movie-single-ct main-content">
-                        <h1 class="bd-hd">Skyfall: Quantum of Spectre <span>2015</span></h1>
+                        <h1 class="bd-hd" id="movie-title"> <span>2015</span></h1>
                         <div class="social-btn">
                             <a href="#" class="parent-btn"><i class="ion-heart"></i> Add to Favorite</a>
                             <div class="hover-bnt">
@@ -174,7 +176,7 @@
                                     <div id="overview" class="tab active">
                                         <div class="row">
                                             <div class="col-md-8 col-sm-12 col-xs-12">
-                                                <p>Tony Stark creates the Ultron Program to protect the world, but when the peacekeeping program becomes hostile, The Avengers go into action to try and defeat a virtually impossible enemy together. Earth's mightiest heroes must come together once again to protect the world from global extinction.</p>
+                                                <p id="movie-decs"> </p>
                                                 <div class="title-hd-sm">
                                                     <h4>Videos & Photos</h4>
                                                     <a href="#" class="time">All 5 Videos & 245 Photos <i class="ion-ios-arrow-right"></i></a>
@@ -857,6 +859,8 @@
              success: function(data) {
                  // Display movie details
                  $("#movie-title").text(data.name);
+                 $("#movie-decs").text(data.description);
+
                  var movieHtml = displayMovieDetails(data);
                  $("#movie-details").html(movieHtml);
 
@@ -867,7 +871,7 @@
                      success: function(episodes) {
                          // Display episode list
                          var episodeHtml = displayEpisodeList(episodes);
-                         $("#episode-list").html(episodeHtml);
+                         $("#episodedetail2").html(episodeHtml);
                      },
                      error: function(xhr, status, error) {
                          console.error("Error fetching episodes: ", error);
@@ -892,12 +896,18 @@
 
      function displayEpisodeList(episodes) {
          // Create the HTML content to be displayed
-         var html = "<div class='mvsingle-item'>";
+         var html = "<div  >";
          $.each(episodes, function(index, episode) {
-             html += "<a href='episodesdetail2?id=" + episode.id + "' class='img-lightbox'><img src='/public/images/uploads/image" + (index + 1) + ".jpg' alt=''></a>";
-         });
-         html += "</div>";
+<!--             html += "-->
+<!--                <div><a  href='episodesdetail3?id=" + @{episode.id} + "' class='item item-1 yellowbtn'> <i class='ion-card'></i>"+ @{episode.name}+"</a></div>-->
+<!--                                <div><a href='episodesdetail3?id=" + @{episode.id} + "' class='item item-1 yellowbtn' class='item item-2 yellowbtn'><i class='ion-card'></i></a></div>";-->
 
+<!--         });-->
+<!--       -->
+<!--         html += "</div>";-->
+           html += "<li><a href='episodesdetail3?id=" + episode.id + "' class='episode-link item item-1 yellowbtn'>" + episode.name + "</a></li>";
+       });
+       html += "</ul>";
          // Return the HTML content
          return html;
      }
