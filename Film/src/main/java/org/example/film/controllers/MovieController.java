@@ -16,14 +16,13 @@ import java.util.Optional;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/movie")
-
 public class MovieController {
-    @Autowired
-    private IMoviesService iMoviesService;
-    @GetMapping("/{id}")
-    public String getMovie(Model model, @PathVariable String id){
-        Movies getMovieIdOptional = iMoviesService.getMovieById(id).get();
-        model.addAttribute("getMovieIdOptional", getMovieIdOptional);
+    private final IMoviesService iMoviesService;
+
+    @GetMapping("/get/{id}")
+    public String getMovie(@PathVariable String id, Model model) {
+        Movies getMovieId = iMoviesService.getMovieById(id).get();
+        model.addAttribute("getMovieId",getMovieId);
         return "public/movies/movie-detail";
     }
 }

@@ -52,7 +52,7 @@
                 </div>
                 <div class="col-md-8 col-sm-12 col-xs-12">
                     <div class="movie-single-ct main-content">
-                        <h1 class="bd-hd">Skyfall: Quantum of Spectre <span>2015</span></h1>
+                        <h1 class="bd-hd" th:text="${getMovieId.name}"></h1>
                         <div class="social-btn">
                             <a href="#" class="parent-btn"><i class="ion-heart"></i> Add to Favorite</a>
                             <div class="hover-bnt">
@@ -98,15 +98,13 @@
                                     <div id="overview" class="tab active">
                                         <div class="row">
                                             <div class="col-md-8 col-sm-12 col-xs-12">
-                                                <p>Tony Stark creates the Ultron Program to protect the world, but when the peacekeeping program becomes hostile, The Avengers go into action to try and defeat a virtually impossible enemy together. Earth's mightiest heroes must come together once again to protect the world from global extinction.</p>
+                                                <p th:text="${getMovieId.description}"></p>
                                                 <div class="title-hd-sm">
                                                     <h4>Videos & Photos</h4>
                                                     <a href="#" class="time">All 5 Videos & 245 Photos <i class="ion-ios-arrow-right"></i></a>
                                                 </div>
                                                 <div class="mvsingle-item ov-item">
-                                                    <a class="img-lightbox"  data-fancybox-group="gallery" href="/public/images/uploads/image11.jpg" ><img src="/public/images/uploads/image1.jpg" alt=""></a>
-                                                    <a class="img-lightbox"  data-fancybox-group="gallery" href="/public/images/uploads/image21.jpg" ><img src="/public/images/uploads/image2.jpg" alt=""></a>
-                                                    <a class="img-lightbox"  data-fancybox-group="gallery" href="/public/images/uploads/image31.jpg" ><img src="/public/images/uploads/image3.jpg" alt=""></a>
+                                                    <a class="img-lightbox" th:each="image:${getMovieId.images}" th:src="${image}"  data-fancybox-group="gallery" href="/public/images/uploads/image11.jpg" ><img src="/public/images/uploads/image1.jpg" alt=""></a>
                                                     <div class="vd-it">
                                                         <img class="vd-img" src="/public/images/uploads/image4.jpg" alt="">
                                                         <a class="fancybox-media hvr-grow" href="https://www.youtube.com/embed/o-0hcF97wy0"><img src="/public/images/uploads/play-vd.png" alt=""></a>
