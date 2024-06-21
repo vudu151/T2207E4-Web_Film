@@ -127,11 +127,22 @@ public class HomeController {
 
     @GetMapping("/movies")
     public String movies(){
-        return "public/movies/index";
+        return "public/movies/index2";
     }
+
 
     @GetMapping("/movies/movie-detail")
     public String movie_detail(){
         return "public/movies/movie-detail";
+    }
+
+    @GetMapping("/moviesdetail2")
+    public String movie_detailapi(){
+        return "public/movies/detail2";
+    }
+
+    @GetMapping("/episodesdetail3")
+    public String movie_episodeapi2(){
+        return "public/episodes/detail3";
     }
 }
