@@ -522,8 +522,9 @@ $(function(){
     scrolldownlanding.on('click', function (e) {
         e.preventDefault();
         $('html,body').animate({
-            scrollTop: $(document).height()-$(window).height()
-        }, 700);
+            // scrollTop: $(document).height()-$(window).height()
+			scrollTop: $(document).height() - $(window).height() - 500 // Thêm - 500px để cách bottom 500px
+		}, 700);
     });
 
 	//sticky sidebar
