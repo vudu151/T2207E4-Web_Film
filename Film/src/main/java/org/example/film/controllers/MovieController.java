@@ -22,8 +22,8 @@ public class MovieController {
     private IMoviesService iMoviesService;
     @GetMapping("/{id}")
     public String getMovie(Model model, @PathVariable String id){
-        Optional<Movies> getMovieId = iMoviesService.getMovieById(id);
-        model.addAttribute("getMovieId", getMovieId);
+        Movies getMovieIdOptional = iMoviesService.getMovieById(id).get();
+        model.addAttribute("getMovieIdOptional", getMovieIdOptional);
         return "public/movies/movie-detail";
     }
 }

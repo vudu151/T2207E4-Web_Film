@@ -78,7 +78,7 @@
                                 <span style="padding-top: 2px" th:text="${username}"></span>
                             </a>
                             <ul class="dropdown-menu level1">
-                                <li><a th:if="${level == 0}" href="#">Buy Account</a></li>
+                                <li><a th:if="${level == 0}" th:href="@{/buyaccount}">Buy Account</a></li>
                                 <li><a th:href="@{/profile}">Profile</a></li>
                                 <li class="it-last"><a href="/logout">Logout</a></li>
                             </ul>
