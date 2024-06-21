@@ -42,6 +42,8 @@ public class SecurityConfig {
     @Autowired
     private DataSource dataSource;
 
+
+
     @Bean
     public DaoAuthenticationProvider daoAuthenticationProvider(){
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
@@ -66,6 +68,7 @@ public class SecurityConfig {
         httpSecurity.getSharedObject(AuthenticationManagerBuilder.class).authenticationProvider(daoAuthenticationProvider());
         httpSecurity.authorizeHttpRequests(request -> {
                     request.requestMatchers("/css/**", "/js/**", "/images/**").permitAll();
+                    request.requestMatchers("/getCategories","/getGenres").denyAll();
                     request.requestMatchers("/").permitAll();
                     request.requestMatchers(GET,"/admin/**").hasAuthority("ROLE_ADMIN");
                     request.anyRequest().permitAll();

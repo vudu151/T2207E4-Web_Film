@@ -64,15 +64,31 @@ public class Movies {
     @JoinColumn(name = "category_movieId")
     private CategoryMovie categoryMovieId;
 
+    @ManyToOne
+    @JoinColumn(name = "genre_id")
+    private Genre Genre;
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {
+            CascadeType.DETACH, CascadeType.MERGE,
+            CascadeType.PERSIST, CascadeType.REFRESH
+    })
+    @JoinTable(
+            name = "genres_movies",
+            joinColumns = @JoinColumn(name = "movie_id"),
+            inverseJoinColumns = @JoinColumn(name = "genre_id")
+    )
+    private List<Genre> genreList;
+
+
+    @ElementCollection                          //1 celebrity co nhieu image => Nhung khong can tao Entity rieng cho imgae ma luu tru truc tiep trong Entity Celebrity
+    @CollectionTable(name = "images_movies",
+            joinColumns = @JoinColumn(name = "movie_id")
+    )
+    @Column(name = "links", columnDefinition = "LONGTEXT")
+    private List<String> images;
+
     @Column(name = "status")
     private int status;
 
-//
-//    @ElementCollection                          //1 celebrity co nhieu image => Nhung khong can tao Entity rieng cho imgae ma luu tru truc tiep trong Entity Celebrity
-//    @CollectionTable(name = "celebrity_image",
-//            joinColumns = @JoinColumn(name = "celebrity_id")
-//    )
-//    @Column(name = "images", columnDefinition = "LONGTEXT")
-//    private List<String> images;
 
 }

@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en" data-bs-theme="light" data-menu-color="brand" data-topbar-color="light"
+      th:replace="~{/admin/layout/layout :: main-fragment(
+                                    ~{:: title},
+                                    ~{:: #css-resources},
+                                    ~{:: #main-content},
+                                    ~{:: #js-resources}
+                                 )}">
+<head>
+    <meta charset="utf-8" />
+    <title>Episode | Add</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
+    <meta content="Myra Studio" name="author" />
+    <th:block id="css-resources">
+    </th:block>
+</head>
+<body>
+
+<main id="main-content">
+    <div class="px-3">
+        <div class="container-fluid">
+            <div id="alertError" style="position: fixed; top: 80px; right: -90px;transform: translateX(-50%); z-index: 9999;"></div>
+
+            <!-- start page title -->
+            <div class="py-3 py-lg-4">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <h4 class="page-title mb-0">Add Episode</h4>
+                    </div>
+                </div>
+            </div>
+            <!-- end page title -->
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="p-2">
+                                        <form id="formAddEpisode" method="post" class="form-horizontal" role="form">
+                                            <div class="mb-2 row">
+                                                <label class="col-md-2 col-form-label" for="movie-id">Id</label>
+                                                <div class="col-md-10">
+                                                    <input id="movie-id" class="form-control" readonly style="color: #bdbdbd; opacity: 100%; border-color: #ccc9c9">
+                                                </div>
+                                            </div>
+
+                                            <div class="mb-2 row">
+                                                <label class="col-md-2 col-form-label" for="movie-name">Name Movie</label>
+                                                <div class="col-md-10">
+                                                    <input id="movie-name" class="form-control" readonly style="color: #bdbdbd; opacity: 100%; border-color: #ccc9c9">
+                                                </div>
+                                            </div>
+
+                                            <div class="mb-2 row">
+                                                <label class="col-md-2 col-form-label">Episode</label>
+                                                <div class="col-md-10">
+                                                    <select class="form-select" id="select-episode">
+                                                        <option selected>Select status</option>
+                                                    </select>
+                                                    <span class="invalid-feedback text-danger" id="invalid-feedback-episode">The episode is not null.</span>
+                                                </div> <!-- end col -->
+                                            </div>
+
+                                            <div class="row mb-2">
+                                                <label class="col-md-2 col-form-label">Description</label>
+                                                <div class="col-md-10">
+                                                    <div id="snow-editor" style="width: 100%; height: 200px">
+                                                    </div>
+                                                    <span class="invalid-feedback text-danger"
+                                                          id="invalid-feedback-description">The description is not null.</span>
+                                                </div><!-- end col -->
+                                            </div>
+
+                                            <div class="mb-2 row">
+                                                <label class="col-md-2 col-form-label" for="duration">Duration</label>
+                                                <div class="col-md-10">
+                                                    <input type="text" id="duration" class="form-control">
+                                                    <span class="error duration_err"></span>
+                                                </div>
+                                            </div>
+
+                                            <div class="mb-2 row">
+                                                <label class="col-md-2 col-form-label" for="fileSize">File size</label>
+                                                <div class="col-md-10">
+                                                    <input type="text" id="fileSize" class="form-control">
+                                                    <span class="error fileSize_err"></span>
+                                                </div>
+                                            </div>
+
+                                            <div class="mb-2 row">
+                                                <label class="col-md-2 col-form-label" for="licensePrice">License Price</label>
+                                                <div class="col-md-10">
+                                                    <input type="text" id="licensePrice" class="form-control">
+                                                    <span class="error licensePrice_err"></span>
+                                                </div>
+                                            </div>
+
+                                            <div class="mb-2 row">
+                                                <label class="col-md-2 col-form-label" for="licenseStart">License Start</label>
+                                                <div class="col-md-10">
+                                                    <input class="form-control" type="date" name="date" id="licenseStart">
+                                                    <span class="invalid-feedback text-danger"
+                                                          id="invalid-feedback-licenseStart">The license start is not null.</span>
+                                                </div>
+                                            </div>
+
+                                            <div class="mb-2 row">
+                                                <label class="col-md-2 col-form-label" for="licenseEnd">License End</label>
+                                                <div class="col-md-10">
+                                                    <input class="form-control" type="date" name="date" id="licenseEnd">
+                                                    <span class="invalid-feedback text-danger"
+                                                          id="invalid-feedback-licenseEnd">The license end is not null.</span>
+                                                </div>
+                                            </div>
+
+                                            <div class="mb-2 row">
+                                                <label class="col-md-2 col-form-label" for="tax">Tax</label>
+                                                <div class="col-md-10">
+                                                    <input type="text" id="tax" class="form-control">
+                                                    <span class="error tax_err"></span>
+                                                </div>
+                                            </div>
+
+
+
+                                            <div class="mb-2 row">
+                                                <label class="col-md-2 col-form-label">Status</label>
+                                                <div class="col-md-10">
+                                                    <select class="form-select" id="select-status">
+                                                        <option selected>Select status</option>
+                                                        <option value="1">Enable</option>
+                                                        <option value="0">Disable</option>
+                                                    </select>
+                                                    <span class="invalid-feedback text-danger" id="invalid-feedback-status">The status is not null.</span>
+                                                </div> <!-- end col -->
+                                            </div>
+
+                                            <div class="mb-2 row">
+                                                <label class="col-md-2 col-form-label" for="file-episode">Link Episode</label>
+                                                <div class="col-md-10">
+                                                    <input type="file" class="form-control" id="file-episode">
+                                                    <div class="d-none" id="uploadPreviewMovie">
+                                                        <div class="card-preview-poster card mt-1 mb-0 shadow-none border">
+                                                            <div class="p-2">
+                                                                <div class="row align-items-center">
+                                                                    <div class="col-auto">
+                                                                        <video src=""
+                                                                             class="avatar-sm rounded bg-light" alt="">
+                                                                        </video>
+                                                                    </div>
+                                                                    <div class="col ps-0">
+                                                                        <a href=""
+                                                                           class="text-muted fw-bold" data-dz-name></a>
+                                                                        <p class="mb-0" id="image-size"></p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <span class="invalid-feedback text-danger"
+                                                          id="invalid-feedback-linkEpisode">The episode is not null.</span>
+                                                </div>
+                                            </div>
+
+                                            <a th:href="@{/admin-categoriesMovies}" class="btn btn-primary float-right" style="margin-left: 200px">Back</a>
+                                            <button type="submit" class="btn btn-primary float-end">Add</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- end row -->
+                        </div>
+                    </div> <!-- end card -->
+                </div><!-- end col -->
+            </div>
+        </div>
+    </div>
+</main>
+
+<th:block id="js-resources">
+    <script>
+        // get id to URL
+        var urlParams = new URLSearchParams(window.location.search);
+        var movieId =urlParams.get('id');
+        if (movieId){
+            getMovieById(movieId);
+        }else {
+            console.log(error);
+            var errorHtml = '<div class="float-end alert alert-danger alert-dismissible fade show" style="margin-right: 16px" role="alert">\n' +
+                '                                            Not found movie Id !\n' +
+                '                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>\n' +
+                '                                        </div>';
+            $("#alertError").html(errorHtml);
+            setTimeout(function() {
+                $("#alertError").empty();
+            }, 2000);
+        }
+
+
+        let movie;
+        let episode;
+        function getMovieById(id){
+            $.ajax({
+                type: 'GET',
+                url: '/v1/movies/' + id,
+                success: function (response){
+                    if (response){
+                        movie = response;
+
+                        $('#movie-id').val(movie.id);
+                        $('#movie-name').val(movie.name);
+                        $.ajax({
+                            type: 'GET',
+                            url: '/v1/episodes/' + movie.id,
+                            success: function (rs){
+                                if(this.success){
+                                    debugger;
+                                    episode = rs;
+                                    let getEpisodeRs = episode.map(e => e.name); // Lấy danh sách tên các tập đã lấy ra
+                                    // set select episode
+                                    var totalEpisodes = movie.totalEpisode - episode.length + 1;
+                                    var $selectEpisode = $('#select-episode');
+                                    $selectEpisode.empty(); // Xóa các option hiện có
+                                    $selectEpisode.append('<option value="">Select episode</option>');
+                                    for (var i = 1; i <= totalEpisodes; i++) {
+                                        // Kiểm tra xem tập hiện tại có trong mảng getEpisodeRs hay không
+                                        if (getEpisodeRs.includes(i)) {
+                                            let nextEpisode = i+1
+                                            // Nếu tập hiện tại có trong mảng getEpisodeRs, thì bỏ qua và tiếp tục vòng lặp
+                                            if(nextEpisode > totalEpisodes){
+                                                $selectEpisode.append('<option disabled style="color: #bdbdbd">You have added all the episodes: ' + nextEpisode + '</option>');
+                                                break;
+                                            }else {
+                                                $selectEpisode.append('<option value="' + nextEpisode + '">Add Episode: ' + nextEpisode + '</option>');
+                                                break;
+                                            }
+
+                                        }
+                                        // Nếu tập hiện tại không có trong mảng getEpisodeRs, thì thêm option tương ứng vào $selectEpisode
+
+                                    }
+                                }
+                            },
+                            error: function (err){
+                                var $selectEpisode = $('#select-episode');
+                                $selectEpisode.append('<option value="1">Episode 1</option>');
+                            }
+                        })
+
+                    }
+                },
+                error: function (err) {
+                    var errorHtml = '<div class="float-end alert alert-danger alert-dismissible fade show" style="margin-right: 16px" role="alert">\n' +
+                        'Not found Movie Id!\n' +
+                        '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>\n' +
+                        '</div>';
+                    $("#alertError").html(errorHtml);
+                    setTimeout(function () {
+                        $("#alertError").empty();
+                    }, 2000);
+                }
+            })
+        }
+
+
+
+        function displayVideos(video) {
+            var container = $('#file-previews');
+            container.empty();
+
+            video.forEach(function(videoUrl) {
+                var vdElement = $('<video>').addClass('avatar-sm rounded bg-light').attr('src', videoUrl);
+                vdElement.on('loadedmetadata', function() {
+                    var vdSizeInBytes = this.duration * 250; // Assuming a bitrate of 250 kbps
+                    var vdSizeInMB = vdSizeInBytes / (1024 * 1024); // Convert to MB
+                    var vdSizeFormatted = vdSizeInMB.toFixed(2); // Rounded to two decimal places
+                    var videoSizeText = 'Size: ' + vdSizeFormatted + ' MB';
+
+                    var cardPreviewVd = $('<div>').addClass('card-preview-vd card mt-1 mb-0 shadow-none border');
+                    var p2 = $('<div>').addClass('p-2');
+                    var row = $('<div>').addClass('row align-items-center');
+                    var colAuto = $('<div>').addClass('col-auto');
+                    var colPs0 = $('<div>').addClass('col ps-0');
+                    var nameLink = $('<a>').addClass('text-muted fw-bold').attr('href', videoUrl).attr('data-dz-name', '').text(videoUrl);
+                    var sizePara = $('<p>').addClass('mb-0').attr('data-dz-size', '').text(videoSizeText);
+                    var colAutoDelete = $('<div>').addClass('col-auto');
+                    var btnDelete = $('<button>').addClass('btn-delete-image btn btn-danger').text('X');
+
+                    colAuto.append(vdElement);
+                    colPs0.append(nameLink);
+                    colPs0.append(sizePara);
+                    colAutoDelete.append(btnDelete);
+                    row.append(colAuto);
+                    row.append(colPs0);
+                    row.append(colAutoDelete);
+                    p2.append(row);
+                    cardPreviewVd.append(p2);
+                    container.append(cardPreviewVd).removeClass('d-none');
+                });
+                // Append the video element to container
+                container.append(vdElement);
+            });
+        }
+
+        $('#file-episode').change(function() {
+            var file = this.files[0];
+            var formData = new FormData();
+            formData.append('file', file);
+
+            $.ajax({
+                url: '/v1/files/video/upload',
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    movieURL = response; // Correct variable assignment
+                    console.log("Video uploaded successfully! Response URL: " + response);
+
+                    $('#uploadPreviewMovie video').attr('src', movieURL); // Set video src attribute
+                    $('#uploadPreviewMovie').removeClass('d-none');
+
+                    if (response) {
+                        displayVideos([response]); // Pass video URL as array
+                    }
+                },
+                error: function(error) {
+                    console.error("Upload failed: " + error);
+                }
+            });
+        });
+
+        //.Set quill cho bio
+        var quill = new Quill('#snow-editor', {
+            modules: {
+                toolbar: [
+                    ['bold', 'italic', 'underline', 'strike'],              // các nút tạo định dạng văn bản
+                    [{'header': 1}, {'header': 2}],                         // tiêu đề cấp 1 và cấp 2
+                    [{'list': 'ordered'}, {'list': 'bullet'}],              // danh sách có thứ tự và không có thứ tự
+                    [{'indent': '-1'}, {'indent': '+1'}],                   // thụt vào và thụt ra
+                    ['link', 'image', 'video'],                              // chèn liên kết, hình ảnh và video
+                    ['clean']                                                // xóa định dạng
+                ]
+            },
+            placeholder: 'Write your bio here...',                           // văn bản gợi ý khi không có nội dung
+            theme: 'snow'                                                    // giao diện trắng của trình soạn thảo
+        });
+
+        //9.Save episode
+        $("#formAddEpisode").submit(function (event) {
+            event.preventDefault();
+            debugger;
+            let movieId = movie.id;
+            let episode = $('#select-episode').val();
+            var quill = new Quill('#snow-editor');
+            let description = quill.getText().trim();
+            let duration = $('#duration').val();
+            let fileSize = $('#fileSize').val();
+            let licensePrice = $('#licensePrice').val();
+            let licenseStart = $('#licenseStart').val();
+            let licenseEnd = $('#licenseEnd').val();
+            let tax = $('#tax').val();
+            let status = $('#select-status').val();
+
+            var videoSrc = $('#uploadPreviewMovie video').attr('src');
+
+            if (episode < 1) {
+                $('#invalid-feedback-episode').show();
+            } else {
+                $('#invalid-feedback-episode').hide();
+            }
+            if (description.trim().length === 0) {
+                $('#invalid-feedback-description').show();
+            } else {
+                $('#invalid-feedback-description').hide();
+            }
+            if (fileSize < 1) {
+                $('#fileSize_err').show();
+            } else {
+                $('#fileSize_err').hide();
+            }
+            if (licensePrice < 0) {
+                $('#licensePrice_err').show();
+            } else {
+                $('#licensePrice_err').hide();
+            }
+
+            if (!licenseStart) {
+                $('#invalid-feedback-licenseStart').show();
+            } else {
+                $('#invalid-feedback-licenseStart').hide();
+            }
+
+            if (!licenseEnd) {
+                $('#invalid-feedback-licenseEnd').show();
+            } else {
+                $('#invalid-feedback-licenseEnd').hide();
+            }
+            if (!status || status === "select-status") {
+                $('#invalid-feedback-status').show();
+            } else {
+                $('#invalid-feedback-status').hide();
+            }
+            if(tax < 0){
+                $('tax_err').show();
+            }else {
+                $('tax_err').hide();
+            }
+            if (!videoSrc) {
+                $('#invalid-feedback-linkEpisode').show();
+            } else {
+                $('#invalid-feedback-linkEpisode').hide();
+            }
+
+            var formData = {
+                movie_id: movieId,
+                name: episode,
+                description: description,
+                duration: duration,
+                fileSize: fileSize,
+                licensePrice: licensePrice,
+                licenseStart: licenseStart,
+                licenseEnd: licenseEnd,
+                tax: tax,
+                status: status,
+                link: videoSrc,
+            };
+            $.ajax({
+                url: "/v1/episodes/add",
+                type: 'POST',
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(formData),
+                success: function (result) {
+                    setTimeout(function () {
+                        window.location.href = "/admin-movie";
+                    });
+                },
+                error: function (error) {
+                    console.log(error);
+                    var errorHtml = '<div class="float-end alert alert-danger alert-dismissible fade show" role="alert">\n' +
+                        '                                            An error occurred !\n' +
+                        '                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>\n' +
+                        '                                        </div>';
+                    $("#alertError").html(errorHtml);
+                    setTimeout(function() {
+                        $("#alertError").empty();
+                    }, 2000);
+                }
+            });
+        });
+
+    </script>
+</th:block>
+</body>
+</html>

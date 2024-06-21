@@ -109,29 +109,6 @@
                     </div>
                 </li>
 
-                <!--Movies-->
-                <li class="menu-item">
-                    <a href="#movies" data-bs-toggle="collapse" class="menu-link waves-effect waves-light">
-                        <span class="menu-icon"><i class="mdi mdi-movie-open-outline"></i></span>
-                        <span class="menu-text"> Movies </span>
-                        <span class="menu-arrow"></span>
-                    </a>
-                    <div class="collapse" id="movies">
-                        <ul class="sub-menu">
-                            <li class="menu-item">
-                                <a href="tables-basic.html" class="menu-link">
-                                    <span class="menu-text">Movies List</span>
-                                </a>
-                            </li>
-                            <li class="menu-item">
-                                <a href="tables-datatables.html" class="menu-link">
-                                    <span class="menu-text">Add New Movies</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
-
                 <!--Genres-->
                 <li class="menu-item">
                     <a href="#genres" data-bs-toggle="collapse" class="menu-link waves-effect waves-light">
@@ -142,13 +119,36 @@
                     <div class="collapse" id="genres">
                         <ul class="sub-menu">
                             <li class="menu-item">
-                                <a href="tables-basic.html" class="menu-link">
+                                <a th:href="@{/admin-genresMovies}" class="menu-link">
                                     <span class="menu-text">Genres List</span>
                                 </a>
                             </li>
                             <li class="menu-item">
-                                <a href="tables-datatables.html" class="menu-link">
+                                <a th:href="@{/admin-genresMovies/add}" class="menu-link">
                                     <span class="menu-text">Add New Genres</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+
+                <!--Movies-->
+                <li class="menu-item">
+                    <a href="#movies" data-bs-toggle="collapse" class="menu-link waves-effect waves-light">
+                        <span class="menu-icon"><i class="mdi mdi-movie-open-outline"></i></span>
+                        <span class="menu-text"> Movies </span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <div class="collapse" id="movies">
+                        <ul class="sub-menu">
+                            <li class="menu-item">
+                                <a th:href="@{/admin-movie}" class="menu-link">
+                                    <span class="menu-text">Movies List</span>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a th:href="@{/admin-movie/add}" class="menu-link">
+                                    <span class="menu-text">Add New Movies</span>
                                 </a>
                             </li>
                         </ul>

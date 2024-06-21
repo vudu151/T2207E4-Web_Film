@@ -22,7 +22,7 @@ public class Episode {
     private String id;
 
     @Column(name = "name")
-    private String name;
+    private int name;
 
     @Column(name = "link")
     private String link;
@@ -53,5 +53,5 @@ public class Episode {
 
     @ManyToOne
     @JoinColumn(name = "movie_id")
-    private Movies movie_id;
+    private Movies movieId;
 }

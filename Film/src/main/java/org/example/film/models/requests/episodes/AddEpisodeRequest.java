@@ -2,6 +2,7 @@ package org.example.film.models.requests.episodes;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.example.film.commons.cqrs.IRequest;
@@ -17,9 +18,8 @@ import java.util.Date;
 @Builder
 public class AddEpisodeRequest implements IRequest<String> {
 
-    @NotBlank(message = "The name is not null.")
-    @Size(min = 1, message = "Minimum length is 1.")
-    private String name;
+    @NotNull
+    private int name;
 
     @NotBlank(message = "The link is not null.")
     @Size(min = 1, message = "Minimum length is 1.")

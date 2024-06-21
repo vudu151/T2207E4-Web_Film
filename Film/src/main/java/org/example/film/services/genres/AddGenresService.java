@@ -19,8 +19,6 @@ public class AddGenresService implements IRequestHandler<AddGenreRequest,String>
     public HandleResponse<String> handle(AddGenreRequest addGenreMovieRequest) throws Exception {
         if (iGenresRepository.findByName(addGenreMovieRequest.getName()).isPresent()){
             return HandleResponse.error("genre already exists");
-        }else if (iGenresRepository.findBySlug(addGenreMovieRequest.getSlug()).isPresent()){
-            return HandleResponse.error("slug genre already exists");
         }else {
             Genre genre = new Genre();
             genre.setName(addGenreMovieRequest.getName());

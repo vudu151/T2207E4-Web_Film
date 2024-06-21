@@ -14,8 +14,5 @@ public class EditGenreRequest implements IRequest<String> {
     @NotBlank(message = "The name is not null.")
     private String name;
 
-    @NotBlank(message = "The slug is not null.")
-    private String slug;
-
     private int status;
 }

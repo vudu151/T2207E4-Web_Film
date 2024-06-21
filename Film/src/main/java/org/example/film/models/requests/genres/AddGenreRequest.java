@@ -12,7 +12,5 @@ import org.example.film.commons.cqrs.IRequest;
 public class AddGenreRequest implements IRequest<String> {
     @NotBlank(message = "The name is not null.")
     private String name;
-    @NotBlank(message = "The slug is not null.")
-    private String slug;
     private int status;
 }
