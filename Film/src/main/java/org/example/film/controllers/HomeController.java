@@ -27,43 +27,9 @@ import java.util.List;
 @Controller
 @RequiredArgsConstructor
 public class HomeController {
-    @Autowired
-    private IAccountRepository iAccountRepository;
-    @Autowired
-    private ICategoriesMoviesService iCategoriesMoviesService;
-    @Autowired
-    private IMoviesService iMoviesService;
     @GetMapping("")
-    public String index(Model model){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        List<Movies> getMovieSlide = iMoviesService.getListMovies();
-        model.addAttribute("categoryMovieList", getCategoryMovieList());
-
-        if(authentication != null && authentication.isAuthenticated()){
-            Object principal = authentication.getPrincipal();
-            if(principal instanceof CustomUserDetails){
-                CustomUserDetails customUserDetails = (CustomUserDetails) principal;
-                String account_id = customUserDetails.getAccount().getId();
-                String email = customUserDetails.getUsername();             //Do minh dang nhap bang Email nen no hieu la Username luon trong CustomUserDetail
-                String username = customUserDetails.getAccount().getUserName();
-                String role = customUserDetails.getAuthorities().iterator().next().getAuthority();
-                int level = customUserDetails.getAccount().getLevel();
-                String avatar = customUserDetails.getAccount().getAvatar();
-
-                model.addAttribute("username", username);
-                model.addAttribute("role", role);
-                model.addAttribute("level", level);
-                model.addAttribute("avatar", avatar);
-                model.addAttribute("accountId",account_id);
-            }
-        }
-        model.addAttribute("getMovieSlide",getMovieSlide);
+    public String index(){
         return "public/home/home";
-    }
-
-
-    private List<CategoryMovie> getCategoryMovieList() {
-        return iCategoriesMoviesService.getListCategoriesMovies();
     }
 
     @GetMapping("/register")
