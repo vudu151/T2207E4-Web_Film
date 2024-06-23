@@ -5,6 +5,7 @@ import org.example.film.commons.vnpay.VNPAYService;
 import org.example.film.commons.vnpay.dto.PaymentRequestDTO;
 import org.example.film.commons.vnpay.dto.PaymentResponseDTO;
 import org.example.film.models.entities.Account;
+import org.example.film.models.entities.Account_Payment;
 import org.example.film.models.entities.PaymentMethod;
 import org.example.film.repositories.IAccountPaymentRepository;
 import org.example.film.repositories.IAccountRepository;
@@ -45,22 +46,7 @@ public class PaymentMethodService implements IPaymentMethodService{
         response.setMessage("Payment URL generated successfully.");
         response.setTransactionId(paymentUrl);
         return response;
-
-//        Account account = paymentRequestDTO.getAccount();
-//        PaymentMethod paymentMethod = iPaymentMethodRepository.findById(paymentRequestDTO.getPaymentMethodId())
-//                .orElseThrow(() -> new RuntimeException("Payment method not found"));
-//
-//        Account_Payment accountPayment = new Account_Payment();
-//        accountPayment.setAccount(account);
-//        accountPayment.setPaymentMethod(paymentMethod);
-//        accountPayment.setAccountNumber("Generated Account Number"); // You need to set a proper account number
-//
-//        account.setLevel(paymentRequestDTO.getLevel());  // Update level in Account
-//
-//        iAccountPaymentRepository.save(accountPayment);
-//        return
     }
-
 
     @Override
     public PaymentResponseDTO handlePaymentReturn(HttpServletRequest request) {
@@ -68,13 +54,14 @@ public class PaymentMethodService implements IPaymentMethodService{
         PaymentResponseDTO response = new PaymentResponseDTO();
 
         if(result == 1){
-            //Handle successful payment
 //            String accountId = request.getParameter("vnp_TxnRef");
 //            Account account = iAccountRepository.findById(accountId)
-//                    .orElseThrow(()-> new RuntimeException("Account not found."));
-//
-////            int level = request.getParameter("vnp_Amount").equals("100000") ? 1 : 0;    // Adjust amount check accordingly
-//            account.setLevel(1);
+//                    .orElseThrow(() -> new RuntimeException("Account not found."));
+
+            int amount = Integer.parseInt(request.getParameter("vnp_Amount"));
+            int level = amount == 100000 ? 1 : 2;  // 100,000 VND = level 1, 200,000 VND = level 2
+
+//            account.setLevel(level);
 //            iAccountRepository.save(account);
 
             response.setSuccess(true);
@@ -88,4 +75,5 @@ public class PaymentMethodService implements IPaymentMethodService{
         }
         return response;
     }
+
 }
