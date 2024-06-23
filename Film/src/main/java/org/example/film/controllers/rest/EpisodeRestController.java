@@ -31,7 +31,21 @@ public class EpisodeRestController {
 
     @Autowired
     private IMoviesService iMoviesService;
+
     @GetMapping("/{id}")
+    public ResponseEntity<Optional<Episode>> getEpisodeById(@PathVariable String id){
+        try {
+            Optional<Episode> getEpisode = iEpisodesService.getEpisodeById(id);
+            if (!getEpisode.isEmpty()){
+                return ResponseEntity.ok(getEpisode);
+            }else {
+                return ResponseEntity.notFound().build();
+            }
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+    @GetMapping("/list/{id}")
     public ResponseEntity<List<Episode>> getEpisodeByMovieId(@PathVariable String id){
         try {
             List<Episode> getEpisode = iEpisodesService.getEpisodeByMovieId(iMoviesService.getMovieById(id).get());
@@ -57,6 +71,7 @@ public class EpisodeRestController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to add movies: " + e.getMessage());
         }
     }
+
 
 
 }
