@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en" data-bs-theme="light" data-menu-color="brand"
+      data-topbar-color="light"
+      th:replace="~{/admin/layout/layout :: main-fragment(
+                                    ~{:: title},
+                                    ~{:: #css-resources},
+                                    ~{:: #main-content},
+                                    ~{:: #js-resources}
+                                 )}">
+<head>
+    <meta charset="utf-8"/>
+    <title>Movies | Edit</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description"/>
+    <meta content="Myra Studio" name="author"/>
+    <th:block id="css-resources">
+    </th:block>
+</head>
+<body>
+
+<main id="main-content">
+    <div class="d-flex">
+        <div th:each="episode:${getEpisode}">
+            <div class="card mt-4 m-md-4 m-lg-4" style="width: 18rem;">
+                <video class="card-img-top" controls>
+                    <source th:src="${episode.link}" type="video/mp4">
+                </video>
+                <div class="card-body">
+                    <h5 class="card-title" th:text="'Episode: ' + ${episode.name}"></h5>
+                    <p class="card-text" th:text="${episode.description}"></p>
+                    <div class="d-flex justify-content-end">
+                        <a href="#" class="btn btn-primary m-lg-2 editEpisode" th:value="${episode.id}" data-bs-toggle="modal" data-bs-target="#exampleModal">Edit</a>
+                        <a href="#" class="btn btn-danger m-md-2">Remove</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Edit</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formAddEpisode" method="post" class="form-horizontal" role="form">
+                        <div class="mb-2 row">
+                            <label class="col-md-2 col-form-label" for="movie-id">Id</label>
+                            <div class="col-md-10">
+                                <input id="movie-id" class="form-control" readonly style="color: #bdbdbd; opacity: 100%; border-color: #ccc9c9">
+                            </div>
+                        </div>
+
+                        <div class="mb-2 row">
+                            <label class="col-md-2 col-form-label" for="movie-name">Name Movie</label>
+                            <div class="col-md-10">
+                                <input id="movie-name" class="form-control" readonly style="color: #bdbdbd; opacity: 100%; border-color: #ccc9c9">
+                            </div>
+                        </div>
+
+                        <div class="mb-2 row">
+                            <label class="col-md-2 col-form-label">Episode</label>
+                            <div class="col-md-10">
+                                <select class="form-select" id="select-episode">
+                                    <option selected>Select status</option>
+                                </select>
+                                <span class="invalid-feedback text-danger" id="invalid-feedback-episode">The episode is not null.</span>
+                            </div> <!-- end col -->
+                        </div>
+
+                        <div class="row mb-2">
+                            <label class="col-md-2 col-form-label">Description</label>
+                            <div class="col-md-10">
+                                <div id="snow-editor" style="width: 100%; height: 200px">
+                                </div>
+                                <span class="invalid-feedback text-danger"
+                                      id="invalid-feedback-description">The description is not null.</span>
+                            </div><!-- end col -->
+                        </div>
+
+                        <div class="mb-2 row">
+                            <label class="col-md-2 col-form-label" for="duration">Duration</label>
+                            <div class="col-md-10">
+                                <input type="text" id="duration" class="form-control">
+                                <span class="error duration_err"></span>
+                            </div>
+                        </div>
+
+                        <div class="mb-2 row">
+                            <label class="col-md-2 col-form-label" for="fileSize">File size</label>
+                            <div class="col-md-10">
+                                <input type="text" id="fileSize" class="form-control">
+                                <span class="error fileSize_err"></span>
+                            </div>
+                        </div>
+
+                        <div class="mb-2 row">
+                            <label class="col-md-2 col-form-label" for="licensePrice">License Price</label>
+                            <div class="col-md-10">
+                                <input type="text" id="licensePrice" class="form-control">
+                                <span class="error licensePrice_err"></span>
+                            </div>
+                        </div>
+
+                        <div class="mb-2 row">
+                            <label class="col-md-2 col-form-label" for="licenseStart">License Start</label>
+                            <div class="col-md-10">
+                                <input class="form-control" type="date" name="date" id="licenseStart">
+                                <span class="invalid-feedback text-danger"
+                                      id="invalid-feedback-licenseStart">The license start is not null.</span>
+                            </div>
+                        </div>
+
+                        <div class="mb-2 row">
+                            <label class="col-md-2 col-form-label" for="licenseEnd">License End</label>
+                            <div class="col-md-10">
+                                <input class="form-control" type="date" name="date" id="licenseEnd">
+                                <span class="invalid-feedback text-danger"
+                                      id="invalid-feedback-licenseEnd">The license end is not null.</span>
+                            </div>
+                        </div>
+
+                        <div class="mb-2 row">
+                            <label class="col-md-2 col-form-label" for="tax">Tax</label>
+                            <div class="col-md-10">
+                                <input type="text" id="tax" class="form-control">
+                                <span class="error tax_err"></span>
+                            </div>
+                        </div>
+
+
+
+                        <div class="mb-2 row">
+                            <label class="col-md-2 col-form-label">Status</label>
+                            <div class="col-md-10">
+                                <select class="form-select" id="select-status">
+                                    <option selected>Select status</option>
+                                    <option value="1">Enable</option>
+                                    <option value="0">Disable</option>
+                                </select>
+                                <span class="invalid-feedback text-danger" id="invalid-feedback-status">The status is not null.</span>
+                            </div> <!-- end col -->
+                        </div>
+
+                        <div class="mb-2 row">
+                            <label class="col-md-2 col-form-label" for="file-episode">Link Episode</label>
+                            <div class="col-md-10">
+                                <input type="file" class="form-control" id="file-episode">
+                                <div class="d-none" id="uploadPreviewMovie">
+                                    <div class="card-preview-poster card mt-1 mb-0 shadow-none border">
+                                        <div class="p-2">
+                                            <div class="row align-items-center">
+                                                <div class="col-auto">
+                                                    <video src=""
+                                                           class="avatar-sm rounded bg-light" alt="">
+                                                    </video>
+                                                </div>
+                                                <div class="col ps-0">
+                                                    <a href=""
+                                                       class="text-muted fw-bold" data-dz-name></a>
+                                                    <p class="mb-0" id="image-size"></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <span class="invalid-feedback text-danger"
+                                      id="invalid-feedback-linkEpisode">The episode is not null.</span>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<th:block id="js-resources">
+
+    <script>
+        var urlParams = new URLSearchParams(window.location.search);
+        var episodeMovieId = urlParams.get('id');
+        if(episodeMovieId){
+            getEpisodeByMovieIdAndPopulateForm(episodeMovieId)
+        } else {
+            console.log(error);
+            var errorHtml = '<div class="float-end alert alert-danger alert-dismissible fade show" style="margin-right: 16px" role="alert">\n' +
+                '                                            Not found Celebrity Id !\n' +
+                '                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>\n' +
+                '                                        </div>';
+            $("#alertError").html(errorHtml);
+            setTimeout(function() {
+                $("#alertError").empty();
+            }, 2000);
+        }
+
+        function getEpisodeByMovieIdAndPopulateForm(id) {
+            $.ajax({
+                type: 'GET',
+                url: '/v1/episodes/' + id,
+                success: function (response) {
+                    if (response) {
+                        episode = response;
+
+                        // Populate basic input fields
+                        $('#episode-id').val(episode.id);
+                        $('#input-episode').val(episode.name);
+                    }
+                },
+                error: function (err) {
+                    var errorHtml = '<div class="float-end alert alert-danger alert-dismissible fade show" style="margin-right: 16px" role="alert">\n' +
+                        'Not found Movie Id!\n' +
+                        '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>\n' +
+                        '</div>';
+                    $("#alertError").html(errorHtml);
+                    setTimeout(function () {
+                        $("#alertError").empty();
+                    }, 2000);
+                }
+            })
+        }
+    </script>
+</th:block>
+</body>
+</html>
