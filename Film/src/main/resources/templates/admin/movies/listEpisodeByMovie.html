@@ -45,30 +45,22 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="formAddEpisode" method="post" class="form-horizontal" role="form">
+                    <form id="formEditEpisode" method="post" class="form-horizontal" role="form">
+
                         <div class="mb-2 row">
-                            <label class="col-md-2 col-form-label" for="movie-id">Id</label>
+                            <label class="col-md-2 col-form-label" for="episode-id">Id Episode</label>
                             <div class="col-md-10">
-                                <input id="movie-id" class="form-control" readonly style="color: #bdbdbd; opacity: 100%; border-color: #ccc9c9">
+                                <input id="episode-id" class="form-control" readonly style="color: #bdbdbd; opacity: 100%; border-color: #ccc9c9">
                             </div>
                         </div>
 
                         <div class="mb-2 row">
-                            <label class="col-md-2 col-form-label" for="movie-name">Name Movie</label>
+                            <label class="col-md-2 col-form-label" for="input-name">Name</label>
                             <div class="col-md-10">
-                                <input id="movie-name" class="form-control" readonly style="color: #bdbdbd; opacity: 100%; border-color: #ccc9c9">
+                                <input id="input-name" class="form-control" readonly style="color: #bdbdbd; opacity: 100%; border-color: #ccc9c9">
                             </div>
                         </div>
 
-                        <div class="mb-2 row">
-                            <label class="col-md-2 col-form-label">Episode</label>
-                            <div class="col-md-10">
-                                <select class="form-select" id="select-episode">
-                                    <option selected>Select status</option>
-                                </select>
-                                <span class="invalid-feedback text-danger" id="invalid-feedback-episode">The episode is not null.</span>
-                            </div> <!-- end col -->
-                        </div>
 
                         <div class="row mb-2">
                             <label class="col-md-2 col-form-label">Description</label>
@@ -80,11 +72,19 @@
                             </div><!-- end col -->
                         </div>
 
+<!--                        <div class="mb-2 row">-->
+<!--                            <label class="col-md-2 col-form-label" for="duration">Duration</label>-->
+<!--                            <div class="col-md-10">-->
+<!--                                <input type="text" id="duration" class="form-control">-->
+<!--                                <span class="error duration_err"></span>-->
+<!--                            </div>-->
+<!--                        </div>-->
+
                         <div class="mb-2 row">
-                            <label class="col-md-2 col-form-label" for="duration">Duration</label>
+                            <label class="col-md-2 col-form-label" for="duration">License Start</label>
                             <div class="col-md-10">
-                                <input type="text" id="duration" class="form-control">
-                                <span class="error duration_err"></span>
+                                <input class="form-control" type="date" name="date" id="duration">
+                                <span class="error duration_err">The license start is not null.</span>
                             </div>
                         </div>
 
@@ -121,7 +121,6 @@
                                       id="invalid-feedback-licenseEnd">The license end is not null.</span>
                             </div>
                         </div>
-
                         <div class="mb-2 row">
                             <label class="col-md-2 col-form-label" for="tax">Tax</label>
                             <div class="col-md-10">
@@ -129,9 +128,6 @@
                                 <span class="error tax_err"></span>
                             </div>
                         </div>
-
-
-
                         <div class="mb-2 row">
                             <label class="col-md-2 col-form-label">Status</label>
                             <div class="col-md-10">
@@ -170,11 +166,11 @@
                                       id="invalid-feedback-linkEpisode">The episode is not null.</span>
                             </div>
                         </div>
+                        <button type="submit" class="btn btn-primary float-end">update</button>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
                 </div>
             </div>
         </div>
@@ -184,33 +180,45 @@
 <th:block id="js-resources">
 
     <script>
-        var urlParams = new URLSearchParams(window.location.search);
-        var episodeMovieId = urlParams.get('id');
-        if(episodeMovieId){
-            getEpisodeByMovieIdAndPopulateForm(episodeMovieId)
-        } else {
-            console.log(error);
-            var errorHtml = '<div class="float-end alert alert-danger alert-dismissible fade show" style="margin-right: 16px" role="alert">\n' +
-                '                                            Not found Celebrity Id !\n' +
-                '                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>\n' +
-                '                                        </div>';
-            $("#alertError").html(errorHtml);
-            setTimeout(function() {
-                $("#alertError").empty();
-            }, 2000);
-        }
-
-        function getEpisodeByMovieIdAndPopulateForm(id) {
+        let getMovieId;
+        let getEpisodeId;
+        $(".editEpisode").click(function (){
+            var episodeId = $(this).attr("value");
             $.ajax({
                 type: 'GET',
-                url: '/v1/episodes/' + id,
+                url: '/v1/episodes/' + episodeId,
                 success: function (response) {
                     if (response) {
                         episode = response;
-
+                        getEpisodeId = episode.id;
+                        getMovieId = episode.movieId.id;
                         // Populate basic input fields
                         $('#episode-id').val(episode.id);
-                        $('#input-episode').val(episode.name);
+                        $('#input-name').val(episode.name);
+                        var quill = new Quill('#snow-editor');
+                        quill.root.innerHTML = episode.description;
+                        $('#duration').val(episode.duration);
+                        $('#fileSize').val(episode.fileSize);
+                        $('#licensePrice').val(episode.licensePrice);
+                        if (episode.licenseStart) {
+                            var licenseStart = new Date(episode.licenseStart);
+                            var licenseStartDateString = licenseStart.toISOString().substring(0, 10);
+                            $('#licenseStart').val(licenseStartDateString);
+                        }
+                        if (episode.licenseEnd) {
+                            var licenseEnd = new Date(episode.licenseEnd);
+                            var licenseEndDateString = licenseEnd.toISOString().substring(0, 10);
+                            $('#licenseEnd').val(licenseEndDateString);
+                        }
+                        $('#tax').val(episode.tax);
+                        $('#select-status').val(episode.status ? 1 : 0);
+                        if (episode.link) {
+                            $('#uploadPreviewMovie video').attr('src', episode.link);
+                            $('#uploadPreviewMovie').removeClass('d-none');
+                            displayVideos([episode.link]);
+                        } else {
+                            $('#uploadPreviewMovie video').addClass('d-none');
+                        }
                     }
                 },
                 error: function (err) {
@@ -224,7 +232,192 @@
                     }, 2000);
                 }
             })
+        });
+
+        //9.Save episode
+        $("#formEditEpisode").submit(function (event) {
+            event.preventDefault();
+            debugger;
+            let movieId = getMovieId;
+            let episode = $('#input-name').val();
+            var quill = new Quill('#snow-editor');
+            let description = quill.getText().trim();
+            let duration = $('#duration').val();
+            let fileSize = $('#fileSize').val();
+            let licensePrice = $('#licensePrice').val();
+            let licenseStart = $('#licenseStart').val();
+            let licenseEnd = $('#licenseEnd').val();
+            let tax = $('#tax').val();
+            let status = $('#select-status').val();
+
+            var videoSrc = $('#uploadPreviewMovie video').attr('src');
+
+            if (episode < 1) {
+                $('#invalid-feedback-episode').show();
+            } else {
+                $('#invalid-feedback-episode').hide();
+            }
+            if (description.trim().length === 0) {
+                $('#invalid-feedback-description').show();
+            } else {
+                $('#invalid-feedback-description').hide();
+            }
+            if (fileSize < 1) {
+                $('#fileSize_err').show();
+            } else {
+                $('#fileSize_err').hide();
+            }
+            if (licensePrice < 0) {
+                $('#licensePrice_err').show();
+            } else {
+                $('#licensePrice_err').hide();
+            }
+
+            if (!licenseStart) {
+                $('#invalid-feedback-licenseStart').show();
+            } else {
+                $('#invalid-feedback-licenseStart').hide();
+            }
+
+            if (!licenseEnd) {
+                $('#invalid-feedback-licenseEnd').show();
+            } else {
+                $('#invalid-feedback-licenseEnd').hide();
+            }
+            if (!status || status === "select-status") {
+                $('#invalid-feedback-status').show();
+            } else {
+                $('#invalid-feedback-status').hide();
+            }
+            if(tax < 0){
+                $('tax_err').show();
+            }else {
+                $('tax_err').hide();
+            }
+            if (!videoSrc) {
+                $('#invalid-feedback-linkEpisode').show();
+            } else {
+                $('#invalid-feedback-linkEpisode').hide();
+            }
+
+            var formData = {
+                id: getEpisodeId,
+                name: episode,
+                link: videoSrc,
+                description: description,
+                duration: duration,
+                fileSize: fileSize,
+                licensePrice: licensePrice,
+                licenseStart: licenseStart,
+                licenseEnd: licenseEnd,
+                tax: tax,
+                status: status,
+                movieId: movieId,
+            };
+            $.ajax({
+                url: "/v1/episodes/edit",
+                type: 'PUT',
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(formData),
+                success: function (result) {
+                    setTimeout(function () {
+                        window.location.href = "/admin-movie";
+                    });
+                },
+                error: function (error) {
+                    console.log(error);
+                    var errorHtml = '<div class="float-end alert alert-danger alert-dismissible fade show" role="alert">\n' +
+                        '                                            An error occurred !\n' +
+                        '                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>\n' +
+                        '                                        </div>';
+                    $("#alertError").html(errorHtml);
+                    setTimeout(function() {
+                        $("#alertError").empty();
+                    }, 2000);
+                }
+            });
+        });
+
+        function displayVideos(videoUrls) {
+            var container = $('#file-previews');
+            container.empty();
+
+            videoUrls.forEach(function(videoUrl) {
+                var vdElement = $('<video>').addClass('avatar-sm rounded bg-light').attr('src', videoUrl);
+                vdElement.on('loadedmetadata', function() {
+                    var vdSizeInBytes = this.duration * 250; // Assuming a bitrate of 250 kbps
+                    var vdSizeInMB = vdSizeInBytes / (1024 * 1024); // Convert to MB
+                    var vdSizeFormatted = vdSizeInMB.toFixed(2); // Rounded to two decimal places
+                    var videoSizeText = 'Size: ' + vdSizeFormatted + ' MB';
+
+                    var cardPreviewVd = $('<div>').addClass('card-preview-vd card mt-1 mb-0 shadow-none border');
+                    var p2 = $('<div>').addClass('p-2');
+                    var row = $('<div>').addClass('row align-items-center');
+                    var colAuto = $('<div>').addClass('col-auto');
+                    var colPs0 = $('<div>').addClass('col ps-0');
+                    var nameLink = $('<a>').addClass('text-muted fw-bold').attr('href', videoUrl).attr('data-dz-name', '').text(videoUrl);
+                    var sizePara = $('<p>').addClass('mb-0').attr('data-dz-size', '').text(videoSizeText);
+                    var colAutoDelete = $('<div>').addClass('col-auto');
+                    var btnDelete = $('<button>').addClass('btn-delete-image btn btn-danger').text('X');
+
+                    colAuto.append(vdElement);
+                    colPs0.append(nameLink);
+                    colPs0.append(sizePara);
+                    colAutoDelete.append(btnDelete);
+                    row.append(colAuto);
+                    row.append(colPs0);
+                    row.append(colAutoDelete);
+                    p2.append(row);
+                    cardPreviewVd.append(p2);
+                    container.append(cardPreviewVd).removeClass('d-none');
+                });
+                container.append(vdElement);
+            });
+
+            $('#file-episode').change(function() {
+                var file = this.files[0];
+                var formData = new FormData();
+                formData.append('file', file);
+
+                $.ajax({
+                    url: '/v1/files/video/upload',
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
+                        movieURL = response; // Correct variable assignment
+                        console.log("Video uploaded successfully! Response URL: " + response);
+
+                        $('#uploadPreviewMovie video').attr('src', movieURL); // Set video src attribute
+                        $('#uploadPreviewMovie').removeClass('d-none');
+
+                        if (response) {
+                            displayVideos([response]); // Pass video URL as array
+                        }
+                    },
+                    error: function(error) {
+                        console.error("Upload failed: " + error);
+                    }
+                });
+            });
         }
+
+        //.Set quill cho bio
+        var quill = new Quill('#snow-editor', {
+            modules: {
+                toolbar: [
+                    ['bold', 'italic', 'underline', 'strike'],              // các nút tạo định dạng văn bản
+                    [{'header': 1}, {'header': 2}],                         // tiêu đề cấp 1 và cấp 2
+                    [{'list': 'ordered'}, {'list': 'bullet'}],              // danh sách có thứ tự và không có thứ tự
+                    [{'indent': '-1'}, {'indent': '+1'}],                   // thụt vào và thụt ra
+                    ['link', 'image', 'video'],                              // chèn liên kết, hình ảnh và video
+                    ['clean']                                                // xóa định dạng
+                ]
+            },
+            placeholder: 'Write your bio here...',                           // văn bản gợi ý khi không có nội dung
+            theme: 'snow'                                                    // giao diện trắng của trình soạn thảo
+        });
     </script>
 </th:block>
 </body>
