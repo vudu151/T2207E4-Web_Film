@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Episode Details</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header>
+    <h1 id="episode-title"></h1>
+</header>
+
+<main>
+    <div class="episode-details">
+        <p><strong>Episode Number:</strong> <span id="episode-number"></span></p>
+        <p><strong>Description:</strong> <span id="episode-description"></span></p>
+        <p><strong>Duration:</strong> <span id="episode-duration"></span></p>
+        <p><strong>Release Date:</strong> <span id="episode-release-date"></span></p>
+    </div>
+
+    <div class="related-content">
+        <h2>Related Content</h2>
+        <div id="related-movies"></div>
+    </div>
+</main>
+
+<footer>
+    <p>&copy; 2024 MyApp. All rights reserved.</p>
+</footer>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script  >
+    $(document).ready(function() {
+    // Get the episode ID from the URL parameters
+    var urlParams = new URLSearchParams(window.location.search);
+    var episodeId = urlParams.get('id');
+
+    if (!episodeId) {
+        console.error("Error: Episode ID not found in the URL parameters.");
+        return;
+    }
+
+    // Fetch episode details from the REST API
+    fetchEpisodeDetails(episodeId);
+
+    // Fetch related movies for the episode
+    fetchRelatedEpisode(episodeId);
+});
+
+function fetchEpisodeDetails(episodeId) {
+    $.ajax({
+        url: "/api/public/episode/" + episodeId,
+        type: "GET",
+        success: function(data) {
+            console.log(data); // Log the entire response object
+            // Display episode details
+            $("#episode-title").text(data.name);
+            $("#episode-number").text(data.link);
+            $("#episode-description").text(data.description);
+            $("#episode-duration").text(data.duration + " minutes");
+
+        },
+        error: function(xhr, status, error) {
+            console.error("Error fetching episode details: ", error);
+        }
+    });
+}
+
+function fetchRelatedEpisode(episodeId) {
+    $.ajax({
+        url: "/api/public/episode/" + episodeId + "/related",
+        type: "GET",
+        success: function(data) {
+            // Clear the existing related content
+            $("#related-movies").empty();
+
+ $.each(data, function(index, relatedEpisode) {
+                const relatedMovieDiv = $("<div>", { class: "related-movie" });
+                const movieTitleLink = $("<a>", {
+                    href: "/moviesdetail2?id=" + relatedEpisode.idmovie,
+                    text: relatedEpisode.movietile
+                });
+
+                const episodeLink = $("<a>", {
+                    href: "/episodesdetail2?id=" + relatedEpisode.id,
+                    text: relatedEpisode.name
+                });
+
+                relatedMovieDiv.append(movieTitleLink, episodeLink);
+                $("#related-movies").append(relatedMovieDiv);
+
+
+            });
+        },
+        error: function(xhr, status, error) {
+            console.error("Error fetching related episodes: ", error);
+        }
+    });
+}
+
+</script>
+</body>
+</html>

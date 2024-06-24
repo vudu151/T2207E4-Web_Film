@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en" data-bs-theme="light" data-menu-color="brand" data-topbar-color="light"
+      th:replace="~{/admin/layout/layout :: main-fragment(
+                                    ~{:: title},
+                                    ~{:: #css-resources},
+                                    ~{:: #main-content},
+                                    ~{:: #js-resources}
+                                 )}">
+<head>
+    <meta charset="utf-8" />
+    <title>Category Movie | Edit</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
+    <meta content="Myra Studio" name="author" />
+    <th:block id="css-resources">
+    </th:block>
+</head>
+<body>
+
+<main id="main-content">
+    <div class="px-3">
+        <div class="container-fluid">
+            <div id="alertError" style="position: fixed; top: 80px; right: -90px;transform: translateX(-50%); z-index: 9999;"></div>
+
+            <!-- start page title -->
+            <div class="py-3 py-lg-4">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <h4 class="page-title mb-0">Edit Category Movie</h4>
+                    </div>
+                </div>
+            </div>
+            <!-- end page title -->
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="p-2">
+                                        <form method="post" id="formEditCategoryMovie" class="form-horizontal" role="form">
+                                            <div class="mb-2 row">
+                                                <label class="col-md-2 col-form-label" for="categoryMovie-id">Id</label>
+                                                <div class="col-md-10">
+                                                    <input id="categoryMovie-id" class="form-control" readonly style="color: #5d5b5b; opacity: 70%; border-color: #ccc9c9">
+                                                </div>
+                                            </div>
+                                            <div class="mb-2 row">
+                                                <label class="col-md-2 col-form-label" for="categoryMovie-name">Name</label>
+                                                <div class="col-md-10">
+                                                    <input type="text" id="categoryMovie-name" class="form-control">
+                                                    <span class="error categoryMovie-name_err"></span>
+                                                </div>
+                                            </div>
+
+                                            <div class="mb-2 row">
+                                                <label class="col-md-2 col-form-label">Status</label>
+                                                <div class="col-md-10">
+                                                    <select class="form-select" id="select-status">
+                                                        <option selected>Select status</option>
+                                                        <option value="1">Enable</option>
+                                                        <option value="0">Disable</option>
+                                                    </select>
+                                                    <span class="invalid-feedback text-danger" id="invalid-feedback-status">The status is not null.</span>
+                                                </div> <!-- end col -->
+                                            </div>
+
+                                            <a th:href="@{/admin-categoriesMovies}" class="btn btn-primary float-right" style="margin-left: 200px">Back</a>
+                                            <button type="submit" class="btn btn-primary float-end">Update</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- end row -->
+                        </div>
+                    </div> <!-- end card -->
+                </div><!-- end col -->
+            </div>
+        </div>
+    </div>
+</main>
+
+<th:block id="js-resources">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        // Function to get category movie by id and populate the form fields:
+        function getCategoryMovieByIdAndPopulateForm(id) {
+            $.ajax({
+                type: 'GET',
+                url: '/v1/categoriesMovies/' + id,
+                success: function(response) {
+                    var categoryMovie = response;               // Get category movie response
+                    $('#categoryMovie-id').val(categoryMovie.id);         // Get the category movie id displayed on the form
+                    $('#categoryMovie-name').val(categoryMovie.name);
+                    $('#select-status').val(categoryMovie.status);
+                },
+                error: function(err) {
+                    var errorHtml = '<div class="float-end alert alert-danger alert-dismissible fade show" style="margin-right: 16px" role="alert">\n' +
+                        '                                            Not found Category Movie Id !\n' +
+                        '                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>\n' +
+                        '                                        </div>';
+                    $("#alertError").html(errorHtml);
+                    setTimeout(function() {
+                        $("#alertError").empty();
+                    }, 2000);
+                }
+            });
+        }
+
+        $(document).ready(function () {
+            // Validate name input
+            function validateName() {
+                var categoryMovieName = $("#categoryMovie-name").val();
+                if (categoryMovieName.trim() === "") {
+                    $(".categoryMovie-name_err").text("The name is not null.");
+                    return false;
+                } else if (categoryMovieName.length < 2) {
+                    $(".categoryMovie-name_err").text("The name must be at least 2 characters long.");
+                    return false;
+                } else {
+                    $(".categoryMovie-name_err").text("");
+                    return true;
+                }
+            }
+
+            // Validate status input
+            function validateStatus(){
+                let Getstatus = $('#select-status').val() == '1' ? true : false;
+                if (!Getstatus || Getstatus === "Select status" || Getstatus === null) {
+                    $('#invalid-feedback-status').show();
+                    return false;
+                } else {
+                    $('#invalid-feedback-status').hide();
+                    return true;
+                }
+            }
+
+            // Check if #categoryMovie-name has a value initially
+            if ($("#categoryMovie-name").val().trim() !== "") {
+                validateName();
+            }
+
+            // Event listener for input events
+            $("#categoryMovie-name").on("input", validateName);
+            $("#select-status").on("input", validateStatus);
+
+            // Event listener for form submit
+            $("#formEditCategoryMovie").submit(function (event) {
+                event.preventDefault();
+                debugger;
+                // Check if any validation fails
+                if (!validateName() || !validateStatus()) {
+                    return false; // Prevent form submission if validation fails
+                }
+
+                // Send an Ajax request to server
+
+                var categoryMovieId = $("#categoryMovie-id").val();
+                var categoryMovieName = $("#categoryMovie-name").val();
+                var categoryMovieStatus =     $("#select-status").val()
+                $.ajax({
+                    url: "/v1/categoriesMovies/edit",
+                    type: "PUT",
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify({id:categoryMovieId, name: categoryMovieName, status: categoryMovieStatus}),
+                    success: function () {
+                        setTimeout(function () {
+                            window.location.href = "/admin-categoriesMovies";
+                        }, 2000);
+                    },
+                    error: function (error) {
+                        var errorHtml = '<div class="float-end alert alert-danger alert-dismissible fade show" role="alert">\n' +
+                            '                                        <i class="mdi mdi-block-helper me-2"></i>\n' +
+                            '                                       An error has occurred !\n' +
+                            '                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>\n' +
+                            '                                    </div>';
+                        $("#alertError").html(errorHtml);
+                        setTimeout(function() {
+                            $("#alertError").empty(); // Hide the alert after 3 seconds
+                        }, 2000);
+                    }
+                });
+            });
+
+            // Get id from URL
+            var urlParams = new URLSearchParams(window.location.search);
+            var categoryMovieId = urlParams.get('id');
+            if (categoryMovieId) {
+                getCategoryMovieByIdAndPopulateForm(categoryMovieId);
+            } else {
+                var errorHtml = '<div class="float-end alert alert-danger alert-dismissible fade show" style="margin-right: 16px" role="alert">\n' +
+                    '                                        Not found Category Movie Id !\n' +
+                    '                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>\n' +
+                    '                                    </div>';
+                $("#alertError").html(errorHtml);
+                setTimeout(function() {
+                    $("#alertError").empty();
+                }, 2000);
+            }
+        });
+    </script>
+</th:block>
+</body>
+</html>

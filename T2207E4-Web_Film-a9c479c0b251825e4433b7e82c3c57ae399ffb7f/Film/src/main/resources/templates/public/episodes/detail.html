@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Episode Details</title>
+</head>
+<body>
+<h1 th:text="${episode.name}"></h1>
+<p th:text="${episode.description}"></p>
+<p th:text="${episode.duration}"></p>
+<p th:text="${episode.fileSize}"></p>
+<p th:text="${episode.fileSize}"></p>
+<p th:text="${episode.licensePrice}"></p>
+<p th:text="${episode.licenseStart}"></p>
+<p th:text="${episode.licenseEnd}"></p>
+<p th:text="${episode.tax}"></p>
+<p th:text="${episode.movie_id}"></p>
+<p>Link: <a th:href="${episode.link}" th:text="${episode.link}"></a></p>
+<p>Status: <span th:text="${episode.status}"></span></p>
+</body>
+</html>

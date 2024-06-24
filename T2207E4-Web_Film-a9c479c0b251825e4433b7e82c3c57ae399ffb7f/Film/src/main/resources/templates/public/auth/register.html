@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1.0, shrink-to-fit=no">
+    <link rel="icon" th:href="@{/public/images/movie-reel.png}">
+    <title>Block Buster | Register</title>
+    <meta name="description" content="Login and Register Form Html Template">
+    <meta name="author" content="harnishdesign.net">
+
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Rubik:300,300i,400,400i,500,500i,700,700i,900,900i' type='text/css'>
+    <link rel="stylesheet" type="text/css" th:href="@{/public/auth/vendor/bootstrap/css/bootstrap.min.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/public/auth/vendor/font-awesome/css/all.min.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/public/auth/css/stylesheet.css}" />
+    <link id="color-switcher" type="text/css" rel="stylesheet" th:href="@{/public/auth/css/color-red.css}" />
+    <link type="text/css" rel="stylesheet" th:href="@{/public/auth/vendor/toastr/toastr.min.css}" />
+    <link type="text/css" rel="stylesheet" th:href="@{/public/css/mystyle.css}" />
+</head>
+
+<body>
+
+<!-- Preloader -->
+<div class="preloader preloader-dark">
+    <div class="lds-ellipsis">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+</div>
+<!-- Preloader End -->
+<div id="main-wrapper" class="oxyy-login-register">
+    <div id="alertError" style="position: fixed; top: 50px; right: -140px;width: 360px; max-width: 360px; transform: translateX(-50%); z-index: 9999;"></div>
+    <div id="alertSuccess" style="position: fixed; top: 50px; right: -140px;width: 360px; max-width: 360px; transform: translateX(-50%); z-index: 9999;"></div>
+
+    <div class="hero-wrap min-vh-100">
+        <div class="hero-mask opacity-4 bg-dark"></div>
+        <div class="hero-bg hero-bg-scroll" style="background-image:url('/public/auth/images/1.jpg');"></div>
+        <div class="hero-content d-flex min-vh-100">
+            <div class="container my-auto">
+                <div class="row">
+                    <div class="col-md-9 col-lg-7 col-xl-5 mx-auto">
+                        <div class="hero-wrap rounded shadow-lg p-4 py-sm-5 px-sm-5 my-4">
+                            <div class="hero-mask opacity-9 bg-dark"></div>
+                            <div class="hero-content">
+                                <div class="logo mb-4"> <a class="d-flex justify-content-center" href="/" title="Block Buster"><img src="/public/auth/images/logo1.png" alt="Film"></a> </div>
+                                <form action="/register" id="registerForm" class="form-dark" method="post">
+                                    <div class="mb-4 icon-group">
+                                        <input type="text" class="form-control" id="username" placeholder="UserName">
+                                        <span class="icon-inside"><i class="fas fa-user"></i></span>
+                                        <span class="error username_err"></span>
+                                    </div>
+                                    <div class="mb-4 icon-group">
+                                        <input type="email" class="form-control" id="email" placeholder="Email Address">
+                                        <span class="icon-inside"><i class="fas fa-envelope"></i></span>
+                                        <span class="error email_err"></span>
+                                    </div>
+                                    <div class="mb-4 icon-group">
+                                        <input type="password" class="form-control" id="password" placeholder="Password">
+                                        <span class="icon-inside"><i class="fas fa-lock"></i></span>
+                                        <span class="error password_err"></span>
+                                    </div>
+                                    <div class="mb-4 icon-group">
+                                        <input type="password" class="form-control" id="repassword" placeholder="Re-Password">
+                                        <span class="icon-inside"><i class="fas fa-lock"></i></span>
+                                        <span class="error repassword_err"></span>
+                                    </div>
+                                    <div class="d-grid my-4">
+                                        <button class="btn btn-primary btn-block" type="submit">Sign Up</button>
+                                    </div>
+                                </form>
+
+                                <div class="d-flex align-items-center mt-2 mb-3">
+                                    <hr class="flex-grow-1 border-light">
+                                    <span class="mx-2 text-white-50 text-2">Or Sign up with</span>
+                                    <hr class="flex-grow-1 border-light">
+                                </div>
+                                <div class="d-flex flex-column align-items-center mb-3">
+                                    <ul class="social-icons social-icons-rounded">
+                                        <li class="social-icons-facebook"><a href="#" data-bs-toggle="tooltip" data-bs-original-title="Sign Up with Facebook"><i class="fab fa-facebook-f"></i></a></li>
+                                        <li class="social-icons-google"><a href="#" data-bs-toggle="tooltip" data-bs-original-title="Sign Up with Google"><i class="fab fa-google"></i></a></li>
+                                    </ul>
+                                </div>
+                                <p class="text-2 text-white-50 text-center mb-0">Do you already have an account ? <a class="link-light text-3" href="/login"> Sign In</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Script -->
+<script th:src="@{/public/auth/vendor/jquery/jquery.min.js}"></script>
+<script th:src="@{/public/auth/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<!-- Style Switcher -->
+<script th:src="@{/public/auth/js/switcher.min.js}"></script>
+<script th:src="@{/public/auth/js/theme.js}"></script>
+<script th:src="@{/public/auth/vendor/toastr/toastr.min.js}"></script>
+<!--Validate form-->
+<script>
+    $(document).ready(function () {
+
+        //Validate name
+        function validateName(){
+            var name = $("#username").val();
+
+            if(name.trim() === ""){
+                $(".username_err").text("The username is not null.");
+                return false;
+            }
+            else if(name.length < 2){
+                $(".username_err").text("The username must be at least 2 characters long.");
+                return false;
+            }
+            else {
+                $(".username_err").text("")
+                return true;
+            }
+        }
+
+        //Validate email
+        function validateEmail(){
+            var email = $("#email").val();
+            var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+            if(email.trim() === ""){
+                $(".email_err").text("The email is not null.");
+                return false;
+            }
+            else if(!emailRegex.test(email)){
+                $(".email_err").text("Email is not valid");
+                return false;
+            }
+            else {
+                $(".email_err").text("");
+                return true;
+            }
+        }
+
+        //Validate password
+        function validatePassword(){
+            var password = $("#password").val();
+            var passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+
+            if(password.trim() === ""){
+                $(".password_err").text("The password is not null.");
+                return false;
+            }
+            else if(password.length < 8){
+                $(".password_err").text("Minimum length is 8.");
+                return false;
+            }
+            else if(!passwordRegex.test(password)){
+                $(".password_err").text("Password must contain at least 1 lowercase letter, 1 uppercase letter, 1 digit, 1 special character.")
+                return false;
+            }
+            else {
+                $(".password_err").text("");
+                return true;
+            }
+        }
+
+        //Validate rePassword
+        function validateRepassword(){
+            var password = $("#password").val();
+            var rePassword = $("#repassword").val();
+
+            if(rePassword.trim() === ""){
+                $(".repassword_err").text("The re-password is not null.");
+                return false;
+            }
+            else if(password != rePassword){
+                $(".repassword_err").text("Password do not match.");
+                return false;
+            }
+            else {
+                $(".repassword_err").text("");
+                return true;
+            }
+        }
+
+        // Event listeners for input changes
+        $("#username").on("input", validateName);
+        $("#email").on("input", validateEmail);
+        $("#password").on("input", validatePassword);
+        $("#repassword").on("input", validateRepassword);
+
+        //Event listener for form submit
+        $("#registerForm").submit(function (event){
+            //Prevent default form submission
+            event.preventDefault();
+
+            // Check if any validation fails
+            if (!validateName() || !validateEmail() || !validatePassword() || !validateRepassword()) {
+                return false; // Prevent form submission if validation fails
+            }
+
+            //Create data object to be sent to the server
+            var formData = {
+                userName : $("#username").val(),
+                email : $("#email").val(),
+                password : $("#password").val(),
+                rePassword : $("#repassword").val(),
+            };
+
+            //Send an Ajax request to server
+            $.ajax({
+                url: "/v1/auth/register",
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(formData),
+                success: function (result) {
+                    var successHtml = '<div style="color: #28a745" class="alert alert-success alert-dismissible fade show" role="alert">\n' +
+                        '                                            Successfully registered account\n' +
+                        '                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>\n' +
+                        '                                        </div>';
+                    $("#alertSuccess").html(successHtml);
+                    setTimeout(function() {
+                        $("#alertSuccess").empty();
+                        window.location.href = "/login";
+                    }, 1200);
+                },
+                error: function (error) {
+                    var errorHtml = '<div class="float-end alert alert-danger alert-dismissible fade show" role="alert">\n' +
+                        '                                            Email was used to register !\n' +
+                        '                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>\n' +
+                        '                                        </div>';
+                    $("#alertError").html(errorHtml);
+                    setTimeout(function() {
+                        $("#alertError").empty();
+                    }, 2000);
+                }
+            });
+        });
+
+    });
+</script>
+</body>
+
+</html>
