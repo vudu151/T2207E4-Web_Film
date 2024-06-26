@@ -1,5 +1,6 @@
 package org.example.film.repositories;
 
+import org.example.film.models.entities.CategoryMovie;
 import org.example.film.models.entities.Movies;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -11,5 +12,7 @@ import java.util.Optional;
 public interface IMoviesRepository extends JpaRepository<Movies,String> {
     Optional<Movies> findById(String id);
     Optional<Movies> findByName(String name);
+    List<Movies> findByCategoryMovieId(CategoryMovie id);
+    List<Movies> findMoviesByCategoryMovieId(Movies movies);
 
 }

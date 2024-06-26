@@ -6,7 +6,9 @@ import org.example.film.commons.cqrs.ISender;
 import org.example.film.models.entities.Episode;
 import org.example.film.models.entities.Movies;
 import org.example.film.models.requests.episodes.AddEpisodeRequest;
+import org.example.film.models.requests.episodes.DeleteEpisodeRequest;
 import org.example.film.models.requests.episodes.EditEpisodeRequest;
+import org.example.film.models.requests.movies.DeleteMovieRequest;
 import org.example.film.models.requests.movies.EditMovieRequest;
 import org.example.film.services.episodes.IEpisodesService;
 import org.example.film.services.movies.IMoviesService;
@@ -86,6 +88,17 @@ public class EpisodeRestController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to edit movies: " + e.getMessage());
         }
     }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String>delete(@PathVariable String id){
+        if (id == null) {
+            throw new IllegalArgumentException("Id is null.");
+        }else {
+            iSender.send(new DeleteEpisodeRequest(id));
+            return ResponseEntity.ok("Delete episode successfully.");
+        }
+    }
+
 
 
 
