@@ -133,6 +133,11 @@ public class HomeController {
         return "public/movies/movie-player";
     }
 
+    @GetMapping("/home/contact-us")
+    public String contact_us(){
+        return "public/home/contact-us";
+    }
+
     @GetMapping("/movieslist2")
     public String movie_listapi(){
         return "public/movies/list2";
