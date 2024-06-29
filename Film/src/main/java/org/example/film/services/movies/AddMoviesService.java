@@ -44,10 +44,6 @@ public class AddMoviesService implements IRequestHandler<AddMovieRequest,String>
             setMovies.setTotalDuration(addMovieRequest.getTotalDuration());
             setMovies.setMmpaRating(addMovieRequest.getMmpaRating());
             setMovies.setKeyWords(addMovieRequest.getKeyWords());
-            setMovies.setIsSeries(addMovieRequest.getIsSeries());
-            setMovies.setIsPopular(addMovieRequest.getIsPopular());
-            setMovies.setScreeningStatus(addMovieRequest.getScreeningStatus());
-            setMovies.setTrailer(addMovieRequest.getTrailer());
             setMovies.setDescription(addMovieRequest.getDescription());
             setMovies.setTotalView(addMovieRequest.getTotalView());
             setMovies.setLevel(addMovieRequest.getLevel());

@@ -27,9 +27,44 @@ import java.util.List;
 @Controller
 @RequiredArgsConstructor
 public class HomeController {
+    @Autowired
+    private IAccountRepository iAccountRepository;
+    @Autowired
+    private ICategoriesMoviesService iCategoriesMoviesService;
+    @Autowired
+    private IMoviesService iMoviesService;
     @GetMapping("")
-    public String index(){
+    public String index(Model model){
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        List<Movies> getMovieSlide = iMoviesService.getListMovies();
+        model.addAttribute("categoryMovieList", getCategoryMovieList());
+
+        if(authentication != null && authentication.isAuthenticated()){
+            Object principal = authentication.getPrincipal();
+            if(principal instanceof CustomUserDetails){
+                CustomUserDetails customUserDetails = (CustomUserDetails) principal;
+                String account_id = customUserDetails.getAccount().getId();
+                String email = customUserDetails.getUsername();             //Do minh dang nhap bang Email nen no hieu la Username luon trong CustomUserDetail
+                String username = customUserDetails.getAccount().getUserName();
+                String role = customUserDetails.getAuthorities().iterator().next().getAuthority();
+                int level = customUserDetails.getAccount().getLevel();
+                String avatar = customUserDetails.getAccount().getAvatar();
+
+                model.addAttribute("username", username);
+                model.addAttribute("role", role);
+                model.addAttribute("level", level);
+                model.addAttribute("avatar", avatar);
+                model.addAttribute("accountId",account_id);
+            }
+        }
+        model.addAttribute("getMovieSlide",getMovieSlide);
         return "public/home/home";
+    }
+
+
+    private List<CategoryMovie> getCategoryMovieList() {
+        return iCategoriesMoviesService.getListCategoriesMovies();
     }
 
     @GetMapping("/register")
@@ -101,12 +136,14 @@ public class HomeController {
     public String movie_detail(){
         return "public/movies/movie-detail";
     }
-
+    @GetMapping("/movies/movie-player")
+    public String movie_player(){
+        return "public/movies/movie-player";
+    }
     @GetMapping("/moviesdetail2")
     public String movie_detailapi(){
         return "public/movies/detail2";
     }
-
     @GetMapping("/episodesdetail3")
     public String movie_episodeapi2(){
         return "public/episodes/detail3";

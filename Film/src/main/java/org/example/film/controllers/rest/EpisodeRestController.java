@@ -6,10 +6,6 @@ import org.example.film.commons.cqrs.ISender;
 import org.example.film.models.entities.Episode;
 import org.example.film.models.entities.Movies;
 import org.example.film.models.requests.episodes.AddEpisodeRequest;
-import org.example.film.models.requests.episodes.DeleteEpisodeRequest;
-import org.example.film.models.requests.episodes.EditEpisodeRequest;
-import org.example.film.models.requests.movies.DeleteMovieRequest;
-import org.example.film.models.requests.movies.EditMovieRequest;
 import org.example.film.services.episodes.IEpisodesService;
 import org.example.film.services.movies.IMoviesService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,21 +31,7 @@ public class EpisodeRestController {
 
     @Autowired
     private IMoviesService iMoviesService;
-
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<Episode>> getEpisodeById(@PathVariable String id){
-        try {
-            Optional<Episode> getEpisode = iEpisodesService.getEpisodeById(id);
-            if (!getEpisode.isEmpty()){
-                return ResponseEntity.ok(getEpisode);
-            }else {
-                return ResponseEntity.notFound().build();
-            }
-        }catch (Exception e){
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-        }
-    }
-    @GetMapping("/list/{id}")
     public ResponseEntity<List<Episode>> getEpisodeByMovieId(@PathVariable String id){
         try {
             List<Episode> getEpisode = iEpisodesService.getEpisodeByMovieId(iMoviesService.getMovieById(id).get());
@@ -75,31 +57,6 @@ public class EpisodeRestController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to add movies: " + e.getMessage());
         }
     }
-
-    @PutMapping("/edit")
-    public ResponseEntity<String> edit(@Valid @RequestBody EditEpisodeRequest editEpisodeRequest, BindingResult bindingResult){
-        if(bindingResult.hasErrors()){
-            return ResponseEntity.badRequest().body("Invalid data.");
-        }
-        try {
-            var result = iSender.send(editEpisodeRequest);
-            return ResponseEntity.ok(String.valueOf(result.orThrow()));
-        }catch (Exception e){
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to edit movies: " + e.getMessage());
-        }
-    }
-
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String>delete(@PathVariable String id){
-        if (id == null) {
-            throw new IllegalArgumentException("Id is null.");
-        }else {
-            iSender.send(new DeleteEpisodeRequest(id));
-            return ResponseEntity.ok("Delete episode successfully.");
-        }
-    }
-
-
 
 
 }

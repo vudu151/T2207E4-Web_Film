@@ -11,6 +11,7 @@ import java.util.Optional;
 @Repository
 public interface IEpisodeRepository extends JpaRepository<Episode,String> {
     Optional<Episode> findById(String id);
-    List<Episode> findAllByMovieId(Movies movies);
+    List<Episode> findAllByMovieId(Movies movieId);
+
 
 }

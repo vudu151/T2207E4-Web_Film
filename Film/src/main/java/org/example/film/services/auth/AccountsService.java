@@ -2,6 +2,7 @@ package org.example.film.services.auth;
 
 import org.example.film.configurations.securities.CustomUserDetails;
 import org.example.film.models.entities.Account;
+import org.example.film.models.enums.Provider;
 import org.example.film.repositories.IAccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -75,4 +76,27 @@ public class AccountsService implements IAccountsService {
     public Optional<Account> getAccountById(String id) {
         return iAccountRepository.findById(id);
     }
+
+    public void processOAuthPostLogin(String username) {
+        Optional<Account> existUser = iAccountRepository.findByUserName(username);
+
+        if (existUser.isEmpty()) {
+            // User doesn't exist, create a new account
+            Account newUser = new Account();
+            newUser.setUserName(username);
+            newUser.setEmail(username);
+            newUser.setProvider(Provider.GOOGLE);
+            newUser.setActive(true);
+            iAccountRepository.save(newUser);
+        }
+//        else {
+//            Account user = existUser.get();
+//
+//            iAccountRepository.save(newUser);
+//        }
+
+    }
+
+
+
 }

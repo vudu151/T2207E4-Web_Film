@@ -7,7 +7,6 @@ import org.example.film.models.entities.Movies;
 import org.example.film.models.requests.movies.AddMovieRequest;
 import org.example.film.models.requests.movies.DeleteMovieRequest;
 import org.example.film.models.requests.movies.EditMovieRequest;
-import org.example.film.services.categoriesMovies.ICategoriesMoviesService;
 import org.example.film.services.movies.IMoviesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,9 +28,6 @@ public class MoviesRestController {
     @Autowired
     private IMoviesService iMoviesService;
 
-    @Autowired
-    private ICategoriesMoviesService iCategoriesMoviesService;
-
     @GetMapping
     public ResponseEntity<List<Movies>> getListMovies(){
         var result = iMoviesService.getListMovies();
@@ -43,20 +39,6 @@ public class MoviesRestController {
         try {
             Optional<Movies> getMovie = iMoviesService.getMovieById(id);
             if (getMovie.isPresent()){
-                return ResponseEntity.ok(getMovie);
-            }else {
-                return ResponseEntity.notFound().build();
-            }
-        }catch (Exception e){
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-        }
-    }
-
-    @GetMapping("/category/{id}")
-    public ResponseEntity<List<Movies>> getMovieByCategoryId(@PathVariable String id){
-        try {
-            List<Movies> getMovie = iMoviesService.getCategoryByMovieid(iCategoriesMoviesService.getCategoryMovieById(id).get());
-            if (!getMovie.isEmpty()){
                 return ResponseEntity.ok(getMovie);
             }else {
                 return ResponseEntity.notFound().build();

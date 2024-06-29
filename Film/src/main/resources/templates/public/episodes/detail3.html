@@ -26,8 +26,6 @@
         />
         <link rel="stylesheet" href='http://fonts.googleapis.com/css?family=Dosis:400,700,500|Nunito:300,400,600' />
         <link rel="icon" th:href="@{/public/images/movie-reel.png}">
-        <link rel="stylesheet" th:href="@{/public/css/plugins.css}">
-        <link rel="stylesheet" th:href="@{/public/css/style.css}">
         <link rel="stylesheet" th:href="@{/public/css/style_movie_home.css}">
         <link rel="stylesheet" th:href="@{/public/css/all.min.css}">
         <link rel="stylesheet" th:href="@{/public/css/google-fonts-fallback.css}">
@@ -48,146 +46,263 @@
 <span></span>
     <br>  <br>  <br>  <br>  <br>  <br>  <br>  <br>
 
-    <div class="trailers  full-width">
-        <!--     -->
-        <div class=" row ipad-width">
-            <!--           " style="margin-top: 100px;-->
-            <div class="">
-                <!--                col-md-9 col-sm-12 col-xs-12-->
-                <div class="title-hd">
-                    <h2 id="episode-title"></h2>
-                    <a href="#" class="viewall">View all <i class="ion-ios-arrow-right"></i></a>
-                </div>
-                <section class="videos">
-                    <div class="slider-for-2 video-ft">
-                        <div class="video-container" >
-                           <div id="episode-number">
-                               <video id="video" >
-                                <source  src="" type=video/mp4>
-                                Your browser does not support the video tag.</video>
-                               <!--                                                    <video id="video" >-->
-<!--                                <source src="https://storage.cloud.google.com/testcloudvido/test.mp4" type=video/mp4>-->
-<!--                                &lt;!&ndash;                                <source id="video-source" type="video/mp4">&ndash;&gt;-->
-<!--                                Your browser does not support the video tag.-->
-<!--                            </video> -->
-                           </div>
-                            <span class="custom-loader"></span>
 
-                            <div class="player-state">
-									<span class="state-btn state-backward">
-									  <ion-icon name="play-back-outline"></ion-icon>
-									  <span class="backward-duration">5</span>
-									</span>
-                                <span class="main-state state-btn">
-									  <ion-icon name="play-outline"></ion-icon>
-									</span>
-                                <span class="state-btn state-forward">
-									  <span class="forward-duration">5</span>
-									  <ion-icon name="play-forward-outline"></ion-icon>
-									</span>
-                            </div>
-                            <div class="controls">
-                                <div class="duration">
-                                    <div class="current-time"></div>
-                                    <div class="hover-time">
-                                        <span class="hover-duration"></span>
-                                    </div>
-                                    <div class="buffer"></div>
-                                </div>
-                                <div class="btn-controls">
-                                    <div class="btn-con">
-										<span class="play-pause control-btn">
-										  <ion-icon name="play-outline"></ion-icon>
-										</span>
-                                        <span class="volume">
-										  <span class="mute-unmute control-btn">
-											<ion-icon name="volume-high-outline"></ion-icon>
-										  </span>
-										  <div class="max-vol">
-											<div class="current-vol"></div>
-										  </div>
-										</span>
-                                        <span class="time-container">
-										  <span class="current-duration">0:00</span>
-										  <span>/</span>
-										  <span class="total-duration">0:00</span>
-										</span>
-                                    </div>
-                                    <div class="right-controls">
-										<span class="backward control-btn" title="5 backward">
-										  <ion-icon name="play-back-outline"></ion-icon>
-										</span>
-                                        <span class="forward control-btn" title="5 forward">
-										  <ion-icon name="play-forward-outline"></ion-icon>
-										</span>
-                                        <span class="mini-player control-btn">
-										  <ion-icon name="albums-outline"></ion-icon>
-										</span>
-                                        <span class="settings control-btn">
-										  <span class="setting-btn">
-											<ion-icon name="options-outline"></ion-icon>
-										  </span>
-										  <ul class="setting-menu">
-											<li data-value="0.25">0.25x</li>
-											<li data-value="0.5">0.5x</li>
-											<li data-value="0.75">0.75x</li>
-											<li data-value="1" class="speed-active">1x</li>
-											<li data-value="1.25">1.25x</li>
-											<li data-value="1.5">1.5x</li>
-											<li data-value="1.75">1.75x</li>
-											<li data-value="2">2x</li>
-										  </ul>
-										</span>
-                                        <span class="theater-btn control-btn">
-										  <span class="theater-default">
-											<ion-icon name="tablet-landscape-outline"></ion-icon>
-										  </span>
-										  <span class="theater-active">
-											<ion-icon name="tv-outline"></ion-icon>
-										  </span>
-										</span>
-                                        <span class="fullscreen-btn control-btn" title="fullscreen">
-										  <span class="full">
-											<ion-icon name="scan-outline"></ion-icon>
-										  </span>
-										  <span class="contract">
-											<ion-icon name="contract-outline"></ion-icon>
-										  </span>
-										</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!--playlist-->
-                    <div class="slider-nav-2 thumb-ft">
-                        <div class="item" id="related-movies">
-                            <div class="trailer-img">
-                                <img th:src="@{/public/images/uploads/trailer7.jpg}" alt="photo by Barn Images" width="4096"
-                                     height="2737">
-                            </div>
-                            <div class="trailer-infor">
-                                <h4 class="desc" >  </h4>
-                                <p>2:30</p>
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="trailer-img">
-                                <img th:src="@{/public/images/uploads/trailer5.jpg}" alt="photo by Wojciech Szaturski" width="360"
-                                     height="189">
-                            </div>
-                            <div class="trailer-infor">
-                                <h4 class="desc">Fast&Furious 8</h4>
-                                <p>3:11</p>
-                            </div>
-                        </div>
-
-                    </div>
-                </section>
+    <div class="trailers full-width">
+        <div class="row ipad-width" style="margin-top: 150px;">
+            <div class="title-hd">
+                 <h2 id="episode-title"></h2>
+                <a href="#" class="viewall">View all <i class="ion-ios-arrow-right"></i></a>
             </div>
 
-        </div>
+            <div class="videos">
+                <div class="main-video-container">
+                    <video id="video" disableRemotePlayback  class="main-video">
+                        <source  src="" type=video/mp4>
+                    </video>
+                    <span class="custom-loader"></span>
+                    <div class="player-state">
+						<span class="state-btn state-backward">
+							<ion-icon name="play-back-outline"></ion-icon>
+							<span class="backward-duration">5</span>
+						</span>
+                        <span class="main-state state-btn">
+							<ion-icon name="play-outline"></ion-icon>
+						</span>
+                        <span class="state-btn state-forward">
+							<span class="forward-duration">5</span>
+							<ion-icon name="play-forward-outline"></ion-icon>
+						</span>
+                    </div>
+                    <div class="controls">
+                        <div class="duration">
+                            <div class="current-time"></div>
+                            <div class="hover-time">
+                                <span class="hover-duration"></span>
+                            </div>
+                            <div class="buffer"></div>
+                        </div>
+                        <div class="btn-controls">
+                            <div class="btn-con">
+                                <span class="play-pause control-btn">
+                                    <ion-icon name="play-outline"></ion-icon>
+                                </span>
+                                <span class="volume">
+                                    <span class="mute-unmute control-btn">
+                                        <ion-icon name="volume-high-outline"></ion-icon>
+                                    </span>
+                                    <div class="max-vol">
+                                        <div class="current-vol"></div>
+                                    </div>
+                                </span>
+                                <span class="time-container">
+                                    <span class="current-duration">0:00</span>
+                                    <span>/</span>
+                                    <span class="total-duration">0:00</span>
+                                </span>
+                            </div>
+                            <div class="right-controls">
+                                <span class="backward control-btn" title="5 backward">
+                                    <ion-icon name="play-back-outline"></ion-icon>
+                                </span>
+                                <span class="forward control-btn" title="5 forward">
+                                    <ion-icon name="play-forward-outline"></ion-icon>
+                                </span>
+                                <span class="mini-player control-btn">
+                                    <ion-icon name="albums-outline"></ion-icon>
+                                </span>
+                                <span class="settings control-btn">
+                                    <span class="setting-btn">
+                                        <ion-icon name="options-outline"></ion-icon>
+                                    </span>
+                                    <ul class="setting-menu">
+                                        <li data-value="0.25">0.25x</li>
+                                        <li data-value="0.5">0.5x</li>
+                                        <li data-value="0.75">0.75x</li>
+                                        <li data-value="1" class="speed-active">1x</li>
+                                        <li data-value="1.25">1.25x</li>
+                                        <li data-value="1.5">1.5x</li>
+                                        <li data-value="1.75">1.75x</li>
+                                        <li data-value="2">2x</li>
+                                    </ul>
+                                </span>
+                                <span class="fullscreen-btn control-btn" title="fullscreen">
+                                    <span class="full">
+                                        <ion-icon name="scan-outline"></ion-icon>
+                                    </span>
+                                    <span class="contract">
+                                        <ion-icon name="contract-outline"></ion-icon>
+                                    </span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
+                <div class="video-list-container episoderelated">
+                    <div class="list active">
+<!--                      <div class="episoderelated">-->
+<!--                          <div class="video-select">-->
+<!--                            <video src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" class="list-video"></video>-->
+<!--                        </div>-->
+<!--                        <div class="video-details">-->
+<!--                            <h4 class="list-title">house flood animation</h4>-->
+<!--                            <p class="list-duration">4:30</p>-->
+<!--                        </div>-->
+<!--                      </div>-->
+<!--                    </div>-->
+
+<!--                    <div class="list">-->
+<!--                        <div class="video-select">-->
+<!--                            <video src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" class="list-video"></video>-->
+<!--                        </div>-->
+<!--                        <div class="video-details">-->
+<!--                            <h4 class="list-title">zoombie walking animation</h4>-->
+<!--                            <p class="list-duration">4:30</p>-->
+<!--                        </div>-->
+<!--                    </div>-->
+
+<!--                    <div class="list">-->
+<!--                        <div class="video-select">-->
+<!--                            <video src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" class="list-video"></video>-->
+<!--                        </div>-->
+<!--                        <div class="video-details">-->
+<!--                            <h4 class="list-title">emoji falling animation</h4>-->
+<!--                            <p class="list-duration">4:30</p>-->
+<!--                        </div>-->
+<!--                    </div>-->
+
+<!--                    <div class="list">-->
+<!--                        <div class="video-select">-->
+<!--                            <video src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" class="list-video"></video>-->
+<!--                        </div>-->
+<!--                        <div class="video-details">-->
+<!--                            <h4 class="list-title">3D town animation</h4>-->
+<!--                            <p class="list-duration">4:30</p>-->
+<!--                        </div>-->
+<!--                    </div>-->
+
+<!--                    <div class="list">-->
+<!--                        <div class="video-select">-->
+<!--                            <video src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" class="list-video"></video>-->
+<!--                        </div>-->
+<!--                        <div class="video-details">-->
+<!--                            <h4 class="list-title">man chasing carrot animation</h4>-->
+<!--                            <p class="list-duration">4:30</p>-->
+<!--                        </div>-->
+<!--                    </div>-->
+
+<!--                    <div class="list">-->
+<!--                        <div class="video-select">-->
+<!--                            <video src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" class="list-video"></video>-->
+<!--                        </div>-->
+<!--                        <div class="video-details">-->
+<!--                            <h4 class="list-title">door hinge animation</h4>-->
+<!--                            <p class="list-duration">4:30</p>-->
+<!--                        </div>-->
+<!--                    </div>-->
+
+<!--                    <div class="list">-->
+<!--                        <div class="video-select">-->
+<!--                            <video src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" class="list-video"></video>-->
+<!--                        </div>-->
+<!--                        <div class="video-details">-->
+<!--                            <h4 class="list-title">poeple walking in town animation</h4>-->
+<!--                            <p class="list-duration">4:30</p>-->
+<!--                        </div>-->
+<!--                    </div>-->
+
+<!--                    <div class="list">-->
+<!--                        <div class="video-select">-->
+<!--                            <video src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" class="list-video"></video>-->
+<!--                        </div>-->
+<!--                        <div class="video-details">-->
+<!--                            <h4 class="list-title">knight chasing virus animation</h4>-->
+<!--                            <p class="list-duration">4:30</p>-->
+<!--                        </div>-->
+<!--                    </div>-->
+
+<!--                    <div class="list">-->
+<!--                        <div class="video-select">-->
+<!--                            <video src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" class="list-video"></video>-->
+<!--                        </div>-->
+<!--                        <div class="video-details">-->
+<!--                            <h4 class="list-title">3D helicopter animation</h4>-->
+<!--                            <p class="list-duration">4:30</p>-->
+<!--                        </div>-->
+<!--                    </div>-->
+
+<!--                    <div class="list">-->
+<!--                        <div class="video-select">-->
+<!--                            <video src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" class="list-video"></video>-->
+<!--                        </div>-->
+<!--                        <div class="video-details">-->
+<!--                            <h4 class="list-title">emoji falling animation</h4>-->
+<!--                            <p class="list-duration">4:30</p>-->
+<!--                        </div>-->
+<!--                    </div>-->
+
+<!--                    <div class="list">-->
+<!--                        <div class="video-select">-->
+<!--                            <video src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" class="list-video"></video>-->
+<!--                        </div>-->
+<!--                        <div class="video-details">-->
+<!--                            <h4 class="list-title">emoji falling animation</h4>-->
+<!--                            <p class="list-duration">4:30</p>-->
+<!--                        </div>-->
+<!--                    </div>-->
+
+<!--                    <div class="list">-->
+<!--                        <div class="video-select">-->
+<!--                            <video src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" class="list-video"></video>-->
+<!--                        </div>-->
+<!--                        <div class="video-details">-->
+<!--                            <h4 class="list-title">emoji falling animation</h4>-->
+<!--                            <p class="list-duration">4:30</p>-->
+<!--                        </div>-->
+<!--                    </div>-->
+
+<!--                    <div class="list">-->
+<!--                        <div class="video-select">-->
+<!--                            <video src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" class="list-video"></video>-->
+<!--                        </div>-->
+<!--                        <div class="video-details">-->
+<!--                            <h4 class="list-title">emoji falling animation</h4>-->
+<!--                            <p class="list-duration">4:30</p>-->
+<!--                        </div>-->
+<!--                    </div>-->
+
+<!--                    <div class="list">-->
+<!--                        <div class="video-select">-->
+<!--                            <video src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" class="list-video"></video>-->
+<!--                        </div>-->
+<!--                        <div class="video-details">-->
+<!--                            <h4 class="list-title">emoji falling animation</h4>-->
+<!--                            <p class="list-duration">4:30</p>-->
+<!--                        </div>-->
+<!--                    </div>-->
+
+<!--                    <div class="list">-->
+<!--                        <div class="video-select">-->
+<!--                            <video src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" class="list-video"></video>-->
+<!--                        </div>-->
+<!--                        <div class="video-details">-->
+<!--                            <h4 class="list-title">emoji falling animation</h4>-->
+<!--                            <p class="list-duration">4:30</p>-->
+<!--                        </div>-->
+<!--                    </div>-->
+
+<!--                    <div class="list">-->
+<!--                        <div class="video-select">-->
+<!--                            <video src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" class="list-video"></video>-->
+<!--                        </div>-->
+<!--                        <div class="video-details">-->
+<!--                            <h4 class="list-title">emoji falling animation</h4>-->
+<!--                            <p class="list-duration">4:30</p>-->
+<!--                        </div>-->
+<!--                    </div>-->
+                </div>
+            </div>
+        </div>
     </div>
     <!-- Commend new v2 section-->
     <div class="page-single">
@@ -324,7 +439,7 @@
         fetchEpisodeDetails(episodeId);
 
         // Fetch related movies for the episode
-        fetchRelatedEpisode(episodeId);
+        fetchRelatedEpisodes(episodeId);
     });
 
     function fetchEpisodeDetails(episodeId) {
@@ -334,7 +449,7 @@
             success: function(data) {
                 console.log(data); // Log the entire response object
                 // Display episode details
-                $("#episode-title").text(data.name);
+                $("#episode-title").text("Episode"+data.name);
 
                 $("#episode-description").text(data.description);
                 $("#episode-duration").text(data.duration + " minutes");
@@ -354,18 +469,33 @@ video.play();
         });
     }
 
-    function fetchRelatedEpisode(episodeId) {
-        $.ajax({
-            url: "/api/public/episode/" + episodeId + "/related",
-            type: "GET",
-            success: function(data) {
-
-            },
-            error: function(xhr, status, error) {
-                console.error("Error fetching related episodes: ", error);
-            }
-        });
+  function fetchRelatedEpisodes(episodeId) {
+  $.ajax({
+    url: "/api/public/episode/related/" + episodeId,
+    type: "GET",
+    success:  function(data2) {
+                    // Populate the movie list
+                    $.each(data2, function(index,episode2) {
+                    console.log(episode2.name);
+        var listItem = `
+           <div class="list active">
+            <div class="video-select">
+           <img src="/public/images/uploads/mv1.jpg" alt="">
+            </div>
+            <div class="video-details">
+              <h4 class="list-title"><a href="episodesdetail3?id=${episode2.id}" >episode ${episode2.name}</a> </h4>
+              <p class="list-duration">${episode2.duration}</p>
+          </div> </div>>
+        `;
+        console.log(episode2.name);
+        $(".episoderelated").append(listItem);
+      });
+    },
+    error: function(xhr, status, error) {
+      console.error("Error fetching related episodes: ", error);
     }
+  });
+}
 
     </script>
 </th:block>

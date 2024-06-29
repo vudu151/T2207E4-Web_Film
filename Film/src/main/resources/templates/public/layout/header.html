@@ -30,23 +30,22 @@
                             <a class="btn btn-default dropdown-toggle lv1" data-toggle="dropdown" data-hover="dropdown">
                                 Genres <i class="fa fa-angle-down" aria-hidden="true"></i>
                             </a>
-                            <ul class="dropdown-menu level1">
-                                <li th:each="genre : ${genreList}">
-                                    <a th:href="@{/movies/{genre}(genre=${genre.name})}" th:text="${genre.name}"></a>
-                                </li>
+                            <ul class="dropdown-menu level1" th:each="genre : ${genreList}">
+                                <li><p th:text="${genre.name}"></p></li>
                             </ul>
                         </li>
                         <li th:each="category : ${categoryMovieList}">
                             <a th:href="@{/movies}" class="btn btn-default" th:text="${category.name}"></a>
                         </li>
+
                         <li class="dropdown first">
                             <a class="btn btn-default dropdown-toggle lv1" data-toggle="dropdown" data-hover="dropdown">
                                 celebrities <i class="fa fa-angle-down" aria-hidden="true"></i>
                             </a>
                             <ul id="jobList" class="dropdown-menu level1">
-                                <li th:each="job : ${jobList}">
-                                    <a th:text="${job.name}" th:href="@{/jobs/{id}(id=${job.id})}"></a>
-                                </li>
+                                <li><a th:href="@{/celebrities}">Actors</a></li>
+                                <li><a th:href="@{/celebrities}">Directors</a></li>
+                                <li class="it-last"><a th:href="@{/celebrities}">Writers</a></li>
                             </ul>
                         </li>
                         <li>
@@ -54,16 +53,7 @@
                                 News
                             </a>
                         </li>
-<!--                        <li class="dropdown first">-->
-<!--                            <a class="btn btn-default dropdown-toggle lv1" data-toggle="dropdown" data-hover="dropdown">-->
-<!--                                community <i class="fa fa-angle-down" aria-hidden="true"></i>-->
-<!--                            </a>-->
-<!--                            <ul class="dropdown-menu level1">-->
-<!--                                <li><a th:href="@{/}">user favorite grid</a></li>-->
-<!--                                <li><a th:href="@{/}">user profile</a></li>-->
-<!--                                <li class="it-last"><a th:href="@{/}">user rate</a></li>-->
-<!--                            </ul>-->
-<!--                        </li>-->
+
                     </ul>
 
                     <ul class="nav navbar-nav flex-child-menu menu-left">

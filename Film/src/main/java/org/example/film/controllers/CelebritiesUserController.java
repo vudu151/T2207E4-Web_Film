@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RequestMapping("/celebrities")
 public class CelebritiesUserController {
+    @Autowired
+    private ICelebrityRepository iCelebrityRepository;
+
     @GetMapping("")
     public String celebrities(){
         return "public/celebrities/index";

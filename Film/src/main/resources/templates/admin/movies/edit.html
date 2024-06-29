@@ -70,47 +70,6 @@
                                             </div>
 
                                             <div class="mb-2 row">
-                                                <label class="col-md-2 col-form-label">Is Series</label>
-                                                <div class="col-md-10">
-                                                    <select class="form-select" id="select-series">
-                                                        <option selected>Select level</option>
-                                                        <option value=0>Series</option>
-                                                        <option value=1>Single</option>
-                                                    </select>
-                                                    <span class="invalid-feedback text-danger"
-                                                          id="invalid-feedback-series">The series is not null.</span>
-                                                </div> <!-- end col -->
-                                            </div>
-
-                                            <div class="mb-2 row">
-                                                <label class="col-md-2 col-form-label">Is Popular</label>
-                                                <div class="col-md-10">
-                                                    <select class="form-select" id="select-popular">
-                                                        <option selected>Select Popular</option>
-                                                        <option value=0>Yes</option>
-                                                        <option value=1>No</option>
-                                                    </select>
-                                                    <span class="invalid-feedback text-danger"
-                                                          id="invalid-feedback-popular">The popular is not null.</span>
-                                                </div> <!-- end col -->
-                                            </div>
-
-                                            <div class="mb-2 row">
-                                                <label class="col-md-2 col-form-label">Screening Status</label>
-                                                <div class="col-md-10">
-                                                    <select class="form-select" id="select-screeningStatus">
-                                                        <option selected>Select Screening Status</option>
-                                                        <option value=0>Movie coming soon</option>
-                                                        <option value=1>Movie is showing</option>
-                                                        <option value=2>Completed film</option>
-                                                    </select>
-                                                    <span class="invalid-feedback text-danger"
-                                                          id="invalid-feedback-screeningStatus">The popular is not null.</span>
-                                                </div> <!-- end col -->
-                                            </div>
-
-
-                                            <div class="mb-2 row">
                                                 <label class="col-md-2 col-form-label" for="input-release">Release</label>
                                                 <div class="col-md-10">
                                                     <input class="form-control" type="date" name="date" id="input-release">
@@ -225,16 +184,6 @@
                                                     <span class="invalid-feedback text-danger"
                                                           id="invalid-feedback-status">The status is not null.</span>
                                                 </div> <!-- end col -->
-                                            </div>
-
-                                            <div class="mb-2 row">
-                                                <label class="col-md-2 col-form-label" for="input-trailer">Trailer</label>
-                                                <div class="col-md-10">
-                                                    <input type="text" id="input-trailer" class="form-control"
-                                                           placeholder="Some text value...">
-                                                    <span class="invalid-feedback text-danger"
-                                                          id="invalid-feedback-trailer">Trailer Not Null.</span>
-                                                </div>
                                             </div>
 
                                             <div class="mb-2 row">
@@ -369,10 +318,6 @@
                         $('#movie-id').val(movie.id);
                         $('#input-name').val(movie.name);
                         $('#total-episode').val(movie.totalEpisode);
-                        $('#select-series').val(movie.isSeries);
-                        $('#select-popular').val(movie.isPopular);
-                        $('#select-screeningStatus').val(movie.screeningStatus);
-                        $('#input-trailer').val(movie.trailer);
                         if (movie.release) {
                             var releaseDate = new Date(movie.release);
                             var releaseDateString = releaseDate.toISOString().substring(0, 10);
@@ -634,10 +579,6 @@
             let category = $('#category-select').val();
             let genre = $('#genre-select').val();
             let genres = $('#selectize-maximum').val();
-            let isSeries = $('#select-series').val();
-            let isPopular = $('#select-popular').val();
-            let screeningStatus = $('#select-screeningStatus').val();
-            let trailer = $('#input-trailer').val();
             let status = $('#select-status').val();
 
             var quill = new Quill('#snow-editor');
@@ -652,34 +593,12 @@
             } else {
                 $('#invalid-feedback-name').hide();
             }
-            if (trailer.length === 0) {
-                $('#invalid-feedback-trailer').show();
-            } else {
-                $('#invalid-feedback-trailer').hide();
-            }
             if(totalEpisode.length ===0){
                 $('#invalid-feedback-totalEpisode').show();
             }else if(totalEpisode <= 0){
                 $('#invalid-feedback-totalEpisode').show();
             } else {
                 $('#invalid-feedback-name').hide();
-            }
-            if (!isSeries || isSeries === "select-series") {
-                $('#invalid-feedback-series').show();
-            } else {
-                $('#invalid-feedback-series').hide();
-            }
-
-            if (!isPopular || isPopular === "select-popular") {
-                $('#invalid-feedback-popular').show();
-            } else {
-                $('#invalid-feedback-popular').hide();
-            }
-
-            if (!screeningStatus || screeningStatus === "select-screeningStatus") {
-                $('#invalid-feedback-screeningStatus').show();
-            } else {
-                $('#invalid-feedback-screeningStatus').hide();
             }
             if (!release) {
                 $('#invalid-feedback-release').show();
@@ -757,10 +676,6 @@
                 genreListId: genres,
                 status: status,
                 poster: posterSrc,
-                isSeries: isSeries,
-                isPopular: isPopular,
-                screeningStatus: screeningStatus,
-                trailer: trailer,
                 imagesId: images,
             };
             $.ajax({

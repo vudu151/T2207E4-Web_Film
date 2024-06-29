@@ -43,6 +43,7 @@ public class AddEpisodeRequest implements IRequest<String> {
 
     private int status;
 
-    private String movieId;
+    @JsonProperty("movie_id")
+    private String movie_id;
 
 }
