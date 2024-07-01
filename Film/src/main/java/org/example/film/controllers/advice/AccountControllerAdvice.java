@@ -23,11 +23,12 @@ public class AccountControllerAdvice {
                 String role = customUserDetails.getAuthorities().iterator().next().getAuthority();
                 int level = customUserDetails.getAccount().getLevel();
                 String avatar = customUserDetails.getAccount().getAvatar();
-
+                String idUser = customUserDetails.getAccount().getId();
                 model.addAttribute("username", username);
                 model.addAttribute("role", role);
                 model.addAttribute("level", level);
                 model.addAttribute("avatar", avatar);
+                model.addAttribute("idUser",idUser);
             }
         }
     }

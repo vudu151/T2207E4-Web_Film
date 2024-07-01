@@ -19,6 +19,7 @@
 
 <main id="main-content">
 <div class="hero mv-single-hero">
+    <span style="display: none" class="idAccount" th:text="${account_id}"></span>
 <div class="container">
 <div class="row">
     <div class="col-md-12">
@@ -41,11 +42,19 @@
             <div class="movie-btn">
                 <div class="btn-transform transform-vertical red">
                     <div><a href="#" class="item item-1 redbtn"> <i class="ion-play"></i> Watch Trailer</a></div>
-                    <div><a href="https://www.youtube.com/embed/o-0hcF97wy0" class="item item-2 redbtn fancybox-media hvr-grow"><i class="ion-play"></i></a></div>
+                    <div><a th:href="${getMovieId.trailer}" class="item item-2 redbtn fancybox-media hvr-grow"><i class="ion-play"></i></a></div>
                 </div>
-                <div class="btn-transform transform-vertical">
-                    <div><a href="#" class="item item-1 yellowbtn"> <i class="ion-card"></i> Buy ticket</a></div>
+                <div th:if="${buyMovie == 1 and account_id != null}" class="btn-transform transform-vertical">
+                    <div><a href="#" class="item item-1 yellowbtn"> <i class="ion-play"></i> Watch</a></div>
+                    <div><a href="#" class="item item-2 yellowbtn"><i class="ion-play"></i></a></div>
+                </div>
+                <div th:if="${buyMovie == 0 and account_id != null}" class="btn-transform transform-vertical">
+                    <div><a href="#" class="item item-1 yellowbtn"> <i class="ion-card"></i> Buy Account</a></div>
                     <div><a href="#" class="item item-2 yellowbtn"><i class="ion-card"></i></a></div>
+                </div>
+                <div th:if="${account_id == null and buyMovie == null}" class="btn-transform transform-vertical">
+                    <div><a href="#" class="item item-1 yellowbtn"> <i class="ion-log-in"></i> Login Account</a></div>
+                    <div><a href="#" class="item item-2 yellowbtn"><i class="ion-log-in"></i></a></div>
                 </div>
             </div>
         </div>
@@ -54,7 +63,15 @@
         <div class="movie-single-ct main-content">
             <h1 class="bd-hd" th:text="${getMovieId.name}"></h1>
             <div class="social-btn">
-                <a href="#" class="parent-btn"><i class="ion-heart"></i> Add to Favorite</a>
+                <a th:if="${account_id != null and #lists.contains(favoriteMovieIds, getMovieId.id)}" type="button" class="parent-btn favorite-icon favorite-movieDetail" th:attr="data-movie-id=${getMovieId.id}">
+                    <i class="ion-android-favorite"></i> Add to Favorite
+                </a>
+                <a th:if="${account_id != null and not #lists.contains(favoriteMovieIds, getMovieId.id)}" type="button" class="parent-btn favorite-icon favorite-movieDetail" th:attr="data-movie-id=${getMovieId.id}">
+                    <i class="ion-android-favorite-outline"></i> Add to Favorite
+                </a>
+                <a th:if="${account_id == null}" type="button" class="parent-btn heart-error favorite-movieDetail">
+                    <i class="ion-android-favorite"></i> Add to Favorite
+                </a>
                 <div class="hover-bnt">
                     <a href="#" class="parent-btn"><i class="ion-android-share-alt"></i>share</a>
                     <div class="hvr-item">
@@ -104,65 +121,22 @@
                                         <a href="#" class="time" th:text="${getImagesMovie.size()}"><i class="ion-ios-arrow-right"></i></a>
                                     </div>
                                     <div class="mvsingle-item ov-item">
-                                        <a th:each="image:${getImagesMovie}" class="img-lightbox" th:src="${image}" style="width: 100px; height: 100px" data-fancybox-group="gallery" th:href="${image}"><img th:src="${image}" alt=""></a>
+                                        <a th:each="image:${getImagesMovie}" class="img-lightbox" th:src="${image}" style="width: 100px; height: 100px" data-fancybox-group="gallery" th:href="${image}">
+                                            <img th:src="${image}" alt="" style="height: 100%; width: 100%; object-fit: cover; overflow: hidden">
+                                        </a>
                                     </div>
                                     <!-- movie cast -->
+                                    <div class="title-hd-sm">
+                                        <h4>cast</h4>
+                                        <a href="#" class="time">Full Cast & Crew  <i class="ion-ios-arrow-right"></i></a>
+                                    </div>
                                     <div class="mvcast-item">
-                                        <div class="cast-it">
+                                        <div class="cast-it" th:each="actorMovie:${getActorMovie}">
                                             <div class="cast-left">
-                                                <img src="/public/images/uploads/cast1.jpg" alt="">
-                                                <a href="#">Robert Downey Jr.</a>
+                                                <img th:src="${actorMovie.getCelebrity().getPoster()}" alt="" style="width: 40px; height: 40px; object-fit: cover;overflow: hidden">
+                                                <a href="#" th:text="${actorMovie.getCelebrity().getName()}"></a>
                                             </div>
-                                            <p>...  Robert Downey Jr.</p>
-                                        </div>
-                                        <div class="cast-it">
-                                            <div class="cast-left">
-                                                <img src="/public/images/uploads/cast2.jpg" alt="">
-                                                <a href="#">Chris Hemsworth</a>
-                                            </div>
-                                            <p>...  Thor</p>
-                                        </div>
-                                        <div class="cast-it">
-                                            <div class="cast-left">
-                                                <img src="/public/images/uploads/cast3.jpg" alt="">
-                                                <a href="#">Mark Ruffalo</a>
-                                            </div>
-                                            <p>...  Bruce Banner/ Hulk</p>
-                                        </div>
-                                        <div class="cast-it">
-                                            <div class="cast-left">
-                                                <img src="/public/images/uploads/cast4.jpg" alt="">
-                                                <a href="#">Chris Evans</a>
-                                            </div>
-                                            <p>...  Steve Rogers/ Captain America</p>
-                                        </div>
-                                        <div class="cast-it">
-                                            <div class="cast-left">
-                                                <img src="/public/images/uploads/cast5.jpg" alt="">
-                                                <a href="#">Scarlett Johansson</a>
-                                            </div>
-                                            <p>...  Natasha Romanoff/ Black Widow</p>
-                                        </div>
-                                        <div class="cast-it">
-                                            <div class="cast-left">
-                                                <img src="/public/images/uploads/cast6.jpg" alt="">
-                                                <a href="#">Jeremy Renner</a>
-                                            </div>
-                                            <p>...  Clint Barton/ Hawkeye</p>
-                                        </div>
-                                        <div class="cast-it">
-                                            <div class="cast-left">
-                                                <img src="/public/images/uploads/cast7.jpg" alt="">
-                                                <a href="#">James Spader</a>
-                                            </div>
-                                            <p>...  Ultron</p>
-                                        </div>
-                                        <div class="cast-it">
-                                            <div class="cast-left">
-                                                <img src="/public/images/uploads/cast9.jpg" alt="">
-                                                <a href="#">Don Cheadle</a>
-                                            </div>
-                                            <p>...  James Rhodes/ War Machine</p>
+                                            <p th:text="${actorMovie.charactor}"></p>
                                         </div>
                                     </div>
                                     <div class="title-hd-sm">
@@ -193,15 +167,21 @@
                                 <div class="col-md-4 col-xs-12 col-sm-12">
                                     <div class="sb-it">
                                         <h6>Director: </h6>
-                                        <p><a href="#">Joss Whedon</a></p>
+                                        <p>
+                                            <a href="#" th:each="directorMovie:${getDirectorMovie}" th:text="${directorMovie.getCelebrity().name}"></a>
+                                        </p>
                                     </div>
                                     <div class="sb-it">
                                         <h6>Writer: </h6>
-                                        <p><a href="#">Joss Whedon,</a> <a href="#">Stan Lee</a></p>
+                                        <p>
+                                            <a href="#" th:each="writerMovie:${getWriterMovie}" th:text="${writerMovie.getCelebrity().name} + ', '"></a>
+                                        </p>
                                     </div>
                                     <div class="sb-it">
                                         <h6>Stars: </h6>
-                                        <p><a href="#">Robert Downey Jr,</a> <a href="#">Chris Evans,</a> <a href="#">Mark Ruffalo,</a><a href="#"> Scarlett Johansson</a></p>
+                                        <p>
+                                            <a th:each="actorMovie:${getActorMovie}" href="#" th:text="${actorMovie.getCelebrity().name}+', '"></a>
+                                        </p>
                                     </div>
                                     <div class="sb-it">
                                         <h6>Genres:</h6>
@@ -224,11 +204,9 @@
                                     <div class="sb-it">
                                         <h6>Plot Keywords:</h6>
                                         <p class="tags">
-                                            <span class="time"><a href="#">superhero</a></span>
-                                            <span class="time"><a href="#">marvel universe</a></span>
-                                            <span class="time"><a href="#">comic</a></span>
-                                            <span class="time"><a href="#">blockbuster</a></span>
-                                            <span class="time"><a href="#">final battle</a></span>
+                                            <span class="tag" th:each="keyword : ${getMovieId.keyWords.split(',')}">
+                                              <a th:href="@{'/search?q=' + ${keyword.trim()}}" th:text="${keyword.trim()}"></a>
+                                            </span>
                                         </p>
                                     </div>
                                     <div class="ads">
@@ -242,9 +220,65 @@
                                 <div class="rv-hd">
                                     <div class="div">
                                         <h3>Related Movies To</h3>
-                                        <h2>Skyfall: Quantum of Spectre</h2>
+                                        <h2 th:text="${getMovieId.name}"></h2>
                                     </div>
-                                    <a href="#" class="redbtn">Write Review</a>
+
+                                    <span class="redbtn">Write Review</span>
+                                </div>
+                                <div class="card" th:if="${account_id != null and buyMovie == 1}">
+                                    <form id="formComment" method="post" th:attr="data-movie-id=${getMovieId.id}">
+                                        <div class="col-2 d-flex userAndVote">
+                                            <img th:src="${avatarAccount}" width="70" class="rounded-circle mt-2">
+                                            <div class="nameUserAndVote">
+                                                <span th:text="${nameAccount}"></span>
+                                                <br>
+                                                <div class="rating">
+                                                    <input type="radio" name="rating" value="10" id="10"><label for="10">☆</label>
+                                                    <input type="radio" name="rating" value="9" id="9"><label for="9">☆</label>
+                                                    <input type="radio" name="rating" value="8" id="8"><label for="8">☆</label>
+                                                    <input type="radio" name="rating" value="7" id="7"><label for="7">☆</label>
+                                                    <input type="radio" name="rating" value="6" id="6"><label for="6">☆</label>
+                                                    <input type="radio" name="rating" value="5" id="5"><label for="5">☆</label>
+                                                    <input type="radio" name="rating" value="4" id="4"><label for="4">☆</label>
+                                                    <input type="radio" name="rating" value="3" id="3"><label for="3">☆</label>
+                                                    <input type="radio" name="rating" value="2" id="2"><label for="2">☆</label>
+                                                    <input type="radio" name="rating" value="1" id="1"><label for="1">☆</label>
+                                                </div>
+                                                <span class="invalid-feedback text-danger"
+                                                      id="invalid-feedback-voteStar">Please choose star you vote film</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-10">
+                                            <div class="comment-box ml-2">
+                                                <div class="formTitle">
+                                                    <h4 for="title">Title</h4>
+                                                    <div class="title-area">
+                                                        <input id="title" class="form-control" placeholder="what is your Title?" rows="4">
+                                                    </div>
+                                                    <span class="invalid-feedback text-danger"
+                                                          id="invalid-feedback-title">Please you input title</span>
+                                                </div>
+                                                <div class="formComment">
+                                                    <h4 for="comment">Comment</h4>
+                                                    <div class="comment-area">
+                                                        <textarea id="comment" class="form-control" placeholder="what is your comment?" rows="4"></textarea>
+                                                    </div>
+                                                    <span class="invalid-feedback text-danger"
+                                                          id="invalid-feedback-comment">Please you input comment</span>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="comment-btns mt-2">
+                                            <button type="submit" class="buttonCommentSend">Send</button>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="card" th:if="${account_id != null and buyMovie == 0}">
+                                    <p>You need to buy account in to review</p>
+                                </div>
+                                <div class="card" th:if="${account_id == null}">
+                                    <p>You need to log in to comment</p>
                                 </div>
                                 <div class="topbar-filter">
                                     <p>Found <span>56 reviews</span> in total</p>
@@ -419,66 +453,30 @@
                         <div id="cast" class="tab">
                             <div class="row">
                                 <h3>Cast & Crew of</h3>
-                                <h2>Avengers: Age of Ultron</h2>
+                                <h2 th:text="${getMovieId.name}"></h2>
                                 <!-- //== -->
                                 <div class="title-hd-sm">
-                                    <h4>Directors & Credit Writers</h4>
+                                    <h4>Directors</h4>
                                 </div>
                                 <div class="mvcast-item">
                                     <div class="cast-it">
-                                        <div class="cast-left">
-                                            <h4>JW</h4>
-                                            <a href="#">Joss Whedon</a>
+                                        <div class="cast-left" th:each="directorMovie:${getDirectorMovie}">
+                                            <img th:src="${directorMovie.getCelebrity().getPoster()}" alt="" style="width: 40px; height: 40px; object-fit: cover;overflow: hidden">
+                                            <a href="#" th:text="${directorMovie.getCelebrity().name}"></a>
                                         </div>
-                                        <p>...  Director</p>
                                     </div>
                                 </div>
                                 <!-- //== -->
                                 <div class="title-hd-sm">
-                                    <h4>Directors & Credit Writers</h4>
+                                    <h4>Writers</h4>
                                 </div>
                                 <div class="mvcast-item">
-                                    <div class="cast-it">
+                                    <div class="cast-it" th:each="writerMovie:${getWriterMovie}">
                                         <div class="cast-left">
-                                            <h4>SL</h4>
-                                            <a href="#">Stan Lee</a>
+                                            <img th:src="${writerMovie.getCelebrity().getPoster()}" alt="" style="width: 40px; height: 40px; object-fit: cover;overflow: hidden">
+                                            <a href="#" th:text="${writerMovie.getCelebrity().name}"></a>
                                         </div>
-                                        <p>...  (based on Marvel comics)</p>
-                                    </div>
-                                    <div class="cast-it">
-                                        <div class="cast-left">
-                                            <h4>JK</h4>
-                                            <a href="#">Jack Kirby</a>
-                                        </div>
-                                        <p>...  (based on Marvel comics)</p>
-                                    </div>
-                                    <div class="cast-it">
-                                        <div class="cast-left">
-                                            <h4>JS</h4>
-                                            <a href="#">Joe Simon</a>
-                                        </div>
-                                        <p>...  (character created by: Captain America)</p>
-                                    </div>
-                                    <div class="cast-it">
-                                        <div class="cast-left">
-                                            <h4>JS</h4>
-                                            <a href="#">Joe Simon</a>
-                                        </div>
-                                        <p>...  (character created by: Thanos)</p>
-                                    </div>
-                                    <div class="cast-it">
-                                        <div class="cast-left">
-                                            <h4>RT</h4>
-                                            <a href="#">Roy Thomas</a>
-                                        </div>
-                                        <p>...  (character created by: Ultron, Vision)</p>
-                                    </div>
-                                    <div class="cast-it">
-                                        <div class="cast-left">
-                                            <h4>JB</h4>
-                                            <a href="#">John Buscema</a>
-                                        </div>
-                                        <p>...  (character created by: Ultron, Vision)</p>
+<!--                                        <p>...  (based on Marvel comics)</p>-->
                                     </div>
                                 </div>
                                 <!-- //== -->
@@ -486,125 +484,76 @@
                                     <h4>Cast</h4>
                                 </div>
                                 <div class="mvcast-item">
-                                    <div class="cast-it">
+                                    <div class="cast-it" th:each="actorMovie:${getActorMovie}">
                                         <div class="cast-left">
-                                            <img src="/public/images/uploads/cast1.jpg" alt="">
-                                            <a href="#">Robert Downey Jr.</a>
+                                            <img th:src="${actorMovie.getCelebrity().getPoster()}" alt="" style="width: 40px; height: 40px; object-fit: cover;overflow: hidden">
+                                            <a href="#" th:text="${actorMovie.getCelebrity().name}"></a>
                                         </div>
-                                        <p>...  Robert Downey Jr.</p>
-                                    </div>
-                                    <div class="cast-it">
-                                        <div class="cast-left">
-                                            <img src="/public/images/uploads/cast2.jpg" alt="">
-                                            <a href="#">Chris Hemsworth</a>
-                                        </div>
-                                        <p>...  Thor</p>
-                                    </div>
-                                    <div class="cast-it">
-                                        <div class="cast-left">
-                                            <img src="/public/images/uploads/cast3.jpg" alt="">
-                                            <a href="#">Mark Ruffalo</a>
-                                        </div>
-                                        <p>...  Bruce Banner/ Hulk</p>
-                                    </div>
-                                    <div class="cast-it">
-                                        <div class="cast-left">
-                                            <img src="/public/images/uploads/cast4.jpg" alt="">
-                                            <a href="#">Chris Evans</a>
-                                        </div>
-                                        <p>...  Steve Rogers/ Captain America</p>
-                                    </div>
-                                    <div class="cast-it">
-                                        <div class="cast-left">
-                                            <img src="/public/images/uploads/cast5.jpg" alt="">
-                                            <a href="#">Scarlett Johansson</a>
-                                        </div>
-                                        <p>...  Natasha Romanoff/ Black Widow</p>
-                                    </div>
-                                    <div class="cast-it">
-                                        <div class="cast-left">
-                                            <img src="/public/images/uploads/cast6.jpg" alt="">
-                                            <a href="#">Jeremy Renner</a>
-                                        </div>
-                                        <p>...  Clint Barton/ Hawkeye</p>
-                                    </div>
-                                    <div class="cast-it">
-                                        <div class="cast-left">
-                                            <img src="/public/images/uploads/cast7.jpg" alt="">
-                                            <a href="#">James Spader</a>
-                                        </div>
-                                        <p>...  Ultron</p>
-                                    </div>
-                                    <div class="cast-it">
-                                        <div class="cast-left">
-                                            <img src="/public/images/uploads/cast9.jpg" alt="">
-                                            <a href="#">Don Cheadle</a>
-                                        </div>
-                                        <p>...  James Rhodes/ War Machine</p>
+                                        <p th:text="${actorMovie.charactor}"></p>
                                     </div>
                                 </div>
                                 <!-- //== -->
-                                <div class="title-hd-sm">
-                                    <h4>Produced by</h4>
-                                </div>
-                                <div class="mvcast-item">
-                                    <div class="cast-it">
-                                        <div class="cast-left">
-                                            <h4>VA</h4>
-                                            <a href="#">Victoria Alonso</a>
-                                        </div>
-                                        <p>...  executive producer</p>
-                                    </div>
-                                    <div class="cast-it">
-                                        <div class="cast-left">
-                                            <h4>MB</h4>
-                                            <a href="#">Mitchel Bell</a>
-                                        </div>
-                                        <p>...  co-producer (as Mitch Bell)</p>
-                                    </div>
-                                    <div class="cast-it">
-                                        <div class="cast-left">
-                                            <h4>JC</h4>
-                                            <a href="#">Jamie Christopher</a>
-                                        </div>
-                                        <p>...  associate producer</p>
-                                    </div>
-                                    <div class="cast-it">
-                                        <div class="cast-left">
-                                            <h4>LD</h4>
-                                            <a href="#">Louis D’Esposito</a>
-                                        </div>
-                                        <p>...  executive producer</p>
-                                    </div>
-                                    <div class="cast-it">
-                                        <div class="cast-left">
-                                            <h4>JF</h4>
-                                            <a href="#">Jon Favreau</a>
-                                        </div>
-                                        <p>...  executive producer</p>
-                                    </div>
-                                    <div class="cast-it">
-                                        <div class="cast-left">
-                                            <h4>KF</h4>
-                                            <a href="#">Kevin Feige</a>
-                                        </div>
-                                        <p>...  producer</p>
-                                    </div>
-                                    <div class="cast-it">
-                                        <div class="cast-left">
-                                            <h4>AF</h4>
-                                            <a href="#">Alan Fine</a>
-                                        </div>
-                                        <p>...  executive producer</p>
-                                    </div>
-                                    <div class="cast-it">
-                                        <div class="cast-left">
-                                            <h4>JF</h4>
-                                            <a href="#">Jeffrey Ford</a>
-                                        </div>
-                                        <p>...  associate producer</p>
-                                    </div>
-                                </div>
+<!--                                <div class="title-hd-sm">-->
+<!--                                    <h4>Produced by</h4>-->
+<!--                                </div>-->
+<!--                                <div class="mvcast-item">-->
+<!--                                    <div class="cast-it">-->
+<!--                                        <div class="cast-left">-->
+<!--                                            <h4>VA</h4>-->
+<!--                                            <a href="#">Victoria Alonso</a>-->
+<!--                                        </div>-->
+<!--                                        <p>...  executive producer</p>-->
+<!--                                    </div>-->
+<!--                                    <div class="cast-it">-->
+<!--                                        <div class="cast-left">-->
+<!--                                            <h4>MB</h4>-->
+<!--                                            <a href="#">Mitchel Bell</a>-->
+<!--                                        </div>-->
+<!--                                        <p>...  co-producer (as Mitch Bell)</p>-->
+<!--                                    </div>-->
+<!--                                    <div class="cast-it">-->
+<!--                                        <div class="cast-left">-->
+<!--                                            <h4>JC</h4>-->
+<!--                                            <a href="#">Jamie Christopher</a>-->
+<!--                                        </div>-->
+<!--                                        <p>...  associate producer</p>-->
+<!--                                    </div>-->
+<!--                                    <div class="cast-it">-->
+<!--                                        <div class="cast-left">-->
+<!--                                            <h4>LD</h4>-->
+<!--                                            <a href="#">Louis D’Esposito</a>-->
+<!--                                        </div>-->
+<!--                                        <p>...  executive producer</p>-->
+<!--                                    </div>-->
+<!--                                    <div class="cast-it">-->
+<!--                                        <div class="cast-left">-->
+<!--                                            <h4>JF</h4>-->
+<!--                                            <a href="#">Jon Favreau</a>-->
+<!--                                        </div>-->
+<!--                                        <p>...  executive producer</p>-->
+<!--                                    </div>-->
+<!--                                    <div class="cast-it">-->
+<!--                                        <div class="cast-left">-->
+<!--                                            <h4>KF</h4>-->
+<!--                                            <a href="#">Kevin Feige</a>-->
+<!--                                        </div>-->
+<!--                                        <p>...  producer</p>-->
+<!--                                    </div>-->
+<!--                                    <div class="cast-it">-->
+<!--                                        <div class="cast-left">-->
+<!--                                            <h4>AF</h4>-->
+<!--                                            <a href="#">Alan Fine</a>-->
+<!--                                        </div>-->
+<!--                                        <p>...  executive producer</p>-->
+<!--                                    </div>-->
+<!--                                    <div class="cast-it">-->
+<!--                                        <div class="cast-left">-->
+<!--                                            <h4>JF</h4>-->
+<!--                                            <a href="#">Jeffrey Ford</a>-->
+<!--                                        </div>-->
+<!--                                        <p>...  associate producer</p>-->
+<!--                                    </div>-->
+<!--                                </div>-->
                             </div>
                         </div>
                         <div id="media" class="tab">
@@ -626,9 +575,9 @@
                         <div id="moviesrelated" class="tab">
                             <div class="row">
                                 <h3>Related Movies To</h3>
-                                <h2>Skyfall: Quantum of Spectre</h2>
+                                <h2 th:text="${getMovieId.name}"></h2>
                                 <div class="topbar-filter">
-                                    <p>Found <span>12 movies</span> in total</p>
+                                    <p>Found <span th:text="${relatedMovies.size()}+ ' movie'"></span> in total</p>
                                     <label>Sort by:</label>
                                     <select>
                                         <option value="popularity">Popularity Descending</option>
@@ -645,9 +594,11 @@
                                         <h6><a href="#"><span th:text="${relatedMovie.name}"></span></a></h6>
                                         <p class="rate"><i class="ion-android-star"></i><span>8.1</span> /10</p>
                                         <p class="describe" th:text="${relatedMovie.description}"></p>
-                                        <p class="run-time"> Run Time: 2h21’    .     <span>MMPA: PG-13 </span>    .     <span>Release: 1 May 2015</span></p>
-                                        <p>Director: <a href="#">Joss Whedon</a></p>
-                                        <p>Stars: <a href="#">Robert Downey Jr.,</a> <a href="#">Chris Evans,</a> <a href="#">  Chris Hemsworth</a></p>
+                                        <p class="run-time"> Run Time: <span th:text="${relatedMovie.totalDuration} + 'min'"></span>’    .     <span th:text="${relatedMovie.mmpaRating} + 'mmPA'"></span>    .     <span th:text="${#dates.format(relatedMovie.release, 'dd MMMM yyyy')}"></span></p>
+                                        <p>Director: <a href="#" th:each="director:${getDirectorMovie}" th:text="${director.getCelebrity().name}"></a></p>
+                                        <p>Stars:
+                                            <a href="#" th:each="casting:${getActorMovie}" th:text="${casting.celebrity.name} + ', '"></a>
+                                        </p>
                                     </div>
                                 </div>
                                 <div class="topbar-filter">
@@ -674,8 +625,116 @@
 </div>
 </div>
 </main>
-
 <th:block id="js-resources">
+    <script>
+       $(document).ready(function (){
+           $("#formComment").submit(function (event){
+               event.preventDefault();
+               let accountId = $('.idAccount').text();
+               let movieId = $(this).data('movie-id');
+               let title = $('#title').val();
+               let comment = $('#comment').val();
+               let rating = $('input[name="rating"]:checked').val();
+// Kiểm tra xem các trường đã được nhập đủ hay chưa
+               if (!rating) {
+                   $('#invalid-feedback-voteStar').show();
+                   return;
+               } else {
+                   $('#invalid-feedback-voteStar').hide();
+               }
+
+               if (title.trim() === '') {
+                   $('#invalid-feedback-title').show();
+                   return
+               } else {
+                   $('#invalid-feedback-title').hide();
+               }
+               if (comment.trim() === '') {
+                   $('#invalid-feedback-comment').show();
+                   return;
+               } else {
+                   $('#invalid-feedback-comment').hide();
+               }
+
+               var formData = {
+                   accountId: accountId,
+                   title: title,
+                   comment: comment,
+                   movies: movieId,
+                   star: rating
+               };
+               $.ajax({
+                   url: "/v1/reviews/add",
+                   type: 'POST',
+                   contentType: "application/json; charset=utf-8",
+                   data: JSON.stringify(formData),
+                   success: function (result) {
+                       Swal.fire({
+                           title: 'Success!',
+                           text: 'Comment posted successfully.',
+                           icon: 'success',
+                           confirmButtonText: 'OK'
+                       }).then((result) => {
+                           if (result.isConfirmed) {
+                               // Reset form after successful post
+                               $('#formComment')[0].reset();
+                           }
+                       });
+                   },
+                   error: function (error) {
+                       Swal.fire({
+                           title: 'Error!',
+                           text: error,
+                           icon: 'error',
+                           confirmButtonText: 'OK'
+                       });
+                   }
+               });
+           })
+           // AJAX review
+           $('.heart-error').click(function (e){
+               e.preventDefault();
+               alert("You need to log in to add movies to favorites")
+           })
+           $('.favorite-icon').click(function (e){
+               e.preventDefault();
+               debugger;
+               let movieId = $(this).data('movie-id');
+               let accountId = $('.idAccount').text();
+               var formData = {
+                   movies: movieId,
+                   account: accountId,
+               };
+               $.ajax({
+                   url: "/v1/favouritesMovies/add",
+                   type: 'POST',
+                   contentType: "application/json; charset=utf-8",
+                   data: JSON.stringify(formData),
+                   success: function (result) {
+                       var $this = $('.favorite-icon[data-movie-id="' + movieId + '"]');
+                       $this.toggleClass('btn-warning btn-danger');
+                       $this.find('i').toggleClass('ion-android-favorite ion-android-favorite-outline');
+                       // Hiển thị hiệu ứng tim
+                       $this.append('<span class="heart-effectMovieDetail"><i class="fa fa-heart"></i></span>');
+                       setTimeout(function() {
+                           $this.find('.heart-effectMovieDetail').remove();
+                       }, 1000);
+                   },
+                   error: function (error) {
+                       console.log(error);
+                       var errorHtml = '<div class="float-end alert alert-danger alert-dismissible fade show" role="alert">\n' +
+                           '                                            An error occurred !\n' +
+                           '                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>\n' +
+                           '                                        </div>';
+                       $("#alertError").html(errorHtml);
+                       setTimeout(function () {
+                           $("#alertError").empty();
+                       }, 2000);
+                   }
+               })
+           })
+       })
+    </script>
 </th:block>
 
 </body>
