@@ -66,7 +66,7 @@ public class Movies {
     @Column(name = "screening_status")
     private int screeningStatus;
 
-    @Column(name = "trailer")
+    @Column(name = "trailer",columnDefinition = "TEXT")
     private String trailer;
 
     @ManyToOne
@@ -99,5 +99,5 @@ public class Movies {
     @Column(name = "status")
     private int status;
 
-
 }
+
