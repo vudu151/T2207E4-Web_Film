@@ -20,25 +20,23 @@ const hoverDuration = document.querySelector(".hover-duration");
 const miniPlayer = document.querySelector(".mini-player");
 const settingsBtn = document.querySelector(".setting-btn");
 const settingMenu = document.querySelector(".setting-menu");
-// const theaterBtn = document.querySelector(".theater-btn");
 const speedButtons = document.querySelectorAll(".setting-menu li");
 const backwardSate = document.querySelector(".state-backward");
 const forwardSate = document.querySelector(".state-forward");
 const loader = document.querySelector(".custom-loader");
 
-let videoList = document.querySelectorAll('.video-list-container .list');
 
+// Video List
+let videoList = document.querySelectorAll('.video-list-container .list');
 videoList.forEach(vid =>{
     vid.onclick = () =>{
         videoList.forEach(remove =>{remove.classList.remove('active')});
         vid.classList.add('active');
         let src = vid.querySelector('.list-video').src;
         let title = vid.querySelector('.list-title').innerHTML;
-        let durationVid = vid.querySelector('.list-duration').innerHTML;
         document.querySelector('.main-video-container .main-video').src = src;
         document.querySelector('.main-video-container .main-video').play();
-        document.querySelector('.main-video-container .main-vid-title').innerHTML = title;
-        document.querySelector('.main-video-container').innerHTML = durationVid;
+        document.querySelector('.main-video-container .main-video-title').innerHTML = title;
     };
 });
 
@@ -172,8 +170,6 @@ backwardSate.addEventListener("animationend", () => {
 
 miniPlayer.addEventListener("click", toggleMiniPlayer);
 
-// theaterBtn.addEventListener("click", toggleTheater);
-
 settingsBtn.addEventListener("click", handleSettingMenu);
 
 speedButtons.forEach((btn) => {
@@ -197,15 +193,7 @@ function play() {
     playPause.innerHTML = `<ion-icon name="pause-outline"></ion-icon>`;
     mainState.classList.remove("show-state");
     handleMainStateIcon(`<ion-icon name="pause-outline"></ion-icon>`);
-    // watchProgress();
 }
-
-// function watchProgress() {
-//   if (isPlaying) {
-//     requestAnimationFrame(watchProgress);
-//     handleProgressBar();
-//   }
-// }
 
 video.ontimeupdate = handleProgressBar;
 
@@ -389,17 +377,6 @@ function handleMainSateAnimationEnd() {
     }
 }
 
-/**-function toggleTheater() {
- videoContainer.classList.toggle("theater");
- if (videoContainer.classList.contains("theater")) {
- handleMainStateIcon(
- `<ion-icon name="tablet-landscape-outline"></ion-icon>`
- );
- } else {
- handleMainStateIcon(`<ion-icon name="tv-outline"></ion-icon>`);
- }
- } **/
-
 function toggleMiniPlayer() {
     if (document.pictureInPictureElement) {
         document.exitPictureInPicture();
@@ -465,9 +442,6 @@ function handleShorthand(e) {
         case "arrowleft":
             handleBackward();
             break;
-        /**case "t":
-         toggleTheater();
-         break; **/
         case "i":
             toggleMiniPlayer();
             break;
