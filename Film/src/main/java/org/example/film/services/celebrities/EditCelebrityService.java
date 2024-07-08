@@ -44,14 +44,9 @@ public class EditCelebrityService implements IRequestHandler<EditCelebrityReques
         celebrity.setStatus(editCelebrityRequest.isStatus());
         celebrity.setJobs(existingJob);
 
-        List<String> currentImage = celebrity.getImages();
-        if(currentImage == null){
-            currentImage = new ArrayList<>();
+        if(editCelebrityRequest.getImagesId() != null && !editCelebrityRequest.getImagesId().isEmpty()){
+            celebrity.setImages(editCelebrityRequest.getImagesId());
         }
-        if(editCelebrityRequest.getImagesId() != null){
-            currentImage.addAll(editCelebrityRequest.getImagesId());
-        }
-        celebrity.setImages(currentImage);
 
         iCelebrityRepository.save(celebrity);
         return HandleResponse.ok(celebrity.getId());

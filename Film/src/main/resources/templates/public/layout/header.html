@@ -40,12 +40,15 @@
                             <a th:href="@{/movies}" class="btn btn-default" th:text="${category.name}"></a>
                         </li>
                         <li class="dropdown first">
+<!--                            <a  class="btn btn-default lv1">-->
+<!--                                Celebrities-->
+<!--                            </a>-->
                             <a class="btn btn-default dropdown-toggle lv1" data-toggle="dropdown" data-hover="dropdown">
                                 celebrities <i class="fa fa-angle-down" aria-hidden="true"></i>
                             </a>
                             <ul id="jobList" class="dropdown-menu level1">
                                 <li th:each="job : ${jobList}">
-                                    <a th:text="${job.name}" th:href="@{/jobs/{id}(id=${job.id})}"></a>
+                                    <a th:text="${job.name}" th:href="@{/jobs/{slug}(slug=${job.slug})}"></a>
                                 </li>
                             </ul>
                         </li>

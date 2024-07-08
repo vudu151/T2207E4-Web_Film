@@ -3,6 +3,7 @@ package org.example.film.services.celebrities;
 import org.example.film.models.entities.Celebrity;
 import org.example.film.models.entities.Job;
 import org.example.film.repositories.ICelebrityRepository;
+import org.example.film.repositories.IJobRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +14,7 @@ import java.util.Optional;
 public class CelebritiesService implements ICelebritiesService{
     @Autowired
     private ICelebrityRepository iCelebrityRepository;
+
     @Override
     public List<Celebrity> getListCelebrities() {
         return iCelebrityRepository.findAll();
@@ -21,6 +23,11 @@ public class CelebritiesService implements ICelebritiesService{
     @Override
     public Optional<Celebrity> getCelebrityById(String id) {
         return iCelebrityRepository.findById(id);
+    }
+
+    @Override
+    public List<Celebrity> searchByNameAndJob(String name, String job) {
+        return iCelebrityRepository.findByNameContainingAndJobs_NameContaining(name, job);
     }
 
 }
