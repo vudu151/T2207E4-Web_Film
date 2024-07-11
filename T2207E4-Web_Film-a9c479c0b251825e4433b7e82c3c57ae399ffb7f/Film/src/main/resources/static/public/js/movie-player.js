@@ -25,9 +25,8 @@ const backwardSate = document.querySelector(".state-backward");
 const forwardSate = document.querySelector(".state-forward");
 const loader = document.querySelector(".custom-loader");
 
-
-// Video List
 let videoList = document.querySelectorAll('.video-list-container .list');
+
 videoList.forEach(vid =>{
     vid.onclick = () =>{
         videoList.forEach(remove =>{remove.classList.remove('active')});
@@ -54,7 +53,6 @@ let isPlaying = false,
 
 currentVol.style.width = volumeVal * 100 + "%";
 
-// Video Event Listeners
 video.addEventListener("loadedmetadata", canPlayInit);
 video.addEventListener("play", play);
 video.addEventListener("pause", pause);

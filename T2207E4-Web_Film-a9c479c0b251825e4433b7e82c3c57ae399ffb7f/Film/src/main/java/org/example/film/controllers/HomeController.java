@@ -103,11 +103,6 @@ public class HomeController {
         return "public/auth/profile";
     }
 
-
-
-
-    //============================================
-
     @GetMapping("/news")
     public String news(){
         return "public/news/index";
@@ -133,7 +128,7 @@ public class HomeController {
         return "public/movies/movie-player";
     }
 
-    @GetMapping("/home/contact-us")
+    @GetMapping("/contact-us")
     public String contact_us(){
         return "public/home/contact-us";
     }

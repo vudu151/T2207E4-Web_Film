@@ -16,20 +16,21 @@
     <meta name=viewport content="width=device-width, initial-scale=1">
     <meta name="format-detection" content="telephone-no">
 
-    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
-
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
     <!--Icon -->
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
     <link rel="icon" th:href="@{/public/images/movie-reel.png}">
+
     <!-- CSS files -->
     <link rel="stylesheet" th:href="@{/public/css/plugins.css}">
-    <link rel="stylesheet" th:href="@{/public/fonts/font-awesome-4.7.0/css/font-awesome.min.css}">
     <link rel="stylesheet" th:href="@{/public/css/style.css}">
     <link rel="stylesheet" th:href="@{/public/css/movie-player.css}">
-    <link rel="stylesheet" th:href="@{/public/css/contact-us.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/public/fonts/font-awesome-4.7.0/css/font-awesome.min.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/public/css/contact_us.css}">
 
     <th:block th:replace="${cssResources} ?: ~{}"></th:block>
 </head>
@@ -52,7 +53,8 @@
 <script th:src="@{/public/js/custom.js}"></script>
 <script th:src="@{/public/js/myjs.js}"></script>
 <script th:src="@{/public/js/movie-player.js}"></script>
-<script th:src="@{/public/js/contact-us.js}"></script>
+<script th:src="@{/public/vendor/jquery-3.2.1.min.js}"></script>
+<script th:src="@{/public/js/contact_us.js}"></script>
 
 <th:block th:replace="${jsResources} ?: ~{}"></th:block>
 </body>
