@@ -1,5 +1,6 @@
 package org.example.film.services.movies;
 
+ 
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.example.film.models.entities.Casting;
@@ -49,6 +50,7 @@ public class MoviesService implements IMoviesService{
         return iMoviesRepository.findMoviesByCategoryMovieId(id);
     }
 
+ 
     @Override
     @Transactional
     public List<moviesp> GetMoviePaging(int page,  int size, String searchTerm
@@ -75,4 +77,5 @@ public class MoviesService implements IMoviesService{
         return iTestProcedure.TestGetMoviePage(a);
     }
 
+ 
 }
