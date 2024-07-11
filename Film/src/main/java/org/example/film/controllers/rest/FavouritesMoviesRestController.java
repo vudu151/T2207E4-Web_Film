@@ -3,13 +3,18 @@ package org.example.film.controllers.rest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.film.commons.cqrs.ISender;
+import org.example.film.configurations.securities.CustomUserDetails;
+import org.example.film.models.entities.Account;
 import org.example.film.models.entities.Favourites;
 import org.example.film.models.entities.Movies;
 import org.example.film.models.requests.favourites.AddFavouritesRequest;
 import org.example.film.services.favourites.IFavouritesService;
+import org.example.film.services.movies.IMoviesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,6 +30,9 @@ public class FavouritesMoviesRestController {
 
     @Autowired
     private IFavouritesService iFavouritesService;
+
+    @Autowired
+    private IMoviesService iMoviesService;
 
     @GetMapping("/{accountId}")
     public ResponseEntity<List<Favourites>> getFavouritesAccount(@PathVariable String accountId) {

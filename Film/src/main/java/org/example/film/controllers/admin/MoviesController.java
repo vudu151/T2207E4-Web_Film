@@ -1,12 +1,15 @@
 package org.example.film.controllers.admin;
 
 import org.example.film.models.entities.CategoryMovie;
+import org.example.film.models.entities.Episode;
 import org.example.film.models.entities.Genre;
 import org.example.film.models.entities.Movies;
 import org.example.film.models.requests.episodes.AddEpisodeRequest;
+import org.example.film.models.requests.episodes.EditEpisodeRequest;
 import org.example.film.models.requests.movies.AddMovieRequest;
 import org.example.film.models.requests.movies.EditMovieRequest;
 import org.example.film.services.categoriesMovies.ICategoriesMoviesService;
+import org.example.film.services.episodes.IEpisodesService;
 import org.example.film.services.genres.IGenresService;
 import org.example.film.services.movies.IMoviesService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Optional;
@@ -30,6 +34,11 @@ public class MoviesController {
 
     @Autowired
     private IGenresService iGenresService;
+
+    @Autowired
+    private IEpisodesService iEpisodesService;
+
+
 
     @GetMapping("")
     public String get(Model model){
@@ -65,4 +74,15 @@ public class MoviesController {
         model.addAttribute("addEpisodeRequest",addEpisodeRequest);
         return "admin/movies/addEpisode";
     }
+
+    @GetMapping("/episode/list/id={id}")
+    public String listEpisodeByMovie (@PathVariable String id, Model model, EditEpisodeRequest editEpisodeRequest){
+        List<Episode> getEpisode = iEpisodesService.getEpisodeByMovieId(iMoviesService.getMovieById(id).get());
+        model.addAttribute("getEpisode",getEpisode);
+        model.addAttribute("editEpisodeRequest",editEpisodeRequest);
+        return "admin/movies/listEpisodeByMovie";
+    }
+
+
+
 }

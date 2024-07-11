@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en" data-bs-theme="light" data-menu-color="brand"
+      data-topbar-color="light"
+      th:replace="~{/admin/layout/layout :: main-fragment(
+                                    ~{:: title},
+                                    ~{:: #css-resources},
+                                    ~{:: #main-content},
+                                    ~{:: #js-resources}
+                                 )}">
+<head>
+    <meta charset="utf-8"/>
+    <title>Actor | Add</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description"/>
+    <meta content="Myra Studio" name="author"/>
+    <th:block id="css-resources">
+    </th:block>
+</head>
+<body>
+
+<main id="main-content">
+    <div class="px-3">
+        <div class="container-fluid">
+            <div id="alertError"
+                 style="position: fixed; top: 80px; right: -90px;transform: translateX(-50%); z-index: 9999;"></div>
+
+            <!-- start page title -->
+            <div class="py-3 py-lg-4">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <h4 class="page-title mb-0">Add Actor</h4>
+                    </div>
+                </div>
+            </div>
+            <!-- end page title -->
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="p-2">
+                                        <form class="form-horizontal" role="form">
+
+                                            <div class="mb-2 row">
+                                                <label class="col-md-2 col-form-label">Movie</label>
+                                                <div class="col-md-10">
+                                                    <select class="form-select" id="movie-select">
+                                                        <option selected>Select Movie</option>
+                                                        <option th:each="movie : ${moviesList}" th:value="${movie.id}"
+                                                                th:text="${movie.name}">
+                                                        </option>
+                                                    </select>
+                                                    <span class="invalid-feedback text-danger"
+                                                          id="invalid-feedback-movie">The movie is not null.</span>
+                                                </div> <!-- end col -->
+                                            </div>
+
+                                            <div class="mb-2 row">
+                                                <label class="col-md-2 col-form-label" for="input-charactor">Charactor</label>
+                                                <div class="col-md-10">
+                                                    <input type="text" id="input-charactor" class="form-control"
+                                                           placeholder="Some text value...">
+                                                    <span class="invalid-feedback text-danger"
+                                                          id="invalid-feedback-charactor">Minimum length is 1.</span>
+                                                </div>
+                                            </div>
+
+                                            <div class="mb-2 row">
+                                                <label class="col-md-2 col-form-label">Celebrity</label>
+                                                <div class="col-md-10">
+                                                    <select class="form-select" id="celebrity-select">
+                                                        <option selected>Select celebrity</option>
+                                                        <option th:each="celebrity : ${celebrityList}" th:value="${celebrity.id}"
+                                                                th:text="${celebrity.name}">
+                                                        </option>
+                                                    </select>
+                                                    <span class="invalid-feedback text-danger"
+                                                          id="invalid-feedback-celebrity">The celebrity is not null.</span>
+                                                </div> <!-- end col -->
+                                            </div>
+
+                                            <div class="mb-2 row">
+                                                <label class="col-md-2 col-form-label">Status</label>
+                                                <div class="col-md-10">
+                                                    <select class="form-select" id="select-status">
+                                                        <option selected>Select status</option>
+                                                        <option value=1>Enable</option>
+                                                        <option value=0>Disable</option>
+                                                    </select>
+                                                    <span class="invalid-feedback text-danger"
+                                                          id="invalid-feedback-status">The status is not null.</span>
+                                                </div> <!-- end col -->
+                                            </div>
+
+                                        </form>
+                                        <button type="submit" class="btn btn-primary float-end btn-add-actor">Add
+                                            New Actors
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- end row -->
+                        </div>
+                    </div> <!-- end card -->
+                </div><!-- end col -->
+            </div>
+        </div>
+    </div>
+</main>
+
+<th:block id="js-resources">
+    <script>
+        $(document).ready(function (){
+            $('.btn-add-actor').click(function (){
+                debugger;
+                let movieId = $('#movie-select').val();
+                let celebrityId = $('#celebrity-select').val();
+                let charactor = $('#input-charactor').val();
+                let status = $('#select-status').val();
+
+                if (!movieId || movieId === "movie-select") {
+                    $('#invalid-feedback-movie').show();
+                } else {
+                    $('#invalid-feedback-movie').hide();
+                }
+
+                if (!celebrityId || celebrityId === "celebrity-select") {
+                    $('#invalid-feedback-celebrity').show();
+                } else {
+                    $('#invalid-feedback-celebrity').hide();
+                }
+
+                if(charactor.length === 0){
+                    $('#invalid-feedback-charactor').show();
+                } else {
+                    $('#invalid-feedback-charactor').hide();
+                }
+
+                if (!status || status === "select-status") {
+                    $('#invalid-feedback-status').show();
+                } else {
+                    $('#invalid-feedback-status').hide();
+                }
+
+                var formData = {
+                    movies: movieId,
+                    celebrities: celebrityId,
+                    charactor: charactor,
+                    status: status
+                };
+                $.ajax({
+                    url: "/v1/actors/add",
+                    type: 'POST',
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify(formData),
+                    success: function (result) {
+                        setTimeout(function () {
+                            window.location.href = "/admin-movie";
+                        });
+                    },
+                    error: function (error) {
+                        console.log(error);
+                        var errorHtml = '<div class="float-end alert alert-danger alert-dismissible fade show" role="alert">\n' +
+                            '                                            An error occurred !\n' +
+                            '                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>\n' +
+                            '                                        </div>';
+                        $("#alertError").html(errorHtml);
+                        setTimeout(function() {
+                            $("#alertError").empty();
+                        }, 2000);
+                    }
+                });
+            })
+        })
+    </script>
+</th:block>
+</body>
+</html>

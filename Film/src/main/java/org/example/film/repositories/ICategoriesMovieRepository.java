@@ -11,4 +11,6 @@ public interface ICategoriesMovieRepository extends JpaRepository<CategoryMovie,
     Optional<CategoryMovie> findById(String id);
     Optional<CategoryMovie> findByName(String name);
     Optional<CategoryMovie> findBySlug(String slug);
+
+
 }

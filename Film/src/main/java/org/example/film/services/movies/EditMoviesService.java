@@ -46,6 +46,10 @@ public class EditMoviesService implements IRequestHandler<EditMovieRequest,Strin
             setMovies.setTotalDuration(editMovieRequest.getTotalDuration());
             setMovies.setMmpaRating(editMovieRequest.getMmpaRating());
             setMovies.setKeyWords(editMovieRequest.getKeyWords());
+            setMovies.setIsSeries(editMovieRequest.getIsSeries());
+            setMovies.setIsPopular(editMovieRequest.getIsPopular());
+            setMovies.setScreeningStatus(editMovieRequest.getScreeningStatus());
+            setMovies.setTrailer(editMovieRequest.getTrailer());
             setMovies.setDescription(editMovieRequest.getDescription());
             setMovies.setTotalView(editMovieRequest.getTotalView());
             setMovies.setLevel(editMovieRequest.getLevel());

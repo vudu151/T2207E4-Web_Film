@@ -25,6 +25,18 @@ public class AddMovieRequest implements IRequest<String> {
     @NotBlank(message = "The poster is not null.")
     private String poster;
 
+    @NotNull(message = "The isSeries is not null.")
+    private int isSeries;
+
+    @NotNull(message = "The isPopular is not null.")
+    private int isPopular;
+
+    @NotNull(message = "The screeningStatus is not null.")
+    private int screeningStatus;
+
+    @NotBlank(message = "The trailer is not null.")
+    private String trailer;
+
     @NotNull(message = "The release is not null.")
     private Date release;
 
@@ -47,6 +59,7 @@ public class AddMovieRequest implements IRequest<String> {
 
     private Date createAt;
 
+    @NotNull(message = "The status is not null.")
     private int status;
 
     @NotNull(message = "The category movies is not null.")

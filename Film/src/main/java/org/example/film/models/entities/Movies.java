@@ -60,6 +60,15 @@ public class Movies {
     @Column(name = "create_at")
     private Date createAt;
 
+    @Column(name = "is_popular")
+    private int isPopular;
+
+    @Column(name = "screening_status")
+    private int screeningStatus;
+
+    @Column(name = "trailer",columnDefinition = "TEXT")
+    private String trailer;
+
     @ManyToOne
     @JoinColumn(name = "category_movieId")
     private CategoryMovie categoryMovieId;
@@ -90,5 +99,5 @@ public class Movies {
     @Column(name = "status")
     private int status;
 
-
 }
+

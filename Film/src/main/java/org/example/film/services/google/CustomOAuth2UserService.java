@@ -9,11 +9,36 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
-
-
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         OAuth2User user =  super.loadUser(userRequest);
-        return new CustomOAuth2User(user);
+//        System.out.println("User attributes: " + user.getAttributes());
+//        return new CustomOAuth2User(user);
+        return new CustomOAuth2User(user, userRequest.getClientRegistration().getRegistrationId());
     }
 }
+//@Service
+//public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
+//
+//    private final ClientRegistrationRepository clientRegistrationRepository;
+//    private final DefaultOAuth2UserService delegate;
+//
+//    public CustomOAuth2UserService(ClientRegistrationRepository clientRegistrationRepository) {
+//        this.clientRegistrationRepository = clientRegistrationRepository;
+//        this.delegate = new DefaultOAuth2UserService();
+//    }
+//
+//    @Override
+//    public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
+//        OAuth2User user = this.delegate.loadUser(userRequest);
+//        String registrationId = userRequest.getClientRegistration().getRegistrationId();
+//
+//        if ("google".equals(registrationId)) {
+//            return new CustomOAuth2User(user);
+//        } else if ("github".equals(registrationId)) {
+//            return new CustomOAuth2User(user);
+//        }
+//
+//        return user;
+//    }
+//}

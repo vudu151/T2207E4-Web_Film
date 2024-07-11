@@ -24,7 +24,7 @@ public class AddEpisodeService implements IRequestHandler<AddEpisodeRequest,Stri
     private IMoviesRepository iMoviesRepository;
     @Override
     public HandleResponse<String> handle(AddEpisodeRequest addEpisodeRequest) throws Exception {
-        var existingMovieId = iMoviesRepository.findById(addEpisodeRequest.getMovie_id());
+        var existingMovieId = iMoviesRepository.findById(addEpisodeRequest.getMovieId());
 
         if (existingMovieId.isEmpty()){
             return HandleResponse.error("movie does not exist.");

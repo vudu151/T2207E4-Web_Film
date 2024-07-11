@@ -118,7 +118,7 @@
                                 <div><a href="https://www.youtube.com/embed/o-0hcF97wy0" class="item item-2 redbtn fancybox-media hvr-grow"><i class="ion-play"></i></a></div>
                             </div>
 
-                            <div class="btn-transform transform-vertical  episode-list" >
+                            <div class="btn-transform transform-vertical episodedetail2" id="episodedetail2" >
 <!--                                <div><a  th:href="@{/movies/movie-player}" class="item item-1 yellowbtn"> <i class="ion-card"></i> Play</a></div>-->
 <!--                                <div><a th:href="@{/movies/movie-player}" class="item item-2 yellowbtn"><i class="ion-card"></i></a></div>-->
                             </div>
@@ -195,9 +195,63 @@
                                                     <a href="#" class="time">Full Cast & Crew  <i class="ion-ios-arrow-right"></i></a>
                                                 </div>
                                                 <!-- movie cast -->
-                                                <div class="mvcast-item" id="episodedetail2" >
-
-
+                                                <div class="mvcast-item">
+                                                    <div class="cast-it">
+                                                        <div class="cast-left">
+                                                            <img src="/public/images/uploads/cast1.jpg" alt="">
+                                                            <a href="#">Robert Downey Jr.</a>
+                                                        </div>
+                                                        <p>...  Robert Downey Jr.</p>
+                                                    </div>
+                                                    <div class="cast-it">
+                                                        <div class="cast-left">
+                                                            <img src="/public/images/uploads/cast2.jpg" alt="">
+                                                            <a href="#">Chris Hemsworth</a>
+                                                        </div>
+                                                        <p>...  Thor</p>
+                                                    </div>
+                                                    <div class="cast-it">
+                                                        <div class="cast-left">
+                                                            <img src="/public/images/uploads/cast3.jpg" alt="">
+                                                            <a href="#">Mark Ruffalo</a>
+                                                        </div>
+                                                        <p>...  Bruce Banner/ Hulk</p>
+                                                    </div>
+                                                    <div class="cast-it">
+                                                        <div class="cast-left">
+                                                            <img src="/public/images/uploads/cast4.jpg" alt="">
+                                                            <a href="#">Chris Evans</a>
+                                                        </div>
+                                                        <p>...  Steve Rogers/ Captain America</p>
+                                                    </div>
+                                                    <div class="cast-it">
+                                                        <div class="cast-left">
+                                                            <img src="/public/images/uploads/cast5.jpg" alt="">
+                                                            <a href="#">Scarlett Johansson</a>
+                                                        </div>
+                                                        <p>...  Natasha Romanoff/ Black Widow</p>
+                                                    </div>
+                                                    <div class="cast-it">
+                                                        <div class="cast-left">
+                                                            <img src="/public/images/uploads/cast6.jpg" alt="">
+                                                            <a href="#">Jeremy Renner</a>
+                                                        </div>
+                                                        <p>...  Clint Barton/ Hawkeye</p>
+                                                    </div>
+                                                    <div class="cast-it">
+                                                        <div class="cast-left">
+                                                            <img src="/public/images/uploads/cast7.jpg" alt="">
+                                                            <a href="#">James Spader</a>
+                                                        </div>
+                                                        <p>...  Ultron</p>
+                                                    </div>
+                                                    <div class="cast-it">
+                                                        <div class="cast-left">
+                                                            <img src="/public/images/uploads/cast9.jpg" alt="">
+                                                            <a href="#">Don Cheadle</a>
+                                                        </div>
+                                                        <p>...  James Rhodes/ War Machine</p>
+                                                    </div>
                                                 </div>
                                                 <div class="title-hd-sm">
                                                     <h4>User reviews</h4>
@@ -809,12 +863,25 @@
 
                  var movieHtml = displayMovieDetails(data);
                  $("#movie-details").html(movieHtml);
+
+                 // Fetch episodes for the movie
+                 $.ajax({
+                     url: "/api/public/movies/" + movieId + "/episodes",
+                     type: "GET",
+                     success: function(episodes) {
+                         // Display episode list
+                         var episodeHtml = displayEpisodeList(episodes);
+                         $("#episodedetail2").html(episodeHtml);
+                     },
+                     error: function(xhr, status, error) {
+                         console.error("Error fetching episodes: ", error);
+                     }
+                 });
              },
              error: function(xhr, status, error) {
                  console.error("Error fetching movie details: ", error);
              }
          });
-         displayEpisodeList(movieId);
      });
 
      function displayMovieDetails(movie) {
@@ -827,25 +894,22 @@
          return html;
      }
 
-     function displayEpisodeList(movieId) {
-                 $.ajax({
-                     url: "/api/public/movies/" + movieId + "/episodes",
-                     type: "GET",
-                     success: function(episodes) {
+     function displayEpisodeList(episodes) {
+         // Create the HTML content to be displayed
+         var html = "<div  >";
+         $.each(episodes, function(index, episode) {
+<!--             html += "-->
+<!--                <div><a  href='episodesdetail3?id=" + @{episode.id} + "' class='item item-1 yellowbtn'> <i class='ion-card'></i>"+ @{episode.name}+"</a></div>-->
+<!--                                <div><a href='episodesdetail3?id=" + @{episode.id} + "' class='item item-1 yellowbtn' class='item item-2 yellowbtn'><i class='ion-card'></i></a></div>";-->
 
-                        $.each(episodes, function(index, episode) {
-                        console.log(episode.name);
-                   var episodeHtml = `
-                   <div><a href="episodesdetail3?id=${episode.id}" class="episode-link item item-1 yellowbtn"> <i class="ion-card"></i> Play ${episode.name} </a></div>
-                   <div><a href="episodesdetail3?id=${episode.id}" class="episode-link item item-2 yellowbtn"> <i class="ion-card"></i> </a></div> `;
-                       console.log(episode.id);
-                         $(".episode-list").append(episodeHtml);
-                     });
-                     },
-                     error: function(xhr, status, error) {
-                         console.error("Error fetching episodes: ", error);
-                     }
-                 });
+<!--         });-->
+<!--       -->
+<!--         html += "</div>";-->
+           html += "<li><a href='episodesdetail3?id=" + episode.id + "' class='episode-link item item-1 yellowbtn'>" + episode.name + "</a></li>";
+       });
+       html += "</ul>";
+         // Return the HTML content
+         return html;
      }
     </script>
 </th:block>

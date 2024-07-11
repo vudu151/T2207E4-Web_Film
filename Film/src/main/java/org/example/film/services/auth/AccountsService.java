@@ -1,6 +1,7 @@
 package org.example.film.services.auth;
 
 import org.example.film.configurations.securities.CustomUserDetails;
+import org.example.film.controllers.CustomOAuth2User;
 import org.example.film.models.entities.Account;
 import org.example.film.models.enums.Provider;
 import org.example.film.repositories.IAccountRepository;
@@ -77,18 +78,29 @@ public class AccountsService implements IAccountsService {
         return iAccountRepository.findById(id);
     }
 
-    public void processOAuthPostLogin(String username) {
-        Optional<Account> existUser = iAccountRepository.findByUserName(username);
+    public void processOAuthPostLogin(
+//            String username
+            CustomOAuth2User oauthUser
+    ) {
+//        Optional<Account> existUser = iAccountRepository.findByEmail(username);
+        Optional<Account> existUser = iAccountRepository.findByEmail(oauthUser.getEmail());
 
         if (existUser.isEmpty()) {
             // User doesn't exist, create a new account
             Account newUser = new Account();
-            newUser.setUserName(username);
-            newUser.setEmail(username);
-            newUser.setProvider(Provider.GOOGLE);
+            newUser.setUserName(oauthUser.getName());
+            newUser.setPassword(oauthUser.getEmail());
+            newUser.setEmail(oauthUser.getEmail());
+            newUser.setProvider(oauthUser.getProvider());
             newUser.setActive(true);
             iAccountRepository.save(newUser);
+        } else {
+            Account existingUser = existUser.get();
+            existingUser.setUserName(oauthUser.getName());
+            existingUser.setProvider(oauthUser.getProvider());
+            iAccountRepository.save(existingUser);
         }
+
 //        else {
 //            Account user = existUser.get();
 //
@@ -96,7 +108,4 @@ public class AccountsService implements IAccountsService {
 //        }
 
     }
-
-
-
 }
