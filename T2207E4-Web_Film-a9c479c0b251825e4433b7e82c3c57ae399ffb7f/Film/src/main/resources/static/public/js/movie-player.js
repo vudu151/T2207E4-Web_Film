@@ -23,21 +23,7 @@ const settingMenu = document.querySelector(".setting-menu");
 const speedButtons = document.querySelectorAll(".setting-menu li");
 const backwardSate = document.querySelector(".state-backward");
 const forwardSate = document.querySelector(".state-forward");
-const loader = document.querySelector(".custom-loader");
-
-let videoList = document.querySelectorAll('.video-list-container .list');
-
-videoList.forEach(vid =>{
-    vid.onclick = () =>{
-        videoList.forEach(remove =>{remove.classList.remove('active')});
-        vid.classList.add('active');
-        let src = vid.querySelector('.list-video').src;
-        let title = vid.querySelector('.list-title').innerHTML;
-        document.querySelector('.main-video-container .main-video').src = src;
-        document.querySelector('.main-video-container .main-video').play();
-        document.querySelector('.main-video-container .main-video-title').innerHTML = title;
-    };
-});
+const loader = document.querySelector(".loader");
 
 let isPlaying = false,
     mouseDownProgress = false,
@@ -172,6 +158,20 @@ settingsBtn.addEventListener("click", handleSettingMenu);
 
 speedButtons.forEach((btn) => {
     btn.addEventListener("click", handlePlaybackRate);
+});
+
+let videoList = document.querySelectorAll('.video-list-container .list');
+
+videoList.forEach(vid =>{
+    vid.onclick = () =>{
+        videoList.forEach(remove =>{remove.classList.remove('active')});
+        vid.classList.add('active');
+        let src = vid.querySelector('.list-video').src;
+        let title = vid.querySelector('.list-title').innerHTML;
+        document.querySelector('.main-video-container .main-video').src = src;
+        document.querySelector('.main-video-container .main-video').play();
+        document.querySelector('.main-video-container .main-video-title').innerHTML = title;
+    };
 });
 
 function canPlayInit() {
