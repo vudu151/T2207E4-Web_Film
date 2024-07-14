@@ -43,11 +43,6 @@ public class MoviesService implements IMoviesService{
     public List<Movies> getMoviesByCategoryMovie(Movies id) {
         return iMoviesRepository.findMoviesByCategoryMovieId(id);
     }
-<<<<<<< HEAD
-=======
-
- 
->>>>>>> d820c74a2dc66788b4afeea0cb6923467c6d0202
     @Override
     @Transactional
     public List<moviesp> GetMoviePaging(int page, int size, String searchTerm
