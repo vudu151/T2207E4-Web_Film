@@ -27,18 +27,22 @@ public class AddReviewsService implements IRequestHandler<AddReviewRequest,Strin
     public HandleResponse<String> handle(AddReviewRequest addReviewRequest) throws Exception {
         var exitingAccount = iAccountRepository.findById(addReviewRequest.getAccountId());
         var exitingMovie = iMoviesRepository.findById(addReviewRequest.getMovies());
+        var existingMovieAndAccount = iReviewRepository.findReviewsByMoviesAndAccount(exitingMovie.get(),exitingAccount.get());
         if(exitingAccount.isEmpty()){
             return HandleResponse.error("account not data");
         } else if (exitingMovie.isEmpty()) {
             return HandleResponse.error("movie not data");
-        } else {
+        } else if (!existingMovieAndAccount.isEmpty()){
+            return HandleResponse.error("You have already reviewed it");
+        }
+        else {
             Reviews setReview = new Reviews();
             setReview.setAccount(exitingAccount.get());
             setReview.setStar(addReviewRequest.getStar());
             setReview.setTitle(addReviewRequest.getTitle());
             setReview.setComment(addReviewRequest.getComment());
             setReview.setCreateAt(new Date());
-            setReview.setStatus(1);
+            setReview.setStatus(0);
             setReview.setMovies(exitingMovie.get());
             iReviewRepository.save(setReview);
             return HandleResponse.ok("review successfully added : " + setReview);

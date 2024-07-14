@@ -18,15 +18,16 @@
 <body>
 
 <main id="main-content">
+  <span style="display: none" class="idAccount" th:text="${account_id}"></span>
   <div class="hero common-hero">
     <div class="container">
       <div class="row">
         <div class="col-md-12">
           <div class="hero-ct">
-            <h1> blog listing - grid</h1>
+            <h1 th:text="${getCategory.name}"></h1>
             <ul class="breadcumb">
               <li class="active"><a href="#">Home</a></li>
-              <li> <span class="ion-ios-arrow-right"></span> blog listing</li>
+              <li> <span class="ion-ios-arrow-right"></span> <span th:text="${getCategory.name}"></span></li>
             </ul>
           </div>
         </div>
@@ -39,7 +40,7 @@
       <div class="row ipad-width">
         <div class="col-md-8 col-sm-12 col-xs-12">
           <div class="topbar-filter">
-            <p>Found <span>1,608 movies</span> in total</p>
+            <p>Found <span th:text="${getListMovies.size()}"></span> in total</p>
             <label>Sort by:</label>
             <select>
               <option value="popularity">Popularity Descending</option>
@@ -53,228 +54,61 @@
             <a  href="moviegrid.html" class="grid"><i class="ion-grid active"></i></a>
           </div>
           <div class="flex-wrap-movielist">
-            <div class="movie-item-style-2 movie-item-style-1">
-              <img src="/public/images/uploads/mv1.jpg" alt="">
+            <!-- Loop qua danh sách phim -->
+            <div class="movie-item-style-2 movie-item-style-1" th:each="listMovie:${getListMovies}">
+              <img th:src="${listMovie.poster}" alt="">
               <div class="hvr-inner">
-                <a  th:href="@{/movies/movie-detail}"> Read more <i class="ion-android-arrow-dropright"></i> </a>
+                <a th:href="'/movie/get/' + ${listMovie.id}"> Watch <i class="ion-android-arrow-dropright"></i> </a>
+              </div>
+              <div class="mv-item-eth">
+                <h6>
+                  <a th:if="${account_id != null and #lists.contains(favoriteMovieIds, listMovie.id)}"
+                     type="button"
+                     class="btn btn-warning waves-effect waves-light favorite-icon"
+                     th:attr="data-movie-id=${listMovie.id}">
+                    <i class="ion-android-favorite"></i>
+                  </a>
+                  <a th:if="${account_id != null and not #lists.contains(favoriteMovieIds, listMovie.id)}"
+                     type="button"
+                     class="btn btn-warning waves-effect waves-light favorite-icon"
+                     th:attr="data-movie-id=${listMovie.id}">
+                    <i class="ion-android-favorite-outline"></i>
+                  </a>
+                  <a th:if="${account_id == null}"
+                     type="button"
+                     class="btn btn-warning waves-effect waves-light favorite-icon heart-error">
+                    <i class="ion-android-favorite-outline"></i>
+                  </a>
+                </h6>
               </div>
               <div class="mv-item-infor">
-                <h6><a href="#">oblivion</a></h6>
+                <h6><a href="#" th:text="${listMovie.name}"></a></h6>
                 <p class="rate"><i class="ion-android-star"></i><span>8.1</span> /10</p>
-              </div>
-            </div>
-            <div class="movie-item-style-2 movie-item-style-1">
-              <img src="/public/images/uploads/mv2.jpg" alt="">
-              <div class="hvr-inner">
-                <a  th:href="@{/movies/movie-detail}"> Read more <i class="ion-android-arrow-dropright"></i> </a>
-              </div>
-              <div class="mv-item-infor">
-                <h6><a href="#">into the wild</a></h6>
-                <p class="rate"><i class="ion-android-star"></i><span>7.8</span> /10</p>
-              </div>
-            </div>
-
-
-            <div class="movie-item-style-2 movie-item-style-1">
-              <img src="/public/images/uploads/mv-item3.jpg" alt="">
-              <div class="hvr-inner">
-                <a  th:href="@{/movies/movie-detail}"> Read more <i class="ion-android-arrow-dropright"></i> </a>
-              </div>
-              <div class="mv-item-infor">
-                <h6><a href="#">Die hard</a></h6>
-                <p class="rate"><i class="ion-android-star"></i><span>7.4</span> /10</p>
-              </div>
-            </div>
-
-
-            <div class="movie-item-style-2 movie-item-style-1">
-              <img src="/public/images/uploads/mv-item4.jpg" alt="">
-              <div class="hvr-inner">
-                <a  th:href="@{/movies/movie-detail}"> Read more <i class="ion-android-arrow-dropright"></i> </a>
-              </div>
-              <div class="mv-item-infor">
-                <h6><a href="#">The walk</a></h6>
-                <p class="rate"><i class="ion-android-star"></i><span>7.4</span> /10</p>
-              </div>
-            </div>
-            <div class="movie-item-style-2 movie-item-style-1">
-              <img src="/public/images/uploads/mv3.jpg" alt="">
-              <div class="hvr-inner">
-                <a  th:href="@{/movies/movie-detail}"> Read more <i class="ion-android-arrow-dropright"></i> </a>
-              </div>
-              <div class="mv-item-infor">
-                <h6><a href="#">blade runner  </a></h6>
-                <p class="rate"><i class="ion-android-star"></i><span>7.3</span> /10</p>
-              </div>
-            </div>
-            <div class="movie-item-style-2 movie-item-style-1">
-              <img src="/public/images/uploads/mv4.jpg" alt="">
-              <div class="hvr-inner">
-                <a  th:href="@{/movies/movie-detail}"> Read more <i class="ion-android-arrow-dropright"></i> </a>
-              </div>
-              <div class="mv-item-infor">
-                <h6><a href="#">Mulholland pride</a></h6>
-                <p class="rate"><i class="ion-android-star"></i><span>7.2</span> /10</p>
-              </div>
-            </div>
-            <div class="movie-item-style-2 movie-item-style-1">
-              <img src="/public/images/uploads/mv5.jpg" alt="">
-              <div class="hvr-inner">
-                <a  th:href="@{/movies/movie-detail}"> Read more <i class="ion-android-arrow-dropright"></i> </a>
-              </div>
-              <div class="mv-item-infor">
-                <h6><a href="#">skyfall: evil of boss</a></h6>
-                <p class="rate"><i class="ion-android-star"></i><span>7.0</span> /10</p>
-              </div>
-            </div>
-            <div class="movie-item-style-2 movie-item-style-1">
-              <img src="/public/images/uploads/mv-item1.jpg" alt="">
-              <div class="hvr-inner">
-                <a  th:href="@{/movies/movie-detail}"> Read more <i class="ion-android-arrow-dropright"></i> </a>
-              </div>
-              <div class="mv-item-infor">
-                <h6><a href="#">Interstellar</a></h6>
-                <p class="rate"><i class="ion-android-star"></i><span>7.4</span> /10</p>
-              </div>
-            </div>
-            <div class="movie-item-style-2 movie-item-style-1">
-              <img src="/public/images/uploads/mv-item2.jpg" alt="">
-              <div class="hvr-inner">
-                <a  th:href="@{/movies/movie-detail}"> Read more <i class="ion-android-arrow-dropright"></i> </a>
-              </div>
-              <div class="mv-item-infor">
-                <h6><a href="#">The revenant</a></h6>
-                <p class="rate"><i class="ion-android-star"></i><span>7.4</span> /10</p>
-              </div>
-            </div>
-            <div class="movie-item-style-2 movie-item-style-1">
-              <img src="/public/images/uploads/mv-it10.jpg" alt="">
-              <div class="hvr-inner">
-                <a  th:href="@{/movies/movie-detail}"> Read more <i class="ion-android-arrow-dropright"></i> </a>
-              </div>
-              <div class="mv-item-infor">
-                <h6><a href="#">harry potter</a></h6>
-                <p class="rate"><i class="ion-android-star"></i><span>7.4</span> /10</p>
-              </div>
-            </div>
-            <div class="movie-item-style-2 movie-item-style-1">
-              <img src="/public/images/uploads/mv-it11.jpg" alt="">
-              <div class="hvr-inner">
-                <a  th:href="@{/movies/movie-detail}"> Read more <i class="ion-android-arrow-dropright"></i> </a>
-              </div>
-              <div class="mv-item-infor">
-                <h6><a href="#">guardians galaxy</a></h6>
-                <p class="rate"><i class="ion-android-star"></i><span>7.4</span> /10</p>
-              </div>
-            </div>
-            <div class="movie-item-style-2 movie-item-style-1">
-              <img src="/public/images/uploads/mv-it12.jpg" alt="">
-              <div class="hvr-inner">
-                <a  th:href="@{/movies/movie-detail}"> Read more <i class="ion-android-arrow-dropright"></i> </a>
-              </div>
-              <div class="mv-item-infor">
-                <h6><a href="#">the godfather</a></h6>
-                <p class="rate"><i class="ion-android-star"></i><span>7.4</span> /10</p>
-              </div>
-            </div>
-            <div class="movie-item-style-2 movie-item-style-1">
-              <img src="/public/images/uploads/mv-item6.jpg" alt="">
-              <div class="hvr-inner">
-                <a  th:href="@{/movies/movie-detail}"> Read more <i class="ion-android-arrow-dropright"></i> </a>
-              </div>
-              <div class="mv-item-infor">
-                <h6><a href="#">blue velvet</a></h6>
-                <p class="rate"><i class="ion-android-star"></i><span>7.4</span> /10</p>
-              </div>
-            </div>
-            <div class="movie-item-style-2 movie-item-style-1">
-              <img src="/public/images/uploads/mv-item7.jpg" alt="">
-              <div class="hvr-inner">
-                <a  th:href="@{/movies/movie-detail}"> Read more <i class="ion-android-arrow-dropright"></i> </a>
-              </div>
-              <div class="mv-item-infor">
-                <h6><a href="#">gravity</a></h6>
-                <p class="rate"><i class="ion-android-star"></i><span>7.4</span> /10</p>
-              </div>
-            </div>
-            <div class="movie-item-style-2 movie-item-style-1">
-              <img src="/public/images/uploads/mv-item8.jpg" alt="">
-              <div class="hvr-inner">
-                <a  th:href="@{/movies/movie-detail}"> Read more <i class="ion-android-arrow-dropright"></i> </a>
-              </div>
-              <div class="mv-item-infor">
-                <h6><a href="#">southpaw</a></h6>
-                <p class="rate"><i class="ion-android-star"></i><span>7.4</span> /10</p>
-              </div>
-            </div>
-            <div class="movie-item-style-2 movie-item-style-1">
-              <img src="/public/images/uploads/mv-it9.jpg" alt="">
-              <div class="hvr-inner">
-                <a  th:href="@{/movies/movie-detail}"> Read more <i class="ion-android-arrow-dropright"></i> </a>
-              </div>
-              <div class="mv-item-infor">
-                <h6><a href="#">jurassic park</a></h6>
-                <p class="rate"><i class="ion-android-star"></i><span>7.4</span> /10</p>
-              </div>
-            </div>
-            <div class="movie-item-style-2 movie-item-style-1">
-              <img src="/public/images/uploads/mv-item9.jpg" alt="">
-              <div class="hvr-inner">
-                <a  th:href="@{/movies/movie-detail}"> Read more <i class="ion-android-arrow-dropright"></i> </a>
-              </div>
-              <div class="mv-item-infor">
-                <h6><a href="#">the forest</a></h6>
-                <p class="rate"><i class="ion-android-star"></i><span>7.4</span> /10</p>
-              </div>
-            </div>
-            <div class="movie-item-style-2 movie-item-style-1">
-              <img src="/public/images/uploads/mv-item10.jpg" alt="">
-              <div class="hvr-inner">
-                <a  th:href="@{/movies/movie-detail}"> Read more <i class="ion-android-arrow-dropright"></i> </a>
-              </div>
-              <div class="mv-item-infor">
-                <h6><a href="#">spectre</a></h6>
-                <p class="rate"><i class="ion-android-star"></i><span>7.4</span> /10</p>
-              </div>
-            </div>
-            <div class="movie-item-style-2 movie-item-style-1">
-              <img src="/public/images/uploads/mv-item11.jpg" alt="">
-              <div class="hvr-inner">
-                <a  th:href="@{/movies/movie-detail}"> Read more <i class="ion-android-arrow-dropright"></i> </a>
-              </div>
-              <div class="mv-item-infor">
-                <h6><a href="#">strager things</a></h6>
-                <p class="rate"><i class="ion-android-star"></i><span>7.4</span> /10</p>
-              </div>
-            </div>
-            <div class="movie-item-style-2 movie-item-style-1">
-              <img src="/public/images/uploads/mv-item12.jpg" alt="">
-              <div class="hvr-inner">
-                <a  th:href="@{/movies/movie-detail}"> Read more <i class="ion-android-arrow-dropright"></i> </a>
-              </div>
-              <div class="mv-item-infor">
-                <h6><a href="#">la la land</a></h6>
-                <p class="rate"><i class="ion-android-star"></i><span>7.4</span> /10</p>
               </div>
             </div>
           </div>
           <div class="topbar-filter">
             <label>Movies per page:</label>
-            <select>
-              <option value="range">20 Movies</option>
-              <option value="saab">10 Movies</option>
+            <select onchange="window.location.href = this.value;">
+              <option value="?size=20" th:selected="${size == 20}">20 Movies</option>
+              <option value="?size=10" th:selected="${size == 10}">10 Movies</option>
             </select>
 
             <div class="pagination2">
-              <span>Page 1 of 2:</span>
-              <a class="active" href="#">1</a>
-              <a href="#">2</a>
-              <a href="#">3</a>
-              <a href="#">...</a>
-              <a href="#">78</a>
-              <a href="#">79</a>
-              <a href="#"><i class="ion-arrow-right-b"></i></a>
+              <span>Page <span th:text="${currentPage}"></span> of <span th:text="${totalPages}"></span>:</span>
+
+              <!-- Nút Previous -->
+              <a th:if="${currentPage > 1}" th:href="@{'/movie/category/' + ${getCategory.id} + '?page=' + (${currentPage - 1}) + '&size=' + ${size}}">Previous</a>
+
+              <!-- Các trang -->
+              <a th:each="pageNum : ${#numbers.sequence(1, totalPages)}"
+                 th:class="${pageNum == currentPage} ? 'active' : ''"
+                 th:href="@{'/movie/category/' + ${getCategory.id} + '?page=' + ${pageNum} + '&size=' + ${size}}" th:text="${pageNum}"></a>
+
+              <!-- Nút Next -->
+              <a th:if="${currentPage < totalPages}" th:href="@{'/movie/category/' + ${getCategory.id} + '?page=' + (${currentPage + 1}) + '&size=' + ${size}}">Next</a>
             </div>
+
           </div>
         </div>
         <div class="col-md-4 col-sm-12 col-xs-12">
@@ -355,6 +189,50 @@
 </main>
 
 <th:block id="js-resources">
+  <script>
+
+    $('.heart-error').click(function (e){
+      e.preventDefault();
+      alert("You need to log in to add movies to favorites")
+    })
+    $('.favorite-icon').click(function (e){
+      e.preventDefault();
+      debugger;
+      let movieId = $(this).data('movie-id');
+      let accountId = $('.idAccount').text();
+      var formData = {
+        movies: movieId,
+        account: accountId,
+      };
+      $.ajax({
+        url: "/v1/favouritesMovies/add",
+        type: 'POST',
+        contentType: "application/json; charset=utf-8",
+        data: JSON.stringify(formData),
+        success: function (result) {
+          var $this = $('.favorite-icon[data-movie-id="' + movieId + '"]');
+          $this.toggleClass('btn-warning btn-danger');
+          $this.find('i').toggleClass('ion-android-favorite ion-android-favorite-outline');
+          // Hiển thị hiệu ứng tim
+          $this.append('<span class="heart-effect"><i class="fa fa-heart"></i></span>');
+          setTimeout(function() {
+            $this.find('.heart-effect').remove();
+          }, 1000);
+        },
+        error: function (error) {
+          console.log(error);
+          var errorHtml = '<div class="float-end alert alert-danger alert-dismissible fade show" role="alert">\n' +
+                  '                                            An error occurred !\n' +
+                  '                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>\n' +
+                  '                                        </div>';
+          $("#alertError").html(errorHtml);
+          setTimeout(function () {
+            $("#alertError").empty();
+          }, 2000);
+        }
+      })
+    })
+  </script>
 </th:block>
 </body>
 </html>

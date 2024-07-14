@@ -13,10 +13,6 @@
     <meta name="description" content="">
     <meta name="keywords" content="">
     <meta name="author" content="">
-
-
-
-
     <th:block id="css-resources">
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -31,8 +27,7 @@
         <link rel="stylesheet" th:href="@{/public/css/style_movie_home.css}">
         <link rel="stylesheet" th:href="@{/public/css/all.min.css}">
         <link rel="stylesheet" th:href="@{/public/css/google-fonts-fallback.css}">
-        <link rel="stylesheet"
-              th:href="@{https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200}" />
+        <link rel="stylesheet" th:href="@{https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200}" />
         <link rel="stylesheet" th:href="@{https://fonts.googleapis.com/icon?family=Material+Icons}">
     </th:block>
 </head>
@@ -48,32 +43,31 @@
 <span></span>
     <br>  <br>  <br>  <br>  <br>  <br>  <br>  <br>
 
-    <div class="trailers  full-width">
-        <!--     -->
+    <div class="trailers full-width">
+        <!--   -->
         <div class=" row ipad-width">
             <!--           " style="margin-top: 100px;-->
             <div class="">
                 <!--                col-md-9 col-sm-12 col-xs-12-->
-                <div class="title-hd">
-                    <h2 id="episode-title"></h2>
-                    <a href="#" class="viewall">View all <i class="ion-ios-arrow-right"></i></a>
+                <div class="frameTitleMovie">
+                    <span>Block Buster</span>
+                    <span>/</span>
+                    <span><a th:text="${getMovie.genre.name}" th:href="'/movie/genre/' + ${getMovie.genre.id}"></a></span>
+                    <span>/</span>
+                    <span><a th:text="${getMovie.name}" th:href="'/movie/get/' + ${getMovie.id}"></a></span>
+                    <span>/</span>
+                    <span>Episode 1</span>
                 </div>
                 <section class="videos">
                     <div class="slider-for-2 video-ft">
                         <div class="video-container" >
-                           <div id="episode-number">
-                               <video id="video" >
-                                <source  src="" type=video/mp4>
+                           <div id="episode-number" style="position: absolute">
+                               <video id="video" style="width: 1280px">
+                                <source style="width: 100%"  src="https://res.cloudinary.com/vuxuandu/video/upload/v1719156836/fptaptech/video/807e1790-481b-4b84-b0d3-a039ce71fa7d.mp4.mp4" type=video/mp4>
                                 Your browser does not support the video tag.</video>
-                               <!--                                                    <video id="video" >-->
-<!--                                <source src="https://storage.cloud.google.com/testcloudvido/test.mp4" type=video/mp4>-->
-<!--                                &lt;!&ndash;                                <source id="video-source" type="video/mp4">&ndash;&gt;-->
-<!--                                Your browser does not support the video tag.-->
-<!--                            </video> -->
                            </div>
                             <span class="custom-loader"></span>
-
-                            <div class="player-state">
+                            <div class="player-state" style="top: 50%; transform: translateY(-50%)">
 									<span class="state-btn state-backward">
 									  <ion-icon name="play-back-outline"></ion-icon>
 									  <span class="backward-duration">5</span>
@@ -161,33 +155,40 @@
                     </div>
                     <!--playlist-->
                     <div class="slider-nav-2 thumb-ft">
-                        <div class="item" id="related-movies">
+                        <div class="item" th:each="relateMovie:${relatedMovies}">
                             <div class="trailer-img">
-                                <img th:src="@{/public/images/uploads/trailer7.jpg}" alt="photo by Barn Images" width="4096"
+                                <img th:src="${relateMovie.poster}" alt="photo by Barn Images" width="4096"
                                      height="2737">
                             </div>
-                            <div class="trailer-infor">
-                                <h4 class="desc" >  </h4>
-                                <p>2:30</p>
-                            </div>
+                            <a th:href="'/movie/get/' + ${relateMovie.id}">
+                                <div class="trailer-infor">
+                                    <h4 class="desc" th:text="${relateMovie.name}"></h4>
+                                    <br>
+                                    <h4 class="desc" th:text="${relateMovie.description}"></h4>
+                                </div>
+                            </a>
                         </div>
-                        <div class="item">
-                            <div class="trailer-img">
-                                <img th:src="@{/public/images/uploads/trailer5.jpg}" alt="photo by Wojciech Szaturski" width="360"
-                                     height="189">
-                            </div>
-                            <div class="trailer-infor">
-                                <h4 class="desc">Fast&Furious 8</h4>
-                                <p>3:11</p>
-                            </div>
-                        </div>
-
                     </div>
                 </section>
+
+                <div class="frameTitleMovie marginFrame">
+                    <p class="titleListEpisode">
+                        <i class="ion-ios-film"></i>
+                        <span>Danh sách tập phim</span>
+                    </p>
+                </div>
+
+                <div class="listEpisode">
+                    <ul>
+                        <li th:each="episodeMovie:${getListEpisodeMovie}">
+                            <span class="textListEpisode">
+                                <a th:text="'Tập '+${episodeMovie.name}" th:href="'/movie/episodeMovie/' + ${episodeMovie.id}"></a>
+                            </span>
+                        </li>
+                    </ul>
+                </div>
             </div>
-
         </div>
-
     </div>
     <!-- Commend new v2 section-->
     <div class="page-single">
@@ -310,69 +311,12 @@
     <script th:src="@{/public/js/myjs.js}"></script>
     <script th:src="@{/public/js/script_movie_home.js}"></script>
     <script  >
-        $(document).ready(function() {
-        // Get the episode ID from the URL parameters
-        var urlParams = new URLSearchParams(window.location.search);
-        var episodeId = urlParams.get('id');
-
-        if (!episodeId) {
-            console.error("Error: Episode ID not found in the URL parameters.");
-            return;
-        }
-
-        // Fetch episode details from the REST API
-        fetchEpisodeDetails(episodeId);
-
-        // Fetch related movies for the episode
-        fetchRelatedEpisode(episodeId);
-    });
-
-    function fetchEpisodeDetails(episodeId) {
-        $.ajax({
-            url: "/api/public/episode/" + episodeId,
-            type: "GET",
-            success: function(data) {
-                console.log(data); // Log the entire response object
-                // Display episode details
-                $("#episode-title").text(data.name);
-
-                $("#episode-description").text(data.description);
-                $("#episode-duration").text(data.duration + " minutes");
-
-var video = document.getElementById('video');
-var source = document.createElement('source');
-
-source.setAttribute('src', data.link);
-
-video.appendChild(source);
-video.play();
-
-            },
-            error: function(xhr, status, error) {
-                console.error("Error fetching episode details: ", error);
-            }
-        });
-    }
-
-    function fetchRelatedEpisode(episodeId) {
-        $.ajax({
-            url: "/api/public/episode/" + episodeId + "/related",
-            type: "GET",
-            success: function(data) {
-
-            },
-            error: function(xhr, status, error) {
-                console.error("Error fetching related episodes: ", error);
-            }
-        });
-    }
-
     </script>
 </th:block>
 
-<!--<script th:src="@{/public/js/video-loader.js}"></script>-->
-<!--<script>-->
-<!--    loadVideoFromGoogleCloud('video-source', 'https://storage.cloud.google.com/testcloudvido/test.mp4');-->
-<!--</script>-->
+<script th:src="@{/public/js/video-loader.js}"></script>
+<script>
+    loadVideoFromGoogleCloud('video-source', 'https://storage.cloud.google.com/testcloudvido/test.mp4');
+</script>
 </body>
 </html>

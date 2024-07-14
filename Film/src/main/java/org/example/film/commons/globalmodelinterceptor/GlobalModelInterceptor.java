@@ -12,6 +12,7 @@ import org.example.film.services.genres.GenresService;
 import org.example.film.services.jobs.IJobsService;
 import org.example.film.services.movies.IMoviesService;
 import org.example.film.services.movies.MoviesService;
+import org.example.film.services.reviews.ReviewsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -43,6 +44,9 @@ public class GlobalModelInterceptor implements HandlerInterceptor {
 
     @Autowired
     private IFavouritesService iFavouritesService;
+
+    @Autowired
+    private ReviewsService reviewsService;
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {

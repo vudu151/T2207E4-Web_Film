@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{/public/layout/layout :: main-fragment(
+                                                ~{:: title},
+                                                ~{:: #css-resources},
+                                                ~{:: #main-content},
+                                                ~{:: #js-resources}
+                                               )}">
+<head>
+    <!-- Basic need -->
+    <title>Block Buster | Movies</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="">
+
+    <th:block id="css-resources"></th:block>
+</head>
+<body>
+
+<main id="main-content">
+    <span style="display: none" class="idAccount" th:text="${account_id}"></span>
+    <div class="hero common-hero">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="hero-ct">
+                        <h1 th:text="${getCelebrity.name}"></h1>
+                        <ul class="breadcumb">
+                            <li class="active"><a href="#">Writer</a></li>
+                            <li> <span class="ion-ios-arrow-right"></span> <span th:text="${getCelebrity.name}"></span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-single">
+        <div class="container">
+            <div class="row ipad-width">
+                <div class="col-md-8 col-sm-12 col-xs-12">
+                    <div class="topbar-filter">
+                        <p>Found <span th:text="${getWriterMovie.size()}"></span> in total</p>
+                        <label>Sort by:</label>
+                        <select>
+                            <option value="popularity">Popularity Descending</option>
+                            <option value="popularity">Popularity Ascending</option>
+                            <option value="rating">Rating Descending</option>
+                            <option value="rating">Rating Ascending</option>
+                            <option value="date">Release date Descending</option>
+                            <option value="date">Release date Ascending</option>
+                        </select>
+                        <a href="movielist.html" class="list"><i class="ion-ios-list-outline "></i></a>
+                        <a  href="moviegrid.html" class="grid"><i class="ion-grid active"></i></a>
+                    </div>
+                    <div class="flex-wrap-movielist">
+                        <!-- Loop qua danh sách phim -->
+                        <div class="movie-item-style-2 movie-item-style-1" th:each="writerMovie:${getWriterMovie}">
+                            <img th:src="${writerMovie.movies.poster}" alt="">
+                            <div class="hvr-inner">
+                                <a th:href="'/movie/get/' + ${writerMovie.movies.id}"> Watch <i class="ion-android-arrow-dropright"></i> </a>
+                            </div>
+                            <div class="mv-item-eth">
+                                <h6>
+                                    <a th:if="${account_id != null and #lists.contains(favoriteMovieIds, writerMovie.movies.id)}"
+                                       type="button"
+                                       class="btn btn-warning waves-effect waves-light favorite-icon"
+                                       th:attr="data-movie-id=${writerMovie.movies.id}">
+                                        <i class="ion-android-favorite"></i>
+                                    </a>
+                                    <a th:if="${account_id != null and not #lists.contains(favoriteMovieIds, writerMovie.movies.id)}"
+                                       type="button"
+                                       class="btn btn-warning waves-effect waves-light favorite-icon"
+                                       th:attr="data-movie-id=${writerMovie.movies.id}">
+                                        <i class="ion-android-favorite-outline"></i>
+                                    </a>
+                                    <a th:if="${account_id == null}"
+                                       type="button"
+                                       class="btn btn-warning waves-effect waves-light favorite-icon heart-error">
+                                        <i class="ion-android-favorite-outline"></i>
+                                    </a>
+                                </h6>
+                            </div>
+                            <div class="mv-item-infor">
+                                <h6><a href="#" th:text="${writerMovie.movies.name}"></a></h6>
+                                <p class="rate"><i class="ion-android-star"></i><span>8.1</span> /10</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="topbar-filter">
+                        <label>Movies per page:</label>
+                        <select onchange="window.location.href = this.value;">
+                            <option value="?size=20" th:selected="${size == 20}">20 Movies</option>
+                            <option value="?size=10" th:selected="${size == 10}">10 Movies</option>
+                        </select>
+
+                        <div class="pagination2">
+                            <span>Page <span th:text="${currentPage}"></span> of <span th:text="${totalPages}"></span>:</span>
+
+                            <!-- Nút Previous -->
+                            <a th:if="${currentPage > 1}" th:href="@{'/director/' + ${getMovie.id} + '?page=' + (${currentPage - 1}) + '&size=' + ${size}}">Previous</a>
+
+                            <!-- Các trang -->
+                            <a th:each="pageNum : ${#numbers.sequence(1, totalPages)}"
+                               th:class="${pageNum == currentPage} ? 'active' : ''"
+                               th:href="@{'/director/' + ${getMovie.id} + '?page=' + ${pageNum} + '&size=' + ${size}}" th:text="${pageNum}"></a>
+
+                            <!-- Nút Next -->
+                            <a th:if="${currentPage < totalPages}" th:href="@{'/director/' + ${getMovie.id} + '?page=' + (${currentPage + 1}) + '&size=' + ${size}}">Next</a>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-12 col-xs-12">
+                    <div class="sidebar">
+                        <div class="searh-form">
+                            <h4 class="sb-title">Search for movie</h4>
+                            <form class="form-style-1" action="#">
+                                <div class="row">
+                                    <div class="col-md-12 form-it">
+                                        <label>Movie name</label>
+                                        <input type="text" placeholder="Enter keywords">
+                                    </div>
+                                    <div class="col-md-12 form-it">
+                                        <label>Genres & Subgenres</label>
+                                        <div class="group-ip">
+                                            <select
+                                                    name="skills" multiple="" class="ui fluid dropdown">
+                                                <option value="">Enter to filter genres</option>
+                                                <option value="Action1">Action 1</option>
+                                                <option value="Action2">Action 2</option>
+                                                <option value="Action3">Action 3</option>
+                                                <option value="Action4">Action 4</option>
+                                                <option value="Action5">Action 5</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 form-it">
+                                        <label>Rating Range</label>
+                                        <select>
+                                            <option value="range">-- Select the rating range below --</option>
+                                            <option value="saab">-- Select the rating range below --</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-12 form-it">
+                                        <label>Release Year</label>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <select>
+                                                    <option value="range">From</option>
+                                                    <option value="number">10</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <select>
+                                                    <option value="range">To</option>
+                                                    <option value="number">20</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 ">
+                                        <input class="submit" type="submit" value="submit">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="ads">
+                            <img src="/public/images/uploads/ads1.png" alt="">
+                        </div>
+                        <div class="sb-facebook sb-it">
+                            <h4 class="sb-title">Find us on Facebook</h4>
+                            <iframe src="" data-src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fhaintheme%2F%3Ffref%3Dts&tabs=timeline&width=340&height=315px&small_header=true&adapt_container_width=false&hide_cover=false&show_facepile=true&appId"  height="315" style="width:100%;border:none;overflow:hidden" ></iframe>
+                        </div>
+                        <div class="sb-twitter sb-it">
+                            <h4 class="sb-title">Tweet to us</h4>
+                            <div class="slick-tw">
+                                <div class="tweet item" id="599202861751410688">
+                                </div>
+                                <div class="tweet item" id="297462728598122498">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<th:block id="js-resources">
+    <script>
+
+        $('.heart-error').click(function (e){
+            e.preventDefault();
+            alert("You need to log in to add movies to favorites")
+        })
+        $('.favorite-icon').click(function (e){
+            e.preventDefault();
+            debugger;
+            let movieId = $(this).data('movie-id');
+            let accountId = $('.idAccount').text();
+            var formData = {
+                movies: movieId,
+                account: accountId,
+            };
+            $.ajax({
+                url: "/v1/favouritesMovies/add",
+                type: 'POST',
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(formData),
+                success: function (result) {
+                    var $this = $('.favorite-icon[data-movie-id="' + movieId + '"]');
+                    $this.toggleClass('btn-warning btn-danger');
+                    $this.find('i').toggleClass('ion-android-favorite ion-android-favorite-outline');
+                    // Hiển thị hiệu ứng tim
+                    $this.append('<span class="heart-effect"><i class="fa fa-heart"></i></span>');
+                    setTimeout(function() {
+                        $this.find('.heart-effect').remove();
+                    }, 1000);
+                },
+                error: function (error) {
+                    console.log(error);
+                    var errorHtml = '<div class="float-end alert alert-danger alert-dismissible fade show" role="alert">\n' +
+                        '                                            An error occurred !\n' +
+                        '                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>\n' +
+                        '                                        </div>';
+                    $("#alertError").html(errorHtml);
+                    setTimeout(function () {
+                        $("#alertError").empty();
+                    }, 2000);
+                }
+            })
+        })
+    </script>
+</th:block>
+</body>
+</html>

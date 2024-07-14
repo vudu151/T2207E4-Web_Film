@@ -1,5 +1,6 @@
 package org.example.film.repositories;
 
+import org.example.film.models.entities.Celebrity;
 import org.example.film.models.entities.Movies;
 import org.example.film.models.entities.Writers;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,5 +11,7 @@ import java.util.List;
 @Repository
 public interface IWriterRepository extends JpaRepository<Writers,String> {
     List<Writers> findWritersByMovies(Movies movies);
+    List<Writers> findWritersByCelebrity(Celebrity celebrity);
+    Writers findWritersById(String id);
 
 }

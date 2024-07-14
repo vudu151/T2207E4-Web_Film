@@ -20,6 +20,9 @@
     <link rel="stylesheet" th:href="@{/public/css/plugins.css}">
     <link rel="stylesheet" th:href="@{/public/css/style.css}">
     <link rel="stylesheet" th:href="@{/public/css/heartMovieStyle.css}">
+    <link rel="stylesheet" th:href="@{/public/css/style_movie_home.css}">
+    <link rel="stylesheet" th:href="@{/public/css/resultMovie.css}">
+<!--    <link rel="stylesheet" th:href="@{/public/css/moviecss.css}">-->
 
     <th:block th:replace="${cssResources} ?: ~{}"></th:block>
 </head>
@@ -41,7 +44,82 @@
 <script th:src="@{/public/js/custom.js}"></script>
 <script th:src="@{/public/js/myjs.js}"></script>
 <script th:src="@{/public/js/heartMovieJs.js}"></script>
+<script th:src="@{/public/js/video-loader.js}"></script>
+<script th:src="@{/public/js/script-movie-home.js}"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    const searchResults = document.getElementById('searchResults');
+    searchResults.style.display = 'none';
+    // Lắng nghe sự kiện keyup trên ô tìm kiếm
+    document.getElementById('searchInput').addEventListener('keyup', function() {
+        var query = this.value;
+        searchResults.style.display = 'block';
+        // Gửi request AJAX lên server để tìm kiếm phim
+        fetch('movie/search?query=' + query)
+            .then(response => response.json())
+            .then(movies => {
+                var resultMovieList = searchResults.querySelector('.resultMovie');
+                // Xóa nội dung cũ
+                resultMovieList.innerHTML = '';
+                if (movies.length>0){
+                    movies.forEach(movie => {
+                        var link = document.createElement('a');
+                        link.href = "/movie/get/" + movie.id;
+                        link.classList.add('resultMovie');
+                        resultMovieList.appendChild(link);
+                        var listResultElement = document.createElement('li');
+                        listResultElement.classList.add('listResult');
+                        var imageElement = document.createElement('div');
+                        imageElement.classList.add('resultImage');
+                        var img = document.createElement('img');
+                        img.src = movie.poster;
+                        imageElement.appendChild(img);
+
+                        var infoElement = document.createElement('div');
+                        infoElement.classList.add('infoResult');
+
+                        var infoFilmElement = document.createElement('div');
+                        infoFilmElement.classList.add('infoResultFilm');
+                        var titleElement = document.createElement('p');
+                        titleElement.textContent = 'Name movie: ' + movie.name;
+                        var directorElement = document.createElement('span');
+                        directorElement.textContent = 'Director: ' + movie.categoryMovieId.name;
+                        infoFilmElement.appendChild(titleElement);
+                        infoFilmElement.appendChild(directorElement);
+
+                        var viewElement = document.createElement('div');
+                        viewElement.classList.add('resultViewFilm');
+                        var viewCountElement = document.createElement('span');
+                        viewCountElement.textContent = movie.totalView + ' views';
+                        viewElement.appendChild(viewCountElement);
+
+                        infoElement.appendChild(infoFilmElement);
+                        infoElement.appendChild(viewElement);
+
+                        listResultElement.appendChild(imageElement);
+                        listResultElement.appendChild(infoElement);
+
+                        link.appendChild(listResultElement);
+                    });
+                }else {
+                    var textNotFound = document.createElement('p');
+                    textNotFound.classList.add('textNotFound');
+                    textNotFound.textContent = "Not Found Result Film";
+                    resultMovieList.appendChild(textNotFound);
+                }
+            });
+    });
+    document.getElementById('main-content').addEventListener('click',function (){
+        searchResults.style.display = 'none';
+    })
+    var htHeaderElements = document.getElementsByClassName('ht-header');
+    for (var i = 0; i < htHeaderElements.length; i++) {
+        htHeaderElements[i].addEventListener('click', function() {
+            // Xử lý sự kiện click ở đây
+            searchResults.style.display = 'none';
+        });
+    }
+</script>
 <th:block th:replace="${jsResources} ?: ~{}"></th:block>
 </body>
 </html>

@@ -1,5 +1,6 @@
 package org.example.film.controllers.admin;
 
+import org.example.film.models.apis.movieApi.Movie;
 import org.example.film.models.entities.CategoryMovie;
 import org.example.film.models.entities.Episode;
 import org.example.film.models.entities.Genre;
@@ -20,7 +21,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/admin-movie")
@@ -42,6 +42,14 @@ public class MoviesController {
         List<Movies> getListMovie = iMoviesService.getListMovies();
         model.addAttribute("getListMovie",getListMovie);
         return "admin/movies/index";
+    }
+
+    @GetMapping("/api")
+    public String getMovieApi(Model model){
+        List<Movie> getListMovie = iMoviesService.getMoviesApi();
+        model.addAttribute("getListMovie",getListMovie);
+        model.addAttribute("pathImage", "https://img.ophim.live/uploads/movies/");
+        return "admin/movies/listApiMovie";
     }
 
     @GetMapping("/add")
