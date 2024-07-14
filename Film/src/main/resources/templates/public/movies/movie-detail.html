@@ -44,7 +44,7 @@
                     <div><a href="#" class="item item-1 redbtn"> <i class="ion-play"></i> Watch Trailer</a></div>
                     <div><a th:href="${getMovieId.trailer}" class="item item-2 redbtn fancybox-media hvr-grow"><i class="ion-play"></i></a></div>
                 </div>
-                <div th:if="${buyMovie == 1 and account_id != null and not #lists.isEmpty(getEpisode)}" class="btn-transform transform-vertical">
+                <div th:if="${buyMovie == 1  and account_id != null and not #lists.isEmpty(getEpisode) or getMovieId.level ==0}" class="btn-transform transform-vertical">
                     <div><a th:href="'/movie/episodeMovie/' + ${firstEpisode.id}" class="item item-1 yellowbtn"> <i class="ion-play"></i> Watch</a></div>
                     <div><a th:href="'/movie/episodeMovie/' + ${firstEpisode.id}" class="item item-2 yellowbtn"><i class="ion-play"></i></a></div>
                 </div>
@@ -52,7 +52,7 @@
                     <div><a class="item item-1 yellowbtn"> <i class="ion-play"></i> Comming Soon</a></div>
                     <div><a class="item item-2 yellowbtn"> <i class="ion-load-a"></i>Comming Soon</a></div>
                 </div>
-                <div th:if="${buyMovie == 0 and account_id != null}" class="btn-transform transform-vertical">
+                <div th:if="${buyMovie == 0 and account_id != null and getMovieId.level != 0}" class="btn-transform transform-vertical">
                     <div><a href="#" class="item item-1 yellowbtn"> <i class="ion-card"></i> Buy Account</a></div>
                     <div><a href="#" class="item item-2 yellowbtn"><i class="ion-card"></i></a></div>
                 </div>
@@ -142,7 +142,7 @@
                                         <div class="cast-it" th:each="actorMovie:${getActorMovie}">
                                             <div class="cast-left">
                                                 <img th:src="${actorMovie.getCelebrity().getPoster()}" alt="" style="width: 40px; height: 40px; object-fit: cover;overflow: hidden">
-                                                <a href="#" th:text="${actorMovie.getCelebrity().getName()}"></a>
+                                                <a th:href="'/casting/' + ${actorMovie.id}"  th:text="${actorMovie.getCelebrity().getName()}"></a>
                                             </div>
                                             <p th:text="${actorMovie.charactor}"></p>
                                         </div>
@@ -152,43 +152,36 @@
                                         <a href="#" th:text="'See All ' + ${getReviewByMovie.size()} + ' Reviews'" class="time"><i class="ion-ios-arrow-right"></i></a>
                                     </div>
                                     <!-- movie user review -->
-                                    <div class="mv-user-review-item">
-                                        <h3>Best Marvel movie in my opinion</h3>
+                                    <div class="mv-user-review-item" th:each="reviewByMovieFilter:${getReviewByMovieFilter}">
+                                        <h3 th:text="${reviewByMovieFilter.title}"></h3>
                                         <div class="no-star">
-                                            <i class="ion-android-star"></i>
-                                            <i class="ion-android-star"></i>
-                                            <i class="ion-android-star"></i>
-                                            <i class="ion-android-star"></i>
-                                            <i class="ion-android-star"></i>
-                                            <i class="ion-android-star"></i>
-                                            <i class="ion-android-star"></i>
-                                            <i class="ion-android-star"></i>
-                                            <i class="ion-android-star"></i>
-                                            <i class="ion-android-star last"></i>
+                                            <i class="ion-android-star" style="margin-right: 4px" th:each="i : ${#numbers.sequence(1, reviewByMovieFilter.star)}"></i>
                                         </div>
-                                        <p class="time">
-                                            17 December 2016 by <a href="#"> hawaiipierson</a>
+                                        <p class="time" th:text="${#dates.format(reviewByMovieFilter.createAt, 'dd MMMM yyyy')}"><span th:text="${reviewByMovieFilter.account.userName}"></span>
                                         </p>
-                                        <p>This is by far one of my favorite movies from the MCU. The introduction of new Characters both good and bad also makes the movie more exciting. giving the characters more of a back story can also help audiences relate more to different characters better, and it connects a bond between the audience and actors or characters. Having seen the movie three times does not bother me here as it is as thrilling and exciting every time I am watching it. In other words, the movie is by far better than previous movies (and I do love everything Marvel), the plotting is splendid (they really do out do themselves in each film, there are no problems watching it more than once.</p>
+                                        <p th:text="${reviewByMovieFilter.comment}"></p>
                                     </div>
                                 </div>
                                 <div class="col-md-4 col-xs-12 col-sm-12">
                                     <div class="sb-it">
                                         <h6>Director: </h6>
-                                        <p th:each="directorMovie:${getDirectorMovie}">
+                                        <p th:if="${!getDirectorMovie.isEmpty()}" th:each="directorMovie:${getDirectorMovie}">
                                             <a th:text="${directorMovie.getCelebrity().name}" th:href="'/director/' + ${directorMovie.id}"></a>
                                         </p>
+                                        <p style="color: #555555" th:if="${getActorMovie.isEmpty()}">Updating...</p>
                                     </div>
                                     <div class="sb-it">
                                         <h6>Writer: </h6>
                                         <p>
-                                            <a th:each="writerMovie:${getWriterMovie}" th:href="'/writer/' + ${writerMovie.id}" th:text="${writerMovie.getCelebrity().name} + ', '"></a>
+                                            <a th:if="${!getWriterMovie.isEmpty()}" th:each="writerMovie:${getWriterMovie}" th:href="'/writer/' + ${writerMovie.id}" th:text="${writerMovie.getCelebrity().name} + ', '"></a>
+                                            <span style="color: #555555" th:if="${getWriterMovie.isEmpty()}">Updating...</span>
                                         </p>
                                     </div>
                                     <div class="sb-it">
                                         <h6>Stars: </h6>
                                         <p>
-                                            <a th:each="actorMovie:${getActorMovie}" th:href="'/casting/' + ${actorMovie.id}" th:text="${actorMovie.getCelebrity().name}+', '"></a>
+                                            <a th:if="${!getActorMovie.isEmpty()}" th:each="actorMovie:${getActorMovie}" th:href="'/casting/' + ${actorMovie.id}" th:text="${actorMovie.getCelebrity().name}+', '"></a>
+                                            <span style="color: #555555" th:if="${getActorMovie.isEmpty()}">Updating...</span>
                                         </p>
                                     </div>
                                     <div class="sb-it">
@@ -320,19 +313,24 @@
                                 </div>
                                 <div class="topbar-filter">
                                     <label>Reviews per page:</label>
-                                    <select>
-                                        <option value="range">5 Reviews</option>
-                                        <option value="saab">10 Reviews</option>
+                                    <select onchange="window.location.href = this.value;">
+                                        <option value="?size=20" th:selected="${size == 20}">20 Movies</option>
+                                        <option value="?size=10" th:selected="${size == 10}">10 Movies</option>
                                     </select>
+
                                     <div class="pagination2">
-                                        <span>Page 1 of 6:</span>
-                                        <a class="active" href="#">1</a>
-                                        <a href="#">2</a>
-                                        <a href="#">3</a>
-                                        <a href="#">4</a>
-                                        <a href="#">5</a>
-                                        <a href="#">6</a>
-                                        <a href="#"><i class="ion-arrow-right-b"></i></a>
+                                        <span>Page <span th:text="${currentPage}"></span> of <span th:text="${totalPages}"></span>:</span>
+
+                                        <!-- Nút Previous -->
+                                        <a th:if="${currentPage > 1}" th:href="@{'/movie/get/' + ${getMovieId.id} + '?page=' + (${currentPage - 1}) + '&size=' + ${size}}">Previous</a>
+
+                                        <!-- Các trang -->
+                                        <a th:each="pageNum : ${#numbers.sequence(1, totalPages)}"
+                                           th:class="${pageNum == currentPage} ? 'active' : ''"
+                                           th:href="@{'/movie/get/' + ${getMovieId.id} + '?page=' + ${pageNum} + '&size=' + ${size}}" th:text="${pageNum}"></a>
+
+                                        <!-- Nút Next -->
+                                        <a th:if="${currentPage < totalPages}" th:href="@{'/movie/get/' + ${getMovieId.id} + '?page=' + (${currentPage + 1}) + '&size=' + ${size}}">Next</a>
                                     </div>
                                 </div>
                             </div>
@@ -349,7 +347,7 @@
                                     <div class="cast-it">
                                         <div class="cast-left" th:each="directorMovie:${getDirectorMovie}">
                                             <img th:src="${directorMovie.getCelebrity().getPoster()}" alt="" style="width: 40px; height: 40px; object-fit: cover;overflow: hidden">
-                                            <a href="#" th:text="${directorMovie.getCelebrity().name}"></a>
+                                            <a th:href="'/director/' + ${directorMovie.id}" th:text="${directorMovie.getCelebrity().name}"></a>
                                         </div>
                                     </div>
                                 </div>
@@ -361,7 +359,7 @@
                                     <div class="cast-it" th:each="writerMovie:${getWriterMovie}">
                                         <div class="cast-left">
                                             <img th:src="${writerMovie.getCelebrity().getPoster()}" alt="" style="width: 40px; height: 40px; object-fit: cover;overflow: hidden">
-                                            <a href="#" th:text="${writerMovie.getCelebrity().name}"></a>
+                                            <a th:href="'/writer/' + ${writerMovie.id}" th:text="${writerMovie.getCelebrity().name}"></a>
                                         </div>
 <!--                                        <p>...  (based on Marvel comics)</p>-->
                                     </div>
@@ -374,7 +372,7 @@
                                     <div class="cast-it" th:each="actorMovie:${getActorMovie}">
                                         <div class="cast-left">
                                             <img th:src="${actorMovie.getCelebrity().getPoster()}" alt="" style="width: 40px; height: 40px; object-fit: cover;overflow: hidden">
-                                            <a href="#" th:text="${actorMovie.getCelebrity().name}"></a>
+                                            <a th:text="${actorMovie.getCelebrity().name}" th:href="'/casting/' + ${actorMovie.id}"></a>
                                         </div>
                                         <p th:text="${actorMovie.charactor}"></p>
                                     </div>
@@ -484,7 +482,7 @@
                                         <p class="run-time"> Run Time: <span th:text="${relatedMovie.totalDuration} + 'min'"></span>’    .     <span th:text="${relatedMovie.mmpaRating} + 'mmPA'"></span>    .     <span th:text="${#dates.format(relatedMovie.release, 'dd MMMM yyyy')}"></span></p>
                                         <p>Director: <a href="#" th:each="director:${getDirectorMovie}" th:text="${director.getCelebrity().name}"></a></p>
                                         <p>Stars:
-                                            <a href="#" th:each="casting:${getActorMovie}" th:text="${casting.celebrity.name} + ', '"></a>
+                                            <a th:each="casting:${getActorMovie}" th:href="'/casting/' + ${casting.id}" th:text="${casting.celebrity.name} + ', '"></a>
                                         </p>
                                     </div>
                                 </div>

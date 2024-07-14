@@ -35,5 +35,10 @@ public class ActorService implements IActorService{
         return iActorRepository.findActorsByCelebrity(celebrity);
     }
 
+    @Override
+    public List<Actors> findAllActors() {
+        return iActorRepository.findAll();
+    }
+
 
 }

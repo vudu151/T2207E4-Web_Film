@@ -52,8 +52,8 @@
                                 celebrities <i class="fa fa-angle-down" aria-hidden="true"></i>
                             </a>
                             <ul id="jobList" class="dropdown-menu level1">
-                                <li th:each="job : ${jobList}">
-                                    <a th:text="${job.name}" th:href="@{/jobs/{id}(id=${job.id})}"></a>
+                                <li>
+                                    <a th:href="'/casting/get'">Actors</a>
                                 </li>
                             </ul>
                         </li>
