@@ -24,9 +24,16 @@ public class CastingUserController {
     private final ICelebritiesService iCelebritiesService;
     private final IActorService iActorService;
 
+    @GetMapping("/get")
+    public String getCasting(@RequestParam(name = "page", defaultValue = "1") int page,
+                             @RequestParam(name = "size", defaultValue = "2") int size,
+                             Model model){
+        List<Actors> getActors = iActorService.findAllActors();
+        return "public/celebrities/index";
+    }
 
     @GetMapping("/{id}")
-    public String getWriter(@PathVariable String id,
+    public String getCastingId(@PathVariable String id,
                             @RequestParam(name = "page", defaultValue = "1") int page,
                             @RequestParam(name = "size", defaultValue = "2") int size,
                             Model model){

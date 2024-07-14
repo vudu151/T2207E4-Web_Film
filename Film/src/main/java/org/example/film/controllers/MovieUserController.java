@@ -34,7 +34,10 @@ public class MovieUserController {
     private final IEpisodesService iEpisodesService;
 
         @GetMapping("/get/{id}")
-        public String getMovie(@PathVariable String id, Model model) {
+        public String getMovie(@PathVariable String id,
+                               @RequestParam(name = "page", defaultValue = "1") int page,
+                               @RequestParam(name = "size", defaultValue = "5") int size,
+                               Model model) {
             Movies getMovieId = iMoviesService.getMovieById(id).get();
             List<String> getImagesMovie = getMovieId.getImages();
             List<Genre> getGenresMovie = getMovieId.getGenreList();
@@ -43,6 +46,9 @@ public class MovieUserController {
             List<Writers> getWriterMovie = iWritersService.getWritersByMovieId(getMovieId).stream().filter(writers -> writers.getStatus()==1).collect(Collectors.toList());
             List<Director> getDirectorMovie = iDirectorsService.getDirectorByMovie(getMovieId).stream().filter(director -> director.getStatus()==1).collect(Collectors.toList());
             List<Reviews> getReviewByMovie = iReviewsService.getAllReviewByMovie(getMovieId);
+            int startIndex = (page - 1) * size;
+            int endIndex = Math.min(startIndex + size, getReviewByMovie.size());
+            List<Reviews> paginatedListReview = getReviewByMovie.subList(startIndex, endIndex);
             List<Episode> getEpisode = iEpisodesService.getEpisodeByMovieId(getMovieId).stream().filter(episode -> episode.getStatus()==1).sorted(Comparator.comparing(Episode::getName)).limit(1).toList();
             if (!getEpisode.isEmpty()){
                 Episode firstEpisode = getEpisode.getFirst();
@@ -60,6 +66,8 @@ public class MovieUserController {
         }else {
             averageRating = 0;
         }
+        List<Reviews> getReviewByMovieFilter = iReviewsService.getAllReviewByMovie(getMovieId).stream().filter(r -> r.getStar() >= 8 && r.getStatus() == 1).toList();
+
         model.addAttribute("relatedMovies",relatedMovies);
         model.addAttribute("getMovieId",getMovieId);
         model.addAttribute("getGenresMovie",getGenresMovie);
@@ -67,9 +75,14 @@ public class MovieUserController {
         model.addAttribute("getActorMovie",getActorMovie);
         model.addAttribute("getWriterMovie",getWriterMovie);
         model.addAttribute("getDirectorMovie",getDirectorMovie);
-        model.addAttribute("getReviewByMovie",getReviewByMovie);
+        model.addAttribute("getReviewByMovie",paginatedListReview);
         model.addAttribute("averageRating",averageRating);
         model.addAttribute("getEpisode",getEpisode);
+        // Thêm thông tin phân trang vào model
+        model.addAttribute("currentPage", page);
+        model.addAttribute("size", size); // Thay size bằng giá trị phù hợp từ controller của bạn
+        model.addAttribute("totalPages", (int) Math.ceil((double) getReviewByMovie.size() / size));
+        model.addAttribute("getReviewByMovieFilter",getReviewByMovieFilter);
         return "public/movies/movie-detail";
     }
 
