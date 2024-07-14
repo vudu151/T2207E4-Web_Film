@@ -10,8 +10,10 @@ import org.example.film.models.requests.auth.LoginRequest;
 import org.example.film.models.requests.auth.RegisterRequest;
 import org.example.film.models.requests.auth.ResetPasswordRequest;
 import org.example.film.repositories.IAccountRepository;
+import org.example.film.services.auth.AccountsService;
 import org.example.film.services.categoriesMovies.ICategoriesMoviesService;
 import org.example.film.services.movies.IMoviesService;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -22,7 +24,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.security.Principal;
 import java.util.List;
+import java.util.logging.Logger;
 
 @Controller
 @RequiredArgsConstructor
@@ -93,7 +97,7 @@ public class HomeController {
 
     @GetMapping("/movies")
     public String movies(){
-        return "public/movies/index";
+        return "public/movies/index2";
     }
 
 
@@ -111,14 +115,4 @@ public class HomeController {
     public String movie_episodeapi2(){
         return "public/episodes/detail3";
     }
-
-    @GetMapping("/celebrity")
-    public String celebrity_list(){
-        return "public/celebrities/index";
-    }
-    @GetMapping("/celebritydetail")
-    public String celebrity_detail(){
-        return "public/celebrities/celebrity-detail";
-    }
-
 }

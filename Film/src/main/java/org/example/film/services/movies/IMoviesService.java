@@ -16,12 +16,11 @@ public interface IMoviesService {
     List<moviesp> GetMoviePaging(int size, int page, String searchTerm
             ,
                                  String genres
-                                 ,
+            ,
 //                                 int ratingfrom,
 //                                 int ratingto,
                                  int yearfrom,
                                  int yearto
     );
-
 
 }

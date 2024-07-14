@@ -1,11 +1,9 @@
 package org.example.film.controllers;
 
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import org.example.film.models.entities.CategoryMovie;
 import org.example.film.models.entities.Genre;
 import org.example.film.models.entities.procedure.moviesp;
-import org.example.film.models.entities.procedure.moviesp2;
+//import org.example.film.models.entities.procedure.moviesp2;
 import org.example.film.services.categoriesMovies.CategoriesMoviesService;
 import org.example.film.services.genres.GenresService;
 import org.example.film.services.movies.MoviesService;
@@ -70,11 +68,11 @@ import java.util.List;
             return "public/searchmovie/index";
         }
 
-        @GetMapping("/test")
-        public String getCustomerPage2(      @RequestParam(defaultValue = "1") int page, Model model
-        ) {
-            List<moviesp2> movies  = moviesService.TestGetMoviePage(page);
-            model.addAttribute("movies", movies );
-            return "public/searchmovie/index2";
-        }
+//        @GetMapping("/test")
+//        public String getCustomerPage2(      @RequestParam(defaultValue = "1") int page, Model model
+//        ) {
+//            List<moviesp2> movies  = moviesService.TestGetMoviePage(page);
+//            model.addAttribute("movies", movies );
+//            return "public/searchmovie/index2";
+//        }
      }

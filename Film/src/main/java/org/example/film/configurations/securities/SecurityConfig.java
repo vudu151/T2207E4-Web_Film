@@ -1,6 +1,5 @@
 package org.example.film.configurations.securities;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -10,8 +9,6 @@ import org.example.film.services.auth.AccountsService;
 import org.example.film.services.auth.IAccountsService;
 import org.example.film.services.google.CustomOAuth2UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.security.oauth2.client.OAuth2ClientProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -25,34 +22,33 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.authority.mapping.GrantedAuthoritiesMapper;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.client.registration.ClientRegistration;
-import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
-import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
-import org.springframework.security.oauth2.client.registration.ReactiveClientRegistrationRepository;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
-import org.springframework.security.oauth2.client.web.OAuth2AuthorizedClientRepository;
-import org.springframework.security.oauth2.client.web.reactive.function.client.ServerOAuth2AuthorizedClientExchangeFilterFunction;
-import org.springframework.security.oauth2.client.web.reactive.function.client.ServletOAuth2AuthorizedClientExchangeFilterFunction;
-import org.springframework.security.oauth2.client.web.server.ServerOAuth2AuthorizedClientRepository;
-import org.springframework.security.oauth2.core.AuthorizationGrantType;
+import org.springframework.security.oauth2.core.oidc.user.OidcUserAuthority;
+import org.springframework.security.oauth2.core.user.OAuth2UserAuthority;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.rememberme.InMemoryTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
+import org.springframework.security.web.authentication.rememberme.PersistentRememberMeToken;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.reactive.function.client.ExchangeFilterFunction;
-import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Mono;
 
 import javax.sql.DataSource;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import static org.springframework.http.HttpMethod.*;
 
@@ -71,7 +67,6 @@ public class SecurityConfig {
     @Autowired
     private AccountsService accountsService;
 
-
     @Bean
     public DaoAuthenticationProvider daoAuthenticationProvider(){
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
@@ -83,7 +78,7 @@ public class SecurityConfig {
     // Config Persistent Token Repository để sử dụng bảng persistent_logins trong Database
     @Bean
     public PersistentTokenRepository persistentTokenRepository() {
-//        var tokenRepository = new JdbcTokenRepositoryImpl();
+//        var tokenRepository = new JdbcTokenRepositoryImpl() ;
 //        tokenRepository.setDataSource(dataSource);          //User DataResource to connect to Database
 //        return tokenRepository;
         return new InMemoryTokenRepositoryImpl();
@@ -95,7 +90,8 @@ public class SecurityConfig {
         httpSecurity.sessionManagement(
                 s -> s.sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
         );
-        httpSecurity.getSharedObject(AuthenticationManagerBuilder.class).authenticationProvider(daoAuthenticationProvider());
+        httpSecurity.getSharedObject(AuthenticationManagerBuilder.class)
+                .authenticationProvider(daoAuthenticationProvider());
         httpSecurity.authorizeHttpRequests(request -> {
                     request.requestMatchers("/css/**", "/js/**", "/images/**").permitAll();
                     request.requestMatchers("/getCategories","/getGenres").denyAll();
@@ -104,17 +100,11 @@ public class SecurityConfig {
                     request.requestMatchers("/oauth/**").permitAll();
                     request.requestMatchers("/share/facebook").permitAll();
                     request.requestMatchers(GET,"/admin/**").hasAuthority("ROLE_ADMIN");
+
+//                    request.anyRequest().authenticated();
                     request.anyRequest().permitAll();
         })
-                .rememberMe(rememberMe -> {
-                    rememberMe.key("remember-me");                          //Khoa bao mat de ma hoa token "remember-me"
-                    rememberMe.tokenValiditySeconds(3 * 24 * 60 * 60);      //3 days
-                    rememberMe.tokenRepository(persistentTokenRepository());//Use server-side token storage
-                })
-//                 }).formLogin(login -> {
-//                    login.loginPage("/login");
-//                    login.failureUrl("/login?error=true");
-//                    login.defaultSuccessUrl("/");
+
                 .logout(logout -> {
                     logout.logoutRequestMatcher(new AntPathRequestMatcher("/logout"));
                     logout.logoutSuccessUrl("/");
@@ -122,41 +112,58 @@ public class SecurityConfig {
                     logout.invalidateHttpSession(true);
                     logout.clearAuthentication(true);
                 })
-                .csrf(AbstractHttpConfigurer::disable)
+
                 .formLogin(login -> {
                     login.loginPage("/login");
                     login.failureUrl("/login?error=true");
-                    login.defaultSuccessUrl("/");
+//                    login.defaultSuccessUrl("/", true);
+                    login.successHandler(customAuthenticationSuccessHandler);
+                     login.permitAll();
                 })
-
+                .rememberMe(rememberMe -> {
+                    rememberMe.key("remember-me");                          //Khoa bao mat de ma hoa token "remember-me"
+                    rememberMe.tokenValiditySeconds(3 * 24 * 60 * 60);      //3 days
+                    rememberMe.tokenRepository(persistentTokenRepository());
+                })
                 .oauth2Login(oauth2 -> {
-//                    oauth2.clientRegistrationRepository(this.clientRegistrationRepository());
-
                     oauth2.loginPage("/login");
-                    oauth2.defaultSuccessUrl("/");
+//                    oauth2.defaultSuccessUrl("/", true);
                     oauth2.userInfoEndpoint()
+                            .userAuthoritiesMapper(userAuthoritiesMapper())
                             .userService(oauthUserService);
                     oauth2.successHandler(
-                            new AuthenticationSuccessHandler() {
-                                @Override
-                                public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
-                                                                    Authentication authentication) throws IOException, ServletException {
 
-                                    CustomOAuth2User oauthUser = (CustomOAuth2User) authentication.getPrincipal();
-                                    accountsService.processOAuthPostLogin(oauthUser);
-                                    response.sendRedirect("/");
-                                }
-                            });
+                            customAuthenticationSuccessHandler  );
                 })
+                .csrf(AbstractHttpConfigurer::disable)
         ;
+
         return httpSecurity.build();
     }
+    @Bean
+    GrantedAuthoritiesMapper userAuthoritiesMapper() {
+        return (authorities) -> {
+           Set<GrantedAuthority> mappedAuthorities = new HashSet<>();
+
+            authorities.forEach(authority -> {
+                if (authority instanceof OidcUserAuthority oidcAuth) {
+                    oidcAuth.getIdToken().getClaimAsStringList("groups").forEach(a -> mappedAuthorities.add(new SimpleGrantedAuthority(a)));
+                } else if (authority instanceof OAuth2UserAuthority oauth2Auth) {
+                    ((List<String>) oauth2Auth.getAttributes().getOrDefault("groups", List.of())).forEach(a -> mappedAuthorities.add(new SimpleGrantedAuthority(a)));
+                }
+            });
+
+            return mappedAuthorities;
+        };
+    }
+
+    @Autowired
+    private CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
 
     @Autowired
     private DefaultOAuth2UserService defaultOAuth2UserService;
     @Autowired
     private CustomOAuth2UserService oauthUserService;
-
     @Bean
     public AuthenticationManager authenticationManager(){
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();

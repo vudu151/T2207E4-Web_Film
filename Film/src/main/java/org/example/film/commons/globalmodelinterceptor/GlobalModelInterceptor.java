@@ -3,7 +3,9 @@ package org.example.film.commons.globalmodelinterceptor;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.example.film.configurations.securities.CustomUserDetails;
+import org.example.film.controllers.CustomOAuth2User;
 import org.example.film.models.entities.*;
+import org.example.film.services.auth.AccountsService;
 import org.example.film.services.categoriesMovies.CategoriesMoviesService;
 import org.example.film.services.categoriesMovies.ICategoriesMoviesService;
 import org.example.film.services.celebrities.ICelebritiesService;
@@ -43,6 +45,9 @@ public class GlobalModelInterceptor implements HandlerInterceptor {
 
     @Autowired
     private IFavouritesService iFavouritesService;
+
+    @Autowired
+    private AccountsService accountsService;
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
@@ -89,6 +94,19 @@ public class GlobalModelInterceptor implements HandlerInterceptor {
                     String nameAccount = customUserDetails.getAccount().getUserName();
                     String avatarAccount = customUserDetails.getAccount().getAvatar();
                     int buyMovie = customUserDetails.getAccount().getLevel();
+                    List<Favourites> favourites = iFavouritesService.getListFavouritesAccount(account_id);
+                    List<String> favoriteMovieIds = favourites.stream().map(f -> f.getMovies().getId()).collect(Collectors.toList());
+                    modelAndView.addObject("favoriteMovieIds",favoriteMovieIds);
+                    modelAndView.addObject("account_id",account_id);
+                    modelAndView.addObject("buyMovie",buyMovie);
+                    modelAndView.addObject("avatarAccount",avatarAccount);
+                    modelAndView.addObject("nameAccount",nameAccount);
+                }
+                if(principal instanceof CustomOAuth2User customUserDetails){
+                    String account_id = accountsService.loadUserByUsername(customUserDetails.getEmail()).getAccount().getId();
+                    String nameAccount = accountsService.loadUserByUsername(customUserDetails.getEmail()).getAccount().getUserName();
+                    String avatarAccount = accountsService.loadUserByUsername(customUserDetails.getEmail()).getAccount().getAvatar();
+                    int buyMovie = accountsService.loadUserByUsername(customUserDetails.getEmail()).getAccount().getLevel();
                     List<Favourites> favourites = iFavouritesService.getListFavouritesAccount(account_id);
                     List<String> favoriteMovieIds = favourites.stream().map(f -> f.getMovies().getId()).collect(Collectors.toList());
                     modelAndView.addObject("favoriteMovieIds",favoriteMovieIds);

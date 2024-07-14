@@ -52,7 +52,6 @@
             <a href="movielist.html" class="list"><i class="ion-ios-list-outline "></i></a>
             <a  href="moviegrid.html" class="grid"><i class="ion-grid active"></i></a>
           </div>
-          <!-- start movie list-->
           <div class="flex-wrap-movielist">
             <div class="movie-item-style-2 movie-item-style-1">
               <img src="/public/images/uploads/mv1.jpg" alt="">
@@ -259,9 +258,6 @@
               </div>
             </div>
           </div>
-          <!-- end movie list-->
-
-          <!--start pagin -->
           <div class="topbar-filter">
             <label>Movies per page:</label>
             <select>
@@ -280,53 +276,51 @@
               <a href="#"><i class="ion-arrow-right-b"></i></a>
             </div>
           </div>
-          <!--end pagin -->
-
         </div>
         <div class="col-md-4 col-sm-12 col-xs-12">
           <div class="sidebar">
-            <!--start search side bar -->
             <div class="searh-form">
               <h4 class="sb-title">Search for movie</h4>
-              <form class="form-style-1" th:action="@{/moviefind}" method="get">
+              <form class="form-style-1" action="#">
                 <div class="row">
                   <div class="col-md-12 form-it">
                     <label>Movie name</label>
-                    <input type="text" name="keyword" th:value="${keyword}" placeholder="Enter keywords">
+                    <input type="text" placeholder="Enter keywords">
                   </div>
                   <div class="col-md-12 form-it">
                     <label>Genres & Subgenres</label>
                     <div class="group-ip">
-                      <select name="genres" multiple class="ui fluid dropdown">
+                      <select
+                              name="skills" multiple="" class="ui fluid dropdown">
                         <option value="">Enter to filter genres</option>
-<!--                        <option th:each="genre : ${genres}" th:value="${genre.name}" th:text="${genre.name}"></option>-->
+                        <option value="Action1">Action 1</option>
+                        <option value="Action2">Action 2</option>
+                        <option value="Action3">Action 3</option>
+                        <option value="Action4">Action 4</option>
+                        <option value="Action5">Action 5</option>
                       </select>
                     </div>
                   </div>
                   <div class="col-md-12 form-it">
                     <label>Rating Range</label>
-                    <select name="ratingfrom">
-                      <option value="0">-- Select the rating range below --</option>
-                      <option th:each="i : ${#numbers.sequence(0, 200000)}" th:value="${i}" th:text="${i}" th:selected="${i == ratingfrom}"></option>
-                    </select>
-                    <select name="ratingto">
-                      <option value="200000">-- Select the rating range below --</option>
-                      <option th:each="i : ${#numbers.sequence(0, 200000)}" th:value="${i}" th:text="${i}" th:selected="${i == ratingto}"></option>
+                    <select>
+                      <option value="range">-- Select the rating range below --</option>
+                      <option value="saab">-- Select the rating range below --</option>
                     </select>
                   </div>
                   <div class="col-md-12 form-it">
                     <label>Release Year</label>
                     <div class="row">
                       <div class="col-md-6">
-                        <select name="yearfrom">
-                          <option value="1900">From</option>
-                          <option th:each="year : ${#numbers.sequence(1900, 2100)}" th:value="${year}" th:text="${year}" th:selected="${year == yearfrom}"></option>
+                        <select>
+                          <option value="range">From</option>
+                          <option value="number">10</option>
                         </select>
                       </div>
                       <div class="col-md-6">
-                        <select name="yearto">
-                          <option value="2100">To</option>
-                          <option th:each="year : ${#numbers.sequence(1900, 2100)}" th:value="${year}" th:text="${year}" th:selected="${year == yearto}"></option>
+                        <select>
+                          <option value="range">To</option>
+                          <option value="number">20</option>
                         </select>
                       </div>
                     </div>
@@ -337,8 +331,6 @@
                 </div>
               </form>
             </div>
-            <!--end search side bar-->
-
             <div class="ads">
               <img src="/public/images/uploads/ads1.png" alt="">
             </div>

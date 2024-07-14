@@ -2,11 +2,9 @@ package org.example.film.models.entities.procedure;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.example.film.models.entities.Job;
 import org.example.film.models.enums.Country;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Entity
 @AllArgsConstructor

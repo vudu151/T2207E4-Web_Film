@@ -1,10 +1,8 @@
 package org.example.film.controllers;
 
 import lombok.AllArgsConstructor;
-import org.example.film.models.entities.Genre;
 import org.example.film.models.entities.Job;
 import org.example.film.models.entities.procedure.cebritiesp;
-import org.example.film.models.entities.procedure.moviesp;
 import org.example.film.services.celebrities.CelebritiesService;
 import org.example.film.services.jobs.JobsService;
 import org.springframework.stereotype.Controller;

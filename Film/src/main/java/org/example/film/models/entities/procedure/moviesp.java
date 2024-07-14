@@ -1,14 +1,11 @@
 package org.example.film.models.entities.procedure;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import lombok.*;
-import org.example.film.models.entities.CategoryMovie;
-import org.example.film.models.entities.Genre;
-import org.hibernate.annotations.GenericGenerator;
 
-import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 @Entity
 @Getter

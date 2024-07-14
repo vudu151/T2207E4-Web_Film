@@ -7,7 +7,6 @@ import org.example.film.models.entities.procedure.cebritiesp;
 import org.example.film.repositories.ICelebrityRepository;
 import org.example.film.repositories.procedure.ICebritiesSPRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -43,4 +42,3 @@ public class CelebritiesService implements ICelebritiesService{
         return iCebritiesSPRepository.GetCebrityPage(page, size, searchTerm, letter, p_job, p_yearfrom, p_yearto);
     }
 }
-

@@ -18,7 +18,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Optional;
@@ -37,8 +36,6 @@ public class MoviesController {
 
     @Autowired
     private IEpisodesService iEpisodesService;
-
-
 
     @GetMapping("")
     public String get(Model model){
@@ -82,7 +79,5 @@ public class MoviesController {
         model.addAttribute("editEpisodeRequest",editEpisodeRequest);
         return "admin/movies/listEpisodeByMovie";
     }
-
-
 
 }
