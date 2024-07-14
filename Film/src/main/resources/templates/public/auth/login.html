@@ -175,15 +175,26 @@
                     }, 1000);
                 },
                 error: function (error) {
-                    var errorHtml = '<div class="float-end alert alert-danger alert-dismissible fade show" role="alert">\n' +
-                        '                                            Wrong username or password !\n' +
-                        '                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>\n' +
-                        '                                        </div>';
-                    $("#alertError").html(errorHtml);
-                    setTimeout(function() {
-                        $("#alertError").empty();
-                    }, 2000);
-                }
+<!--                    var errorHtml = '<div class="float-end alert alert-danger alert-dismissible fade show" role="alert">\n' +-->
+<!--                        '                                            Wrong username or password !\n' +-->
+<!--                        '                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>\n' +-->
+<!--                        '                                        </div>';-->
+<!--                    $("#alertError").html(errorHtml);-->
+<!--                    setTimeout(function() {-->
+<!--                        $("#alertError").empty();-->
+<!--                    }, 2000);-->
+<!--                }-->
+        var errorMessage = error.responseText || "Wrong username or password!";
+        var errorHtml = '<div class="float-end alert alert-danger alert-dismissible fade show" role="alert">\n' +
+            '    ' + errorMessage + '\n' +
+            '    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>\n' +
+            '</div>';
+        $("#alertError").html(errorHtml);
+        setTimeout(function() {
+            $("#alertError").empty();
+        }, 2000);
+    }
+
             });
         });
 
