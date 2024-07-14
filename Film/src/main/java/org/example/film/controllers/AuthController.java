@@ -10,19 +10,23 @@ import org.example.film.commons.response.JwtResponse;
 import org.example.film.configurations.securities.CustomUserDetails;
 import org.example.film.models.entities.Account;
 import org.example.film.models.requests.auth.*;
+import org.example.film.repositories.IAccountRepository;
 import org.example.film.services.auth.IAccountsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,7 +45,23 @@ public class AuthController {
     private AuthenticationManager authenticationManager;
     @Autowired
     private JwtService jwtService;
+    @Autowired
+    private IAccountRepository iAccountRepository;
+    @GetMapping("/confirm-email")
+    public ResponseEntity<String> confirmEmail(@RequestParam("token") String confirmationToken) {
+        Optional<Account> account = iAccountRepository.findByConfirmationToken(confirmationToken);
 
+        if (account.isPresent()) {
+            Account confirmedAccount = account.get();
+            confirmedAccount.setActive(true);
+            confirmedAccount.setConfirmationToken(null);
+            confirmedAccount.setTokenExpirationDate(null);
+            iAccountRepository.save(confirmedAccount);
+            return ResponseEntity.ok("Email confirmed successfully!");
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid confirmation token.");
+        }
+    }
     @PostMapping("/register")
     public ResponseEntity<Object> register(@Valid @RequestBody RegisterRequest registerRequest, BindingResult bindingResult){
         if(bindingResult.hasErrors()){
@@ -49,25 +69,30 @@ public class AuthController {
         }
         var result = iSender.send(registerRequest);
         if(result.hasError()){
-            return ResponseEntity.badRequest().body(result.getError());
+            ResponseEntity<Object> cd = ResponseEntity.badRequest().body(result.getError());
+
+            return cd;
         }
         return ResponseEntity.ok().body("Account registered successfully.");
     }
 
+
     @PostMapping("/login")
-    public ResponseEntity<Object> login(@RequestBody @Valid LoginRequest loginRequest,
+    public ResponseEntity<Object> login(
+            @RequestBody @Valid LoginRequest loginRequest,
                                         HttpServletRequest request,
                                         HttpServletResponse response,
                                         BindingResult bindingResult) {
+
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body("Invalid login data");
         }
-
+  try{
         // Get account info into form Login
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         loginRequest.getEmail(),
-                        loginRequest.getPassword()
+                         loginRequest.getPassword()
                 )
         );
         SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -84,26 +109,45 @@ public class AuthController {
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList());
 
-        JwtResponse jwtResponse;
+//        JwtResponse jwtResponse;
+//
+//        if (userDetails.getAccount() != null) {
+//            jwtResponse = new JwtResponse(token ,userDetails.getAccount().getUserName() ,
+//                    userDetails.getAccount().getEmail() ,roles );
+//
+//            request.getSession().setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, SecurityContextHolder.getContext());
+//
+//            //Save token into Cookies
+//            Cookie cookie = new Cookie("JWT_TOKEN", token);
+//            cookie.setSecure(true);                                                     //Cai dat bao mat
+//            cookie.setHttpOnly(true);                                                   //Khong cho JavaScript truy cap vao Cookie
+//            cookie.setMaxAge((int) TimeUnit.MILLISECONDS.toSeconds(30 * 60));   //Thoi gian song cua Cookie -> Tuc nguoi dung chi dang nhap 30 phut roi tu Logout
+//            cookie.setPath("/");                                                        //Cookie duoc truy cap tren moi duong dan
+//            response.addCookie(cookie);                                                 //Them Cookie vao HTTP Response
+//            return ResponseEntity.ok(jwtResponse);
+//        }
+//        else {
+//            var cd =1;
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized");
+//        }
+        JwtResponse jwtResponse = new JwtResponse(token, userDetails.getAccount().getUserName(),
+                userDetails.getAccount().getEmail(), roles);
 
-        if (userDetails.getAccount() != null) {
-            jwtResponse = new JwtResponse(token ,userDetails.getAccount().getUserName() ,
-                    userDetails.getAccount().getEmail() ,roles );
+        request.getSession().setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, SecurityContextHolder.getContext());
 
-            request.getSession().setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, SecurityContextHolder.getContext());
+        //Save token into Cookies
+        Cookie cookie = new Cookie("JWT_TOKEN", token);
+        cookie.setSecure(true);                                                     //Cai dat bao mat
+        cookie.setHttpOnly(true);                                                   //Khong cho JavaScript truy cap vao Cookie
+        cookie.setMaxAge((int) TimeUnit.MILLISECONDS.toSeconds(30 * 60));   //Thoi gian song cua Cookie -> Tuc nguoi dung chi dang nhap 30 phut roi tu Logout
+        cookie.setPath("/");                                                        //Cookie duoc truy cap tren moi duong dan
+        response.addCookie(cookie);
 
-            //Save token into Cookies
-            Cookie cookie = new Cookie("JWT_TOKEN", token);
-            cookie.setSecure(true);                                                     //Cai dat bao mat
-            cookie.setHttpOnly(true);                                                   //Khong cho JavaScript truy cap vao Cookie
-            cookie.setMaxAge((int) TimeUnit.MILLISECONDS.toSeconds(30 * 60));   //Thoi gian song cua Cookie -> Tuc nguoi dung chi dang nhap 30 phut roi tu Logout
-            cookie.setPath("/");                                                        //Cookie duoc truy cap tren moi duong dan
-            response.addCookie(cookie);                                                 //Them Cookie vao HTTP Response
-            return ResponseEntity.ok(jwtResponse);
-        }
-        else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized");
-        }
+        return ResponseEntity.ok(jwtResponse);
+    } catch (
+    BadCredentialsException e) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized");
+    }
     }
 
     @PostMapping("/forgot-password")

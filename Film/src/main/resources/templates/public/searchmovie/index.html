@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{/public/layout/layout :: main-fragment(
+                                                ~{:: title},
+                                                ~{:: #css-resources},
+                                                ~{:: #main-content},
+                                                ~{:: #js-resources}
+                                               )}">
+<head>
+  <!-- Basic need -->
+  <title>Block Buster | Movies</title>
+  <meta charset="UTF-8">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  <meta name="author" content="">
+
+  <th:block id="css-resources"></th:block>
+</head>
+<body>
+
+<main id="main-content">
+  <div class="hero common-hero">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="hero-ct">
+            <h1> blog listing - grid</h1>
+            <ul class="breadcumb">
+              <li class="active"><a href="#">Home</a></li>
+              <li> <span class="ion-ios-arrow-right"></span> blog listing</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-single">
+    <div class="container">
+      <div class="row ipad-width">
+        <div class="col-md-8 col-sm-12 col-xs-12">
+          <div class="topbar-filter">
+            <p>Found <span>1,608 movies</span> in total</p>
+            <label>Sort by:</label>
+            <select>
+              <option value="popularity">Popularity Descending</option>
+              <option value="popularity">Popularity Ascending</option>
+              <option value="rating">Rating Descending</option>
+              <option value="rating">Rating Ascending</option>
+              <option value="date">Release date Descending</option>
+              <option value="date">Release date Ascending</option>
+            </select>
+            <a href="movielist.html" class="list"><i class="ion-ios-list-outline "></i></a>
+            <a  href="moviegrid.html" class="grid"><i class="ion-grid active"></i></a>
+          </div>
+
+          <!-- start movie list-->
+          <div class="flex-wrap-movielist" th:each="movie : ${movies}">
+            <div class="movie-item-style-2 movie-item-style-1">
+<!--              <img src="/public/images/uploads/mv1.jpg" alt="">-->
+              <img th:src="${movie.poster}" alt="">
+              <p class="hvr-inner" th:text="${movie.genremain}" ></p>
+                <a  th:href="@{/movie/get/{id}(id=${movie.id})}"> see more  </a>
+              <div class="mv-item-infor">
+                <h6 th:text="${movie.name}"></h6>
+                <p class="rate" th:text="${#dates.format(movie.release, 'yyyy')}"></p>
+              </div>
+            </div>
+
+          </div>
+          <!-- end movie list-->
+          <!--start pagin -->
+          <div class="topbar-filter"  >
+            <div class="row">
+              <div class="col-sm-12 col-md-5 d-flex align-items-center justify-content-center justify-content-md-start">
+                <div class="dataTables_length">
+<!--               th:if="${totalPages != null}"-->
+
+            <label>Movies per page:</label>
+            <select class="form-select form-select-sm form-select-solid"
+                    id="size-select" th:attr="data-url=@{/moviefind(page=1)}">
+              <option th:selected="${pageSize == 5}" th:value="5">5</option>
+              <option th:selected="${pageSize == 10}" th:value="10">10</option>
+              <option th:selected="${pageSize == 25}" th:value="25">25</option>
+              <option th:selected="${pageSize == 50}" th:value="50">50</option>
+            </select>
+                </div></div>
+                  <div class="col-sm-12 col-md-7 d-flex align-items-center justify-content-center justify-content-md-end">
+                    <div class="dataTables_paginate paging_simple_numbers">
+            <ul class="pagination2">
+              <li class="paginate_button page-item previous"
+                      th:classappend="${currentPages != null && currentPages > 1} ? '' : 'disabled'"   >
+<!--        th:classappend="${currentPage } > 1 ? '' : 'disabled'"     -->
+                <a th:href="@{/moviefind(page=${currentPages - 1}, pageSize=${pageSize}, keyword=${keyword}, genres=${genres}, yearfrom=${yearfrom}, yearto=${yearto})}" class="page-link">
+                  <i class="previous"></i>
+                </a>
+              </li>
+              <li class="paginate_button page-item"   th:classappend="${currentPages == i} ? 'active' : ''"
+                  th:each="i : ${#numbers.sequence(1, totalPages)}" >
+<!--                  th:classappend="${currentPages == i} ? 'active' : ''" th:each="i : ${#numbers.sequence(1,totalPages != null ? totalPages : 1)}"-->
+
+                <a class="page-link" th:href="@{/moviefind(page=${i}, pageSize=${pageSize} ,keyword=${keyword}, genres=${genres}, yearfrom=${yearfrom}, yearto=${yearto})}"
+                   th:text="${i}">1</a>
+              </li>
+              <li class="paginate_button page-item next" th:classappend="(${currentPages} < ${totalPages}) ? '' : 'disabled'">
+                <a class="page-link" th:href="@{/moviefind(page=${currentPages + 1}, pageSize=${pageSize}, keyword=${keyword}, genres=${genres}, yearfrom=${yearfrom}, yearto=${yearto})}"><i class="next"></i></a>
+              </li>
+
+            </ul>
+                    </div>
+
+
+              </div>
+            </div>
+          </div>
+          <!--end pagin -->
+
+
+        </div>
+        <div class="col-md-4 col-sm-12 col-xs-12">
+          <div class="sidebar">
+            <!--start search side bar -->
+            <div class="searh-form">
+              <h4 class="sb-title">Search for movie</h4>
+              <form class="form-style-1" th:action="@{/moviefind}" method="get">
+                <div class="row">
+                  <div class="col-md-12 form-it">
+                    <label>Movie name</label>
+                    <input type="text" name="keyword" th:value="${keyword}" placeholder="Enter keywords">
+                  </div>
+                  <div class="col-md-12 form-it">
+                    <label>Genres & Subgenres</label>
+                    <div class="group-ip">
+                      <select name="genres" multiple class="ui fluid dropdown">
+                        <option value="">Enter to filter genres</option>
+                        <option th:each="genre : ${genreList}" th:value="${genre.name}" th:text="${genre.name}"></option>
+                      </select>
+                    </div>
+                  </div>
+<!--                  <div class="col-md-12 form-it">-->
+<!--                    <label>Rating Range</label>-->
+<!--                    <select name="ratingfrom">-->
+<!--                      <option value="0">&#45;&#45; Select the rating range below &#45;&#45;</option>-->
+<!--                      <option th:each="i : ${#numbers.sequence(0, 90)}" th:value="${i}" th:text="${i}" th:selected="${i == ratingfrom}"></option>-->
+<!--                    </select>-->
+<!--                    <select name="ratingto">-->
+<!--                      <option value="90">&#45;&#45; Select the rating range below &#45;&#45;</option>-->
+<!--                      <option th:each="i : ${#numbers.sequence(0, 90)}" th:value="${i}" th:text="${i}" th:selected="${i == ratingto}"></option>-->
+<!--                    </select>-->
+<!--                  </div>-->
+                  <div class="col-md-12 form-it">
+                    <label>Release Year</label>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <select name="yearfrom">
+                          <option value="1800">From</option>
+                          <option th:each="year : ${#numbers.sequence(1800, 3100)}" th:value="${year}" th:text="${year}" th:selected="${year == yearfrom}"></option>
+                        </select>
+                      </div>
+                      <div class="col-md-6">
+                        <select name="yearto">
+                          <option value="3100">To</option>
+                          <option th:each="year : ${#numbers.sequence(1800, 3100)}" th:value="${year}" th:text="${year}" th:selected="${year == yearto}"></option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-12 ">
+                    <input class="submit" type="submit" value="submit">
+                  </div>
+                </div>
+              </form>
+            </div>
+            <!--end search side bar-->
+
+            <div class="ads">
+              <img src="/public/images/uploads/ads1.png" alt="">
+            </div>
+            <div class="sb-facebook sb-it">
+              <h4 class="sb-title">Find us on Facebook</h4>
+              <iframe src="" data-src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fhaintheme%2F%3Ffref%3Dts&tabs=timeline&width=340&height=315px&small_header=true&adapt_container_width=false&hide_cover=false&show_facepile=true&appId"  height="315" style="width:100%;border:none;overflow:hidden" ></iframe>
+            </div>
+            <div class="sb-twitter sb-it">
+              <h4 class="sb-title">Tweet to us</h4>
+              <div class="slick-tw">
+                <div class="tweet item" id="599202861751410688">
+                </div>
+                <div class="tweet item" id="297462728598122498">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<th:block id="js-resources">
+  <script>var hostUrl = "/";</script>
+  <script>
+    $(document).ready(function() {
+        $('#size-select').on('change', function() {
+        const newSize = $(this).val();
+         const url = new URL(window.location.href);
+        url.searchParams.set('page', 1);
+        url.searchParams.set('pageSize', newSize);
+          // Set other parameters only if they have a value
+        const keyword = $('#keyword').val();
+        if (keyword) {
+            url.searchParams.set('keyword', keyword);
+        }
+        const genres = $('#genres').val();
+        if (genres) {
+            url.searchParams.set('genres', genres);
+        }
+        const yearfrom = $('#yearfrom').val();
+        if (yearfrom) {
+            url.searchParams.set('yearfrom', yearfrom);
+        }
+        const yearto = $('#yearto').val();
+        if (yearto) {
+            url.searchParams.set('yearto', yearto);
+        }
+
+        window.location.href = url.toString();
+        });
+    });
+  </script>
+    <script th:src="@{/plugins/custom/datatables/datatables.bundle.js}"></script>
+  <script>
+    const searchInput = document.querySelector('input[name="keyword"]');
+    searchInput.addEventListener('keyup', (event) => {
+        if (event.key === 'Enter') {
+            event.preventDefault(); // Prevent default form submission
+            searchInput.form.submit(); // Manually submit the form
+        }
+    });
+  </script>
+</th:block>
+</body>
+</html>

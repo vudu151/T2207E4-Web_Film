@@ -5,6 +5,7 @@ import jakarta.validation.constraints.Email;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 
 @Entity
@@ -57,4 +58,19 @@ public class Account {
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private Collection<Role> roles;
+
+    @Enumerated(EnumType.STRING)
+    private org.example.film.models.enums.Provider provider;
+
+    public org.example.film.models.enums.Provider getProvider() {
+        return provider;
+    }
+
+    public void setProvider(org.example.film.models.enums.Provider provider) {
+        this.provider = provider;
+    }
+    @Column(name = "confirmation_token")
+    private String confirmationToken;
+    @Column(name = "token_expiration_date")
+    private LocalDateTime tokenExpirationDate;
 }

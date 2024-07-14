@@ -1,11 +1,22 @@
 package org.example.film.services.movies;
 
+ 
+ 
+import jakarta.transaction.Transactional;
+import org.example.film.models.entities.Casting;
+import org.example.film.models.entities.CategoryMovie;
+import org.example.film.models.entities.Celebrity;
+import org.example.film.models.entities.Movies;
+import org.example.film.models.entities.procedure.moviesp;
+ 
 import lombok.RequiredArgsConstructor;
 import org.example.film.models.apis.movieApi.Movie;
 import org.example.film.models.apis.movieApi.MovieResponse;
 import org.example.film.models.entities.*;
 import org.example.film.repositories.IGenresRepository;
+ 
 import org.example.film.repositories.IMoviesRepository;
+import org.example.film.repositories.procedure.IMovieSPRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -21,10 +32,14 @@ public class MoviesService implements IMoviesService{
     private static final String API_URL = "https://ophim1.com/danh-sach/phim-moi-cap-nhat?page=1";
     @Autowired
     private IMoviesRepository iMoviesRepository;
+ 
+    @Autowired
+    private IMovieSPRepository iMovieSPRepository;
+ 
 
     @Autowired
     private IGenresRepository iGenresRepository;
-
+ 
     @Override
     public List<Movies> getListMovies() {
         return iMoviesRepository.findAll();
@@ -44,8 +59,26 @@ public class MoviesService implements IMoviesService{
     public List<Movies> getMoviesByCategoryMovie(Movies id) {
         return iMoviesRepository.findMoviesByCategoryMovieId(id);
     }
-
     @Override
+    @Transactional
+    public List<moviesp> GetMoviePaging(int page, int size, String searchTerm
+            ,
+                                        String genres
+            ,
+//                                        int ratingfrom,int ratingto,
+                                        int yearfrom, int yearto
+    ){
+        return iMovieSPRepository.GetMoviePage(page, size,  searchTerm
+                ,
+                genres
+                ,
+//               ratingfrom, ratingto,
+                yearfrom,yearto
+        );
+
+    }
+
+     @Override
     public List<Movies> getMoviesGenres(List<String> genreList) {
         return iMoviesRepository.findAllByGenreList(genreList);
     }
@@ -61,5 +94,5 @@ public class MoviesService implements IMoviesService{
         return response.getBody().getItems();
     }
 
-
+ 
 }

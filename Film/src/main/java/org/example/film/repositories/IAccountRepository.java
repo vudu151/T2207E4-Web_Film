@@ -14,4 +14,6 @@ public interface IAccountRepository extends JpaRepository<Account, String> {
     Optional<Integer> findLevelByEmail(String email);
     Optional<Account> findAvatarByEmail(String email);
 
+    Optional<Account> findByConfirmationToken(String token);
+
 }

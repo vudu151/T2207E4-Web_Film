@@ -45,6 +45,7 @@
                             <div class="hero-mask opacity-9 bg-dark"></div>
                             <div class="hero-content">
                                 <div class="logo mb-4"> <a class="d-flex justify-content-center" href="/" title="Block Buster"><img src="/public/auth/images/logo1.png" alt="Film"></a> </div>
+                               <--! dangky -->
                                 <form action="/register" id="registerForm" class="form-dark" method="post">
                                     <div class="mb-4 icon-group">
                                         <input type="text" class="form-control" id="username" placeholder="UserName">
@@ -76,10 +77,10 @@
                                     <span class="mx-2 text-white-50 text-2">Or Sign up with</span>
                                     <hr class="flex-grow-1 border-light">
                                 </div>
-                                <div class="d-flex flex-column align-items-center mb-3">
+                                <div class="d-flex  flex-column align-items-center mb-3">
                                     <ul class="social-icons social-icons-rounded">
-                                        <li class="social-icons-facebook"><a href="#" data-bs-toggle="tooltip" data-bs-original-title="Sign Up with Facebook"><i class="fab fa-facebook-f"></i></a></li>
-                                        <li class="social-icons-google"><a href="#" data-bs-toggle="tooltip" data-bs-original-title="Sign Up with Google"><i class="fab fa-google"></i></a></li>
+                                        <li class="social-icons-github"><a th:href="@{/oauth2/authorization/github}" data-bs-toggle="tooltip" data-bs-original-title="Log In with Github"><i class="fab fa-github"></i></a></li>
+                                        <li class="social-icons-google"><a th:href="@{/oauth2/authorization/google}" data-bs-toggle="tooltip" data-bs-original-title="Log In with Google"><i class="fab fa-google"></i></a></li>
                                     </ul>
                                 </div>
                                 <p class="text-2 text-white-50 text-center mb-0">Do you already have an account ? <a class="link-light text-3" href="/login"> Sign In</a></p>
@@ -197,7 +198,8 @@
             if (!validateName() || !validateEmail() || !validatePassword() || !validateRepassword()) {
                 return false; // Prevent form submission if validation fails
             }
-
+<!--  Clear the InMemoryTokenRepositoryImpl-->
+<!--    clearInMemoryTokenRepository();-->
             //Create data object to be sent to the server
             var formData = {
                 userName : $("#username").val(),
