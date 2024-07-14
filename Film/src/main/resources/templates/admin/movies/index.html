@@ -71,34 +71,45 @@
                                         <img th:src="${movie.poster}"  alt="image" class="img-fluid rounded" width="56" style="max-width: 100%;object-fit: cover;max-height: 32px; height: auto;"/>
                                     </td>
                                     <td th:text="${movie.totalEpisode}" style="width: 56px"></td>
-                                    <td th:text="${movie.description}"></td>
+                                    <td>
+                                        <span th:if="${movie.description}">
+                                            <span th:text="${movie.description}"></span>
+                                        </span>
+                                        <span th:if="${movie.description == null || movie.description.length() == 0}">
+                                            <span th:text="${'Update Now'}"></span>
+                                        </span>
+                                    </td>
                                     <td>
                                         <span th:if="${movie.level == 0}">Free</span>
                                         <span th:if="${movie.level == 1}">Not Free</span>
                                     </td>
                                     <td>
-                                            <span th:if="${!movie.categoryMovieId.id.isEmpty()}">
-                                                <span th:text="${movie.categoryMovieId.name}"></span>
-                                            </span>
+                                        <span th:if="${movie.categoryMovieId != null}">
+                                            <span th:text="${movie.categoryMovieId.name}"></span>
+                                        </span>
+                                        <span th:if="${movie.categoryMovieId == null}">
+                                            <span>Update Now</span>
+                                        </span>
                                     </td>
-
                                     <td>
-                                            <span th:if="${!movie.genreList.isEmpty()}">
-                                                <span th:each="movie, index : ${movie.genreList}">
-                                                    <span th:text="${movie.name}"></span>
-                                                    <span th:if="${!index.last}">,</span>
-                                                    <!--Thêm dấu PHẨY giữa 2 name cua Job-->
-                                                </span>
+                                        <span th:if="${!movie.genreList.isEmpty()}">
+                                            <span th:each="movie, index : ${movie.genreList}">
+                                                <span th:text="${movie.name}"></span>
+                                                <span th:if="${!index.last}">,</span>
+                                                <!--Thêm dấu PHẨY giữa 2 name cua Job-->
                                             </span>
+                                        </span>
+                                        <span th:if="${movie.genreList.size() == 0 || movie.genreList.isEmpty()}">
+                                            <span>Update Now</span>
+                                        </span>
                                     </td>
-
                                     <td>
                                         <div class="button-list">
                                             <a th:href="@{/admin-movie/episode/add(id=${movie.id})}" type="button" class="btn btn-warning waves-effect waves-light"><i class="mdi mdi-movie-open"></i></a>
                                             <a th:href="'/admin-movie/episode/list/id=' + ${movie.id}" type="button" class="btn btn-warning waves-effect waves-light"><i class="mdi mdi-movie-edit"></i></a>
+                                            <a type="button" class="btn btn-warning waves-effect waves-light addEpisode"><i class="mdi mdi-movie-open"></i></a>
                                         </div>
                                     </td>
-
                                     <td>
                                         <div class="button-list">
                                             <a th:href="@{/admin-movie/edit(id=${movie.id})}" type="button" class="btn btn-warning waves-effect waves-light"><i class="mdi mdi-pencil"></i></a>
@@ -118,6 +129,36 @@
 
 <th:block id="js-resources">
     <script>
+        $('.addEpisode').click(function (e){
+            e.preventDefault();
+            debugger;
+            var movieId = $(this).closest('tr').find('td:hidden').text();
+            var formData = {
+                id: movieId
+            }
+            $.ajax({
+                url: '/v1/episodes/api/add',
+                type: 'POST',
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(formData),
+                success: function (result) {
+                    setTimeout(function () {
+                        window.location.href = "/admin-genresMovies";
+                    });
+                },
+                error: function (error) {
+                    var errorHtml = '<div class="float-end alert alert-danger alert-dismissible fade show" role="alert">\n' +
+                        '                                            <i class="mdi mdi-block-helper me-2"></i>\n' +
+                        '                                            Name already exists !\n' +
+                        '                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>\n' +
+                        '                                        </div>';
+                    $("#alertError").html(errorHtml);
+                    setTimeout(function() {
+                        $("#alertError").empty(); // Ẩn đi cái alert sau 3s
+                    }, 2000);
+                }
+            });
+        })
         $('.btn-movie-delete').click(function (e){
             e.preventDefault();
             var movieId = $(this).closest('tr').find('td:hidden').text();         //closest: tim phan tu cha gan nhat cua nut Xoa (Tuc la xoa hang do)

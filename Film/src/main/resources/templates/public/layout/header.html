@@ -31,13 +31,21 @@
                                 Genres <i class="fa fa-angle-down" aria-hidden="true"></i>
                             </a>
                             <ul class="dropdown-menu level1">
-                                <li th:each="genre : ${genreList}">
-                                    <a th:href="@{/movies/{genre}(genre=${genre.name})}" th:text="${genre.name}"></a>
+                                <li th:each="genre : ${genreList}" th:if="${genreList.size > 0}">
+                                    <a th:href="'/movie/genre/' + ${genre.id}" class="btn btn-default" th:text="${genre.name}"></a>
+                                    </a>
+                                </li>
+                                <li th:each="genre : ${genreList}" th:if="${genreList.size == 0}">
+                                    <a th:href="'/movie/genre/' + ${genre.id}" class="btn btn-default" th:text="${genre.name}"></a>
+                                    </a>
                                 </li>
                             </ul>
                         </li>
-                        <li th:each="category : ${categoryMovieList}">
-                            <a th:href="@{/movies}" class="btn btn-default" th:text="${category.name}"></a>
+                        <li th:each="category : ${categoryMovieList}" th:if="${categoryMovieList.size > 0}">
+                            <a th:href="'/movie/category/' + ${category.id}" class="btn btn-default" th:text="${category.name}"></a>
+                        </li>
+                        <li th:each="category : ${categoryMovieList}" th:if="${categoryMovieList.size == 0}">
+                            <span class="btn btn-default">Not Data</span>
                         </li>
                         <li class="dropdown first">
                             <a class="btn btn-default dropdown-toggle lv1" data-toggle="dropdown" data-hover="dropdown">
@@ -54,16 +62,6 @@
                                 News
                             </a>
                         </li>
-<!--                        <li class="dropdown first">-->
-<!--                            <a class="btn btn-default dropdown-toggle lv1" data-toggle="dropdown" data-hover="dropdown">-->
-<!--                                community <i class="fa fa-angle-down" aria-hidden="true"></i>-->
-<!--                            </a>-->
-<!--                            <ul class="dropdown-menu level1">-->
-<!--                                <li><a th:href="@{/}">user favorite grid</a></li>-->
-<!--                                <li><a th:href="@{/}">user profile</a></li>-->
-<!--                                <li class="it-last"><a th:href="@{/}">user rate</a></li>-->
-<!--                            </ul>-->
-<!--                        </li>-->
                     </ul>
 
                     <ul class="nav navbar-nav flex-child-menu menu-left">
@@ -103,7 +101,12 @@
 
             <!-- top search form -->
             <div class="top-search">
-                <input type="text" placeholder="Search for a movie or celebrity that you are looking for">
+                <input type="text" placeholder="Search for a movie or celebrity that you are looking for" id="searchInput">
+            </div>
+            <div id="searchResults">
+                <ul class="resultMovie">
+
+                </ul>
             </div>
         </div>
     </header>

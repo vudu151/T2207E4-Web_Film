@@ -1,5 +1,6 @@
 package org.example.film.services.directors;
 
+import org.example.film.models.entities.Celebrity;
 import org.example.film.models.entities.Director;
 import org.example.film.models.entities.Movies;
 import org.example.film.repositories.IDirectorRepository;
@@ -21,4 +22,16 @@ public class DirectorsService implements IDirectorsService{
         Optional<Movies> getMovieId = iMoviesService.getMovieById(movies.getId());
         return iDirectorRepository.findDirectorByMovies(getMovieId.get());
     }
+
+    @Override
+    public Director getDirector(String id) {
+        return iDirectorRepository.findDirectorById(id);
+    }
+
+    @Override
+    public List<Director> getDirectorByCelebrity(Celebrity celebrity) {
+        return iDirectorRepository.findDirectorByCelebrity(celebrity);
+    }
+
+
 }

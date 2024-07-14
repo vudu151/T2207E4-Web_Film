@@ -50,7 +50,7 @@ private EmailService2 emailService2;
                 .password(passwordEncoder.encode(registerRequest.getPassword()))
                 .email(registerRequest.getEmail())
                 .active(true)
-                .avatar("https://res.cloudinary.com/vuxuandu/image/upload/v1717518217/fptaptech/2b59d49a-84d8-4b14-9013-2066c6fb2ef3.png.png\n")
+                .avatar("https://res.cloudinary.com/vuxuandu/image/upload/v1720883787/fptaptech/e50b2f47-f3e8-4d2f-ad2f-f5fe65b93e91.png.png")
                 .roles(roleDefault)
                 .provider(Provider.LOCAL)
                 .confirmationToken(confirmationToken2)

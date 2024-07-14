@@ -422,3 +422,60 @@ body {
     transform: rotate(360deg);
   }
 }
+
+
+.frameTitleMovie{
+  width: 65%;
+  height: 36px;
+  background-color: #233a50 !important;
+  margin-bottom: 20px;
+  color: #abb7c4;
+  font-weight: 500;
+  border: none;
+  text-transform: none;
+  padding: 10px;
+}
+
+.frameTitleMovie span a{
+  color: #abb7c4;
+}
+
+.titleListEpisode{
+  font-weight: 500;
+  font-size: 20px;
+}
+
+.marginFrame{
+  margin-top: 16px;
+}
+
+.listEpisode{
+  width: 65%;
+  margin-bottom: 20px;
+  border: none;
+  text-transform: none;
+  padding: 0 10px;
+}
+
+.listEpisode ul{
+  display: flex;
+  flex-wrap: wrap;
+}
+.listEpisode ul li{
+  list-style-type: none;
+  margin-right: 4px;
+  margin-top: 20px;
+}
+
+.textListEpisode{
+  padding: 8px;
+  background-color: #233a50 !important;
+  margin: 0 2px;
+  border-radius: 4px;
+}
+
+.textListEpisode a {
+  color: #abb7c4;
+  font-weight: 500;
+  font-size: 16px;
+}

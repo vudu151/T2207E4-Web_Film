@@ -1,6 +1,7 @@
 package org.example.film.services.actors;
 
 import org.example.film.models.entities.Actors;
+import org.example.film.models.entities.Celebrity;
 import org.example.film.models.entities.Movies;
 import org.example.film.repositories.IActorRepository;
 import org.example.film.repositories.IMoviesRepository;
@@ -23,4 +24,16 @@ public class ActorService implements IActorService{
         Optional<Movies> getMovies = iMoviesRepository.findById(movies.getId());
         return iActorRepository.findActorsByMovies(getMovies.get());
     }
+
+    @Override
+    public Actors getActorById(String id) {
+        return iActorRepository.findActorsById(id);
+    }
+
+    @Override
+    public List<Actors> getActorByCelebrity(Celebrity celebrity) {
+        return iActorRepository.findActorsByCelebrity(celebrity);
+    }
+
+
 }
