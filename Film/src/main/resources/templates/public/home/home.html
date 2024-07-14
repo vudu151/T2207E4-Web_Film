@@ -579,6 +579,7 @@
             }
         })
     })
+ 
 
          function shareFacebookPage() {
                 // Get the current page URL and title
@@ -612,6 +613,18 @@
         }
         </script>
 
+<<<<<<< HEAD
+=======
+    // Open the Twitter share page in a new window
+    window.open(twitterShareUrl, "_blank");
+}
+       function shareToGooglePlus() {
+ var googlePlusShareUrl = `https://plus.google.com/share?url=${encodeURIComponent(currentPageUrl)}`;
+ window.open(googlePlusShareUrl, '_blank');
+}
+ 
+    </script>
+>>>>>>> d820c74a2dc66788b4afeea0cb6923467c6d0202
 </th:block>
 </body>
 </html>
