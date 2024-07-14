@@ -3,6 +3,7 @@ package org.example.film.controllers.rest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.film.commons.cqrs.ISender;
+import org.example.film.models.apis.episodeApi.AddEpisodeApiRequest;
 import org.example.film.models.entities.Episode;
 import org.example.film.models.entities.Movies;
 import org.example.film.models.requests.episodes.AddEpisodeRequest;
@@ -70,6 +71,19 @@ public class EpisodeRestController {
         }
         try {
             var result = iSender.send(addEpisodeRequest);
+            return ResponseEntity.ok(result.orThrow());
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to add movies: " + e.getMessage());
+        }
+    }
+
+    @PostMapping("api/add")
+    public ResponseEntity<String> apiAdd(@Valid @RequestBody AddEpisodeApiRequest addEpisodeApiRequest, BindingResult bindingResult){
+        if(bindingResult.hasErrors()) {
+            return ResponseEntity.badRequest().body("Invalid data.");
+        }
+        try {
+            var result = iSender.send(addEpisodeApiRequest);
             return ResponseEntity.ok(result.orThrow());
         }catch (Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to add movies: " + e.getMessage());

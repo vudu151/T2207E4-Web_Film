@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light" data-menu-color="brand" data-topbar-color="light"
+      th:replace="~{/admin/layout/layout :: main-fragment(
+                                    ~{:: title},
+                                    ~{:: #css-resources},
+                                    ~{:: #main-content},
+                                    ~{:: #js-resources}
+                                 )}">
+<head>
+    <meta charset="utf-8" />
+    <title>MovieApi | Index</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
+    <meta content="Myra Studio" name="author" />
+    <th:block id="css-resources">
+        <style>
+            /* Thiết lập độ rộng cố định và dấu "..." cho các cột */
+            .table td {
+                max-width: 100px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+        </style>
+    </th:block>
+</head>
+<body>
+
+<main id="main-content">
+    <div class="px-3">
+        <div class="container-fluid">
+            <div id="alertError" style="position: fixed; top: 80px; right: -90px;transform: translateX(-50%); z-index: 9999;"></div>
+            <div id="alertSuccess" style="position: fixed; top: 80px; right: -152px;width: 360px; max-width: 360px; transform: translateX(-50%); z-index: 9999;"></div>
+
+            <!-- start page title -->
+            <div class="py-3 py-lg-4">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <h4 class="page-title mb-0">List Movie Api</h4>
+                    </div>
+                </div>
+            </div>
+            <!-- end page title -->
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <table id="datatable-buttons" class="table table-striped dt-responsive nowrap w-100">
+                                <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Name</th>
+                                    <th>Origin Name</th>
+                                    <th>Year</th>
+                                    <th>Poster</th>
+                                    <th>Thumb</th>
+                                    <th>Add My Movie</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="movie, index : ${getListMovie}">
+                                    <td th:text="${index.count}"></td>
+                                    <td th:text="${movie.name}" th:attr="data-movie-name=${movie.name}"></td>
+                                    <td th:text="${movie.origin_name}"></td>
+                                    <td th:text="${movie.year}"></td>
+                                    <td>
+                                        <img th:src="@{${pathImage} + ${movie.thumb_url}}" th:attr="data-movie-thumb=${pathImage + movie.thumb_url}" alt="Thumb" width="100">
+                                    </td>
+                                    <td>
+                                        <img th:src="@{${pathImage} + ${movie.poster_url}}" alt="Poster" width="100">
+                                    </td>
+                                    <td>
+                                        <div class="button-list">
+                                            <a type="button" class="btn btn-warning waves-effect waves-light addMovieApi"><i class="mdi mdi-movie-open"></i></a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div> <!-- end card body-->
+                    </div> <!-- end card -->
+                </div><!-- end col-->
+            </div>
+        </div>
+    </div>
+</main>
+
+<th:block id="js-resources">
+<script>
+    $(document).ready(function () {
+        $('.addMovieApi').click(function (){
+            var $row = $(this).closest('tr');
+            var name = $row.find('td[data-movie-name]').data('movie-name');
+            var posterMovie = $row.find('img[data-movie-thumb]').data('movie-thumb');
+            var formData = {
+                name: name,
+                thumb_url: posterMovie,
+            };
+            $.ajax({
+                url: "/v1/movies/api/add",
+                type: 'POST',
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(formData),
+                success: function (result) {
+                    setTimeout(function () {
+                        window.location.href = "/admin-movie";
+                    });
+                },
+                error: function (error) {
+                    console.log(error);
+                    var errorHtml = '<div class="float-end alert alert-danger alert-dismissible fade show" role="alert">\n' +
+                        '                                            An error occurred !\n' +
+                        '                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>\n' +
+                        '                                        </div>';
+                    $("#alertError").html(errorHtml);
+                    setTimeout(function() {
+                        $("#alertError").empty();
+                    }, 2000);
+                }
+            });
+        })
+    })
+</script>
+</th:block>
+</body>
+</html>

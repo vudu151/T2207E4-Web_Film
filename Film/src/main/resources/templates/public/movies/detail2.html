@@ -1,76 +1,3 @@
-<!--<!DOCTYPE html>-->
-<!--<html lang="en">-->
-<!--<head>-->
-<!--    <meta charset="UTF-8">-->
-<!--    <title>Movie Details</title>-->
-<!--    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>-->
-<!--</head>-->
-<!--<body>-->
-<!--<h1 id="movie-title"></h1>-->
-<!--<div id="movie-details"></div>-->
-
-<!--<h2>Episodes</h2>-->
-<!--<div id="episode-list"></div>-->
-
-<!--<script>-->
-<!--    $(document).ready(function() {-->
-<!--       // Get the movie ID from the URL parameters-->
-<!--       var urlParams = new URLSearchParams(window.location.search);-->
-<!--       var movieId = urlParams.get('id');-->
-
-<!--       // Fetch movie details from the REST API-->
-<!--       $.ajax({-->
-<!--           url: "/api/public/movies/" + movieId,-->
-<!--           type: "GET",-->
-<!--           success: function(data) {-->
-<!--               // Display movie details-->
-<!--               $("#movie-title").text(data.name);-->
-<!--               var movieHtml = displayMovieDetails(data);-->
-<!--               $("#movie-details").html(movieHtml);-->
-
-<!--             // Fetch episodes for the movie-->
-<!--                $.ajax({-->
-<!--                    url: "/api/public/movies/" + movieId + "/episodes",-->
-<!--                    type: "GET",-->
-<!--                    success: function(episodes) {-->
-<!--                        // Display episode list-->
-<!--                        var episodeHtml = displayEpisodeList(episodes);-->
-<!--                        $("#episode-list").html(episodeHtml);-->
-<!--                    },-->
-<!--                    error: function(xhr, status, error) {-->
-<!--                        console.error("Error fetching episodes: ", error);-->
-<!--                    }-->
-<!--                });-->
-<!--            },-->
-<!--            error: function(xhr, status, error) {-->
-<!--                console.error("Error fetching movie details: ", error);-->
-<!--            }-->
-<!--        });-->
-<!--    });-->
-
-<!--   function displayMovieDetails(movie) {-->
-<!--       // Create the HTML content to be displayed-->
-<!--       var html = '<p>Name: ' + movie.name + '</p>';-->
-<!--       html += '<p>Year: ' + movie.release + '</p>';-->
-<!--       html += '<p>description: ' + movie.description + '</p>';-->
-<!--       return html;-->
-<!--   }-->
-
-<!--   function displayEpisodeList(episodes) {-->
-<!--       // Create the HTML content to be displayed-->
-<!--       var html = "<ul>";-->
-<!--       $.each(episodes, function(index, episode) {-->
-<!--           html += "<li><a href='episodesdetail2?id=" + episode.id + "' class='episode-link'>" + episode.name + "</a></li>";-->
-<!--       });-->
-<!--       html += "</ul>";-->
-
-<!--       // Return the HTML content-->
-<!--       return html;-->
-<!--   }-->
-<!--</script>-->
-<!--</body>-->
-<!--</html>-->
-
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" th:replace="~{/public/layout/layout :: main-fragment(
                                                 ~{:: title},
@@ -109,7 +36,7 @@
         <div class="container">
             <div class="row ipad-width2">
                 <div class="col-md-4 col-sm-12 col-xs-12">
-<!--movie detail-->
+                    <!--movie detail-->
                     <div class="movie-img sticky-sb">
                         <img src="/public/images/uploads/movie-single.jpg" alt="">
                         <div class="movie-btn">
@@ -119,8 +46,8 @@
                             </div>
 
                             <div class="btn-transform transform-vertical episodedetail2" id="episodedetail2" >
-<!--                                <div><a  th:href="@{/movies/movie-player}" class="item item-1 yellowbtn"> <i class="ion-card"></i> Play</a></div>-->
-<!--                                <div><a th:href="@{/movies/movie-player}" class="item item-2 yellowbtn"><i class="ion-card"></i></a></div>-->
+                                <!--                                <div><a  th:href="@{/movies/movie-player}" class="item item-1 yellowbtn"> <i class="ion-card"></i> Play</a></div>-->
+                                <!--                                <div><a th:href="@{/movies/movie-player}" class="item item-2 yellowbtn"><i class="ion-card"></i></a></div>-->
                             </div>
 
                         </div>
@@ -847,70 +774,7 @@
 
 <th:block id="js-resources">
     <script>
-        $(document).ready(function() {
-         // Get the movie ID from the URL parameters
-         var urlParams = new URLSearchParams(window.location.search);
-         var movieId = urlParams.get('id');
 
-         // Fetch movie details from the REST API
-         $.ajax({
-             url: "/api/public/movies/" + movieId,
-             type: "GET",
-             success: function(data) {
-                 // Display movie details
-                 $("#movie-title").text(data.name);
-                 $("#movie-decs").text(data.description);
-
-                 var movieHtml = displayMovieDetails(data);
-                 $("#movie-details").html(movieHtml);
-
-                 // Fetch episodes for the movie
-                 $.ajax({
-                     url: "/api/public/movies/" + movieId + "/episodes",
-                     type: "GET",
-                     success: function(episodes) {
-                         // Display episode list
-                         var episodeHtml = displayEpisodeList(episodes);
-                         $("#episodedetail2").html(episodeHtml);
-                     },
-                     error: function(xhr, status, error) {
-                         console.error("Error fetching episodes: ", error);
-                     }
-                 });
-             },
-             error: function(xhr, status, error) {
-                 console.error("Error fetching movie details: ", error);
-             }
-         });
-     });
-
-     function displayMovieDetails(movie) {
-         // Create the HTML content to be displayed
-         var html = '<div id="movie-details">';
-         html += '<p>Name: ' + movie.name + '</p>';
-         html += '<p>Year: ' + movie.release + '</p>';
-         html += '<p>description: ' + movie.description + '</p>';
-         html += '</div>';
-         return html;
-     }
-
-     function displayEpisodeList(episodes) {
-         // Create the HTML content to be displayed
-         var html = "<div  >";
-         $.each(episodes, function(index, episode) {
-<!--             html += "-->
-<!--                <div><a  href='episodesdetail3?id=" + @{episode.id} + "' class='item item-1 yellowbtn'> <i class='ion-card'></i>"+ @{episode.name}+"</a></div>-->
-<!--                                <div><a href='episodesdetail3?id=" + @{episode.id} + "' class='item item-1 yellowbtn' class='item item-2 yellowbtn'><i class='ion-card'></i></a></div>";-->
-
-<!--         });-->
-<!--       -->
-<!--         html += "</div>";-->
-           html += "<li><a href='episodesdetail3?id=" + episode.id + "' class='episode-link item item-1 yellowbtn'>" + episode.name + "</a></li>";
-       });
-       html += "</ul>";
-         // Return the HTML content
-         return html;
-     }
     </script>
 </th:block>
 

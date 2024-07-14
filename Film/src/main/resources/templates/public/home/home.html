@@ -30,10 +30,10 @@
                     <a href="#"><i class="ion-social-youtube"></i></a>
                 </div>
                 <div class="slick-multiItemSlider">
-                    <div th:each="movie : ${getMovieSlide}" style="height: 410px">
+                    <div th:each="movie : ${getMovieSlide}" style="height: 410px" th:if="${getMovieSlide.size > 0}">
                         <div class="movie-item" style="height: 100%">
                             <div class="mv-img" style="height: 100%">
-                                <a th:href="@{/movie/get/(id=${movie.id})}">
+                                <a th:href="'/movie/get/' + ${movie.id}">
                                     <img th:src="${movie.poster}" alt="" width="285" height="100%" style="object-fit: cover">
                                 </a>
                             </div>
@@ -69,6 +69,21 @@
                             </div>
                         </div>
                     </div>
+                    <div th:if="${getMovieSlide.size == 0}" style="height: 410px">
+                        <div class="movie-item" style="height: 100%">
+                            <div class="mv-img" style="height: 100%">
+                                <a >
+                                    <img src="https://m.media-amazon.com/images/I/61s8vyZLSzL.jpg" alt="" width="285" height="100%" style="object-fit: cover">
+                                </a>
+                            </div>
+                            <div class="title-in">
+                                <div class="cate">
+                                    <span class="yell">No Data</span>
+                                </div>
+                                <h6>No Data</h6>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -86,14 +101,12 @@
                         <ul class="tab-links">
                             <li class="active"><a href="#tab1">#Popular</a></li>
                             <li><a href="#tab2"> #Coming soon</a></li>
-                            <li><a href="#tab3">  #Top rated  </a></li>
-                            <li><a href="#tab4"> #Most reviewed</a></li>
                         </ul>
                         <div class="tab-content">
                             <div id="tab1" class="tab active">
                                 <div class="row">
                                     <div class="slick-multiItem">
-                                        <div class="slide-it" th:each="movieSerieInPopular:${getMovieBySeriesInPopular}">
+                                        <div class="slide-it" th:each="movieSerieInPopular:${getMovieBySeriesInPopular}" th:if="${getMovieBySeriesInPopular.size>0}">
                                             <div class="movie-item" style="height: 100%">
                                                 <div class="mv-img" style="height: 100%">
                                                     <img th:src="${movieSerieInPopular.poster}" alt="" width="185" height="284">
@@ -128,13 +141,24 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="slide-it" th:if="${getMovieBySeriesInPopular.size == 0}">
+                                            <div class="movie-item" style="height: 100%">
+                                                <div class="mv-img" style="height: 100%">
+                                                    <img src="https://m.media-amazon.com/images/I/61s8vyZLSzL.jpg" alt="" width="185" height="284">
+                                                </div>
+                                                <div class="title-in">
+                                                    <h6><a href="#" >No Data</a></h6>
+                                                    <p>No Data</p>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                             <div id="tab2" class="tab">
                                 <div class="row">
                                     <div class="slick-multiItem">
-                                        <div class="slide-it" th:each="movieSeriesInCommingSoon:${getMovieBySeriesInCommingSoon}">
+                                        <div class="slide-it" th:each="movieSeriesInCommingSoon:${getMovieBySeriesInCommingSoon}" th:if="${getMovieBySeriesInCommingSoon.size > 0}">
                                             <div class="movie-item" style="height: 100%">
                                                 <div class="mv-img" style="height: 100%">
                                                     <img th:src="${movieSeriesInCommingSoon.poster}" alt="" width="185" height="284">
@@ -169,43 +193,14 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div id="tab3" class="tab">
-                                <div class="row">
-                                    <div class="slick-multiItem">
-                                        <div class="slide-it">
-                                            <div class="movie-item">
-                                                <div class="mv-img">
-                                                    <img src="/public/images/uploads/mv-item1.jpg" alt="" width="185" height="284">
-                                                </div>
-                                                <div class="hvr-inner">
-                                                    <a  href="moviesingle.html"> Read more <i class="ion-android-arrow-dropright"></i> </a>
+                                        <div class="slide-it" th:if="${getMovieBySeriesInCommingSoon.size == 0}">
+                                            <div class="movie-item" style="height: 100%">
+                                                <div class="mv-img" style="height: 100%">
+                                                    <img src="https://m.media-amazon.com/images/I/61s8vyZLSzL.jpg" alt="" width="185" height="284">
                                                 </div>
                                                 <div class="title-in">
-                                                    <h6><a href="#">Interstellar</a></h6>
-                                                    <p><i class="ion-android-star"></i><span>7.4</span> /10</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div id="tab4" class="tab">
-                                <div class="row">
-                                    <div class="slick-multiItem">
-                                        <div class="slide-it">
-                                            <div class="movie-item">
-                                                <div class="mv-img">
-                                                    <img src="/public/images/uploads/mv-item5.jpg" alt="" width="185" height="284">
-                                                </div>
-                                                <div class="hvr-inner">
-                                                    <a  href="moviesingle.html"> Read more <i class="ion-android-arrow-dropright"></i> </a>
-                                                </div>
-                                                <div class="title-in">
-                                                    <h6><a href="#">Interstellar</a></h6>
-                                                    <p><i class="ion-android-star"></i><span>7.4</span> /10</p>
+                                                    <h6><a href="#" >No Data</a></h6>
+                                                    <p>No Data</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -222,14 +217,12 @@
                         <ul class="tab-links-2">
                             <li class="active"><a href="#tab21">#Popular</a></li>
                             <li><a href="#tab22"> #Coming soon</a></li>
-                            <li><a href="#tab23">  #Top rated  </a></li>
-                            <li><a href="#tab24"> #Most reviewed</a></li>
                         </ul>
                         <div class="tab-content">
                             <div id="tab21" class="tab active">
                                 <div class="row">
                                     <div class="slick-multiItem">
-                                        <div class="slide-it" th:each="movieSinglePopular:${getMovieBySinglePopular}">
+                                        <div class="slide-it" th:each="movieSinglePopular:${getMovieBySinglePopular}" th:if="${getMovieBySinglePopular.size > 0}">
                                             <div class="movie-item" style="height: 100%">
                                                 <div class="mv-img" style="height: 100%">
                                                     <img th:src="${movieSinglePopular.poster}" alt="" width="185" height="284">
@@ -264,13 +257,24 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="slide-it" th:if="${getMovieBySinglePopular.size == 0}">
+                                            <div class="movie-item" style="height: 100%">
+                                                <div class="mv-img" style="height: 100%">
+                                                    <img src="https://m.media-amazon.com/images/I/61s8vyZLSzL.jpg" alt="" width="185" height="284">
+                                                </div>
+                                                <div class="title-in">
+                                                    <h6><a href="#" >No Data</a></h6>
+                                                    <p>No Data</p>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                             <div id="tab22" class="tab">
                                 <div class="row">
                                     <div class="slick-multiItem">
-                                        <div class="slide-it" th:each="movieBySingleInCommingSoon:${getMovieBySingleInCommingSoon}">
+                                        <div class="slide-it" th:each="movieBySingleInCommingSoon:${getMovieBySingleInCommingSoon}" th:if="${getMovieBySingleInCommingSoon.size > 0}">
                                             <div class="movie-item" style="height: 100%">
                                                 <div class="mv-img" style="height: 100%">
                                                     <img th:src="${movieBySingleInCommingSoon.poster}" alt="" width="185" height="284">
@@ -305,43 +309,14 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div id="tab23" class="tab">
-                                <div class="row">
-                                    <div class="slick-multiItem">
-                                        <div class="slide-it">
-                                            <div class="movie-item">
-                                                <div class="mv-img">
-                                                    <img src="/public/images/uploads/mv-item1.jpg" alt="" width="185" height="284">
-                                                </div>
-                                                <div class="hvr-inner">
-                                                    <a  href="moviesingle.html"> Read more <i class="ion-android-arrow-dropright"></i> </a>
+                                        <div class="slide-it" th:if="${getMovieBySingleInCommingSoon.size == 0}">
+                                            <div class="movie-item" style="height: 100%">
+                                                <div class="mv-img" style="height: 100%">
+                                                    <img src="https://m.media-amazon.com/images/I/61s8vyZLSzL.jpg" alt="" width="185" height="284">
                                                 </div>
                                                 <div class="title-in">
-                                                    <h6><a href="#">Interstellar</a></h6>
-                                                    <p><i class="ion-android-star"></i><span>7.4</span> /10</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div id="tab24" class="tab">
-                                <div class="row">
-                                    <div class="slick-multiItem">
-                                        <div class="slide-it">
-                                            <div class="movie-item">
-                                                <div class="mv-img">
-                                                    <img src="/public/images/uploads/mv-item5.jpg" alt="" width="185" height="284">
-                                                </div>
-                                                <div class="hvr-inner">
-                                                    <a  href="moviesingle.html"> Read more <i class="ion-android-arrow-dropright"></i> </a>
-                                                </div>
-                                                <div class="title-in">
-                                                    <h6><a href="#">Interstellar</a></h6>
-                                                    <p><i class="ion-android-star"></i><span>7.4</span> /10</p>
+                                                    <h6><a href="#" >No Data</a></h6>
+                                                    <p>No Data</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -404,19 +379,31 @@
                     </div>
                     <div class="videos">
                         <div class="slider-for-2 video-ft">
-                            <div th:each="trailerVideo:${getMovieSlide}">
+                            <div th:each="trailerVideo:${getMovieSlide}" th:if="${getMovieSlide.size > 0}">
                                 <div class="item-video" th:utext="${trailerVideo.trailer}"></div>
 <!--                                <iframe  src="" data-src="https://www.youtube.com/embed/1Q8fG0TtVAY" ></iframe>-->
                             </div>
+                            <div th:if="${getMovieSlide.size > 0}">
+                                <iframe  src="" data-src="https://www.youtube.com/embed/1Q8fG0TtVAY" ></iframe>
+                            </div>
                         </div>
                         <div class="slider-nav-2 thumb-ft">
-                            <div class="item" th:each="trailerInfo:${getMovieSlide}">
+                            <div class="item" th:each="trailerInfo:${getMovieSlide}" th:if="${getMovieSlide.size > 0}">
                                 <div class="trailer-img">
                                     <img th:src="${trailerInfo.poster}"  alt="photo by Barn Images" width="4096" height="2737">
                                 </div>
                                 <div class="trailer-infor">
                                     <h4 class="desc" th:text="${trailerInfo.name}"></h4>
                                     <p>2:30</p>
+                                </div>
+                            </div>
+                            <div class="item" th:if="${getMovieSlide.size == 0}">
+                                <div class="trailer-img">
+                                    <img src="https://m.media-amazon.com/images/I/61s8vyZLSzL.jpg"  alt="photo by Barn Images" width="4096" height="2737" style="object-fit:cover; overflow: hidden;">
+                                </div>
+                                <div class="trailer-infor">
+                                    <h4 class="desc" >No Data</h4>
+                                    <p>No Data</p>
                                 </div>
                             </div>
                         </div>

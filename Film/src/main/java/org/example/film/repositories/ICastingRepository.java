@@ -20,4 +20,8 @@ public interface ICastingRepository extends JpaRepository<Casting,String> {
             "WHERE c.movies.id = :movieId " +
             "AND c.jobs = :job")
     List<String> findCelebrityNamesByMovieIdAndJob(@Param("movieId") String movieId, @Param("job") Job job);
+
+
+    List<Casting> findCastingsByCelebrity(Celebrity celebrity);
+    Casting findCastingById(String id);
 }
