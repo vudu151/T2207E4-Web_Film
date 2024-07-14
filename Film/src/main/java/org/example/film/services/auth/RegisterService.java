@@ -49,7 +49,7 @@ private EmailService2 emailService2;
                 .userName(registerRequest.getUserName())
                 .password(passwordEncoder.encode(registerRequest.getPassword()))
                 .email(registerRequest.getEmail())
-                .active(true)
+                .active(false)
                 .avatar("https://res.cloudinary.com/vuxuandu/image/upload/v1720883787/fptaptech/e50b2f47-f3e8-4d2f-ad2f-f5fe65b93e91.png.png")
                 .roles(roleDefault)
                 .provider(Provider.LOCAL)

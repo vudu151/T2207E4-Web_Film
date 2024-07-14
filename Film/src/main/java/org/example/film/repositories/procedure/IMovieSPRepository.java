@@ -16,7 +16,7 @@ public interface IMovieSPRepository extends JpaRepository<moviesp, String> {
             String genres
             ,
 //            int ratingfrom,
-//            int ratingto,
+    //            int ratingto,
             int yearfrom,
             int yearto
     );
