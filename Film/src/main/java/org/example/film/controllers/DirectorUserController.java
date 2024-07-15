@@ -1,6 +1,7 @@
 package org.example.film.controllers;
 
 import lombok.RequiredArgsConstructor;
+import org.example.film.models.entities.Actors;
 import org.example.film.models.entities.Celebrity;
 import org.example.film.models.entities.Director;
 import org.example.film.models.entities.Movies;
@@ -24,8 +25,24 @@ public class DirectorUserController {
     public final IDirectorsService iDirectorsService;
     public final IMoviesService iMoviesService;
     public final ICelebritiesService iCelebritiesService;
+
+    @GetMapping("/get/")
+    public String getDirector(@RequestParam(name = "page", defaultValue = "1") int page,
+                              @RequestParam(name = "size", defaultValue = "2") int size,
+                              Model model){
+        List<Director> getListDirector = iDirectorsService.getAllDirector().stream().filter(d -> d.getStatus() == 1).toList();
+        int startIndex = (page - 1) * size;
+        int endIndex = Math.min(startIndex + size, getListDirector.size());
+        List<Director> paginatedListDirector = getListDirector.subList(startIndex, endIndex);
+        model.addAttribute("getListDirector", paginatedListDirector);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("size", size); // Thay size bằng giá trị phù hợp từ controller của bạn
+        model.addAttribute("totalPages", (int) Math.ceil((double) getListDirector.size() / size));
+        return "public/directors/list-director";
+    }
+
     @GetMapping("/{id}")
-    public String getDirector(@PathVariable String id,
+    public String getDirectorId(@PathVariable String id,
                               @RequestParam(name = "page", defaultValue = "1") int page,
                               @RequestParam(name = "size", defaultValue = "2") int size,
                               Model model){

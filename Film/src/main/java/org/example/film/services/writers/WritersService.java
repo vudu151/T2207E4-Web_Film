@@ -38,4 +38,10 @@ public class WritersService implements IWritersService{
     public Writers getWriter(String id) {
         return iWriterRepository.findWritersById(id);
     }
+
+    @Override
+    public List<Writers> getAllWriters() {
+        return iWriterRepository.findAll();
+    }
+
 }

@@ -33,5 +33,10 @@ public class DirectorsService implements IDirectorsService{
         return iDirectorRepository.findDirectorByCelebrity(celebrity);
     }
 
+    @Override
+    public List<Director> getAllDirector() {
+        return iDirectorRepository.findAll();
+    }
+
 
 }

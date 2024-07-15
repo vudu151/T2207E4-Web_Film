@@ -11,4 +11,5 @@ public interface IDirectorsService {
     Director getDirector (String id);
 
     List<Director> getDirectorByCelebrity(Celebrity celebrity);
+    List<Director> getAllDirector();
 }

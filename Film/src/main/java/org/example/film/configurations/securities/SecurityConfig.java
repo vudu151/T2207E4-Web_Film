@@ -26,6 +26,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.authority.mapping.GrantedAuthoritiesMapper;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
@@ -37,6 +39,7 @@ import org.springframework.security.web.authentication.rememberme.InMemoryTokenR
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentRememberMeToken;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+import org.springframework.security.web.session.HttpSessionEventPublisher;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -125,6 +128,11 @@ public class SecurityConfig {
                     rememberMe.tokenValiditySeconds(3 * 24 * 60 * 60);      //3 days
                     rememberMe.tokenRepository(persistentTokenRepository());
                 })
+                .sessionManagement(sessionManagement -> {
+                    sessionManagement.maximumSessions(1)
+                    .sessionRegistry(sessionRegistry())
+                    .maxSessionsPreventsLogin(false);
+                })
                 .oauth2Login(oauth2 -> {
                     oauth2.loginPage("/login");
 //                    oauth2.defaultSuccessUrl("/", true);
@@ -139,6 +147,16 @@ public class SecurityConfig {
         ;
 
         return httpSecurity.build();
+    }
+
+    @Bean
+    public SessionRegistry sessionRegistry(){
+        return new SessionRegistryImpl();
+    }
+
+    @Bean
+    public HttpSessionEventPublisher httpSessionEventPublisher(){
+        return new HttpSessionEventPublisher();
     }
     @Bean
     GrantedAuthoritiesMapper userAuthoritiesMapper() {
