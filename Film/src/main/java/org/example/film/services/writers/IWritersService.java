@@ -10,4 +10,6 @@ public interface IWritersService {
     List<Writers> getWritersByMovieId(Movies movies);
     List<Writers> getWriterByCelebrity(Celebrity celebrity);
     Writers getWriter(String id);
+
+    List<Writers> getAllWriters();
 }
