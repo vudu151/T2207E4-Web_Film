@@ -39,7 +39,7 @@ public class CastingUserController {
         model.addAttribute("size", size); // Thay size bằng giá trị phù hợp từ controller của bạn
         model.addAttribute("totalPages", (int) Math.ceil((double) getListActors.size() / size));
         return "public/casts/list-casting";
-    }
+  
 
     @GetMapping("/{id}")
     public String getCastingId(@PathVariable String id,

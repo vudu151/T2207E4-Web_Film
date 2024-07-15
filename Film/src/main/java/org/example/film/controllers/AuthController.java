@@ -109,27 +109,11 @@ public class AuthController {
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList());
 
-//        JwtResponse jwtResponse;
-//
-//        if (userDetails.getAccount() != null) {
-//            jwtResponse = new JwtResponse(token ,userDetails.getAccount().getUserName() ,
-//                    userDetails.getAccount().getEmail() ,roles );
-//
-//            request.getSession().setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, SecurityContextHolder.getContext());
-//
-//            //Save token into Cookies
-//            Cookie cookie = new Cookie("JWT_TOKEN", token);
-//            cookie.setSecure(true);                                                     //Cai dat bao mat
-//            cookie.setHttpOnly(true);                                                   //Khong cho JavaScript truy cap vao Cookie
-//            cookie.setMaxAge((int) TimeUnit.MILLISECONDS.toSeconds(30 * 60));   //Thoi gian song cua Cookie -> Tuc nguoi dung chi dang nhap 30 phut roi tu Logout
-//            cookie.setPath("/");                                                        //Cookie duoc truy cap tren moi duong dan
-//            response.addCookie(cookie);                                                 //Them Cookie vao HTTP Response
-//            return ResponseEntity.ok(jwtResponse);
-//        }
-//        else {
-//            var cd =1;
-//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized");
-//        }
+      // Check if the account is active
+
+      if (userDetails.getAccount().getActive()== false) {
+          return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Account is not active");
+      }
         JwtResponse jwtResponse = new JwtResponse(token, userDetails.getAccount().getUserName(),
                 userDetails.getAccount().getEmail(), roles);
 
