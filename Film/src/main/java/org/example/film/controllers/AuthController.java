@@ -12,6 +12,7 @@ import org.example.film.models.entities.Account;
 import org.example.film.models.requests.auth.*;
 import org.example.film.repositories.IAccountRepository;
 import org.example.film.services.auth.IAccountsService;
+import org.example.film.services.auth.UpdateAvatarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -181,4 +182,11 @@ public class AuthController {
         result.orThrow();
         return ResponseEntity.ok().build();
     }
+
+    @PutMapping("/update/avatar")
+    public ResponseEntity<String> updateAvatar(@Valid @RequestBody UpdateAvatarRequest updateAvatarRequest){
+            var result = iSender.send(updateAvatarRequest);
+            return ResponseEntity.ok(String.valueOf(result.orThrow()));
+    }
+
 }

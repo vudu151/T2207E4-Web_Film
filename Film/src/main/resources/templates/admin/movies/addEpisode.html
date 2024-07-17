@@ -209,23 +209,22 @@
                 success: function (response){
                     if (response){
                         movie = response;
-
                         $('#movie-id').val(movie.id);
                         $('#movie-name').val(movie.name);
                         $.ajax({
                             type: 'GET',
-                            url: '/v1/episodes/' + movie.id,
+                            url: '/v1/episodes/list/' + movie.id,
                             success: function (rs){
                                 if(this.success){
                                     debugger;
                                     episode = rs;
                                     let getEpisodeRs = episode.map(e => e.name); // Lấy danh sách tên các tập đã lấy ra
                                     // set select episode
-                                    var totalEpisodes = movie.totalEpisode - episode.length + 1;
-                                    var $selectEpisode = $('#select-episode');
+                                    const totalEpisodes = movie.totalEpisode - episode.length + 1;
+                                    const $selectEpisode = $('#select-episode');
                                     $selectEpisode.empty(); // Xóa các option hiện có
                                     $selectEpisode.append('<option value="">Select episode</option>');
-                                    for (var i = 1; i <= totalEpisodes; i++) {
+                                    for (let i = 1; i <= totalEpisodes; i++) {
                                         // Kiểm tra xem tập hiện tại có trong mảng getEpisodeRs hay không
                                         if (getEpisodeRs.includes(i)) {
                                             let nextEpisode = i+1
@@ -240,7 +239,6 @@
 
                                         }
                                         // Nếu tập hiện tại không có trong mảng getEpisodeRs, thì thêm option tương ứng vào $selectEpisode
-
                                     }
                                 }
                             },
@@ -264,7 +262,6 @@
                 }
             })
         }
-
 
 
         function displayVideos(video) {

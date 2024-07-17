@@ -50,6 +50,8 @@ public class EpisodeRestController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
+
+
     @GetMapping("/list/{id}")
     public ResponseEntity<List<Episode>> getEpisodeByMovieId(@PathVariable String id){
         try {

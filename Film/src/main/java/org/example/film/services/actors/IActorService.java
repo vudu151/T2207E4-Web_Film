@@ -11,4 +11,5 @@ public interface IActorService {
     Actors getActorById(String id);
     List<Actors> getActorByCelebrity(Celebrity celebrity);
     List<Actors> findAllActors();
+
 }
