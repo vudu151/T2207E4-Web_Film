@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{/public/layout/layout :: main-fragment(
+                                                ~{:: title},
+                                                ~{:: #css-resources},
+                                                ~{:: #main-content},
+                                                ~{:: #js-resources}
+                                               )}">
+<head>
+  <!-- Basic need -->
+  <title>Block Buster | News</title>
+  <meta charset="UTF-8">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  <meta name="author" content="">
+
+  <th:block id="css-resources"></th:block>
+</head>
+<body>
+
+<main id="main-content">
+  <h1>Session Expired</h1>
+  <p>Your session has expired. Please log in again.</p>
+</main>
+<th:block id="js-resources">
+</th:block>
+</body>
+</html>
