@@ -52,8 +52,14 @@
                                 celebrities <i class="fa fa-angle-down" aria-hidden="true"></i>
                             </a>
                             <ul id="jobList" class="dropdown-menu level1">
-                                <li th:each="job : ${jobList}">
-                                    <a th:text="${job.name}" th:href="@{/jobs/{id}(id=${job.id})}"></a>
+                                <li>
+                                    <a th:href="'/casting/get/'">Actors</a>
+                                </li>
+                                <li>
+                                    <a th:href="'/director/get/'">Director</a>
+                                </li>
+                                <li>
+                                    <a th:href="'/writer/get/'">Writer</a>
                                 </li>
                             </ul>
                         </li>
@@ -78,8 +84,11 @@
 
                             <a class="btn btn-default dropdown-toggle lv1" data-toggle="dropdown" data-hover="dropdown"   >
                                 <span><img class="img-thumbnail" style="margin-right: 10px; margin-bottom: 3px; width: 40px; height: 40px" th:src="${avatar}" alt="" /></span>
+ 
                                 <span style="padding-top: 2px"   th:text="${#authentication.name}" ></span>
-
+                                <br>
+                                <span style="padding-top: 2px"   th:text="${username}" ></span>
+ 
 <!--                                th:text="${username}"-->
                             </a>
                             <ul class="dropdown-menu level1"  sec:authorize="isAuthenticated()">

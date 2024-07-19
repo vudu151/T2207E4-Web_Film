@@ -24,10 +24,10 @@
             <div class="row">
                 <div class="social-link">
                     <p>Follow us: </p>
-                    <a href="#" onclick="shareFacebookPage(); return false;"><i class="ion-social-facebook"></i></a>
-                    <a href="#" onclick="shareToTwitter(); return false;"><i class="ion-social-twitter"></i></a>
-                    <a href="#" onclick="shareToGooglePlus(); return false;"><i class="ion-social-googleplus"></i></a>
-                    <a href="#" onclick="shareToYouTube(); return false;"><i class="ion-social-youtube"></i></a>
+                    <a href="#"><i class="ion-social-facebook"></i></a>
+                    <a href="#"><i class="ion-social-twitter"></i></a>
+                    <a href="#"><i class="ion-social-googleplus"></i></a>
+                    <a href="#"><i class="ion-social-youtube"></i></a>
                 </div>
                 <div class="slick-multiItemSlider">
                     <div th:each="movie : ${getMovieSlide}" style="height: 410px" th:if="${getMovieSlide.size > 0}">
@@ -112,7 +112,7 @@
                                                     <img th:src="${movieSerieInPopular.poster}" alt="" width="185" height="284">
                                                 </div>
                                                 <div class="hvr-inner">
-                                                    <a  href="moviesingle.html"> Watch <i class="ion-android-arrow-dropright"></i> </a>
+                                                    <a th:href="'/movie/get/' + ${movieSerieInPopular.id}"> Watch <i class="ion-android-arrow-dropright"></i> </a>
                                                 </div>
                                                 <div class="mv-item-eth">
                                                     <h6>
@@ -136,7 +136,7 @@
                                                     </h6>
                                                 </div>
                                                 <div class="title-in">
-                                                    <h6><a href="#" th:text="${movieSerieInPopular.name}"></a></h6>
+                                                    <h6><a th:href="'/movie/get/' + ${movieSerieInPopular.id}" th:text="${movieSerieInPopular.name}"></a></h6>
                                                     <p><i class="ion-android-star"></i><span>7.4</span> /10</p>
                                                 </div>
                                             </div>
@@ -164,7 +164,7 @@
                                                     <img th:src="${movieSeriesInCommingSoon.poster}" alt="" width="185" height="284">
                                                 </div>
                                                 <div class="hvr-inner">
-                                                    <a  href="moviesingle.html"> Watch <i class="ion-android-arrow-dropright"></i> </a>
+                                                    <a th:href="'/movie/get/' + ${movieSeriesInCommingSoon.id}"> Watch <i class="ion-android-arrow-dropright"></i> </a>
                                                 </div>
                                                 <div class="mv-item-eth">
                                                     <h6>
@@ -188,7 +188,7 @@
                                                     </h6>
                                                 </div>
                                                 <div class="title-in">
-                                                    <h6><a href="#" th:text="${movieSeriesInCommingSoon.name}"></a></h6>
+                                                    <h6><a th:href="'/movie/get/' + ${movieSeriesInCommingSoon.id}" th:text="${movieSeriesInCommingSoon.name}"></a></h6>
                                                     <p><i class="ion-android-star"></i><span>7.4</span> /10</p>
                                                 </div>
                                             </div>
@@ -280,7 +280,7 @@
                                                     <img th:src="${movieBySingleInCommingSoon.poster}" alt="" width="185" height="284">
                                                 </div>
                                                 <div class="hvr-inner">
-                                                    <a  href="moviesingle.html"> Read more <i class="ion-android-arrow-dropright"></i> </a>
+                                                    <a  th:href="'/movie/get/' + ${movieBySingleInCommingSoon.id}"> Read more <i class="ion-android-arrow-dropright"></i> </a>
                                                 </div>
                                                 <div class="mv-item-eth">
                                                     <h6>
@@ -304,7 +304,7 @@
                                                     </h6>
                                                 </div>
                                                 <div class="title-in">
-                                                    <h6><a href="#" th:text="">Interstellar</a></h6>
+                                                    <h6><a th:href="'/movie/get/' + ${movieBySingleInCommingSoon.id}" th:text="">Interstellar</a></h6>
                                                     <p><i class="ion-android-star"></i><span>7.4</span> /10</p>
                                                 </div>
                                             </div>
@@ -527,7 +527,12 @@
 
     $('.heart-error').click(function (e){
         e.preventDefault();
-        alert("You need to log in to add movies to favorites")
+        Swal.fire({
+            title: 'Error!',
+            text: "you loggin favorite movie",
+            icon: 'error',
+            confirmButtonText: 'OK'
+        });
     })
     $('.favorite-icon').click(function (e){
         e.preventDefault();
@@ -566,51 +571,8 @@
             }
         })
     })
- 
-
-         function shareFacebookPage() {
-                // Get the current page URL and title
-                var currentPageUrl = window.location.href;
-                var currentPageTitle = document.title;
-
-                // Construct the Facebook share URL
-                var facebookShareUrl = "https://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent(currentPageUrl) + "&t=" + encodeURIComponent(currentPageTitle);
-
-                // Open the Facebook share page in a new window
-                window.open(facebookShareUrl, "_blank");
-            }
-        function shareToTwitter() {
-            // Get the current page URL and title
-            var currentPageUrl = window.location.href;
-            var currentPageTitle = document.title;
-
-            // Construct the Twitter share URL
-            var twitterShareUrl = "https://twitter.com/intent/tweet?";
-            twitterShareUrl += "url=" + encodeURIComponent(currentPageUrl);
-            twitterShareUrl += "&text=" + encodeURIComponent(currentPageTitle);
-            twitterShareUrl += "&via=yourTwitterHandle"; // Replace 'yourTwitterHandle' with your actual Twitter handle
-            twitterShareUrl += "&hashtags=yourhashtagshere"; // Replace 'yourhashtagshere' with your desired hashtags
-
-            // Open the Twitter share page in a new window
-            window.open(twitterShareUrl, "_blank");
-        }
-               function shareToGooglePlus() {
-         var googlePlusShareUrl = `https://plus.google.com/share?url=${encodeURIComponent(currentPageUrl)}`;
-         window.open(googlePlusShareUrl, '_blank');
-        }
-        </script>
-
-
-    // Open the Twitter share page in a new window
-    window.open(twitterShareUrl, "_blank");
-}
-       function shareToGooglePlus() {
- var googlePlusShareUrl = `https://plus.google.com/share?url=${encodeURIComponent(currentPageUrl)}`;
- window.open(googlePlusShareUrl, '_blank');
-}
- 
     </script>
- </th:block>
+</th:block>
 </body>
 </html>
 

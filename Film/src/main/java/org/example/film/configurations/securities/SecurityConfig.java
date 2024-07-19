@@ -20,6 +20,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 
@@ -28,6 +29,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.authority.mapping.GrantedAuthoritiesMapper;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
@@ -39,6 +42,11 @@ import org.springframework.security.web.authentication.rememberme.InMemoryTokenR
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentRememberMeToken;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+import org.springframework.security.web.authentication.session.ConcurrentSessionControlAuthenticationStrategy;
+import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
+import org.springframework.security.web.session.HttpSessionEventPublisher;
+import org.springframework.security.web.session.SessionInformationExpiredEvent;
+import org.springframework.security.web.session.SessionInformationExpiredStrategy;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -71,12 +79,21 @@ public class SecurityConfig {
     private AccountsService accountsService;
 
     @Bean
+    public SessionRegistry sessionRegistry(){
+        return new SessionRegistryImpl();
+    }
+    @Bean
+    public SessionAuthenticationStrategy sessionAuthenticationStrategy() {
+        return new ConcurrentSessionControlAuthenticationStrategy(sessionRegistry());
+    }
+    @Bean
     public DaoAuthenticationProvider daoAuthenticationProvider(){
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
         daoAuthenticationProvider.setUserDetailsService(iAccountsService);
         daoAuthenticationProvider.setPasswordEncoder(passwordEncoder);
         return daoAuthenticationProvider;
     }
+
 
     // Config Persistent Token Repository để sử dụng bảng persistent_logins trong Database
     @Bean
@@ -90,18 +107,14 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.sessionManagement(
-//                s -> s.sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
-                session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
-                        .maximumSessions(1)
-                        .maxSessionsPreventsLogin(true)
-                        .expiredUrl("/login?expired=true")
-        )
-                .getSharedObject(AuthenticationManagerBuilder.class)
-                .authenticationProvider(daoAuthenticationProvider())
-        ;
-
+   
+        httpSecurity.sessionManagement(session -> session
+                .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+                .maximumSessions(1)
+                .maxSessionsPreventsLogin(true)
+                .sessionRegistry(sessionRegistry())
+                .expiredSessionStrategy(sessionInformationExpiredStrategy())
+        );
         httpSecurity.getSharedObject(AuthenticationManagerBuilder.class)
                 .authenticationProvider(daoAuthenticationProvider());
         httpSecurity.authorizeHttpRequests(request -> {
@@ -138,6 +151,7 @@ public class SecurityConfig {
                     rememberMe.tokenValiditySeconds(3 * 24 * 60 * 60);      //3 days
                     rememberMe.tokenRepository(persistentTokenRepository());
                 })
+
                 .oauth2Login(oauth2 -> {
                     oauth2.loginPage("/login");
                      oauth2.userInfoEndpoint()
@@ -150,6 +164,25 @@ public class SecurityConfig {
         ;
 
         return httpSecurity.build();
+    }
+
+    @Bean
+    public SessionInformationExpiredStrategy sessionInformationExpiredStrategy() {
+        return new SessionInformationExpiredStrategy() {
+            @Override
+            public void onExpiredSessionDetected(SessionInformationExpiredEvent event) throws IOException, ServletException {
+                HttpServletResponse response = event.getResponse();
+                HttpServletRequest request = event.getRequest();
+
+                // Thực hiện hành động khi phiên hết hạn
+                response.sendRedirect("/session-expired"); // Ví dụ: chuyển hướng đến trang thông báo hết hạn phiên
+            }
+        };
+    }
+
+    @Bean
+    public HttpSessionEventPublisher httpSessionEventPublisher(){
+        return new HttpSessionEventPublisher();
     }
     @Bean
     GrantedAuthoritiesMapper userAuthoritiesMapper() {

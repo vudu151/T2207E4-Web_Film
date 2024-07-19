@@ -85,6 +85,8 @@ public class AccountsService implements IAccountsService {
         return iAccountRepository.findById(id);
     }
 
+
+
     public void processOAuthPostLogin(
 //            String username
             CustomOAuth2User oauthUser
@@ -101,8 +103,8 @@ public class AccountsService implements IAccountsService {
                     .userName(oauthUser.getName())
                     .password(passwordEncoder.encode(pass))
                     .email(oauthUser.getEmail())
-                    .active(true)
-                    .avatar("https://res.cloudinary.com/vuxuandu/image/upload/v1717518217/fptaptech/2b59d49a-84d8-4b14-9013-2066c6fb2ef3.png.png\n")
+                    .active(false)
+                    .avatar("https://res.cloudinary.com/vuxuandu/image/upload/v1720883787/fptaptech/e50b2f47-f3e8-4d2f-ad2f-f5fe65b93e91.png.png")
                     .provider(oauthUser.getProvider())
                     .roles(roleDefault)
                     .level(0)

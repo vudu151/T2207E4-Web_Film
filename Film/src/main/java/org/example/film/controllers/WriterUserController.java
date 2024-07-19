@@ -1,10 +1,7 @@
 package org.example.film.controllers;
 
 import lombok.RequiredArgsConstructor;
-import org.example.film.models.entities.Celebrity;
-import org.example.film.models.entities.Director;
-import org.example.film.models.entities.Movies;
-import org.example.film.models.entities.Writers;
+import org.example.film.models.entities.*;
 import org.example.film.services.celebrities.ICelebritiesService;
 import org.example.film.services.movies.IMoviesService;
 import org.example.film.services.writers.IWritersService;
@@ -25,8 +22,23 @@ public class WriterUserController {
     public final IMoviesService iMoviesService;
     public final ICelebritiesService iCelebritiesService;
     public final IWritersService iWritersService;
+
+    @GetMapping("/get/")
+    public String getWriter(@RequestParam(name = "page", defaultValue = "1") int page,
+                            @RequestParam(name = "size", defaultValue = "2") int size,
+                            Model model){
+        List<Writers> getAllWriter = iWritersService.getAllWriters();
+        int startIndex = (page - 1) * size;
+        int endIndex = Math.min(startIndex + size, getAllWriter.size());
+        List<Writers> paginatedListWriters = getAllWriter.subList(startIndex, endIndex);
+        model.addAttribute("getListWriter", paginatedListWriters);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("size", size); // Thay size bằng giá trị phù hợp từ controller của bạn
+        model.addAttribute("totalPages", (int) Math.ceil((double) getAllWriter.size() / size));
+        return "public/writers/list-writer";
+    }
     @GetMapping("/{id}")
-    public String GetWriter(@PathVariable String id,
+    public String GetWriterId(@PathVariable String id,
                             @RequestParam(name = "page", defaultValue = "1") int page,
                             @RequestParam(name = "size", defaultValue = "2") int size,
                             Model model){

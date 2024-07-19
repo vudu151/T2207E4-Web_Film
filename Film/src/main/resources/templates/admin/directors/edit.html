@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en" data-bs-theme="light" data-menu-color="brand" data-topbar-color="light"
+      th:replace="~{/admin/layout/layout :: main-fragment(
+                                    ~{:: title},
+                                    ~{:: #css-resources},
+                                    ~{:: #main-content},
+                                    ~{:: #js-resources}
+                                 )}">
+<head>
+    <meta charset="utf-8" />
+    <title>Director | Edit</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
+    <meta content="Myra Studio" name="author" />
+    <th:block id="css-resources">
+    </th:block>
+</head>
+<body>
+
+<main id="main-content">
+    <div class="px-3">
+        <div class="container-fluid">
+            <div id="alertError" style="position: fixed; top: 80px; right: -90px;transform: translateX(-50%); z-index: 9999;"></div>
+
+            <!-- start page title -->
+            <div class="py-3 py-lg-4">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <h4 class="page-title mb-0">Edit Director</h4>
+                    </div>
+                </div>
+            </div>
+            <!-- end page title -->
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="p-2">
+                                        <form method="post" id="formEditDirector" class="form-horizontal" role="form">
+                                            <div class="mb-2 row">
+                                                <label class="col-md-2 col-form-label" for="director-id">Id</label>
+                                                <div class="col-md-10">
+                                                    <input id="director-id" class="form-control" readonly style="color: #5d5b5b; opacity: 70%; border-color: #ccc9c9">
+                                                </div>
+                                            </div>
+                                            <div class="mb-2 row">
+                                                <label class="col-md-2 col-form-label">Movie</label>
+                                                <div class="col-md-10">
+                                                    <select class="form-select" id="movie-select">
+                                                        <option selected>Select Movies</option>
+                                                        <option th:each="movie : ${getMovies}" th:value="${movie.id}"
+                                                                th:text="${movie.name}">
+                                                        </option>
+                                                    </select>
+                                                    <span class="invalid-feedback text-danger"
+                                                          id="invalid-feedback-genre">The movie is not null.</span>
+                                                </div> <!-- end col -->
+                                            </div>
+
+                                            <div class="mb-2 row">
+                                                <label class="col-md-2 col-form-label">Celebrity</label>
+                                                <div class="col-md-10">
+                                                    <select class="form-select" id="celebrity">
+                                                        <option selected>Select Celebrity</option>
+                                                        <option th:each="celebrity : ${getCelebrity}" th:value="${celebrity.id}"
+                                                                th:text="${celebrity.name}">
+                                                        </option>
+                                                    </select>
+                                                    <span class="invalid-feedback text-danger"
+                                                          id="invalid-feedback-celebrity">The celebrity is not null.</span>
+                                                </div> <!-- end col -->
+                                            </div>
+
+                                            <div class="mb-2 row">
+                                                <label class="col-md-2 col-form-label">Status</label>
+                                                <div class="col-md-10">
+                                                    <select class="form-select" id="select-status">
+                                                        <option selected>Select status</option>
+                                                        <option value=1>Enable</option>
+                                                        <option value=0>Disable</option>
+                                                    </select>
+                                                    <span class="invalid-feedback text-danger"
+                                                          id="invalid-feedback-status">The status is not null.</span>
+                                                </div> <!-- end col -->
+                                            </div>
+
+                                            <a th:href="@{/admin-jobs}" type="submit" class="btn btn-primary float-right" style="margin-left: 200px">Back</a>
+                                            <button type="submit" class="btn btn-primary float-end">Update Actors</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- end row -->
+                        </div>
+                    </div> <!-- end card -->
+                </div><!-- end col -->
+            </div>
+        </div>
+    </div>
+</main>
+
+<th:block id="js-resources">
+    <script>
+        // 1.Function to get job by id and populate the form fields:
+        function getDirectorByIdAndPopulateForm(id) {
+            $.ajax({
+                type: 'GET',
+                url: '/v1/directors/' + id,
+                success: function(response) {
+                    var director = response;               // Get job to response
+                    $('#director-id').val(director.id);         //Get the job-id displayed on the form
+                    $('#select-status').val(director.status ? 1 : 0);
+                    if (director.movies){
+                        $("#movie-select").val(director.movies.id)
+                    }
+                    if (director.celebrity){
+                        $("#celebrity").val(director.celebrity.id)
+                    }
+                },
+                error: function(err) {
+                    var errorHtml = '<div class="float-end alert alert-danger alert-dismissible fade show" style="margin-right: 16px" role="alert">\n' +
+                        '                                            Not found Director Id !\n' +
+                        '                                            Not found Director Id !\n' +
+                        '                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>\n' +
+                        '                                        </div>';
+                    $("#alertError").html(errorHtml);
+                    setTimeout(function() {
+                        $("#alertError").empty();
+                    }, 2000);
+                }
+            });
+        }
+
+        // Get id to URL
+        var urlParams = new URLSearchParams(window.location.search);
+        var directorId = urlParams.get('id');
+        if (directorId) {
+            getDirectorByIdAndPopulateForm(directorId);
+        } else {
+            console.log(error);
+            var errorHtml = '<div class="float-end alert alert-danger alert-dismissible fade show" style="margin-right: 16px" role="alert">\n' +
+                '                                            Not found Job Id !\n' +
+                '                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>\n' +
+                '                                        </div>';
+            $("#alertError").html(errorHtml);
+            setTimeout(function() {
+                $("#alertError").empty();
+            }, 2000);
+        }
+
+
+        //2. Save edit data:
+        $(document).ready(function () {
+
+            //Event listener for form submit
+            $("#formEditDirector").submit(function (event) {
+                debugger;
+                event.preventDefault();                 //Prevent default form submission
+
+                //Send an Ajax request to server
+                let directorId = $("#director-id").val();
+                let movie = $("#movie-select").val();
+                let celebrity = $("#celebrity").val();
+                let status = $("#select-status").val()
+                var formData = {
+                    id: directorId,
+                    movies: movie,
+                    celebrities: celebrity,
+                    status: status
+                }
+                $.ajax({
+                    url: "/v1/directors/edit",
+                    type: "PUT",
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify(formData),
+                    success: function () {
+                        setTimeout(function () {
+                            window.location.href = "/admin-director/";
+                        });
+                    },
+                    error: function (error) {
+                        var errorHtml = '<div class="float-end alert alert-danger alert-dismissible fade show" role="alert">\n' +
+                            '                                            <i class="mdi mdi-block-helper me-2"></i>\n' +
+                            '                                           An error has occurred !\n' +
+                            '                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>\n' +
+                            '                                        </div>';
+                        $("#alertError").html(errorHtml);
+                        setTimeout(function() {
+                            $("#alertError").empty(); // Ẩn đi cái alert sau 3s
+                        }, 2000);
+                    }
+                });
+            });
+        });
+    </script>
+</th:block>
+</body>
+</html>
