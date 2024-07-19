@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml"
+      th:replace="~{/public/layout/layout :: main-fragment(
+                                                ~{:: title},
+                                                ~{:: #css-resources},
+                                                ~{:: #main-content},
+                                                ~{:: #js-resources}
+                                               )}">
+<head>
+    <!-- Basic need -->
+    <title th:text="${title}">Block Buster | Upgrade Account</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="">
+
+    <th:block id="css-resources"></th:block>
+</head>
+<body>
+
+<main id="main-content">
+    <div class="landing-hero">
+        <div class="row landing-hero-text" style="margin-top: 200px">
+            <h2 class="text-yellow">YOUR ACCOUNT : FREE</h2>
+            <h2>Upgrade account - Unlock more movies</h2>
+        </div>
+        <a href="" class="redbtn" id="discover-now">DISCOVER NOW</a>
+    </div>
+    <div class="landing-version">
+        <div class="container">
+            <div class="col-md-6">
+                <img th:src="@{http://busterhtml.mbkip3ms9u-e92498n216kr.p.temp-site.link/images/uploads/landing-dark-version.png}" alt="Dark Version">
+                <h2>PRO</h2>
+<!--                <a href="#" class="redbtn buy-account" data-amount="10" data-level="1" data-payment-method-id="your-payment-method-id-1">BUY ACCOUNT</a>-->
+                <form th:action="@{/submitOrder}" method="post">
+                    <div class="form-group">
+                        <label for="amount">Số tiền:</label>
+                        <input type="number" class="form-control" id="amount" name="amount" required value="299999">
+                    </div>
+                    <div class="form-group">
+                        <label for="orderInfo">Thông tin đơn hàng:</label>
+                        <input type="text" class="form-control" id="orderInfo" name="orderInfo" required value="Thanh toan don hang 2923">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Thanh toán</button>
+                </form>
+            </div>
+            <div class="col-md-6">
+                <img th:src="@{http://busterhtml.mbkip3ms9u-e92498n216kr.p.temp-site.link/images/uploads/landing-light-version.png}" alt="Light Version">
+                <h2>Premium</h2>
+                <a href="#" class="redbtn buy-account" data-amount="20" data-level="2" data-payment-method-id="your-payment-method-id-2">BUY ACCOUNT</a>
+            </div>
+        </div>
+    </div>
+</main>
+
+<th:block id="js-resources">
+<!--    <script>-->
+<!--        document.addEventListener("DOMContentLoaded", function () {-->
+<!--            const buyButtons = document.querySelectorAll(".buy-account");-->
+<!--            buyButtons.forEach(button => {-->
+<!--                button.addEventListener("click", function (event) {-->
+<!--                    event.preventDefault();-->
+<!--                    const amount = this.getAttribute("data-amount");-->
+<!--                    const level = this.getAttribute("data-level");-->
+<!--                    const paymentMethodId = this.getAttribute("data-payment-method-id"); // Thêm lấy giá trị data-payment-method-id từ button-->
+
+<!--                    console.log("Redirecting to payment with amount:", amount, "level:", level, "paymentMethodId:", paymentMethodId);-->
+<!--                    const paymentUrl = "/vnpay";-->
+
+<!--                    // Create a form to submit POST request-->
+<!--                    const form = document.createElement('form');-->
+<!--                    form.setAttribute('method', 'post');-->
+<!--                    form.setAttribute('action', paymentUrl);-->
+<!--                    form.style.display = 'none';  // Ẩn form-->
+
+<!--                    // Create input for amount-->
+<!--                    const amountInput = document.createElement('input');-->
+<!--                    amountInput.setAttribute('type', 'hidden');-->
+<!--                    amountInput.setAttribute('name', 'amount');-->
+<!--                    amountInput.setAttribute('value', amount);-->
+<!--                    form.appendChild(amountInput);-->
+
+<!--                    // Create input for level-->
+<!--                    const levelInput = document.createElement('input');-->
+<!--                    levelInput.setAttribute('type', 'hidden');-->
+<!--                    levelInput.setAttribute('name', 'level');-->
+<!--                    levelInput.setAttribute('value', level);-->
+<!--                    form.appendChild(levelInput);-->
+
+<!--                    // Create input for paymentMethodId-->
+<!--                    const paymentMethodInput = document.createElement('input');-->
+<!--                    paymentMethodInput.setAttribute('type', 'hidden');-->
+<!--                    paymentMethodInput.setAttribute('name', 'paymentMethodId');-->
+<!--                    paymentMethodInput.setAttribute('value', paymentMethodId);-->
+<!--                    form.appendChild(paymentMethodInput);-->
+
+<!--                    // Append form to the body and submit-->
+<!--                    document.body.appendChild(form);-->
+<!--                    form.submit();-->
+<!--                });-->
+<!--            });-->
+<!--        });-->
+
+<!--    </script>-->
+</th:block>
+</body>
+</html>

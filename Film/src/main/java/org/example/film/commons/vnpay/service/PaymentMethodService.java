@@ -26,6 +26,7 @@ public class PaymentMethodService implements IPaymentMethodService{
     @Autowired
     private VNPAYService vnpayService;
 
+
     public List<PaymentMethod> getAllPaymentMethods() {
         return iPaymentMethodRepository.findAll();
     }
@@ -39,7 +40,9 @@ public class PaymentMethodService implements IPaymentMethodService{
 
         int amount = request.getLevel() == 1 ? 1000 : 2000;  //1tr or 2tr
         String urlReturn = "http://localhost:8080/api/payments/vnpay_return"; // Adjust as needed
-        String paymentUrl = vnpayService.createOrder(httpRequest, amount, "Orrder info", urlReturn);
+        String paymentUrl = vnpayService.createOrder(
+                httpRequest,
+                amount, "Orrder info", urlReturn);
 
         PaymentResponseDTO response = new PaymentResponseDTO();
         response.setSuccess(true);

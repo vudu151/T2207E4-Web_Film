@@ -40,7 +40,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 //        trequest.setAttribute("level", level);
         String targetUrl = trequest.getHeader("Referer"); // Get the original URL
         if (targetUrl == null || targetUrl.isEmpty()) {
-            targetUrl = "/movies"; // Default to root path if no referrer is available
+            targetUrl = "/"; // Default to root path if no referrer is available
         }
         response.sendRedirect(targetUrl);
     }
