@@ -19,12 +19,16 @@
 <body>
 
 <main id="main-content">
-    <div class="d-flex">
+    <div>
+        <h4 class="page-title mt-4 m-md-4 m-lg-4 mb-0" th:text="'Film: ' + ${getMovie.name}"></h4>
+    </div>
+    <div class="d-flex flex-lg-wrap m-auto">
         <div th:each="episode:${getEpisode}">
             <div class="card mt-4 m-md-4 m-lg-4" style="width: 18rem;">
-                <video class="card-img-top" controls>
+                <video class="card-img-top" controls th:if="${getMovie.isApi==0}">
                     <source th:src="${episode.link}" type="video/mp4">
                 </video>
+                <iframe th:src="${episode.link}" th:if="${getMovie.isApi==1}"></iframe>
                 <div class="card-body">
                     <h5 class="card-title" th:text="'Episode: ' + ${episode.name}"></h5>
                     <p class="card-text" th:text="${episode.description}"></p>
@@ -36,6 +40,30 @@
             </div>
         </div>
     </div>
+    <div class="topbar-filter d-flex justify-content-between mt-4 m-md-4 m-lg-4 mb-0">
+        <div>
+            <label>Movies per page:</label>
+            <select onchange="window.location.href = this.value;">
+                <option value="?size=20" th:selected="${size == 20}">20 Movies</option>
+                <option value="?size=10" th:selected="${size == 10}">10 Movies</option>
+            </select>
+        </div>
+        <div class="pagination2 d-flex justify-content-between w-50">
+            <span>Page <span th:text="${currentPage}"></span> of <span th:text="${totalPages}"></span>:</span>
+            <!-- Nút Previous -->
+            <a class="btn btn-secondary btn-sm" th:if="${currentPage > 1}" th:href="@{'/admin-movie/episode/list/id=' + ${getMovie.id} + '?page=' + (${currentPage - 1}) + '&size=' + ${size}}">Previous</a>
+            <!-- Các trang -->
+            <div class="btn-group">
+                <a class="btn btn-outline-secondary btn-sm" th:each="pageNum : ${#numbers.sequence(1, totalPages)}"
+                   th:classappend="${pageNum == currentPage} ? 'active btn-primary' : ''"
+                   th:href="@{'/admin-movie/episode/list/id=' + ${getMovie.id} + '?page=' + ${pageNum} + '&size=' + ${size}}" th:text="${pageNum}"></a>
+            </div>
+            <!-- Nút Next -->
+            <a class="btn btn-secondary btn-sm" th:if="${currentPage < totalPages}" th:href="@{'/admin-movie/episode/list/id=' + ${getMovie.id} + '?page=' + (${currentPage + 1}) + '&size=' + ${size}}">Next</a>
+        </div>
+    </div>
+
+
 
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-scrollable">

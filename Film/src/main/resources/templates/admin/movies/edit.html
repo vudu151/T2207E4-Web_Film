@@ -66,6 +66,7 @@
                                                            placeholder="Some text value...">
                                                     <span class="invalid-feedback text-danger"
                                                           id="invalid-feedback-totalEpisode">The total episode is not null.</span>
+                                                    <span class="invalid-feedback text-danger" id="invalid-checkNumber-totalEpisode">The total episode must be a number.</span>
                                                 </div>
                                             </div>
 
@@ -126,6 +127,8 @@
                                                            placeholder="Some text value...">
                                                     <span class="invalid-feedback text-danger"
                                                           id="invalid-feedback-totalDuration">The total duration is not null.</span>
+                                                    <span class="invalid-feedback text-danger"
+                                                          id="invalid-checkNumber-duration">The total duration is number.</span>
                                                 </div>
                                             </div>
 
@@ -136,6 +139,8 @@
                                                            placeholder="Some text value...">
                                                     <span class="invalid-feedback text-danger"
                                                           id="invalid-feedback-mmpaRating">Is Not Null.</span>
+                                                    <span class="invalid-feedback text-danger"
+                                                          id="invalid-checkNumber-mmpaRating">mmpaRating is number</span>
                                                 </div>
                                             </div>
 
@@ -618,6 +623,42 @@
             },
             placeholder: 'Write your bio here...',                           // văn bản gợi ý khi không có nội dung
             theme: 'snow'                                                    // giao diện trắng của trình soạn thảo
+        });
+
+        $('#total-episode').on('input', function() {
+            let totalEpisode = $('#total-episode').val();
+            if (totalEpisode.length === 0){
+                $('#invalid-feedback-totalEpisode').show();
+            }else if(!$.isNumeric(totalEpisode) && totalEpisode.length !== 0) {
+                $('#invalid-feedback-totalEpisode').hide();
+                $('#invalid-checkNumber-totalEpisode').show();
+            } else {
+                $('#invalid-checkNumber-totalEpisode').hide();
+                $('#invalid-feedback-totalEpisode').hide();
+            }
+        });
+        $('#total-duration').on('input', function() {
+            let totalDuration = $('#total-duration').val();
+            if (totalDuration.length === 0){
+                $('#invalid-feedback-totalDuration').show();
+            }else if (!$.isNumeric(totalDuration) && totalDuration.length !== 0) {
+                $('#invalid-checkNumber-duration').show();
+                $('#invalid-feedback-totalDuration').hide();
+            } else {
+                $('#invalid-checkNumber-duration').hide();
+            }
+        });
+        $('#input-mmpaRating').on('input', function() {
+
+            let mmpaRating = $('#input-mmpaRating').val();
+            if (mmpaRating.length === 0){
+                $('#invalid-feedback-mmpaRating').show();
+            }else if (!$.isNumeric(mmpaRating) && mmpaRating.length !== 0) {
+                $('#invalid-checkNumber-mmpaRating').show();
+                $('#invalid-feedback-mmpaRating').hide();
+            } else {
+                $('#invalid-checkNumber-mmpaRating').hide();
+            }
         });
 
         //9.Save Celebrity

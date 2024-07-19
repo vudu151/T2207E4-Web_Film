@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" th:replace="~{/public/layout/layout :: main-fragment(
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html" th:replace="~{/public/layout/layout :: main-fragment(
 ~{:: title},
 ~{:: #css-resources},
 ~{:: #main-content},
@@ -34,6 +34,7 @@
 <body>
 
 <main id="main-content">
+    <span style="display: none" class="idMovie" th:text="${getMovie.id}"></span>
 <span></span>
 <span></span>
 <span></span>
@@ -90,7 +91,7 @@
                                 </div>
                                 <div class="btn-controls">
                                     <div class="btn-con">
-										<span class="play-pause control-btn">
+										<span class="play-pause control-btn" id="clickPlay">
 										  <ion-icon name="play-outline"></ion-icon>
 										</span>
                                         <span class="volume">

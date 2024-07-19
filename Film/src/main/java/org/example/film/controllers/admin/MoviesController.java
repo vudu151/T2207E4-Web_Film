@@ -19,7 +19,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.Comparator;
 import java.util.List;
 
 @Controller
@@ -81,11 +83,24 @@ public class MoviesController {
     }
 
     @GetMapping("/episode/list/id={id}")
-    public String listEpisodeByMovie (@PathVariable String id, Model model, EditEpisodeRequest editEpisodeRequest){
+    public String listEpisodeByMovie (@PathVariable String id,
+                                      @RequestParam(name = "page", defaultValue = "1") int page,
+                                      @RequestParam(name = "size", defaultValue = "6") int size,
+                                      Model model,
+                                      EditEpisodeRequest editEpisodeRequest){
         List<Episode> getEpisode = iEpisodesService.getEpisodeByMovieId(iMoviesService.getMovieById(id).get());
-        model.addAttribute("getEpisode",getEpisode);
+        getEpisode.sort(Comparator.comparing(Episode::getName));
+        int startIndex = (page - 1) * size;
+        int endIndex = Math.min(startIndex + size, getEpisode.size());
+        List<Episode> paginatedListEpisode = getEpisode.subList(startIndex, endIndex);
+        Movies getMovie = iMoviesService.getMovieById(id).get();
+        model.addAttribute("getMovie",getMovie);
+        model.addAttribute("getEpisode",paginatedListEpisode);
         model.addAttribute("editEpisodeRequest",editEpisodeRequest);
+        // Thêm thông tin phân trang vào model
+        model.addAttribute("currentPage", page);
+        model.addAttribute("size", size); // Thay size bằng giá trị phù hợp từ controller của bạn
+        model.addAttribute("totalPages", (int) Math.ceil((double) getEpisode.size() / size));
         return "admin/movies/listEpisodeByMovie";
     }
-
 }

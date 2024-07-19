@@ -20,6 +20,8 @@
 <main id="main-content">
 <div class="hero mv-single-hero">
     <span style="display: none" class="idAccount" th:text="${account_id}"></span>
+    <span style="display: none" class="idMovie" th:text="${getMovieId.id}"></span>
+    <span style="display: none" class="views" th:text="${getMovieId.totalView}"></span>
 <div class="container">
 <div class="row">
     <div class="col-md-12">
@@ -46,7 +48,7 @@
                 </div>
                 <div th:if="${buyMovie == 1 and account_id != null and not #lists.isEmpty(getEpisode) and getMovieId.level == 0}" class="btn-transform transform-vertical">
                     <div><a th:href="'/movie/episodeMovie/' + ${firstEpisode.id}" class="item item-1 yellowbtn"> <i class="ion-play"></i> Watch</a></div>
-                    <div><a th:href="'/movie/episodeMovie/' + ${firstEpisode.id}" class="item item-2 yellowbtn"><i class="ion-play"></i></a></div>
+                    <div><a th:href="'/movie/episodeMovie/' + ${firstEpisode.id}" class="item item-2 yellowbtn" id="clickPlay"><i class="ion-play"></i></a></div>
                 </div>
                 <div th:if="${buyMovie == 1 and account_id != null and not #strings.isEmpty(dataNotFound)}" class="btn-transform transform-vertical">
                     <div><a class="item item-1 yellowbtn"> <i class="ion-play"></i> Comming Soon</a></div>
@@ -633,6 +635,26 @@
                            $("#alertError").empty();
                        }, 2000);
                    }
+               })
+           })
+           let view = $('.views').text();
+           $("#clickPlay").click(function (e) {
+               let idMovie = $('.idMovie').text();
+               view = parseInt(view);
+               view = view+1;
+               var formData = {
+                   id: idMovie,
+                   totalView: view,
+               }
+               $.ajax({
+                   url: "/v1/movies/updateViews",
+                   type: 'PUT',
+                   contentType: "application/json; charset=utf-8",
+                   data: JSON.stringify(formData),
+                   success: function() {
+                       // Chuyển hướng sau khi yêu cầu AJAX hoàn tất thành công
+                       window.location.href = $(e.target).closest('a').attr('href');
+                   },
                })
            })
        })

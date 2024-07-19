@@ -62,6 +62,8 @@ public class AddMovieRequest implements IRequest<String> {
     @NotNull(message = "The status is not null.")
     private int status;
 
+    private int isApi;
+
     @NotNull(message = "The category movies is not null.")
     private String categoriesMoviesId;
 
