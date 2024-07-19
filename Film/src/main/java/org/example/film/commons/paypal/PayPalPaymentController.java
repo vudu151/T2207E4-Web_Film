@@ -73,10 +73,13 @@ public class PayPalPaymentController {
                 return "redirect:" + links.getHref();
     }  catch (PayPalRESTException e){
             log.error(e.getMessage());
-        }
-        return "redirect:/";
+            return "public/buyaccount/errorpayment";
 
-}
+        }
+
+        return "/";
+
+    }
 
     @GetMapping(URL_PAYPAL_CANCEL)
     public String cancelPay(){
@@ -117,11 +120,14 @@ public class PayPalPaymentController {
                                 int packageLevel = existaccount.getAccount().getLevel();
                                 LocalDateTime createdAt = LocalDateTime.parse(paymentCreateTime, DateTimeFormatter.ISO_OFFSET_DATE_TIME);
                                 LocalDateTime updatedAt = LocalDateTime.parse(paymentUpdateTime, DateTimeFormatter.ISO_OFFSET_DATE_TIME);
-                                if ( paymentValue.equals("5.00") && paymentCurrency.equals("USD") ){
+                                if ( paymentValue.equals("5.00") && paymentCurrency.equals("USD") && packageLevel == 0 ){
                                     existaccount.getAccount().setLevel(packageLevel + 1);
-                                }else {
-                                    existaccount.getAccount().setLevel(packageLevel+2);
-                                }
+                                }else if ( paymentValue.equals("10.00") && paymentCurrency.equals("USD") && packageLevel == 0  ){
+                                        existaccount.getAccount().setLevel(packageLevel+2);
+                                    }else {
+                                    existaccount.getAccount().setLevel(packageLevel+1);
+                                    }
+
                                 var newPaymentUser = PaymentUser.builder()
                                                                                .account(existaccount.getAccount())
                                                                                .createdat(createdAt)
@@ -134,6 +140,12 @@ public class PayPalPaymentController {
                                         .packagelevel(existaccount.getAccount().getLevel())
                                                                                 .active(true)
                                                                                .build();
+                                if (authentication.getPrincipal() instanceof CustomUserDetails customUserDetails) {
+                                    ((CustomUserDetails) authentication.getPrincipal()).getAccount().setLevel(existaccount.getAccount().getLevel());
+
+                                } else if (authentication.getPrincipal() instanceof CustomOAuth2User customOauth2UserDetails) {
+                                    ((CustomOAuth2User) authentication.getPrincipal()).setLevel(existaccount.getAccount().getLevel());
+                                }
                                 iPaymentUser.save(newPaymentUser);
                                 // Save the payment and account information to the database
                             }
@@ -148,6 +160,7 @@ public class PayPalPaymentController {
 
         } catch (PayPalRESTException e) {
             log.error(e.getMessage());
+
         }
             return "redirect:/";
 

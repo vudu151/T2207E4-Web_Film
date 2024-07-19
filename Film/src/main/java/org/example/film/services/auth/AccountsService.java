@@ -114,7 +114,6 @@ public class AccountsService implements IAccountsService {
             Account existingUser = existUser.get();
             existingUser.setUserName(oauthUser.getName());
             existingUser.setProvider(oauthUser.getProvider());
-            existingUser.setLevel(oauthUser.getLevel());
             iAccountRepository.save(existingUser);
 
         }

@@ -28,24 +28,33 @@
         <a href="" class="redbtn" id="discover-now">DISCOVER NOW</a>
     </div>
     <div class="landing-version">
-        <div class="container">
-            <div class="col-md-6">
+        <div class="container"   >
+            <div class="col-md-6"  th:if="${buyMovie  == 0 and account_id != null}">
                 <img th:src="@{http://busterhtml.mbkip3ms9u-e92498n216kr.p.temp-site.link/images/uploads/landing-dark-version.png}" alt="Dark Version">
                 <h2>PRO</h2>
                 <!--                <a href="#" class="redbtn buy-account" data-amount="10" data-level="1" data-payment-method-id="your-payment-method-id-1">BUY ACCOUNT</a>-->
                 <form method="post" th:action="@{/pay}">
                     <input type="hidden" value="5" name="price" />
-                    <button type="submit"> Payment with Paypal </button>
+                    <button type="submit" class="redbtn"> Payment with Paypal </button>
                 </form>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6" th:if="${buyMovie == 0 and account_id != null}">
                 <img th:src="@{http://busterhtml.mbkip3ms9u-e92498n216kr.p.temp-site.link/images/uploads/landing-light-version.png}" alt="Light Version">
                 <h2>Premium</h2>
                 <form method="post" th:action="@{/pay}">
                     <input type="hidden" value="10" name="price" />
-                    <button type="submit"> Payment with Paypal </button>
+                    <button type="submit" class="redbtn"> Payment with Paypal </button>
                 </form>
              </div>
+            <div class="col-md-6" th:if="${buyMovie == 1 and account_id != null}">
+                <img th:src="@{http://busterhtml.mbkip3ms9u-e92498n216kr.p.temp-site.link/images/uploads/landing-light-version.png}" alt="Light Version">
+                <h2>Upgrade Premium</h2>
+                <form method="post" th:action="@{/pay}">
+                    <input type="hidden" value="5" name="price" />
+                    <button type="submit" class="redbtn"> Payment with Paypal </button>
+                </form>
+            </div>
+
         </div>
     </div>
 </main>
