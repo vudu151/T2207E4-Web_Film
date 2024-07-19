@@ -31,20 +31,19 @@
                                 Genres <i class="fa fa-angle-down" aria-hidden="true"></i>
                             </a>
                             <ul class="dropdown-menu level1">
-                                <li th:each="genre : ${genreList}" th:if="${genreList.size > 0}">
+                                <li th:each="genre : ${genreList}" th:if="${!#lists.isEmpty(genreList)}">
                                     <a th:href="'/movie/genre/' + ${genre.id}" class="btn btn-default" th:text="${genre.name}"></a>
-                                    </a>
                                 </li>
-                                <li th:each="genre : ${genreList}" th:if="${genreList.size == 0}">
-                                    <a th:href="'/movie/genre/' + ${genre.id}" class="btn btn-default" th:text="${genre.name}"></a>
-                                    </a>
+
+                                <li th:if="${#lists.isEmpty(genreList)}">
+                                    <span>No data</span>
                                 </li>
                             </ul>
                         </li>
                         <li th:each="category : ${categoryMovieList}" th:if="${categoryMovieList.size > 0}">
                             <a th:href="'/movie/category/' + ${category.id}" class="btn btn-default" th:text="${category.name}"></a>
                         </li>
-                        <li th:each="category : ${categoryMovieList}" th:if="${categoryMovieList.size == 0}">
+                        <li th:if="${categoryMovieList.size == 0}">
                             <span class="btn btn-default">Not Data</span>
                         </li>
                         <li class="dropdown first">

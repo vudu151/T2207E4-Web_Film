@@ -11,4 +11,5 @@ import org.example.film.commons.cqrs.IRequest;
 public class AddMovieApiRequest implements IRequest<String> {
     private String name;
     private String thumb_url;
+    private int isApi;
 }

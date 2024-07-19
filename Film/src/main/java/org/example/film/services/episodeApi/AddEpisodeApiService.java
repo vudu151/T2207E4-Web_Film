@@ -48,27 +48,51 @@ public class AddEpisodeApiService implements IRequestHandler<AddEpisodeApiReques
             // Parse phản hồi JSON
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode rootNode = objectMapper.readTree(response.getBody());
-            JsonNode linkEmbedArray = rootNode.get("link_embed");
+            JsonNode episodesArray = rootNode.get("episodes");
 
-            if (linkEmbedArray != null && linkEmbedArray.isArray()) {
-                for (JsonNode linkEmbedNode : linkEmbedArray) {
-                    String linkEmbed = linkEmbedNode.asText();
+            if (episodesArray != null && episodesArray.isArray()) {
+                for (JsonNode episodeNode : episodesArray) {
+                    JsonNode serverDataArray = episodeNode.get("server_data");
+                    if (serverDataArray != null && serverDataArray.isArray()) {
+                        for (JsonNode serverDataNode : serverDataArray) {
+                            String linkEmbed = serverDataNode.get("link_embed").asText();
+                            int episodeName;
+                            String episode = serverDataNode.get("name").asText();
+                            if (episode.contains("Full")){
+                                episodeName = 1;
+                            } else {
+                                episodeName = Integer.parseInt(serverDataNode.get("name").asText());
+                            }
+                            // Kiểm tra xem tập phim đã tồn tại trong cơ sở dữ liệu chưa
+                            Episode existingEpisode = iEpisodeRepository.findByMovieIdAndName(movie, episodeName);
+                            if (existingEpisode != null) {
+                                // Nếu đã tồn tại, cập nhật thông tin của nó
+                                existingEpisode.setLink(linkEmbed);
+                                // Cập nhật các thông tin khác nếu cần thiết
+                                iEpisodeRepository.save(existingEpisode);
+                            } else {
+                                // Nếu chưa tồn tại, thêm mới vào cơ sở dữ liệu
+                                Episode newEpisode = new Episode();
+                                newEpisode.setName(episodeName);
+                                newEpisode.setLink(linkEmbed);
+                                newEpisode.setMovieId(movie);
 
-                    // Tạo mới một Episode và lưu vào database
-                    Episode episode = new Episode();
-                    episode.setName(1); // Giả sử tên episode là 1 (cần xác định logic tên episode thích hợp)
-                    episode.setLink(linkEmbed);
-                    episode.setMovieId(movie);
-
-                    iEpisodeRepository.save(episode);
+                                iEpisodeRepository.save(newEpisode);
+                            }
+                        }
+                    } else {
+                        throw new RuntimeException("No server_data found in episode node");
+                    }
                 }
             } else {
-                throw new RuntimeException("No link_embed found in API response");
+                throw new RuntimeException("No episodes found in API response");
             }
         } else {
             throw new RuntimeException("Failed to fetch data from API: " + apiUrl);
         }
 
-        return HandleResponse.ok("Episode successfully");
+        return HandleResponse.ok("Episodes successfully added or updated");
     }
+
 }
+

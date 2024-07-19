@@ -12,5 +12,5 @@ import java.util.Optional;
 public interface IEpisodeRepository extends JpaRepository<Episode,String> {
     Optional<Episode> findById(String id);
     List<Episode> findAllByMovieId(Movies movies);
-
+    Episode findByMovieIdAndName(Movies movieId, int name);
 }

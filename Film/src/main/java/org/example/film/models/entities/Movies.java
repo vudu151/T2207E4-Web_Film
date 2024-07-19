@@ -69,6 +69,9 @@ public class Movies {
     @Column(name = "trailer",columnDefinition = "TEXT")
     private String trailer;
 
+    @Column(name = "isApi")
+    private int isApi;
+
     @ManyToOne
     @JoinColumn(name = "category_movieId")
     private CategoryMovie categoryMovieId;

@@ -20,4 +20,6 @@ public interface IMoviesRepository extends JpaRepository<Movies,String> {
     List<Movies> findAllByGenreList(List<String> genreList);
 
     List<Movies> findByNameContainingIgnoreCase(String query);
+
+    List<Movies> findMoviesByCategoryMovieId(CategoryMovie categoryMovie);
 }

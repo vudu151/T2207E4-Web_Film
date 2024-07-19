@@ -8,6 +8,7 @@ import org.example.film.models.entities.Movies;
 import org.example.film.models.requests.movies.AddMovieRequest;
 import org.example.film.models.requests.movies.DeleteMovieRequest;
 import org.example.film.models.requests.movies.EditMovieRequest;
+import org.example.film.models.requests.movies.UpdateViewsRequest;
 import org.example.film.services.categoriesMovies.ICategoriesMoviesService;
 import org.example.film.services.movies.IMoviesService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -127,5 +128,11 @@ public class MoviesRestController {
             iSender.send(new DeleteMovieRequest(id));
             return ResponseEntity.ok("Delete movie successfully.");
         }
+    }
+
+    @PutMapping("/updateViews")
+    public ResponseEntity<String>updateView(@Valid @RequestBody UpdateViewsRequest updateViewsRequest){
+        var result = iSender.send(updateViewsRequest);
+        return ResponseEntity.ok(String.valueOf(result.orThrow()));
     }
 }

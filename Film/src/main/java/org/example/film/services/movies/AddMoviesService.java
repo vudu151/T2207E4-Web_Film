@@ -56,6 +56,7 @@ public class AddMoviesService implements IRequestHandler<AddMovieRequest,String>
             setMovies.setCategoryMovieId(existingCategoriesMovies.get());
             setMovies.setGenre(existingGenre.get());
             setMovies.setGenreList(existingGenreList);
+            setMovies.setIsApi(0);
             List<String> currentImage = setMovies.getImages();
             if (currentImage == null){
                 currentImage = new ArrayList<>();
