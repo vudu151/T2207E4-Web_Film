@@ -74,9 +74,8 @@ public String getName() {
         loginAttribute = "name";
     }
 
-
     String email = oauth2User.getAttribute("email");
-    if (loginAttribute.equals("login") && email != null && email.contains("@gmail.com")) {
+    if (loginAttribute.equals("login") && email != null  ) {
         loginAttribute = "name";
     }
 
