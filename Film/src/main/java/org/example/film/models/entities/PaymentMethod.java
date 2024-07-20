@@ -1,14 +1,16 @@
 package org.example.film.models.entities;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "payment_methods")
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class PaymentMethod {
     @Id
     @GenericGenerator(name="random_id", strategy = "org.example.film.commons.custom.RandomIdGenerator")

@@ -1,0 +1,39 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml"
+      th:replace="~{/public/layout/layout :: main-fragment(
+                                                ~{:: title},
+                                                ~{:: #css-resources},
+                                                ~{:: #main-content},
+                                                ~{:: #js-resources}
+                                               )}">
+<head>
+    <!-- Basic need -->
+    <title th:text="${title}">Block Buster | Upgrade Account</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="">
+
+    <th:block id="css-resources"></th:block>
+</head>
+<body>
+
+<main id="main-content">
+    <div class="landing-hero">
+        <div class="row landing-hero-text" style="margin-top: 200px">
+            <h2>Error when Payment</h2>
+            <h2>Please Contact Us For Help: </h2>
+            <h2>(+01) 202 342 6789</h2>
+            <a href="/" class="redbtn"  >Go Home</a>
+        </div>
+
+    </div>
+
+</main>
+
+<th:block id="js-resources">
+
+</th:block>
+</body>
+</html>

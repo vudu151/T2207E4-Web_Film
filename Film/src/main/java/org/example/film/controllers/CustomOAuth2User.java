@@ -3,6 +3,7 @@ package org.example.film.controllers;
 import jakarta.persistence.Column;
 import org.example.film.models.entities.Account;
 import org.example.film.models.enums.Provider;
+import org.example.film.repositories.IAccountRepository;
 import org.example.film.services.auth.AccountsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -74,9 +75,8 @@ public String getName() {
         loginAttribute = "name";
     }
 
-
     String email = oauth2User.getAttribute("email");
-    if (loginAttribute.equals("login") && email != null && email.contains("@gmail.com")) {
+    if (loginAttribute.equals("login") && email != null  ) {
         loginAttribute = "name";
     }
 
@@ -94,12 +94,21 @@ public String getName() {
     }
     @Column(name = "level")
     private int level;
+
+    @Autowired
+    private IAccountRepository iAccountRepository;
     public int getLevel() {
         return level;
     }
 
+    private String picture;
+    public String getPicture() {
+        return picture;
+    }
 
-
+    public void setPicture(String picture) {
+        this.picture = picture;
+    }
     public void setLevel(int level) {
         this.level = level;
     }

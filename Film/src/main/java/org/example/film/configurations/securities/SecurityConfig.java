@@ -9,8 +9,10 @@ import org.example.film.services.auth.AccountsService;
 import org.example.film.services.auth.IAccountsService;
 import org.example.film.services.google.CustomOAuth2UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.Ordered;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -49,6 +51,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.ForwardedHeaderFilter;
 
 import javax.sql.DataSource;
 
@@ -103,7 +106,8 @@ public class SecurityConfig {
 
 
     @Bean
-        public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+   
         httpSecurity.sessionManagement(session -> session
                 .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
                 .maximumSessions(1)
@@ -117,15 +121,16 @@ public class SecurityConfig {
                     request.requestMatchers("/css/**", "/js/**", "/images/**").permitAll();
                     request.requestMatchers("/getCategories","/getGenres").denyAll();
                     request.requestMatchers("/").permitAll();
+                    request.requestMatchers("/buyaccount3/**").permitAll();
                     request.requestMatchers("/login/oauth2/**").permitAll();
                     request.requestMatchers("/oauth/**").permitAll();
                     request.requestMatchers("/share/facebook").permitAll();
+                    request.requestMatchers("/vnpay/**", "/vnpay-payment-return/**" ,"/submitOrder/**").permitAll();
                     request.requestMatchers(GET,"/admin/**").hasAuthority("ROLE_ADMIN");
 
 //                    request.anyRequest().authenticated();
                     request.anyRequest().permitAll();
         })
-
                 .logout(logout -> {
                     logout.logoutRequestMatcher(new AntPathRequestMatcher("/logout"));
                     logout.logoutSuccessUrl("/");
@@ -149,12 +154,10 @@ public class SecurityConfig {
 
                 .oauth2Login(oauth2 -> {
                     oauth2.loginPage("/login");
-//                    oauth2.defaultSuccessUrl("/", true);
-                    oauth2.userInfoEndpoint()
+                     oauth2.userInfoEndpoint()
                             .userAuthoritiesMapper(userAuthoritiesMapper())
                             .userService(oauthUserService);
                     oauth2.successHandler(
-
                             customAuthenticationSuccessHandler  );
                 })
                 .csrf(AbstractHttpConfigurer::disable)
@@ -201,6 +204,14 @@ public class SecurityConfig {
     @Autowired
     private CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
 
+    @Bean
+    FilterRegistrationBean<ForwardedHeaderFilter> forwardedHeaderFilter() {
+        final FilterRegistrationBean<ForwardedHeaderFilter> filterRegistrationBean = new FilterRegistrationBean<ForwardedHeaderFilter>();
+        filterRegistrationBean.setFilter(new ForwardedHeaderFilter());
+        filterRegistrationBean.setOrder(Ordered.HIGHEST_PRECEDENCE);
+
+        return filterRegistrationBean;
+    }
     @Autowired
     private DefaultOAuth2UserService defaultOAuth2UserService;
     @Autowired

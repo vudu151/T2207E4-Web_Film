@@ -4,16 +4,46 @@ import jakarta.servlet.http.HttpServletRequest;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
+import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
 public class VNPAYConfig {
     public static String vnp_PayUrl = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
     public static String vnp_Returnurl = "/vnpay-payment-return";
-    public static String vnp_TmnCode = "RAHNFU5Z";
-    public static String vnp_HashSecret = "LBKNZW4YOFE7QU6SDK1G88RJNJEH67TF";
+    public static String vnp_TmnCode =
+            "RAHNFU5Z"
+//            "6BIFO508"
+    ;
+    public static String vnp_Version = "2.1.0";
+    public static  String vnp_Command = "pay";
+    public static String vnp_HashSecret =
+//            "JJERP55AEF84QLSYSQGQYGUC12IJ2J9O"
+            "LBKNZW4YOFE7QU6SDK1G88RJNJEH67TF"
+    ;
     public static String vnp_apiUrl = "https://sandbox.vnpayment.vn/merchant_webapi/api/transaction";
 
+
+
+    public static String Sha256(String message) {
+        String digest = null;
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            byte[] hash = md.digest(message.getBytes("UTF-8"));
+            StringBuilder sb = new StringBuilder(2 * hash.length);
+            for (byte b : hash) {
+                sb.append(String.format("%02x", b & 0xff));
+            }
+            digest = sb.toString();
+        } catch (UnsupportedEncodingException ex) {
+            digest = "";
+        } catch (NoSuchAlgorithmException ex) {
+            digest = "";
+        }
+        return digest;
+    }
 
     public static String hashAllFields(Map fields) {
         List fieldNames = new ArrayList(fields.keySet());
