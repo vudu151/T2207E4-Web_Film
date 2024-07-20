@@ -1,6 +1,6 @@
 package org.example.film.controllers.admin;
 
-import org.example.film.models.apis.movieApi.Movie;
+import org.example.film.models.apis.movieApiSlug.Movie;
 import org.example.film.models.entities.CategoryMovie;
 import org.example.film.models.entities.Episode;
 import org.example.film.models.entities.Genre;
@@ -48,11 +48,28 @@ public class MoviesController {
 
     @GetMapping("/api")
     public String getMovieApi(Model model){
-        List<Movie> getListMovie = iMoviesService.getMoviesApi();
+        List<org.example.film.models.apis.movieApi.Movie> getListMovie = iMoviesService.getMoviesApi();
         model.addAttribute("getListMovie",getListMovie);
         model.addAttribute("pathImage", "https://img.ophim.live/uploads/movies/");
         return "admin/movies/listApiMovie";
     }
+
+    @GetMapping("/api/{page}")
+    public String getPageMovieApi(@PathVariable int page,Model model){
+        List<org.example.film.models.apis.movieApi.Movie> getListMovie = iMoviesService.getMoviePageApi(page);
+        model.addAttribute("getListMovie",getListMovie);
+        model.addAttribute("pathImage","https://img.ophim.live/uploads/movies/");
+        return "admin/movies/listApiMovie";
+    }
+
+    @GetMapping("/api/slug/{slug}")
+    public String getPageMovieSlug(@PathVariable String slug, Model model) {
+        Movie movie = iMoviesService.getMoviePageApiSlug(slug);
+        model.addAttribute("movie", movie); // Sửa lại để add đối tượng movie
+        model.addAttribute("pathImage", "https://img.ophim.live/uploads/movies/");
+        return "admin/movies/apiMovieSlug"; // Trả về tên của trang view mà bạn muốn render
+    }
+
 
     @GetMapping("/add")
     public String add(Model model, AddMovieRequest addMovieRequest){

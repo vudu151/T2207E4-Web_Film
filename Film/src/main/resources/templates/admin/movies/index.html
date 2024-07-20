@@ -27,6 +27,7 @@
 <body>
 
 <main id="main-content">
+
     <div class="px-3">
         <div class="container-fluid">
             <div id="alertError" style="position: fixed; top: 80px; right: -90px;transform: translateX(-50%); z-index: 9999;"></div>
@@ -147,7 +148,7 @@
                 data: JSON.stringify(formData),
                 success: function (result) {
                     setTimeout(function () {
-                        window.location.href = "/admin-genresMovies";
+                        window.location.href = "/admin-movie";
                     });
                 },
                 error: function (error) {

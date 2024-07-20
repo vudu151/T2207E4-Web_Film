@@ -99,11 +99,14 @@
                                       id="invalid-feedback-description">The description is not null.</span>
                             </div><!-- end col -->
                         </div>
+
                         <div class="mb-2 row">
-                            <label class="col-md-2 col-form-label" for="duration">License Start</label>
+                            <label class="col-md-2 col-form-label" for="duration">Duration</label>
                             <div class="col-md-10">
-                                <input class="form-control" type="date" name="date" id="duration">
-                                <span class="error duration_err">The license start is not null.</span>
+                                <input type="text" id="duration" class="form-control">
+                                <span class="error duration_err"></span>
+                                <span class="invalid-feedback text-danger"
+                                      id="invalid-checkNumber-duration">The total duration is number.</span>
                             </div>
                         </div>
 
@@ -112,6 +115,8 @@
                             <div class="col-md-10">
                                 <input type="text" id="fileSize" class="form-control">
                                 <span class="error fileSize_err"></span>
+                                <span class="invalid-feedback text-danger"
+                                      id="invalid-checkNumber-fileSize">The file size is number.</span>
                             </div>
                         </div>
 
@@ -120,31 +125,33 @@
                             <div class="col-md-10">
                                 <input type="text" id="licensePrice" class="form-control">
                                 <span class="error licensePrice_err"></span>
+                                <span class="invalid-feedback text-danger"
+                                      id="invalid-checkNumber-licensePrice">The license price is number.</span>
                             </div>
                         </div>
 
                         <div class="mb-2 row">
                             <label class="col-md-2 col-form-label" for="licenseStart">License Start</label>
                             <div class="col-md-10">
-                                <input class="form-control" type="date" name="date" id="licenseStart">
-                                <span class="invalid-feedback text-danger"
-                                      id="invalid-feedback-licenseStart">The license start is not null.</span>
+                                <input class="form-control" type="text" name="date" id="licenseStart">
+                                <span class="invalid-feedback text-danger" id="invalid-feedback-licenseStart">The license start is not null.</span>
                             </div>
                         </div>
-
                         <div class="mb-2 row">
                             <label class="col-md-2 col-form-label" for="licenseEnd">License End</label>
                             <div class="col-md-10">
-                                <input class="form-control" type="date" name="date" id="licenseEnd">
-                                <span class="invalid-feedback text-danger"
-                                      id="invalid-feedback-licenseEnd">The license end is not null.</span>
+                                <input class="form-control" type="text" name="date" id="licenseEnd">
+                                <span class="invalid-feedback text-danger" id="invalid-feedback-licenseEnd">The license end is not null.</span>
                             </div>
                         </div>
+
                         <div class="mb-2 row">
                             <label class="col-md-2 col-form-label" for="tax">Tax</label>
                             <div class="col-md-10">
                                 <input type="text" id="tax" class="form-control">
                                 <span class="error tax_err"></span>
+                                <span class="invalid-feedback text-danger"
+                                      id="invalid-checkNumber-tax">The tax is number.</span>
                             </div>
                         </div>
                         <div class="mb-2 row">
@@ -253,6 +260,55 @@
             })
         });
 
+        $('#duration').on('input', function() {
+            let totalDuration = $('#duration').val();
+            if (totalDuration.length === 0){
+                $('.duration_err').show();
+            }else if (!$.isNumeric(totalDuration) && totalDuration.length !== 0) {
+                $('#invalid-checkNumber-duration').show();
+                $('.duration_err').hide();
+            } else {
+                $('#invalid-checkNumber-duration').hide();
+            }
+        });
+
+        $('#fileSize').on('input', function() {
+            let fileSize = $('#fileSize').val();
+            if (fileSize.length === 0){
+                $('.fileSize_err').show();
+            }else if (!$.isNumeric(fileSize) && fileSize.length !== 0) {
+                $('#invalid-checkNumber-fileSize').show();
+                $('.fileSize_err').hide();
+            } else {
+                $('#invalid-checkNumber-fileSize').hide();
+            }
+        });
+
+        $('#licensePrice').on('input', function() {
+            let licensePrice = $('#licensePrice').val();
+            if (licensePrice.length === 0){
+                $('.licensePrice_err').show();
+            }else if (!$.isNumeric(licensePrice) && licensePrice.length !== 0) {
+                $('#invalid-checkNumber-licensePrice').show();
+                $('.licensePrice_err').hide();
+            } else {
+                $('#invalid-checkNumber-licensePrice').hide();
+            }
+        });
+
+        $('#tax').on('input', function() {
+            let tax = $('#tax').val();
+            if (tax.length === 0){
+                $('.tax_err').show();
+            }else if (!$.isNumeric(tax) && tax.length !== 0) {
+                $('#invalid-checkNumber-tax').show();
+                $('.tax_err').hide();
+            } else {
+                $('#invalid-checkNumber-tax').hide();
+            }
+        });
+
+
         //9.Save episode
         $("#formEditEpisode").submit(function (event) {
             event.preventDefault();
@@ -318,6 +374,11 @@
             } else {
                 $('#invalid-feedback-linkEpisode').hide();
             }
+
+            var licenseStartDate = $.datepicker.parseDate("dd/mm/yy", licenseStart);
+            var licenseEndDate = $.datepicker.parseDate("dd/mm/yy", licenseEnd);
+            licenseStart = $.datepicker.formatDate("yy-mm-dd", licenseStartDate);
+            licenseEnd = $.datepicker.formatDate("yy-mm-dd", licenseEndDate);
 
             var formData = {
                 id: getEpisodeId,

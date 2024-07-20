@@ -1,6 +1,6 @@
 package org.example.film.services.movies;
 
-import org.example.film.models.apis.movieApi.Movie;
+import org.example.film.models.apis.movieApiSlug.Movie;
 import org.example.film.models.entities.CategoryMovie;
 import org.example.film.models.entities.Movies;
 import org.example.film.models.entities.procedure.moviesp;
@@ -29,6 +29,8 @@ public interface IMoviesService {
 
     List<Movies> searchMovie(String query);
 
-    List<Movie> getMoviesApi();
- 
+    List<org.example.film.models.apis.movieApi.Movie> getMoviesApi();
+
+    List<org.example.film.models.apis.movieApi.Movie> getMoviePageApi(int page);
+    Movie getMoviePageApiSlug(String slug);
 }

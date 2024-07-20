@@ -30,17 +30,39 @@
     <div class="px-3">
         <div class="container-fluid">
             <div id="alertError" style="position: fixed; top: 80px; right: -90px;transform: translateX(-50%); z-index: 9999;"></div>
-            <div id="alertSuccess" style="position: fixed; top: 80px; right: -152px;width: 360px; max-width: 360px; transform: translateX(-50%); z-index: 9999;"></div>
+            <div id="alertSuccess" style="position: fixed; top: 80px; right: -152px;width: 360px; max-width: 360px; transform: translateX(-50%); z-index: 9999;">
 
+            </div>
             <!-- start page title -->
             <div class="py-3 py-lg-4">
-                <div class="row">
-                    <div class="col-lg-6">
+                <div class="row d-flex justify-content-center align-items-center">
+                    <div class="col-lg-4">
                         <h4 class="page-title mb-0">List Movie Api</h4>
+                    </div>
+                    <div class="col-lg-4 d-flex justify-content-between align-items-center">
+                        <span class="page-title mb-0">Get Name Movie Api</span>
+                        <div class="d-flex flex-column">
+                            <input id="input-searchMovieApi">
+                            <span class="invalid-feedback text-danger"
+                                  id="invalid-feedback-searchMovieApi">The Movie is not null.
+                            </span>
+                        </div>
+                        <a id="get-searchMovieApi-btn" type="button" class="btn btn-warning waves-effect waves-light"><i class="mdi mdi-movie-check"></i></a>
+                    </div>
+                    <div class="col-lg-4 d-flex justify-content-between align-items-center">
+                        <span class="page-title mb-0">Get Page Api</span>
+                        <div class="d-flex flex-column">
+                            <input id="input-pagination">
+                            <span class="invalid-feedback text-danger"
+                                  id="invalid-feedback-pagination">The pagination is not number.
+                            </span>
+                        </div>
+                        <a id="get-page-btn" type="button" class="btn btn-warning waves-effect waves-light"><i class="mdi mdi-movie-open-check"></i></a>
                     </div>
                 </div>
             </div>
             <!-- end page title -->
+
 
             <div class="row">
                 <div class="col-12">
@@ -89,6 +111,59 @@
 <th:block id="js-resources">
 <script>
     $(document).ready(function () {
+        $('#input-pagination').on('input', function() {
+            let pagination = $(this).val();
+            if(!$.isNumeric(pagination)) {
+                $('#invalid-feedback-pagination').show();
+                $('#get-page-btn').attr('href', '#');
+            } else {
+                $('#invalid-feedback-pagination').hide();
+                if (pagination.length === 0) {
+                    pagination = 1;
+                }
+                $('#get-page-btn').attr('href', '/admin-movie/api/' + pagination);
+            }
+        });
+
+        $('#input-searchMovieApi').on('input', function() {
+            let nameMovie = $(this).val().trim();
+            if(nameMovie.length === 0) {
+                $('#invalid-feedback-searchMovieApi').show();
+                $('#get-searchMovieApi-btn').attr('href', '#');
+            } else {
+                var slug = convertToSlug(nameMovie);
+                $('#invalid-feedback-searchMovieApi').hide();
+                $('#get-searchMovieApi-btn').attr('href', '/admin-movie/api/slug/' + slug);
+            }
+        });
+
+        function convertToSlug(text) {
+            return removeVietnameseTones(text).toLowerCase()
+                .replace(/ /g, '-')
+                .replace(/[^\w-]+/g, '');
+        }
+
+        function removeVietnameseTones(str) {
+            str = str.replace(/á|à|ả|ã|ạ|ă|ắ|ằ|ẳ|ẵ|ặ|â|ấ|ầ|ẩ|ẫ|ậ/g, "a");
+            str = str.replace(/é|è|ẻ|ẽ|ẹ|ê|ế|ề|ể|ễ|ệ/g, "e");
+            str = str.replace(/i|í|ì|ỉ|ĩ|ị/g, "i");
+            str = str.replace(/ó|ò|ỏ|õ|ọ|ô|ố|ồ|ổ|ỗ|ộ|ơ|ớ|ờ|ở|ỡ|ợ/g, "o");
+            str = str.replace(/ú|ù|ủ|ũ|ụ|ư|ứ|ừ|ử|ữ|ự/g, "u");
+            str = str.replace(/ý|ỳ|ỷ|ỹ|ỵ/g, "y");
+            str = str.replace(/đ/g, "d");
+            str = str.replace(/Á|À|Ả|Ã|Ạ|Ă|Ắ|Ằ|Ẳ|Ẵ|Ặ|Â|Ấ|Ầ|Ẩ|Ẫ|Ậ/g, "A");
+            str = str.replace(/É|È|Ẻ|Ẽ|Ẹ|Ê|Ế|Ề|Ể|Ễ|Ệ/g, "E");
+            str = str.replace(/I|Í|Ì|Ỉ|Ĩ|Ị/g, "I");
+            str = str.replace(/Ó|Ò|Ỏ|Õ|Ọ|Ô|Ố|Ồ|Ổ|Ỗ|Ộ|Ơ|Ớ|Ờ|Ở|Ỡ|Ợ/g, "O");
+            str = str.replace(/Ú|Ù|Ủ|Ũ|Ụ|Ư|Ứ|Ừ|Ử|Ữ|Ự/g, "U");
+            str = str.replace(/Ý|Ỳ|Ỷ|Ỹ|Ỵ/g, "Y");
+            str = str.replace(/Đ/g, "D");
+            // Remove extra spaces
+            str = str.replace(/\u0300|\u0301|\u0303|\u0309|\u0323/g, "");
+            str = str.replace(/\u02C6|\u0306|\u031B/g, "");
+            return str;
+        }
+
         $('.addMovieApi').click(function (){
             var $row = $(this).closest('tr');
             var name = $row.find('td[data-movie-name]').data('movie-name');
