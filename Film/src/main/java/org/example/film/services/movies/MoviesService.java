@@ -3,16 +3,14 @@ package org.example.film.services.movies;
  
  
 import jakarta.transaction.Transactional;
-import org.example.film.models.entities.Casting;
+import org.example.film.models.apis.movieApiSlug.Movie;
+import org.example.film.models.apis.movieApiSlug.MovieSlugRespone;
 import org.example.film.models.entities.CategoryMovie;
-import org.example.film.models.entities.Celebrity;
 import org.example.film.models.entities.Movies;
 import org.example.film.models.entities.procedure.moviesp;
  
 import lombok.RequiredArgsConstructor;
-import org.example.film.models.apis.movieApi.Movie;
 import org.example.film.models.apis.movieApi.MovieResponse;
-import org.example.film.models.entities.*;
 import org.example.film.repositories.IGenresRepository;
  
 import org.example.film.repositories.IMoviesRepository;
@@ -89,10 +87,38 @@ public class MoviesService implements IMoviesService{
     }
 
     @Override
-    public List<Movie> getMoviesApi() {
+    public List<org.example.film.models.apis.movieApi.Movie> getMoviesApi() {
         ResponseEntity<MovieResponse> response = restTemplate.getForEntity(API_URL, MovieResponse.class);
         return response.getBody().getItems();
     }
 
- 
+
+    @Override
+    public List<org.example.film.models.apis.movieApi.Movie> getMoviePageApi(int page) {
+        String apiMovie = "https://ophim1.com/danh-sach/phim-moi-cap-nhat?page="+page;
+        ResponseEntity<MovieResponse> response = restTemplate.getForEntity(apiMovie,MovieResponse.class);
+        return response.getBody().getItems();
+    }
+
+    @Override
+    public Movie getMoviePageApiSlug(String slug) {
+
+        String apiMovie = "https://ophim1.com/phim/" + slug;
+        ResponseEntity<MovieSlugRespone> response = restTemplate.getForEntity(apiMovie, MovieSlugRespone.class);
+        MovieSlugRespone responseBody = response.getBody();
+
+        if (responseBody != null && responseBody.isStatus()) {
+            Movie movie = responseBody.getMovie();
+            if (movie != null) {
+                System.out.println("Movie Name: " + movie.getName());
+                return movie;
+            } else {
+                System.out.println("MovieSlug is null");
+                return null;
+            }
+        } else {
+            System.out.println("Response body is null or status is false");
+            return null;
+        }
+    }
 }

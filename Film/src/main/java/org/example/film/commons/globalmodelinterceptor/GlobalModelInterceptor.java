@@ -11,6 +11,7 @@ import org.example.film.services.categoriesMovies.ICategoriesMoviesService;
 import org.example.film.services.celebrities.ICelebritiesService;
 import org.example.film.services.favourites.IFavouritesService;
 import org.example.film.services.genres.GenresService;
+import org.example.film.services.genres.IGenresService;
 import org.example.film.services.jobs.IJobsService;
 import org.example.film.services.movies.IMoviesService;
 import org.example.film.services.movies.MoviesService;
@@ -33,7 +34,7 @@ public class GlobalModelInterceptor implements HandlerInterceptor {
     private ICategoriesMoviesService iCategoriesMoviesService;
 
     @Autowired
-    private GenresService genreService;
+    private IGenresService genreService;
 
     @Autowired
     private IMoviesService iMoviesService;
@@ -57,11 +58,11 @@ public class GlobalModelInterceptor implements HandlerInterceptor {
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
         if (modelAndView != null) {
             // Lấy danh sách category từ service
-            List<CategoryMovie> categoryMovieList = iCategoriesMoviesService.getListCategoriesMovies();
+            List<CategoryMovie> categoryMovieList = iCategoriesMoviesService.getListCategoriesMovies().stream().filter(c -> c.getStatus()==1).toList();
             modelAndView.addObject("categoryMovieList", categoryMovieList);
 
             // Lấy danh sách genre từ service
-            List<Genre> genreList = genreService.getListGenres();
+            List<Genre> genreList = genreService.getListGenres().stream().filter(g -> g.getStatus() == 1).toList();
             modelAndView.addObject("genreList", genreList);
 
             List<Movies> getMovieSlide = iMoviesService.getListMovies().stream().filter(movies -> movies.getIsPopular() == 0 && movies.getStatus() == 1).limit(12).collect(Collectors.toList());

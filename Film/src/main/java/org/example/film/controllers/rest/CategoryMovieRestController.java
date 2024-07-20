@@ -2,6 +2,7 @@ package org.example.film.controllers.rest;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.example.film.commons.cqrs.HandleResponse;
 import org.example.film.commons.cqrs.ISender;
 import org.example.film.models.entities.CategoryMovie;
 import org.example.film.models.requests.categoriesMovies.AddCategoryMovieRequest;
@@ -74,11 +75,19 @@ public class CategoryMovieRestController {
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> delete(@PathVariable String id){
-        if (id == null) {
-            throw new IllegalArgumentException("Id is null.");
-        }else {
-            iSender.send(new DeleteCategoryMovieRequest(id));
-            return ResponseEntity.ok("Delete Category movies successfully.");
+        try {
+            HandleResponse<String> response = iSender.send(new DeleteCategoryMovieRequest(id));
+            if (response.isOk()){
+                return ResponseEntity.ok("Delete Category movies successfully.");
+            }else {
+                return ResponseEntity.badRequest().body(response.get());
+            }
+        }catch (Exception e){
+            if (e.getMessage().equals("You must delete the movie first")) {
+                return ResponseEntity.badRequest().body("You must delete the movie first");
+            } else {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("You must delete the movie first");
+            }
         }
     }
 }

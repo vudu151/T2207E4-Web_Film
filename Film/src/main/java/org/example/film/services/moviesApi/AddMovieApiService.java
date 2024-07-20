@@ -23,6 +23,8 @@ public class AddMovieApiService implements IRequestHandler<AddMovieApiRequest,St
             Movies setMovies = new Movies();
             setMovies.setName(addMovieApiRequest.getName());
             setMovies.setPoster(addMovieApiRequest.getThumb_url());
+            setMovies.setIsApi(1);
+            setMovies.setStatus(0);
             iMoviesRepository.save(setMovies);
             return HandleResponse.ok("Movies successfully added : " + setMovies.getName());
         }

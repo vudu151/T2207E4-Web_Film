@@ -19,12 +19,16 @@
 <body>
 
 <main id="main-content">
-    <div class="d-flex">
+    <div>
+        <h4 class="page-title mt-4 m-md-4 m-lg-4 mb-0" th:text="'Film: ' + ${getMovie.name}"></h4>
+    </div>
+    <div class="d-flex flex-lg-wrap m-auto">
         <div th:each="episode:${getEpisode}">
             <div class="card mt-4 m-md-4 m-lg-4" style="width: 18rem;">
-                <video class="card-img-top" controls>
+                <video class="card-img-top" controls th:if="${getMovie.isApi==0}">
                     <source th:src="${episode.link}" type="video/mp4">
                 </video>
+                <iframe th:src="${episode.link}" th:if="${getMovie.isApi==1}"></iframe>
                 <div class="card-body">
                     <h5 class="card-title" th:text="'Episode: ' + ${episode.name}"></h5>
                     <p class="card-text" th:text="${episode.description}"></p>
@@ -36,6 +40,30 @@
             </div>
         </div>
     </div>
+    <div class="topbar-filter d-flex justify-content-between mt-4 m-md-4 m-lg-4 mb-0">
+        <div>
+            <label>Movies per page:</label>
+            <select onchange="window.location.href = this.value;">
+                <option value="?size=20" th:selected="${size == 20}">20 Movies</option>
+                <option value="?size=10" th:selected="${size == 10}">10 Movies</option>
+            </select>
+        </div>
+        <div class="pagination2 d-flex justify-content-between w-50">
+            <span>Page <span th:text="${currentPage}"></span> of <span th:text="${totalPages}"></span>:</span>
+            <!-- Nút Previous -->
+            <a class="btn btn-secondary btn-sm" th:if="${currentPage > 1}" th:href="@{'/admin-movie/episode/list/id=' + ${getMovie.id} + '?page=' + (${currentPage - 1}) + '&size=' + ${size}}">Previous</a>
+            <!-- Các trang -->
+            <div class="btn-group">
+                <a class="btn btn-outline-secondary btn-sm" th:each="pageNum : ${#numbers.sequence(1, totalPages)}"
+                   th:classappend="${pageNum == currentPage} ? 'active btn-primary' : ''"
+                   th:href="@{'/admin-movie/episode/list/id=' + ${getMovie.id} + '?page=' + ${pageNum} + '&size=' + ${size}}" th:text="${pageNum}"></a>
+            </div>
+            <!-- Nút Next -->
+            <a class="btn btn-secondary btn-sm" th:if="${currentPage < totalPages}" th:href="@{'/admin-movie/episode/list/id=' + ${getMovie.id} + '?page=' + (${currentPage + 1}) + '&size=' + ${size}}">Next</a>
+        </div>
+    </div>
+
+
 
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-scrollable">
@@ -71,11 +99,14 @@
                                       id="invalid-feedback-description">The description is not null.</span>
                             </div><!-- end col -->
                         </div>
+
                         <div class="mb-2 row">
-                            <label class="col-md-2 col-form-label" for="duration">License Start</label>
+                            <label class="col-md-2 col-form-label" for="duration">Duration</label>
                             <div class="col-md-10">
-                                <input class="form-control" type="date" name="date" id="duration">
-                                <span class="error duration_err">The license start is not null.</span>
+                                <input type="text" id="duration" class="form-control">
+                                <span class="error duration_err"></span>
+                                <span class="invalid-feedback text-danger"
+                                      id="invalid-checkNumber-duration">The total duration is number.</span>
                             </div>
                         </div>
 
@@ -84,6 +115,8 @@
                             <div class="col-md-10">
                                 <input type="text" id="fileSize" class="form-control">
                                 <span class="error fileSize_err"></span>
+                                <span class="invalid-feedback text-danger"
+                                      id="invalid-checkNumber-fileSize">The file size is number.</span>
                             </div>
                         </div>
 
@@ -92,31 +125,33 @@
                             <div class="col-md-10">
                                 <input type="text" id="licensePrice" class="form-control">
                                 <span class="error licensePrice_err"></span>
+                                <span class="invalid-feedback text-danger"
+                                      id="invalid-checkNumber-licensePrice">The license price is number.</span>
                             </div>
                         </div>
 
                         <div class="mb-2 row">
                             <label class="col-md-2 col-form-label" for="licenseStart">License Start</label>
                             <div class="col-md-10">
-                                <input class="form-control" type="date" name="date" id="licenseStart">
-                                <span class="invalid-feedback text-danger"
-                                      id="invalid-feedback-licenseStart">The license start is not null.</span>
+                                <input class="form-control" type="text" name="date" id="licenseStart">
+                                <span class="invalid-feedback text-danger" id="invalid-feedback-licenseStart">The license start is not null.</span>
                             </div>
                         </div>
-
                         <div class="mb-2 row">
                             <label class="col-md-2 col-form-label" for="licenseEnd">License End</label>
                             <div class="col-md-10">
-                                <input class="form-control" type="date" name="date" id="licenseEnd">
-                                <span class="invalid-feedback text-danger"
-                                      id="invalid-feedback-licenseEnd">The license end is not null.</span>
+                                <input class="form-control" type="text" name="date" id="licenseEnd">
+                                <span class="invalid-feedback text-danger" id="invalid-feedback-licenseEnd">The license end is not null.</span>
                             </div>
                         </div>
+
                         <div class="mb-2 row">
                             <label class="col-md-2 col-form-label" for="tax">Tax</label>
                             <div class="col-md-10">
                                 <input type="text" id="tax" class="form-control">
                                 <span class="error tax_err"></span>
+                                <span class="invalid-feedback text-danger"
+                                      id="invalid-checkNumber-tax">The tax is number.</span>
                             </div>
                         </div>
                         <div class="mb-2 row">
@@ -225,6 +260,55 @@
             })
         });
 
+        $('#duration').on('input', function() {
+            let totalDuration = $('#duration').val();
+            if (totalDuration.length === 0){
+                $('.duration_err').show();
+            }else if (!$.isNumeric(totalDuration) && totalDuration.length !== 0) {
+                $('#invalid-checkNumber-duration').show();
+                $('.duration_err').hide();
+            } else {
+                $('#invalid-checkNumber-duration').hide();
+            }
+        });
+
+        $('#fileSize').on('input', function() {
+            let fileSize = $('#fileSize').val();
+            if (fileSize.length === 0){
+                $('.fileSize_err').show();
+            }else if (!$.isNumeric(fileSize) && fileSize.length !== 0) {
+                $('#invalid-checkNumber-fileSize').show();
+                $('.fileSize_err').hide();
+            } else {
+                $('#invalid-checkNumber-fileSize').hide();
+            }
+        });
+
+        $('#licensePrice').on('input', function() {
+            let licensePrice = $('#licensePrice').val();
+            if (licensePrice.length === 0){
+                $('.licensePrice_err').show();
+            }else if (!$.isNumeric(licensePrice) && licensePrice.length !== 0) {
+                $('#invalid-checkNumber-licensePrice').show();
+                $('.licensePrice_err').hide();
+            } else {
+                $('#invalid-checkNumber-licensePrice').hide();
+            }
+        });
+
+        $('#tax').on('input', function() {
+            let tax = $('#tax').val();
+            if (tax.length === 0){
+                $('.tax_err').show();
+            }else if (!$.isNumeric(tax) && tax.length !== 0) {
+                $('#invalid-checkNumber-tax').show();
+                $('.tax_err').hide();
+            } else {
+                $('#invalid-checkNumber-tax').hide();
+            }
+        });
+
+
         //9.Save episode
         $("#formEditEpisode").submit(function (event) {
             event.preventDefault();
@@ -290,6 +374,11 @@
             } else {
                 $('#invalid-feedback-linkEpisode').hide();
             }
+
+            var licenseStartDate = $.datepicker.parseDate("dd/mm/yy", licenseStart);
+            var licenseEndDate = $.datepicker.parseDate("dd/mm/yy", licenseEnd);
+            licenseStart = $.datepicker.formatDate("yy-mm-dd", licenseStartDate);
+            licenseEnd = $.datepicker.formatDate("yy-mm-dd", licenseEndDate);
 
             var formData = {
                 id: getEpisodeId,

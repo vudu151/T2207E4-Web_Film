@@ -82,27 +82,42 @@
                 $.ajax({
                     type: 'DELETE',
                     url: '/v1/categoriesMovies/delete/' + categoryMovieId,
-                    success: function() {
-                        var successHtml = '<div style="color: #28a745" class="alert alert-success alert-dismissible fade show" role="alert">\n' +
-                            '                                            Successfully registered account\n' +
-                            '                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>\n' +
-                            '                                        </div>';
-                        $("#alertSuccess").html(successHtml);
-                        setTimeout(function() {
-                            $("#alertSuccess").empty();
-                            window.location.reload();
-                        }, 1200);
+                    success: function(response) {
+                        if (response.success()){
+                            var successHtml = '<div style="color: #28a745" class="alert alert-success alert-dismissible fade show" role="alert">\n' +
+                                '                                            Successfully registered account\n' +
+                                '                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>\n' +
+                                '                                        </div>';
+                            $("#alertSuccess").html(successHtml);
+                            setTimeout(function() {
+                                $("#alertSuccess").empty();
+                                window.location.reload();
+                            }, 1200);
+                        }else {
+                            var errorHtml = '<div class="float-end alert alert-danger alert-dismissible fade show" role="alert">' +
+                                '<i class="mdi mdi-block-helper me-2"></i>' +
+                                response.message +
+                                '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>' +
+                                '</div>';
+                            $("#alertError").html(errorHtml);
+                            setTimeout(function () {
+                                $("#alertError").empty();
+                            }, 2000);
+                        }
                     },
-                    error: function(err) {
-                        var errorHtml = '<div class="float-end alert alert-danger alert-dismissible fade show" role="alert">\n' +
-                            '                                            <i class="mdi mdi-block-helper me-2"></i>\n' +
-                            '                                           An error has occurred !\n' +
-                            '                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>\n' +
-                            '                                        </div>';
-                        $("#alertError").html(errorHtml);
-                        setTimeout(function() {
-                            $("#alertError").empty();
-                        }, 2000);
+                    error: function(xhr, status, error) {
+                        let errorMessage = "You must delete the movie first";
+                        if (xhr.responseJSON && xhr.responseJSON.message) {
+                            errorMessage = xhr.responseJSON.message;
+                        } else if (xhr.responseText) {
+                            errorMessage = xhr.responseText;
+                        }
+                        Swal.fire({
+                            title: 'Error!',
+                            text: errorMessage,
+                            icon: 'error',
+                            confirmButtonText: 'OK'
+                        });
                     }
                 });
             }

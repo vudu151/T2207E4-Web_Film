@@ -5,3 +5,23 @@ span.error {
     font-weight: 500;
     color: red;
 }
+
+.topbar-filter{
+    width: 80% !important;
+}
+
+.pagination2 .btn-group .btn {
+    margin: 0 2px;
+}
+
+.pagination2 .btn-group .btn.active {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+}
+
+.pagination2 .btn-group .btn:hover {
+    background-color: #0056b3;
+    color: white;
+    border-color: #0056b3;
+}

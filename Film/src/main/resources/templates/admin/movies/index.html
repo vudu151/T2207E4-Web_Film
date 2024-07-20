@@ -27,6 +27,7 @@
 <body>
 
 <main id="main-content">
+
     <div class="px-3">
         <div class="container-fluid">
             <div id="alertError" style="position: fixed; top: 80px; right: -90px;transform: translateX(-50%); z-index: 9999;"></div>
@@ -54,7 +55,6 @@
                                     <th>Name</th>
                                     <th>Poster</th>
                                     <th style="width: 56px">Total Episode</th>
-                                    <th>Description</th>
                                     <th>Level</th>
                                     <th>Category</th>
                                     <th>List Genre</th>
@@ -63,7 +63,7 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr th:each="movie, index : ${getListMovie}">
+                                <tr th:each="movie, index : ${getListMovie}" th:if="${!#lists.isEmpty(getListMovie)}">
                                     <td th:text="${index.count}"></td>
                                     <td th:text="${movie.id}" th:hidden="hidden"></td>
                                     <td th:text="${movie.name}"></td>
@@ -71,14 +71,6 @@
                                         <img th:src="${movie.poster}"  alt="image" class="img-fluid rounded" width="56" style="max-width: 100%;object-fit: cover;max-height: 32px; height: auto;"/>
                                     </td>
                                     <td th:text="${movie.totalEpisode}" style="width: 56px"></td>
-                                    <td>
-                                        <span th:if="${movie.description}">
-                                            <span th:text="${movie.description}"></span>
-                                        </span>
-                                        <span th:if="${movie.description == null || movie.description.length() == 0}">
-                                            <span th:text="${'Update Now'}"></span>
-                                        </span>
-                                    </td>
                                     <td>
                                         <span th:if="${movie.level == 0}">Free</span>
                                         <span th:if="${movie.level == 1}">Not Free</span>
@@ -107,7 +99,7 @@
                                         <div class="button-list">
                                             <a th:href="@{/admin-movie/episode/add(id=${movie.id})}" type="button" class="btn btn-warning waves-effect waves-light"><i class="mdi mdi-movie-open"></i></a>
                                             <a th:href="'/admin-movie/episode/list/id=' + ${movie.id}" type="button" class="btn btn-warning waves-effect waves-light"><i class="mdi mdi-movie-edit"></i></a>
-                                            <a type="button" class="btn btn-warning waves-effect waves-light addEpisode"><i class="mdi mdi-movie-open"></i></a>
+                                            <a type="button" class="btn btn-warning waves-effect waves-light addEpisode" th:if="${movie.isApi==1}"><i class="mdi mdi-movie-star"></i></a>
                                         </div>
                                     </td>
                                     <td>
@@ -116,6 +108,19 @@
                                             <a th:href="@{/admin-movie}" type="button" class="btn btn-danger waves-effect waves-light btn-movie-delete"><i class="mdi mdi-delete"></i></a>
                                         </div>
                                     </td>
+                                </tr>
+                                <tr th:if="${#lists.isEmpty(getListMovie)}">
+                                    <td>No Data</td>
+                                    <td>No Data</td>
+                                    <td>No Data</td>
+                                    <td>No Data</td>
+                                    <td>No Data</td>
+                                    <td>No Data</td>
+                                    <td>No Data</td>
+                                    <td>No Data</td>
+                                    <td>No Data</td>
+                                    <td>No Data</td>
+                                    <td>No Data</td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -143,7 +148,7 @@
                 data: JSON.stringify(formData),
                 success: function (result) {
                     setTimeout(function () {
-                        window.location.href = "/admin-genresMovies";
+                        window.location.href = "/admin-movie";
                     });
                 },
                 error: function (error) {
@@ -169,7 +174,7 @@
                     url: '/v1/movies/delete/' + movieId,
                     success: function() {
                         var successHtml = '<div style="color: #28a745" class="alert alert-success alert-dismissible fade show" role="alert">\n' +
-                            '                                            Celebrity deleted successfully' +
+                            '                                            Movie deleted successfully' +
                             '                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>\n' +
                             '                                        </div>';
                         $("#alertSuccess").html(successHtml);
