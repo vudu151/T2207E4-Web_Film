@@ -4,7 +4,10 @@ CREATE PROCEDURE GetCebrityPage(
     IN pageNum INT,
     IN pageSize INT,
     IN searchKeyword VARCHAR(255),
-    IN p_job VARCHAR(255)
+    IN p_job VARCHAR(255),
+     IN letter VARCHAR(255),
+    IN p_year_from INT,
+    IN p_year_to INT
 )
 BEGIN
     DECLARE startIdx INT DEFAULT 0;
@@ -23,7 +26,10 @@ BEGIN
     WHERE c.status = 1
     AND (c.name LIKE CONCAT('%', LOWER(searchKeyword), '%')
     OR c.slug LIKE CONCAT('%', LOWER(searchKeyword), '%') )
+    and c.name LIKE CONCAT(  LOWER(letter), '%')
     AND j.name LIKE CONCAT('%', p_job, '%') 
+    AND (  YEAR(c.birthday) >= p_year_from)
+      AND (  YEAR(c.birthday) <= p_year_to) 
     ;
 
     -- Tính tổng số trang
@@ -32,7 +38,7 @@ BEGIN
     -- Truy vấn dữ liệu phân trang và tìm kiếm level <2 
     
      SELECT 
-       c.*, d.job_id, j.name as job,        (SELECT totalRecords) AS total_items,
+       c.*, d.job_id, j.name as job,    (SELECT totalRecords) AS total_items,
 		(SELECT totalPages) AS total_pages
     FROM celebrities c
     INNER JOIN celebrity_job d ON  d.celebrity_id = c.id 
@@ -40,9 +46,12 @@ BEGIN
     WHERE c.status = 1
 AND (c.name LIKE CONCAT('%', LOWER(searchKeyword), '%')
     OR c.slug LIKE CONCAT('%', LOWER(searchKeyword), '%') )
+       and c.name LIKE CONCAT(  LOWER(letter), '%')
     AND j.name LIKE CONCAT('%', p_job, '%') 
+    AND (  YEAR(c.birthday) >= p_year_from)
+      AND (  YEAR(c.birthday) <= p_year_to) 
     AND c.status = 1
-    GROUP BY c.id, c.name
+    
     ORDER BY c.name DESC
     LIMIT startIdx, pageSize;
 
@@ -51,4 +60,4 @@ END;
 
 
 
-call GetCebrityPage(2,5,'','');
+call GetCebrityPage(1,5,'','','b',1700,3100);
