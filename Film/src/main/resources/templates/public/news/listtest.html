@@ -1,0 +1,171 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{/public/layout/layout :: main-fragment(
+                                                ~{:: title},
+                                                ~{:: #css-resources},
+                                                ~{:: #main-content},
+                                                ~{:: #js-resources}
+                                               )}">
+<head>
+    <!-- Basic need -->
+    <title>Block Buster | News</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="">
+
+    <th:block id="css-resources"></th:block>
+</head>
+<body>
+
+<main id="main-content">
+    <div class="hero common-hero">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="hero-ct">
+                        <h1> News listing</h1>
+                        <ul class="breadcumb">
+                            <li class="active"><a th:href=@{/}>Home</a></li>
+                            <li> <span class="ion-ios-arrow-right"></span> blog listing</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-single">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-9 col-sm-12 col-xs-12">
+                    <!--news-->
+                    <div class="row" >
+                        <div class="col-md-4 col-sm-12 col-xs-12" th:each="news : ${newsList}">
+                            <div class="blog-item-style-2">
+                                <a th:href="@{/newsday/news/{id}(id=${news.id})}" ><img th:src="${news.poster}" alt="News Image" class="img-fluid"></a>
+                                <div class="blog-it-infor">
+                                    <h3><a class="news-description"  th:href="@{/newsday/news/{id}(id=${news.id})}" th:text="${news.name}" th:data-max-length="45"></a></h3>
+                                    <span class="time" th:text="${#dates.format(news.createdAdd, 'YYYY MMM dd')}"></span>
+                                    <p class="news-description"   th:text="${news.description}" th:data-max-length="100" > </p>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <!-- news -->
+                    <div>
+<!--                        <div class="col-sm-12 col-md-5 d-flex align-items-center justify-content-center justify-content-md-start">-->
+
+<!--                    <div class="dataTables_length">-->
+<!--                        <label>News per page:</label>-->
+<!--                        <select class="form-select form-select-sm form-select-solid"-->
+<!--                                id="size-select" th:attr="data-url=@{/newsday(page=1)}">-->
+<!--                            <option th:selected="${pageSize == 5}" th:value="5">5</option>-->
+<!--                            <option th:selected="${pageSize == 10}" th:value="10">10</option>-->
+<!--                            <option th:selected="${pageSize == 25}" th:value="25">25</option>-->
+<!--                            <option th:selected="${pageSize == 50}" th:value="50">50</option>-->
+<!--                        </select></div></div>-->
+                        <ul class="pagination">
+                        <li class="icon-prev" th:classappend="${currentPages != null && currentPages > 1} ? '' : 'disabled'">
+                            <a th:href="@{/newsday(page=${currentPages - 1}, pageSize=${pageSize}, keyword=${keyword} )}" class="page-link">
+                                <i class="ion-ios-arrow-left"></i>
+                            </a>
+                        </li>
+                        <li class="active"  th:classappend="${currentPages == i} ? 'active' : ''"
+                            th:each="i : ${#numbers.sequence(1, totalPages)}">
+                            <a class="page-link" th:href="@{/newsday(page=${i}, pageSize=${pageSize} ,keyword=${keyword} )}"
+                               th:text="${i}">1</a>
+                        </li>
+                        <li class="icon-next" th:classappend="(${currentPages} < ${totalPages}) ? '' : 'disabled'">
+                            <a class="page-link" th:href="@{/newsday(page=${currentPages + 1}, pageSize=${pageSize}, keyword=${keyword} )}">
+                                <i class="next"></i>
+                            </a>
+                            </li>
+
+                    </ul>
+                     </div>
+                </div>
+
+                <div class="col-md-3 col-sm-12 col-xs-12">
+                    <div class="sidebar">
+                        <div class="sb-search sb-it">
+                            <h4 class="sb-title">Search</h4>
+                            <form class="form-style-1" th:action="@{/newsday}" method="get">
+                            <input type="text"  name="keyword" th:value="${keyword}" placeholder="Enter keywords">
+                                <input class="submit" type="submit" value="submit">
+                            </form>
+                        </div>
+                        <div class="sb-cate sb-it">
+                            <h4 class="sb-title">Categories</h4>
+                            <ul th:each="category : ${categories}">
+
+                                <li><a th:href="@{/newsday/category/{id}(id=${category.id})}" th:text="${category.name}"></a></li>
+                            </ul>
+                        </div>
+                        <div class="sb-recentpost sb-it" th:if="${popularNews != null and !popularNews.isEmpty()}">
+                            <h4 class="sb-title">most popular</h4>
+                            <div th:each="news , stat: ${popularNews}" >
+                                <div class="recent-item">
+                                    <span th:text="${stat.index + 1}" ></span><h6> <a th:href="@{/newsday/news/{id}(id=${news.id})}" th:text="${news.name}"></a></h6>
+                                </div>
+                            </div>
+
+
+                        <div class="ads">
+                            <img src="/public/images/uploads/ads1.png" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div> </div>
+       </div>  </div>
+
+</main>
+<th:block id="js-resources">
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+          var descriptionElements = document.querySelectorAll('.news-description');
+          descriptionElements.forEach(function (descriptionElement) {
+            var maxLength = descriptionElement.dataset.maxLength;
+            var description = descriptionElement.textContent;
+            if (description.length > maxLength) {
+              descriptionElement.textContent = description.slice(0, maxLength) + '...';
+            }
+          });
+        });
+    </script>
+    <script>var hostUrl = "/";</script>
+    <script th:src="@{/plugins/custom/datatables/datatables.bundle.js}"></script>
+<!--    <script>-->
+<!--        $(document).ready(function() {-->
+<!--            $('#size-select').on('change', function() {-->
+<!--            const newSize = $(this).val();-->
+<!--             const url = new URL(window.location.href);-->
+<!--            url.searchParams.set('page', 1);-->
+<!--            url.searchParams.set('pageSize', newSize);-->
+<!--              // Set other parameters only if they have a value-->
+<!--            const keyword = $('#keyword').val();-->
+<!--            if (keyword) {-->
+<!--                url.searchParams.set('keyword', keyword);-->
+<!--            }-->
+
+
+<!--            window.location.href = url.toString();-->
+<!--            });-->
+<!--        });-->
+<!--    </script>-->
+
+    <script>
+        const searchInput = document.querySelector('input[name="keyword"]');
+        searchInput.addEventListener('keyup', (event) => {
+            if (event.key === 'Enter') {
+                event.preventDefault(); // Prevent default form submission
+                searchInput.form.submit(); // Manually submit the form
+            }
+        });
+    </script>
+</th:block>
+</body>
+</html>
