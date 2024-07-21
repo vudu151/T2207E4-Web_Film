@@ -95,8 +95,7 @@ public String getName() {
     @Column(name = "level")
     private int level;
 
-    @Autowired
-    private IAccountRepository iAccountRepository;
+
     public int getLevel() {
         return level;
     }
