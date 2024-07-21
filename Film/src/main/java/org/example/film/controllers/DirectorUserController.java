@@ -1,12 +1,11 @@
 package org.example.film.controllers;
 
 import lombok.RequiredArgsConstructor;
-import org.example.film.models.entities.Actors;
-import org.example.film.models.entities.Celebrity;
-import org.example.film.models.entities.Director;
-import org.example.film.models.entities.Movies;
+import org.example.film.models.entities.*;
 import org.example.film.services.celebrities.ICelebritiesService;
 import org.example.film.services.directors.IDirectorsService;
+import org.example.film.services.jobs.IJobsService;
+import org.example.film.services.jobs.JobsService;
 import org.example.film.services.movies.IMoviesService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Controller
 @RequiredArgsConstructor
@@ -25,12 +25,22 @@ public class DirectorUserController {
     public final IDirectorsService iDirectorsService;
     public final IMoviesService iMoviesService;
     public final ICelebritiesService iCelebritiesService;
+    public final IJobsService iJobsService;
 
     @GetMapping("/get/")
     public String getDirector(@RequestParam(name = "page", defaultValue = "1") int page,
                               @RequestParam(name = "size", defaultValue = "2") int size,
+                              @RequestParam(defaultValue = "") String keyword,
+                              @RequestParam(defaultValue = "") String letter,
+                              @RequestParam(defaultValue = "") String job,
+                              @RequestParam( defaultValue = "1700") int yearfrom,
+                              @RequestParam(  defaultValue = "3100") int yearto,
                               Model model){
         List<Director> getListDirector = iDirectorsService.getAllDirector().stream().filter(d -> d.getStatus() == 1).toList();
+        List<Job> jobsList = iJobsService.getListJobs();
+        List<String> letterList = IntStream.rangeClosed('A', 'Z')
+                .mapToObj(i -> String.valueOf((char) i))
+                .collect(Collectors.toList());
         int startIndex = (page - 1) * size;
         int endIndex = Math.min(startIndex + size, getListDirector.size());
         List<Director> paginatedListDirector = getListDirector.subList(startIndex, endIndex);
@@ -38,6 +48,13 @@ public class DirectorUserController {
         model.addAttribute("currentPage", page);
         model.addAttribute("size", size); // Thay size bằng giá trị phù hợp từ controller của bạn
         model.addAttribute("totalPages", (int) Math.ceil((double) getListDirector.size() / size));
+        model.addAttribute("keyword", keyword);
+        model.addAttribute("letter", letter);
+        model.addAttribute("letterList", letterList);
+        model.addAttribute("job", job);
+        model.addAttribute("jobsList", jobsList);
+        model.addAttribute("yearfrom", yearfrom);
+        model.addAttribute("yearto", yearto);
         return "public/directors/list-director";
     }
 

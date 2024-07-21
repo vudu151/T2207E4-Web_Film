@@ -113,48 +113,38 @@
         </div>
         <div class="col-md-4 col-sm-12 col-xs-12">
           <div class="sidebar">
+            <!--start search side bar -->
             <div class="searh-form">
               <h4 class="sb-title">Search for movie</h4>
-              <form class="form-style-1" action="#">
+              <form class="form-style-1" th:action="@{/moviefind}" method="get">
                 <div class="row">
                   <div class="col-md-12 form-it">
                     <label>Movie name</label>
-                    <input type="text" placeholder="Enter keywords">
+                    <input type="text" name="keyword" th:value="${keyword}" placeholder="Enter keywords">
                   </div>
                   <div class="col-md-12 form-it">
                     <label>Genres & Subgenres</label>
                     <div class="group-ip">
-                      <select
-                              name="skills" multiple="" class="ui fluid dropdown">
+                      <select name="genres" multiple class="ui fluid dropdown">
                         <option value="">Enter to filter genres</option>
-                        <option value="Action1">Action 1</option>
-                        <option value="Action2">Action 2</option>
-                        <option value="Action3">Action 3</option>
-                        <option value="Action4">Action 4</option>
-                        <option value="Action5">Action 5</option>
+                        <option th:each="genre : ${genreList}" th:value="${genre.name}" th:text="${genre.name}"></option>
                       </select>
                     </div>
                   </div>
-                  <div class="col-md-12 form-it">
-                    <label>Rating Range</label>
-                    <select>
-                      <option value="range">-- Select the rating range below --</option>
-                      <option value="saab">-- Select the rating range below --</option>
-                    </select>
-                  </div>
+
                   <div class="col-md-12 form-it">
                     <label>Release Year</label>
                     <div class="row">
                       <div class="col-md-6">
-                        <select>
-                          <option value="range">From</option>
-                          <option value="number">10</option>
+                        <select name="yearfrom">
+                          <option value="1800">From</option>
+                          <option th:each="year : ${#numbers.sequence(1800, 3100)}" th:value="${year}" th:text="${year}" th:selected="${year == yearfrom}"></option>
                         </select>
                       </div>
                       <div class="col-md-6">
-                        <select>
-                          <option value="range">To</option>
-                          <option value="number">20</option>
+                        <select name="yearto">
+                          <option value="3100">To</option>
+                          <option th:each="year : ${#numbers.sequence(1800, 3100)}" th:value="${year}" th:text="${year}" th:selected="${year == yearto}"></option>
                         </select>
                       </div>
                     </div>
@@ -165,6 +155,8 @@
                 </div>
               </form>
             </div>
+            <!--end search side bar-->
+
             <div class="ads">
               <img src="/public/images/uploads/ads1.png" alt="">
             </div>
@@ -230,7 +222,40 @@
         }
       })
     })
+    $('#size-select').on('change', function() {
+      const newSize = $(this).val();
+      const url = new URL(window.location.href);
+      url.searchParams.set('page', 1);
+      url.searchParams.set('pageSize', newSize);
+      // Set other parameters only if they have a value
+      const keyword = $('#keyword').val();
+      if (keyword) {
+        url.searchParams.set('keyword', keyword);
+      }
+      const genres = $('#genres').val();
+      if (genres) {
+        url.searchParams.set('genres', genres);
+      }
+      const yearfrom = $('#yearfrom').val();
+      if (yearfrom) {
+        url.searchParams.set('yearfrom', yearfrom);
+      }
+      const yearto = $('#yearto').val();
+      if (yearto) {
+        url.searchParams.set('yearto', yearto);
+      }
+
+      window.location.href = url.toString();
+    });
+    const searchInput = document.querySelector('input[name="keyword"]');
+    searchInput.addEventListener('keyup', (event) => {
+      if (event.key === 'Enter') {
+        event.preventDefault(); // Prevent default form submission
+        searchInput.form.submit(); // Manually submit the form
+      }
+    });
   </script>
+  <script th:src="@{/plugins/custom/datatables/datatables.bundle.js}"></script>
 </th:block>
 </body>
 </html>

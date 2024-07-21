@@ -3,6 +3,7 @@ package org.example.film.repositories;
 import org.example.film.models.entities.Episode;
 import org.example.film.models.entities.Movies;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

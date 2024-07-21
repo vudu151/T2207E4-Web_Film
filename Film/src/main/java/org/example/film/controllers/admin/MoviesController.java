@@ -65,6 +65,10 @@ public class MoviesController {
     @GetMapping("/api/slug/{slug}")
     public String getPageMovieSlug(@PathVariable String slug, Model model) {
         Movie movie = iMoviesService.getMoviePageApiSlug(slug);
+        boolean isMovie = movie != null;
+        if(!isMovie){
+            return "admin/movies/pageNotFountApi";
+        }
         model.addAttribute("movie", movie); // Sửa lại để add đối tượng movie
         model.addAttribute("pathImage", "https://img.ophim.live/uploads/movies/");
         return "admin/movies/apiMovieSlug"; // Trả về tên của trang view mà bạn muốn render
