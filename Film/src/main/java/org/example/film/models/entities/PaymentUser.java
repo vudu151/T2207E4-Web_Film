@@ -44,6 +44,8 @@ public class PaymentUser  {
 
     @Column(name = "totalprice")
     private String totalprice;
+    @Column(name = "totalpricepayment")
+    private Double totalpricepayment;
 
     @Column(name = "paymentcurrency")
     private String paymentcurrency;
