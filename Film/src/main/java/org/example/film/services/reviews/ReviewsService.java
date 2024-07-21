@@ -42,5 +42,10 @@ public class ReviewsService implements IReviewsService{
         return iReviewRepository.getAverageStarByMovieId(movieId).orElse(0);
     }
 
+    @Override
+    public List<Movies> getAllReviewedMovies() {
+        return iReviewRepository.findAllReviewMovies();
+    }
+
 
 }

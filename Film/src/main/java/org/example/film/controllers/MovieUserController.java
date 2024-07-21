@@ -96,7 +96,11 @@ public class MovieUserController {
     @GetMapping("/category/{id}")
     public String getMovieCategory(@PathVariable String id,
                                        @RequestParam(name = "page", defaultValue = "1") int page,
-                                       @RequestParam(name = "size", defaultValue = "2") int size,
+                                       @RequestParam(name = "size", defaultValue = "20") int size,
+                                       @RequestParam(defaultValue = "") String keyword,
+                                       @RequestParam(defaultValue = "") String genres,
+                                       @RequestParam( defaultValue = "1800") int yearfrom,
+                                       @RequestParam(  defaultValue = "3100") int yearto,
                                    Model model) {
         Optional<CategoryMovie> getCategory = iCategoriesMoviesService.getCategoryMovieById(id);
 
@@ -104,6 +108,7 @@ public class MovieUserController {
         List<Movies> getListMovies = iMoviesService.getCategoryByMovieid(getCategory.get())
                 .stream()
                 .filter(movies -> movies.getStatus() == 1)
+                .sorted(Comparator.comparing(Movies::getRelease).reversed())
                 .collect(Collectors.toList());
 
         // Phân trang
@@ -112,9 +117,14 @@ public class MovieUserController {
 
         List<Movies> paginatedListMovies = getListMovies.subList(startIndex, endIndex);
 
+        List<Genre> genreList = iGenresService.getListGenres();
+
         // Lấy trung bình số sao của từng bộ phim và truyền vào model
         model.addAttribute("getListMovies", paginatedListMovies);
         model.addAttribute("getCategory", getCategory.get());
+        model.addAttribute("keyword", keyword);
+        model.addAttribute("genres", genres);
+        model.addAttribute("genreList", genreList);
 
         // Thêm thông tin phân trang vào model
         model.addAttribute("currentPage", page);

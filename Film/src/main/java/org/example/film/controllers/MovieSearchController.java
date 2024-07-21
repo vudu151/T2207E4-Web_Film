@@ -45,6 +45,9 @@ import java.util.List;
 //                    ratingfrom, ratingto,
                     yearfrom,yearto
             );
+            if (movies.isEmpty()){
+                return "public/searchmovie/notfound";
+            }
             List<Genre> genreList = genresService.getListGenres(); // Retrieve all genres from the database
             model.addAttribute("movies", movies );
             model.addAttribute("totalPages",  movies.get(0).getTotalpages() != null ? movies.get(0).getTotalpages() : 1
@@ -64,7 +67,6 @@ import java.util.List;
 //            model.addAttribute("ratingto", ratingto);
             model.addAttribute("yearfrom", yearfrom);
             model.addAttribute("yearto", yearto);
-
             return "public/searchmovie/index";
         }
 

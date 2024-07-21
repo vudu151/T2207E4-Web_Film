@@ -18,4 +18,7 @@ public interface IReviewRepository extends JpaRepository<Reviews,String> {
     Optional<Integer> getAverageStarByMovieId(@Param("movieId") String movieId);
     List<Reviews> findAllByMovies(Movies movies);
     List<Reviews> findReviewsByMoviesAndAccount(Movies movies, Account account);
+
+    @Query("SELECT r.movies FROM Reviews r")
+    List<Movies> findAllReviewMovies();
 }
