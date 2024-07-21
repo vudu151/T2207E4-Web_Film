@@ -1,26 +1,21 @@
-package org.example.film.models.entities;
+package org.example.film.models.entities.procedure;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+import org.example.film.models.entities.Category;
 import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Type;
-import org.w3c.dom.Text;
 
 import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name = "news")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @Builder
-public class News {
+public class newsSp {
     @Id
-    @GenericGenerator(name="random_id", strategy = "org.example.film.commons.custom.RandomIdGenerator")
-    @GeneratedValue(generator = "random_id")    //Dung name="random_id" ben tren de tao
     @Column(name = "id")
     private String id;
 
@@ -36,7 +31,7 @@ public class News {
     @Column(name = "tag")
     private String tag;
 
-    @Lob
+
     @Column(name = "description", columnDefinition = "TEXT")
     private String description;
 
@@ -55,15 +50,10 @@ public class News {
     private Integer viewCount;
     @Column(name = "status")
     private int status;
+    @Column(name = "total_newss")
+    private Integer totalnewss;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {
-            CascadeType.DETACH, CascadeType.MERGE,
-            CascadeType.PERSIST, CascadeType.REFRESH
-    })
-    @JoinTable(
-            name = "categories_news",
-            joinColumns = @JoinColumn(name = "news_id"),
-            inverseJoinColumns = @JoinColumn(name = "category_id")
-    )
-    private List<Category> categories;
+    @Column(name = "total_pageds")
+    private Integer totalpageds;
+
 }
