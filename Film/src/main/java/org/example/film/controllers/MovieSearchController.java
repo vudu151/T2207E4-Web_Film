@@ -51,13 +51,9 @@ import java.util.List;
             List<Genre> genreList = genresService.getListGenres(); // Retrieve all genres from the database
             model.addAttribute("movies", movies );
             model.addAttribute("totalPages",  movies.get(0).getTotalpages() != null ? movies.get(0).getTotalpages() : 1
-//                    movies.isEmpty() ? 1 : movies.get(0).getTotalpages()
-
-            );
+    );
             model.addAttribute("totalElements",movies.get(0).getTotalitems() != null ? movies.get(0).getTotalitems() : 0
-//                    movies.isEmpty() ? 0 : movies.get(0).getTotalitems()
-
-            );
+  );
             model.addAttribute("pageSize", pageSize);
             model.addAttribute("currentPages", page);
             model.addAttribute("keyword", keyword);

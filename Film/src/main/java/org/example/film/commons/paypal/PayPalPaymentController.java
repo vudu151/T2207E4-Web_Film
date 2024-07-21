@@ -117,6 +117,7 @@ public class PayPalPaymentController {
                                 Amount paymentAmount = payment.getTransactions().get(0).getAmount(); // Get the amount from the payment object
                                 String paymentCurrency = paymentAmount.getCurrency();
                                 String paymentValue = paymentAmount.getTotal();
+                                Double totalPrice = Double.parseDouble(paymentValue);
                                 int packageLevel = existaccount.getAccount().getLevel();
                                 LocalDateTime createdAt = LocalDateTime.parse(paymentCreateTime, DateTimeFormatter.ISO_OFFSET_DATE_TIME);
                                 LocalDateTime updatedAt = LocalDateTime.parse(paymentUpdateTime, DateTimeFormatter.ISO_OFFSET_DATE_TIME);
@@ -136,6 +137,7 @@ public class PayPalPaymentController {
                                                                                .payerid(payerId)
                                                                                .paymentid(paymentId)
                                                                                .totalprice(paymentValue)
+                                        .totalpricepayment(totalPrice)
                                                                                .paymentcurrency(paymentCurrency)
                                         .packagelevel(existaccount.getAccount().getLevel())
                                                                                 .active(true)

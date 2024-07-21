@@ -1,0 +1,789 @@
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org" lang="en" data-bs-theme="light" data-menu-color="brand"-->
+<!--      data-topbar-color="light"-->
+<!--      th:replace="~{/admin/layout/layout :: main-fragment(-->
+<!--                                    ~{:: title},-->
+<!--                                    ~{:: #css-resources},-->
+<!--                                    ~{:: #main-content},-->
+<!--                                    ~{:: #js-resources}-->
+<!--                                 )}">-->
+<!--<head>-->
+<!--    <meta charset="utf-8"/>-->
+<!--    <title>News | Add</title>-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--    <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description"/>-->
+<!--    <meta content="Myra Studio" name="author"/>-->
+<!--    <th:block id="css-resources">-->
+<!--    </th:block>-->
+<!--</head>-->
+<!--<body>-->
+
+<!--<main id="main-content">-->
+<!--    <div class="px-3">-->
+<!--        <div class="container-fluid">-->
+<!--            <div id="alertError"-->
+<!--                 style="position: fixed; top: 80px; right: -90px;transform: translateX(-50%); z-index: 9999;"></div>-->
+
+<!--            &lt;!&ndash; start page title &ndash;&gt;-->
+<!--            <div class="py-3 py-lg-4">-->
+<!--                <div class="row">-->
+<!--                    <div class="col-lg-6">-->
+<!--                        <h4 class="page-title mb-0">Add News</h4>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            &lt;!&ndash; end page title &ndash;&gt;-->
+
+<!--            <div class="row">-->
+<!--                <div class="col-12">-->
+<!--                    <div class="card">-->
+<!--                        <div class="card-body">-->
+<!--                            <div class="row">-->
+<!--                                <div class="col-12">-->
+<!--                                    <div class="p-2">-->
+<!--                                        <form class="form-horizontal" role="form">-->
+<!--                                            <div class="mb-2 row">-->
+<!--                                                <label class="col-md-2 col-form-label" for="input-name">Name</label>-->
+<!--                                                <div class="col-md-10">-->
+<!--                                                    <input type="text" id="input-name" class="form-control"-->
+<!--                                                           placeholder="Some text value...">-->
+<!--                                                    <span class="invalid-feedback text-danger"-->
+<!--                                                          id="invalid-feedback-name">Minimum length is 1.</span>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+
+<!--                                            <div class="mb-2 row">-->
+<!--                                                <label class="col-md-2 col-form-label" for="input-release">Created At</label>-->
+<!--                                                <div class="col-md-10">-->
+<!--                                                    <input class="form-control" type="date" name="date" id="input-release">-->
+<!--                                                    <span class="invalid-feedback text-danger"-->
+<!--                                                          id="invalid-feedback-release">The Created day is not null.</span>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+
+<!--                                            <div class="mb-2 row">-->
+<!--                                                <label class="col-md-2 col-form-label" for="input-release2">Upload At</label>-->
+<!--                                                <div class="col-md-10">-->
+<!--                                                    <input class="form-control" type="date" name="date" id="input-release2">-->
+<!--                                                    <span class="invalid-feedback text-danger"-->
+<!--                                                          id="invalid-feedback-release2">The Upload day is not null.</span>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+
+
+
+<!--                                            <div class="row mb-2">-->
+<!--                                                <label class="col-md-2 col-form-label">Description</label>-->
+<!--                                                <div class="col-md-10">-->
+<!--                                                    <div id="snow-editor" style="width: 100%; height: 200px">-->
+<!--                                                    </div>-->
+<!--                                                    <span class="invalid-feedback text-danger"-->
+<!--                                                          id="invalid-feedback-description">The description is not null.</span>-->
+<!--                                                </div>&lt;!&ndash; end col &ndash;&gt;-->
+<!--                                            </div>-->
+<!--                                            <div class="row mb-2">-->
+<!--                                                <label class="col-md-2 col-form-label">Description 2</label>-->
+<!--                                                <div class="col-md-10">-->
+<!--                                                    <div id="snow-editor2" style="width: 100%; height: 200px">-->
+<!--                                                    </div>-->
+<!--                                                    <span class="invalid-feedback text-danger"-->
+<!--                                                          id="invalid-feedback-description2">The description is not null.</span>-->
+<!--                                                </div>&lt;!&ndash; end col &ndash;&gt;-->
+<!--                                            </div>-->
+<!--                                            <div class="row mb-2">-->
+<!--                                                <label class="col-md-2 col-form-label">Description 3</label>-->
+<!--                                                <div class="col-md-10">-->
+<!--                                                    <div id="snow-editor3" style="width: 100%; height: 200px">-->
+<!--                                                    </div>-->
+<!--                                                 >-->
+<!--                                                </div>&lt;!&ndash; end col &ndash;&gt;-->
+<!--                                            </div>-->
+
+
+
+
+
+
+
+
+<!--                                            <div class="mb-2 row">-->
+<!--                                                <label class="col-md-2 col-form-label" for="input-keyWords">slug</label>-->
+<!--                                                <div class="col-md-10">-->
+<!--                                                    <input type="text" id="input-keyWords" class="form-control"-->
+<!--                                                           placeholder="Some text value...">-->
+<!--                                                    <span class="invalid-feedback text-danger"-->
+<!--                                                          id="invalid-feedback-keyWords">Is Not Null.</span>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+
+
+
+
+
+<!--                                            <div class="mb-2 row">-->
+<!--                                                <label class="col-md-2 col-form-label">Genres</label>-->
+<!--                                                <div class="col-md-10">-->
+<!--                                                    <select id="selectize-maximum">-->
+<!--                                                        <option value="">Select genre...</option>-->
+<!--                                                        <option th:each="genre : ${categoryList}" th:value="${genre.id}"-->
+<!--                                                                th:text="${genre.name}"></option>-->
+<!--                                                    </select>-->
+<!--                                                    <span class="invalid-feedback text-danger"-->
+<!--                                                          id="invalid-feedback-genrelist">The genre is not null.-->
+<!--                                                    </span>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+
+<!--                                            <div class="mb-2 row">-->
+<!--                                                <label class="col-md-2 col-form-label">Status</label>-->
+<!--                                                <div class="col-md-10">-->
+<!--                                                    <select class="form-select" id="select-status">-->
+<!--                                                        <option selected>Select status</option>-->
+<!--                                                        <option value=1>Enable</option>-->
+<!--                                                        <option value=0>Disable</option>-->
+<!--                                                    </select>-->
+<!--                                                    <span class="invalid-feedback text-danger"-->
+<!--                                                          id="invalid-feedback-status">The status is not null.</span>-->
+<!--                                                </div> &lt;!&ndash; end col &ndash;&gt;-->
+<!--                                            </div>-->
+
+
+
+<!--                                            <div class="mb-2 row">-->
+<!--                                                <label class="col-md-2 col-form-label" for="file-poster">Poster</label>-->
+<!--                                                <div class="col-md-10">-->
+<!--                                                    <input type="file" class="form-control" id="file-poster">-->
+<!--                                                    <div class="d-none" id="uploadPreviewPoster">-->
+<!--                                                        <div class="card-preview-poster card mt-1 mb-0 shadow-none border">-->
+<!--                                                            <div class="p-2">-->
+<!--                                                                <div class="row align-items-center">-->
+<!--                                                                    <div class="col-auto">-->
+<!--                                                                        <img src=""-->
+<!--                                                                             class="avatar-sm rounded bg-light" alt="">-->
+<!--                                                                    </div>-->
+<!--                                                                    <div class="col ps-0">-->
+<!--                                                                        <a href=""-->
+<!--                                                                           class="text-muted fw-bold" data-dz-name></a>-->
+<!--                                                                        <p class="mb-0" id="image-size"></p>-->
+<!--                                                                    </div>-->
+<!--                                                                </div>-->
+<!--                                                            </div>-->
+<!--                                                        </div>-->
+<!--                                                    </div>-->
+<!--                                                    <span class="invalid-feedback text-danger"-->
+<!--                                                          id="invalid-feedback-poster">The poster is not null.</span>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                            <div class="mb-2 row">-->
+<!--                                                <label class="col-md-2 col-form-label" for="file-poster1">image1</label>-->
+<!--                                                <div class="col-md-10">-->
+<!--                                                    <input type="file" class="form-control" id="file-poster1">-->
+<!--                                                    <div class="d-none" id="uploadPreviewPoster1">-->
+<!--                                                        <div class="card-preview-poster card mt-1 mb-0 shadow-none border">-->
+<!--                                                            <div class="p-2">-->
+<!--                                                                <div class="row align-items-center">-->
+<!--                                                                    <div class="col-auto">-->
+<!--                                                                        <img src=""-->
+<!--                                                                             class="avatar-sm rounded bg-light" alt="">-->
+<!--                                                                    </div>-->
+<!--                                                                    <div class="col ps-0">-->
+<!--                                                                        <a href=""-->
+<!--                                                                           class="text-muted fw-bold" data-dz-name></a>-->
+<!--                                                                        <p class="mb-0" id="image-size2"></p>-->
+<!--                                                                    </div>-->
+<!--                                                                </div>-->
+<!--                                                            </div>-->
+<!--                                                        </div>-->
+<!--                                                    </div>-->
+<!--                                                    <span class="invalid-feedback text-danger"-->
+<!--                                                          id="invalid-feedback-poster2">The poster is not null.</span>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                            <div class="mb-2 row">-->
+<!--                                                <label class="col-md-2 col-form-label" for="file-poster2">image2</label>-->
+<!--                                                <div class="col-md-10">-->
+<!--                                                    <input type="file" class="form-control" id="file-poster2">-->
+<!--                                                    <div class="d-none" id="uploadPreviewPoster2">-->
+<!--                                                        <div class="card-preview-poster card mt-1 mb-0 shadow-none border">-->
+<!--                                                            <div class="p-2">-->
+<!--                                                                <div class="row align-items-center">-->
+<!--                                                                    <div class="col-auto">-->
+<!--                                                                        <img src=""-->
+<!--                                                                             class="avatar-sm rounded bg-light" alt="">-->
+<!--                                                                    </div>-->
+<!--                                                                    <div class="col ps-0">-->
+<!--                                                                        <a href=""-->
+<!--                                                                           class="text-muted fw-bold" data-dz-name></a>-->
+<!--                                                                        <p class="mb-0" id="image-size3"></p>-->
+<!--                                                                    </div>-->
+<!--                                                                </div>-->
+<!--                                                            </div>-->
+<!--                                                        </div>-->
+<!--                                                    </div>-->
+<!--                                                    <span class="invalid-feedback text-danger"-->
+<!--                                                          id="invalid-feedback-poster3">The poster is not null.</span>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+
+
+
+<!--                                        </form>-->
+<!--                                        <div class="mb-2 row">-->
+<!--                                            <label class="col-md-2 col-form-label">Poster</label>-->
+<!--                                            <div class="col-md-10">-->
+<!--                                                <div class="row">-->
+<!--                                                    <div class="col-12">-->
+<!--                                                        <div class="card">-->
+<!--                                                            <div class="card-body">-->
+<!--                                                                <form action="#" class="dropzone" id="myAwesomeDropzone"-->
+<!--                                                                      data-plugin="dropzone"-->
+<!--                                                                      data-previews-container="#file-previews"-->
+<!--                                                                      data-upload-preview-template="#uploadPreviewTemplate">-->
+<!--                                                                    <div class="fallback">-->
+<!--                                                                        <input name="file" type="file" multiple/>-->
+<!--                                                                    </div>-->
+
+<!--                                                                    <div class="dz-message needsclick">-->
+<!--                                                                        <i class="h1 text-muted ri-upload-cloud-2-line"></i>-->
+<!--                                                                        <h3>Drop files here or click to upload.</h3>-->
+<!--                                                                        <span class="text-muted font-size-13">Selected files are<strong>not</strong> actually uploaded.)</span>-->
+<!--                                                                    </div>-->
+<!--                                                                </form>-->
+
+<!--                                                                &lt;!&ndash; Preview &ndash;&gt;-->
+<!--                                                                <div class="dropzone-previews mt-3"-->
+<!--                                                                     id="file-previews"></div>-->
+
+<!--                                                            </div> &lt;!&ndash; end card-body&ndash;&gt;-->
+<!--                                                        </div> &lt;!&ndash; end card&ndash;&gt;-->
+<!--                                                    </div>&lt;!&ndash; end col &ndash;&gt;-->
+<!--                                                </div>-->
+<!--                                                &lt;!&ndash; file preview template &ndash;&gt;-->
+<!--                                                <div class="d-none" id="uploadPreviewTemplate">-->
+<!--                                                    <div class="card-preview-image card mt-1 mb-0 shadow-none border">-->
+<!--                                                        <div class="p-2">-->
+<!--                                                            <div class="row align-items-center">-->
+<!--                                                                <div class="col-auto">-->
+<!--                                                                    <img  src=""-->
+<!--                                                                          class="avatar-sm rounded bg-light" alt="">-->
+<!--                                                                </div>-->
+<!--                                                                <div class="col ps-0">-->
+<!--                                                                    <a href=""-->
+<!--                                                                       class="text-muted fw-bold" data-dz-name></a>-->
+<!--                                                                    <p class="mb-0" data-dz-size></p>-->
+<!--                                                                </div>-->
+<!--                                                                <div class="col-auto">-->
+<!--                                                                    <button class="btn-delete-image btn btn-danger">X</button>-->
+<!--                                                                </div>-->
+<!--                                                            </div>-->
+<!--                                                        </div>-->
+<!--                                                    </div>-->
+<!--                                                </div>-->
+<!--                                                <span class="invalid-feedback text-danger" id="invalid-feedback-image">The image is not null.</span>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                        <button type="submit" class="btn btn-primary float-end btn-add-movie">Add-->
+<!--                                            New Movie-->
+<!--                                        </button>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            &lt;!&ndash; end row &ndash;&gt;-->
+<!--                        </div>-->
+<!--                    </div> &lt;!&ndash; end card &ndash;&gt;-->
+<!--                </div>&lt;!&ndash; end col &ndash;&gt;-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</main>-->
+
+<!--<th:block id="js-resources">-->
+<!--    <script>-->
+<!--        $(document).ready(function () {-->
+<!--            //1.Upload 1 file of Poster-->
+<!--            let posterURL;-->
+<!--            let posterURL2;-->
+<!--            let posterURL3;-->
+<!--                                                                                                                                                                                                                                        $('#file-poster').change(function () {-->
+<!--                                                                                                                                                                                                                                            var file = this.files[0];                                               //lay tep hinh anh duoc chon-->
+<!--                                                                                                                                                                                                                                            var formData = new FormData();                                          //Tao doi tuong formData de luu anh duoc chon-->
+<!--                                                                                                                                                                                                                                            formData.append('file', file);                                          //Them tep hinh anh vao formData-->
+<!--                                                                                                                                                                                                                                            $.ajax({-->
+<!--                                                                                                                                                                                                                                                url: '/v1/files/upload',-->
+<!--                                                                                                                                                                                                                                                type: 'POST',-->
+<!--                                                                                                                                                                                                                                                data: formData,-->
+<!--                                                                                                                                                                                                                                                processData: false,-->
+<!--                                                                                                                                                                                                                                                contentType: false,-->
+<!--                                                                                                                                                                                                                                                success: function (response) {-->
+<!--                                                                                                                                                                                                                                                    posterURL = response;-->
+<!--                                                                                                                                                                                                                                                    console.log("Image uploaded successfully! Response URL: " + response);-->
+<!--                                                                                                                                                                                                                                                    if (response.images) {-->
+<!--                                                                                                                                                                                                                                                        displayImages(response.images);-->
+<!--                                                                                                                                                                                                                                                    }-->
+<!--                                                                                                                                                                                                                                                },-->
+<!--                                                                                                                                                                                                                                                error: function (error) {-->
+<!--                                                                                                                                                                                                                                                    console.error("Upload failed: " + error);-->
+<!--                                                                                                                                                                                                                                                }-->
+<!--                                                                                                                                                                                                                                            });-->
+<!--                                                                                                                                                                                                                                        });  $('#file-poster').change(function () {-->
+<!--                                                                                                                                                                                                                                            var file = this.files[0];                                               //lay tep hinh anh duoc chon-->
+<!--                                                                                                                                                                                                                                            var formData = new FormData();                                          //Tao doi tuong formData de luu anh duoc chon-->
+<!--                                                                                                                                                                                                                                            formData.append('file', file);                                          //Them tep hinh anh vao formData-->
+<!--                                                                                                                                                                                                                                            $.ajax({-->
+<!--                                                                                                                                                                                                                                                url: '/v1/files/upload',-->
+<!--                                                                                                                                                                                                                                                type: 'POST',-->
+<!--                                                                                                                                                                                                                                                data: formData,-->
+<!--                                                                                                                                                                                                                                                processData: false,-->
+<!--                                                                                                                                                                                                                                                contentType: false,-->
+<!--                                                                                                                                                                                                                                                success: function (response) {-->
+<!--                        posterURL2 = response;-->
+<!--                        console.log("Image uploaded successfully! Response URL: " + response);-->
+<!--                        if (response.images) {-->
+<!--                            displayImages(response.images);-->
+<!--                        }-->
+<!--                    },-->
+<!--                    error: function (error) {-->
+<!--                        console.error("Upload failed: " + error);-->
+<!--                    }-->
+<!--                });-->
+<!--            });  $('#file-poster').change(function () {-->
+<!--                var file = this.files[0];                                               //lay tep hinh anh duoc chon-->
+<!--                var formData = new FormData();                                          //Tao doi tuong formData de luu anh duoc chon-->
+<!--                formData.append('file', file);                                          //Them tep hinh anh vao formData-->
+<!--                $.ajax({-->
+<!--                    url: '/v1/files/upload',-->
+<!--                    type: 'POST',-->
+<!--                    data: formData,-->
+<!--                    processData: false,-->
+<!--                    contentType: false,-->
+<!--                    success: function (response) {-->
+<!--                        posterURL3 = response;-->
+<!--                        console.log("Image uploaded successfully! Response URL: " + response);-->
+<!--                        if (response.images) {-->
+<!--                            displayImages(response.images);-->
+<!--                        }-->
+<!--                    },-->
+<!--                    error: function (error) {-->
+<!--                        console.error("Upload failed: " + error);-->
+<!--                    }-->
+<!--                });-->
+<!--            });-->
+
+<!--            function displayImages(images) {-->
+<!--                var container = $('#file-previews');                                                    // Lấy container để chứa hình ảnh-->
+<!--                container.empty();                                                                      // Xóa hình ảnh hiện tại-->
+<!--                images.forEach(function(imageUrl) {-->
+<!--                    var img = new Image();-->
+<!--                    img.src = imageUrl;-->
+<!--                    img.onload = function() {-->
+<!--                        var imageSizeInBytes = this.naturalWidth * this.naturalHeight * 4;              // Giả sử 1 pixel chiếm khoảng 4 byte-->
+<!--                        var imageSizeInMB = imageSizeInBytes / (1024 * 1024);                           // Chuyển đổi sang MB-->
+<!--                        var imageSizeFormatted = imageSizeInMB.toFixed(2);                              // Làm tròn và giữ hai chữ số sau dấu phẩy-->
+<!--                        var imageSizeText = 'Size: ' + imageSizeFormatted + ' MB';-->
+
+<!--                        var cardPreviewImage = $('<div>').addClass('card-preview-image card mt-1 mb-0 shadow-none border');-->
+<!--                        var p2 = $('<div>').addClass('p-2');-->
+<!--                        var row = $('<div>').addClass('row align-items-center');-->
+<!--                        var colAuto = $('<div>').addClass('col-auto');-->
+<!--                        var imgElement = $('<img>').addClass('avatar-sm rounded bg-light').attr('src', imageUrl);-->
+<!--                        var colPs0 = $('<div>').addClass('col ps-0');-->
+<!--                        var nameLink = $('<a>').addClass('text-muted fw-bold').attr('href', imageUrl).attr('data-dz-name', '');-->
+<!--                        var sizePara = $('<p>').addClass('mb-0').attr('data-dz-size', '').text(imageSizeText);-->
+<!--                        var colAutoDelete = $('<div>').addClass('col-auto');-->
+<!--                        var btnDelete = $('<button>').addClass('btn-delete-image btn btn-danger').text('X');-->
+
+<!--                        colAuto.append(imgElement);-->
+<!--                        colPs0.append(nameLink);-->
+<!--                        colPs0.append(sizePara);-->
+<!--                        colAutoDelete.append(btnDelete);-->
+<!--                        row.append(colAuto);-->
+<!--                        row.append(colPs0);-->
+<!--                        row.append(colAutoDelete);-->
+<!--                        p2.append(row);-->
+<!--                        cardPreviewImage.append(p2);-->
+
+<!--                        container.append(cardPreviewImage).removeClass('d-none');                                   // Thêm vào container và hiển thị container-->
+<!--                    };-->
+<!--                });-->
+<!--            }-->
+
+<!--            //2.Upload nhieu file-->
+<!--            let images = [];-->
+<!--            $('input[type="file"]').change(function(event) {-->
+<!--                var formData = new FormData();-->
+<!--                var dropzone = $('#myAwesomeDropzone').get(0).dropzone;-->
+<!--                var files = dropzone.files;-->
+<!--                for (var i = 0; i <= files.length; i++) {-->
+<!--                    formData.append('files', files[i]);-->
+<!--                }-->
+<!--                $.ajax({-->
+<!--                    url: '/v1/files/uploads',-->
+<!--                    type: 'POST',-->
+<!--                    data: formData,-->
+<!--                    processData: false,-->
+<!--                    contentType: false,-->
+<!--                    success: function(response) {-->
+<!--                        console.log('Upload successful');-->
+<!--                        console.log(response);-->
+<!--                        response.forEach(function(url) {-->
+<!--                            images.push(url);-->
+<!--                        });-->
+<!--                        $('.avatar-sm').each(function(index) {        // Đặt các URL vào thuộc tính src của các phần tử có lớp 'avatar-sm'-->
+<!--                            $(this).attr('src', response[index]);-->
+<!--                        });-->
+<!--                    },-->
+<!--                    error: function(error) {-->
+<!--                        console.error('Upload failed:', error);-->
+<!--                    }-->
+<!--                });-->
+<!--            });-->
+
+<!--            //3.Xoa File-->
+<!--            $(document).on('click', '.btn-delete-image', function (){-->
+<!--                var $this = $(this);-->
+<!--                var $previewImage = $this.closest('.card-preview-image');-->
+<!--                var imageURL = $previewImage.find('img').attr('src');-->
+<!--                var url = encodeURIComponent(imageURL);-->
+<!--                $.ajax({-->
+<!--                    url: '/v1/files/delete?url=' + url,-->
+<!--                    type: 'DELETE',-->
+<!--                    data: {url: imageURL},-->
+<!--                    success: function (response){-->
+<!--                        $previewImage.remove();-->
+<!--                        console.log("File deleted successfully.");-->
+<!--                    },-->
+<!--                    error: function (error) {-->
+<!--                        console.error('Failed to delete file:', error);-->
+<!--                    }-->
+<!--                });-->
+<!--            })-->
+
+<!--            document.getElementById('file-poster').addEventListener('change', function(event) {-->
+<!--                var input = event.target;-->
+<!--                if (input.files) {-->
+<!--                    var reader = new FileReader();-->
+<!--                    reader.onload = function(e) {-->
+<!--                        var imgElement = document.querySelector('#uploadPreviewPoster img');-->
+<!--                        imgElement.src = e.target.result;-->
+<!--                        imgElement.closest('.d-none').classList.remove('d-none');-->
+
+<!--                        // Calculate and display image size-->
+<!--                        var imageSizeInBytes = input.files[0].size;-->
+<!--                        var imageSizeInMB = imageSizeInBytes / (1024 * 1024);-->
+<!--                        var imageSizeFormatted = imageSizeInMB.toFixed(2);-->
+<!--                        var imageSizeText = 'Size: ' + imageSizeFormatted + ' MB';-->
+<!--                        document.getElementById('image-size').textContent = imageSizeText;-->
+<!--                    };-->
+<!--                    reader.readAsDataURL(input.files[0]);-->
+<!--                }-->
+<!--            });  document.getElementById('file-poster1').addEventListener('change', function(event) {-->
+<!--                var input = event.target;-->
+<!--                if (input.files) {-->
+<!--                    var reader = new FileReader();-->
+<!--                    reader.onload = function(e) {-->
+<!--                        var imgElement = document.querySelector('#uploadPreviewPoster2 img');-->
+<!--                        imgElement.src = e.target.result;-->
+<!--                        imgElement.closest('.d-none').classList.remove('d-none');-->
+
+<!--                        // Calculate and display image size-->
+<!--                        var imageSizeInBytes = input.files[0].size;-->
+<!--                        var imageSizeInMB = imageSizeInBytes / (1024 * 1024);-->
+<!--                        var imageSizeFormatted = imageSizeInMB.toFixed(2);-->
+<!--                        var imageSizeText = 'Size: ' + imageSizeFormatted + ' MB';-->
+<!--                        document.getElementById('image-size2').textContent = imageSizeText;-->
+<!--                    };-->
+<!--                    reader.readAsDataURL(input.files[0]);-->
+<!--                }-->
+<!--            });  document.getElementById('file-poster2').addEventListener('change', function(event) {-->
+<!--                var input = event.target;-->
+<!--                if (input.files) {-->
+<!--                    var reader = new FileReader();-->
+<!--                    reader.onload = function(e) {-->
+<!--                        var imgElement = document.querySelector('#uploadPreviewPoster3 img');-->
+<!--                        imgElement.src = e.target.result;-->
+<!--                        imgElement.closest('.d-none').classList.remove('d-none');-->
+
+<!--                        // Calculate and display image size-->
+<!--                        var imageSizeInBytes = input.files[0].size;-->
+<!--                        var imageSizeInMB = imageSizeInBytes / (1024 * 1024);-->
+<!--                        var imageSizeFormatted = imageSizeInMB.toFixed(2);-->
+<!--                        var imageSizeText = 'Size: ' + imageSizeFormatted + ' MB';-->
+<!--                        document.getElementById('image-size3').textContent = imageSizeText;-->
+<!--                    };-->
+<!--                    reader.readAsDataURL(input.files[0]);-->
+<!--                }-->
+<!--            });-->
+
+<!--            //4.Set quill cho bio-->
+<!--            var quill = new Quill('#snow-editor', {-->
+<!--                modules: {-->
+<!--                    toolbar: [-->
+<!--                        ['bold', 'italic', 'underline', 'strike'],              // các nút tạo định dạng văn bản-->
+<!--                        [{'header': 1}, {'header': 2}],                         // tiêu đề cấp 1 và cấp 2-->
+<!--                        [{'list': 'ordered'}, {'list': 'bullet'}],              // danh sách có thứ tự và không có thứ tự-->
+<!--                        [{'indent': '-1'}, {'indent': '+1'}],                   // thụt vào và thụt ra-->
+<!--                        ['link', 'image', 'video'],                              // chèn liên kết, hình ảnh và video-->
+<!--                        ['clean']                                                // xóa định dạng-->
+<!--                    ]-->
+<!--                },-->
+<!--                placeholder: 'Write your description here...',                           // văn bản gợi ý khi không có nội dung-->
+<!--                theme: 'snow'                                                    // giao diện trắng của trình soạn thảo-->
+<!--            });-->
+<!--            var quill = new Quill('#snow-editor2', {-->
+<!--                modules: {-->
+<!--                    toolbar: [-->
+<!--                        ['bold', 'italic', 'underline', 'strike'],              // các nút tạo định dạng văn bản-->
+<!--                        [{'header': 1}, {'header': 2}],                         // tiêu đề cấp 1 và cấp 2-->
+<!--                        [{'list': 'ordered'}, {'list': 'bullet'}],              // danh sách có thứ tự và không có thứ tự-->
+<!--                        [{'indent': '-1'}, {'indent': '+1'}],                   // thụt vào và thụt ra-->
+<!--                        ['link', 'image', 'video'],                              // chèn liên kết, hình ảnh và video-->
+<!--                        ['clean']                                                // xóa định dạng-->
+<!--                    ]-->
+<!--                },-->
+<!--                placeholder: 'Write your description here...',                           // văn bản gợi ý khi không có nội dung-->
+<!--                theme: 'snow'                                                    // giao diện trắng của trình soạn thảo-->
+<!--            });-->
+<!--            var quill = new Quill('#snow-editor3', {-->
+<!--                modules: {-->
+<!--                    toolbar: [-->
+<!--                        ['bold', 'italic', 'underline', 'strike'],              // các nút tạo định dạng văn bản-->
+<!--                        [{'header': 1}, {'header': 2}],                         // tiêu đề cấp 1 và cấp 2-->
+<!--                        [{'list': 'ordered'}, {'list': 'bullet'}],              // danh sách có thứ tự và không có thứ tự-->
+<!--                        [{'indent': '-1'}, {'indent': '+1'}],                   // thụt vào và thụt ra-->
+<!--                        ['link', 'image', 'video'],                              // chèn liên kết, hình ảnh và video-->
+<!--                        ['clean']                                                // xóa định dạng-->
+<!--                    ]-->
+<!--                },-->
+<!--                placeholder: 'Write your description here...',                           // văn bản gợi ý khi không có nội dung-->
+<!--                theme: 'snow'                                                    // giao diện trắng của trình soạn thảo-->
+<!--            });-->
+<!--            $('#total-episode').on('input', function() {-->
+<!--                let totalEpisode = $('#total-episode').val();-->
+<!--                if (totalEpisode.length === 0){-->
+<!--                    $('#invalid-feedback-totalEpisode').show();-->
+<!--                }else if(!$.isNumeric(totalEpisode) && totalEpisode.length !== 0) {-->
+<!--                    $('#invalid-checkNumber-totalEpisode').show();-->
+<!--                    $('#invalid-feedback-totalEpisode').hide();-->
+<!--                } else {-->
+<!--                    $('#invalid-checkNumber-totalEpisode').hide();-->
+<!--                }-->
+<!--            });-->
+<!--            $('#total-duration').on('input', function() {-->
+<!--                let totalDuration = $('#total-duration').val();-->
+<!--                if (totalDuration.length === 0){-->
+<!--                    $('#invalid-feedback-totalDuration').show();-->
+<!--                }else if (!$.isNumeric(totalDuration) && totalDuration.length !== 0) {-->
+<!--                    $('#invalid-checkNumber-duration').show();-->
+<!--                    $('#invalid-feedback-totalDuration').hide();-->
+<!--                } else {-->
+<!--                    $('#invalid-checkNumber-duration').hide();-->
+<!--                }-->
+<!--            });-->
+<!--            $('#input-mmpaRating').on('input', function() {-->
+
+<!--                let mmpaRating = $('#input-mmpaRating').val();-->
+<!--                if (mmpaRating.length === 0){-->
+<!--                    $('#invalid-feedback-mmpaRating').show();-->
+<!--                }else if (!$.isNumeric(mmpaRating) && mmpaRating.length !== 0) {-->
+<!--                    $('#invalid-checkNumber-mmpaRating').show();-->
+<!--                    $('#invalid-feedback-mmpaRating').hide();-->
+<!--                } else {-->
+<!--                    $('#invalid-checkNumber-mmpaRating').hide();-->
+<!--                }-->
+<!--            });-->
+<!--            //5.Add new Celebrity-->
+<!--            $('.btn-add-movie').click(function () {-->
+<!--                debugger;-->
+<!--                let name = $('#input-name').val();-->
+
+<!--                let release = $('#input-release').val();-->
+<!--                let release2 = $('#input-release2').val();-->
+<!--                 let description = quill.getText();-->
+<!--                 let description2 = quill.getText();-->
+<!--                 let description3 = quill.getText();-->
+<!--                let duration = $('#total-duration').val();-->
+<!--                let mmpaRating = $('#input-mmpaRating').val();-->
+<!--                let keyWords = $('#input-keyWords').val();-->
+<!--                let level = $('#select-level').val() == 1 ? 1 : 0;-->
+<!--                let category = $('#category-select').val();-->
+<!--                let genre = $('#genre-select').val();-->
+<!--                let isSeries = $('#select-series').val();-->
+<!--                let isPopular = $('#select-popular').val();-->
+<!--                let screeningStatus = $('#select-screeningStatus').val();-->
+<!--                let trailer = $('#input-trailer').val();-->
+<!--                let genres = $('#selectize-maximum').val();-->
+<!--                let status = $('#select-status').val() == 1 ? 1 : 0;-->
+
+<!--                 let totalEpisode = $('#total-episode').val();-->
+<!--                if (name.length === 0) {-->
+<!--                    $('#invalid-feedback-name').show();-->
+<!--                } else {-->
+<!--                    $('#invalid-feedback-name').hide();-->
+<!--                }-->
+
+<!--                if (trailer.length === 0) {-->
+<!--                    $('#invalid-feedback-trailer').show();-->
+<!--                } else {-->
+<!--                    $('#invalid-feedback-trailer').hide();-->
+<!--                }-->
+
+<!--                if(totalEpisode.length ===0){-->
+<!--                    $('#invalid-feedback-totalEpisode').show();-->
+<!--                }else if(totalEpisode <= 0){-->
+<!--                    $('#invalid-feedback-totalEpisode').show();-->
+<!--                } else {-->
+<!--                    $('#invalid-feedback-name').hide();-->
+<!--                }-->
+<!--                if (!release) {-->
+<!--                    $('#invalid-feedback-release').show();-->
+<!--                } else {-->
+<!--                    $('#invalid-feedback-release').hide();-->
+<!--                }-->
+<!--                 if (!release2) {-->
+<!--                    $('#invalid-feedback-release2').show();-->
+<!--                } else {-->
+<!--                    $('#invalid-feedback-release2').hide();-->
+<!--                }-->
+<!--                if (duration.length === 0) {-->
+<!--                    $('#invalid-feedback-totalDuration').show();-->
+<!--                } else {-->
+<!--                    $('#invalid-feedback-totalDuration').hide();-->
+<!--                }-->
+
+<!--                if (keyWords.length === 0) {-->
+<!--                    $('#invalid-feedback-keyWords').show();-->
+<!--                } else {-->
+<!--                    $('#invalid-feedback-keyWords').hide();-->
+<!--                }-->
+
+<!--                if (mmpaRating.length === 0) {-->
+<!--                    $('#invalid-feedback-mmpaRating').show();-->
+<!--                } else {-->
+<!--                    $('#invalid-feedback-mmpaRating').hide();-->
+<!--                }-->
+
+<!--                if (!isSeries || isSeries === "select-series") {-->
+<!--                    $('#invalid-feedback-series').show();-->
+<!--                } else {-->
+<!--                    $('#invalid-feedback-series').hide();-->
+<!--                }-->
+
+<!--                if (!isPopular || isPopular === "select-popular") {-->
+<!--                    $('#invalid-feedback-popular').show();-->
+<!--                } else {-->
+<!--                    $('#invalid-feedback-popular').hide();-->
+<!--                }-->
+
+<!--                if (!screeningStatus || screeningStatus === "select-screeningStatus") {-->
+<!--                    $('#invalid-feedback-screeningStatus').show();-->
+<!--                } else {-->
+<!--                    $('#invalid-feedback-screeningStatus').hide();-->
+<!--                }-->
+
+<!--                if (!level || level === "select-level") {-->
+<!--                    $('#invalid-feedback-level').show();-->
+<!--                } else {-->
+<!--                    $('#invalid-feedback-level').hide();-->
+<!--                }-->
+
+<!--                if (!category || category === "select-category") {-->
+<!--                    $('#invalid-feedback-category').show();-->
+<!--                } else {-->
+<!--                    $('#invalid-feedback-category').hide();-->
+<!--                }-->
+<!--                if (!genre || genre === "select-genre") {-->
+<!--                    $('#invalid-feedback-genre').show();-->
+<!--                } else {-->
+<!--                    $('#invalid-feedback-genre').hide();-->
+<!--                }-->
+
+<!--                if (!genres || genres.length === 0) {-->
+<!--                    $('#invalid-feedback-genrelist').show();-->
+<!--                } else {-->
+<!--                    $('#invalid-feedback-genrelist').hide();-->
+<!--                }-->
+<!--                if (!status || status === "select-status") {-->
+<!--                    $('#invalid-feedback-status').show();-->
+<!--                } else {-->
+<!--                    $('#invalid-feedback-status').hide();-->
+<!--                }-->
+<!--                if (description.trim().length === 0) {-->
+<!--                    $('#invalid-feedback-description').show();-->
+<!--                } else {-->
+<!--                    $('#invalid-feedback-description').hide();-->
+<!--                }  if (description2.trim().length === 0) {-->
+<!--                    $('#invalid-feedback-description2').show();-->
+<!--                } else {-->
+<!--                    $('#invalid-feedback-description2').hide();-->
+<!--                }  if (description3.trim().length === 0) {-->
+<!--                    $('#invalid-feedback-description3').show();-->
+<!--                } else {-->
+<!--                    $('#invalid-feedback-description3').hide();-->
+<!--                }-->
+<!--                if (!posterURL) {-->
+<!--                    $('#invalid-feedback-poster').show();-->
+<!--                } else {-->
+<!--                    $('#invalid-feedback-poster').hide();-->
+<!--                }  if (!posterURL2) {-->
+<!--                    $('#invalid-feedback-poster').show();-->
+<!--                } else {-->
+<!--                    $('#invalid-feedback-poster').hide();-->
+<!--                }  if (!posterURL3) {-->
+<!--                    $('#invalid-feedback-poster2').show();-->
+<!--                } else {-->
+<!--                    $('#invalid-feedback-poster3').hide();-->
+<!--                }-->
+
+<!--                var formData = {-->
+<!--                    name: name,-->
+<!--                    totalEpisode: totalEpisode,-->
+<!--                    release: release,-->
+<!--                    release2: release2,-->
+<!--                    totalDuration: duration,-->
+<!--                    mmpaRating: mmpaRating,-->
+<!--                    keyWords: keyWords,-->
+<!--                    description: description,-->
+<!--                    description2: description2,-->
+<!--                    description2: description2,-->
+<!--                    level: level,-->
+<!--                    categoriesMoviesId: category,-->
+<!--                    genreId: genre,-->
+<!--                    genreListId: genres,-->
+<!--                    status: status,-->
+<!--                    poster: posterURL,-->
+<!--                    isSeries: isSeries,-->
+<!--                    isPopular: isPopular,-->
+<!--                    screeningStatus: screeningStatus,-->
+<!--                    trailer: trailer,-->
+<!--                    imagesId: images-->
+<!--                };-->
+<!--                $.ajax({-->
+<!--                    url: "/v1/movies/add",-->
+<!--                    type: 'POST',-->
+<!--                    contentType: "application/json; charset=utf-8",-->
+<!--                    data: JSON.stringify(formData),-->
+<!--                    success: function (result) {-->
+<!--                        setTimeout(function () {-->
+<!--                            window.location.href = "/admin-movie";-->
+<!--                        });-->
+<!--                    },-->
+<!--                    error: function (error) {-->
+<!--                        console.log(error);-->
+<!--                        var errorHtml = '<div class="float-end alert alert-danger alert-dismissible fade show" role="alert">\n' +-->
+<!--                            '                                            An error occurred !\n' +-->
+<!--                            '                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>\n' +-->
+<!--                            '                                        </div>';-->
+<!--                        $("#alertError").html(errorHtml);-->
+<!--                        setTimeout(function() {-->
+<!--                            $("#alertError").empty();-->
+<!--                        }, 2000);-->
+<!--                    }-->
+<!--                });-->
+
+<!--            });-->
+
+<!--        });-->
+<!--    </script>-->
+<!--</th:block>-->
+<!--</body>-->
+<!--</html>-->
