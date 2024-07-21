@@ -38,16 +38,18 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 //            OAuth2User oauthUser = (OAuth2User) authentication.getPrincipal();
 //            String clientRegistrationId = ((OAuth2AuthenticationToken) authentication).getAuthorizedClientRegistrationId();
 //            CustomOAuth2User customOAuth2User = new CustomOAuth2User(oauthUser, clientRegistrationId, accountsService);
+            accountsService.processOAuthPostLogin(oauthUser, trequest);
 
-            CustomOAuth2User  account = (CustomOAuth2User ) authentication.getPrincipal();
+        }
+
+        CustomOAuth2User  account = (CustomOAuth2User ) authentication.getPrincipal();
+        if(account != null) {
             String email = account.getEmail();
 
             int level = accountsService.loadUserByUsername(email).getLevel();
             trequest.setAttribute("level", level);
             ((CustomOAuth2User) authentication.getPrincipal()).setLevel(level);
-            accountsService.processOAuthPostLogin(oauthUser, trequest);
         }
-
         // Set Authentication in the session
         HttpSession session = trequest.getSession(true); // Now you can access the request object
         session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, SecurityContextHolder.getContext());
