@@ -7,7 +7,7 @@
                                                )}">
 <head>
   <!-- Basic need -->
-  <title>Block Buster | Movies</title>
+  <title>Filter Movie | Movies</title>
   <meta charset="UTF-8">
   <meta name="description" content="">
   <meta name="keywords" content="">
@@ -18,15 +18,16 @@
 <body>
 
 <main id="main-content">
+  <span style="display: none" class="idAccount" th:text="${account_id}"></span>
   <div class="hero common-hero">
     <div class="container">
       <div class="row">
         <div class="col-md-12">
           <div class="hero-ct">
-            <h1> blog listing - grid</h1>
+            <h1> Filter Movie</h1>
             <ul class="breadcumb">
               <li class="active"><a href="#">Home</a></li>
-              <li> <span class="ion-ios-arrow-right"></span> blog listing</li>
+              <li> <span class="ion-ios-arrow-right"></span> Filter Movie</li>
             </ul>
           </div>
         </div>
@@ -37,9 +38,9 @@
   <div class="page-single">
     <div class="container">
       <div class="row ipad-width">
-        <div class="col-md-8 col-sm-12 col-xs-12">
+        <div class="col-md-8 col-sm-12 col-xs-12 ">
           <div class="topbar-filter">
-            <p>Found <span>1,608 movies</span> in total</p>
+            <p>Found <span th:text="${movies.size()}"></span> in total</p>
             <label>Sort by:</label>
             <select>
               <option value="popularity">Popularity Descending</option>
@@ -54,31 +55,44 @@
           </div>
 
           <!-- start movie list-->
-          <div class="flex-wrap-movielist" th:each="movie : ${movies}">
-            <div class="movie-item-style-2 movie-item-style-1">
-<!--              <img src="/public/images/uploads/mv1.jpg" alt="">-->
+          <div class="flex-wrap-movielist">
+            <div class="movie-item-style-2 movie-item-style-1" th:each="movie:${movies}">
               <img th:src="${movie.poster}" alt="">
-              <p class="hvr-inner" th:text="${movie.genremain}" ></p>
-                <a  th:href="@{/movie/get/{id}(id=${movie.id})}"> see more  </a>
+              <div class="hvr-inner">
+                <a th:href="'/movie/get/' + ${movie.id}"> Watch <i class="ion-android-arrow-dropright"></i> </a>
+              </div>
+              <div class="mv-item-eth">
+                <h6>
+                  <a th:if="${account_id != null and #lists.contains(favoriteMovieIds, listMovie.id)}"
+                     type="button"
+                     class="btn btn-warning waves-effect waves-light favorite-icon"
+                     th:attr="data-movie-id=${movie.id}">
+                    <i class="ion-android-favorite"></i>
+                  </a>
+                  <a th:if="${account_id != null and not #lists.contains(favoriteMovieIds, movie.id)}"
+                     type="button"
+                     class="btn btn-warning waves-effect waves-light favorite-icon"
+                     th:attr="data-movie-id=${movie.id}">
+                    <i class="ion-android-favorite-outline"></i>
+                  </a>
+                  <a th:if="${account_id == null}"
+                     type="button"
+                     class="btn btn-warning waves-effect waves-light favorite-icon heart-error">
+                    <i class="ion-android-favorite-outline"></i>
+                  </a>
+                </h6>
+              </div>
               <div class="mv-item-infor">
-                <h6 th:text="${movie.name}"></h6>
-                <p class="rate" th:text="${#dates.format(movie.release, 'yyyy')}"></p>
+                <h6><a href="#" th:text="${movie.name}"></a></h6>
+                <p class="rate"><i class="ion-android-star"></i><span>8.1</span> /10</p>
               </div>
             </div>
-
           </div>
           <!-- end movie list-->
-          <!--start pagin -->
-          <div class="topbar-filter"  >
-            <div class="row">
-              <div class="col-sm-12 col-md-5 d-flex align-items-center justify-content-center justify-content-md-start">
-                <div class="dataTables_length">
-<!--               th:if="${totalPages != null}"-->
-
+          <div class="topbar-filter">
             <label>Movies per page:</label>
-            <select class="form-select form-select-sm form-select-solid"
-                    id="size-select" th:attr="data-url=@{/moviefind(page=1)}">
-              <option th:selected="${pageSize == 5}" th:value="5">5</option>
+            <select  id="size-select" th:attr="data-url=@{/moviefind(page=1)}">
+              <option th:selected="${pageSize == 5}" th:value="5">5</option>-->
               <option th:selected="${pageSize == 10}" th:value="10">10</option>
               <option th:selected="${pageSize == 25}" th:value="25">25</option>
               <option th:selected="${pageSize == 50}" th:value="50">50</option>
@@ -106,14 +120,21 @@
                 <a class="page-link" th:href="@{/moviefind(page=${currentPages + 1}, pageSize=${pageSize}, keyword=${keyword}, genres=${genres}, yearfrom=${yearfrom}, yearto=${yearto})}"><i class="next"></i></a>
               </li>
 
-            </ul>
-                    </div>
+            <div class="pagination2">
+              <span>Page <span th:classappend="${currentPages != null && currentPages > 1} ? '' : 'disabled'"></span> of <span th:text="${totalPages}"></span>:</span>
 
+              <!-- Nút Previous -->
+              <a th:href="@{/moviefind(page=${currentPages - 1}, pageSize=${pageSize}, keyword=${keyword}, genres=${genres}, yearfrom=${yearfrom}, yearto=${yearto})}" class="page-link">Previous</a>
 
-              </div>
+              <!-- Các trang -->
+              <a th:classappend="${currentPages == i} ? 'active' : ''" th:each="i : ${#numbers.sequence(1, totalPages)}"
+                  th:text="${i}"></a>
+
+              <!-- Nút Next -->
+              <a th:classappend="(${currentPages} < ${totalPages}) ? '' : 'disabled'" th:href="@{/moviefind(page=${currentPages + 1}, pageSize=${pageSize}, keyword=${keyword}, genres=${genres}, yearfrom=${yearfrom}, yearto=${yearto})}">Next</a>
             </div>
+
           </div>
-          <!--end pagin -->
 
 
         </div>
@@ -190,6 +211,72 @@
   <script>var hostUrl = "/";</script>
   <script>
     $(document).ready(function() {
+      $('.heart-error').click(function (e){
+        e.preventDefault();
+        alert("You need to log in to add movies to favorites")
+      })
+      $('.favorite-icon').click(function (e){
+        e.preventDefault();
+        debugger;
+        let movieId = $(this).data('movie-id');
+        let accountId = $('.idAccount').text();
+        var formData = {
+          movies: movieId,
+          account: accountId,
+        };
+        $.ajax({
+          url: "/v1/favouritesMovies/add",
+          type: 'POST',
+          contentType: "application/json; charset=utf-8",
+          data: JSON.stringify(formData),
+          success: function (result) {
+            var $this = $('.favorite-icon[data-movie-id="' + movieId + '"]');
+            $this.toggleClass('btn-warning btn-danger');
+            $this.find('i').toggleClass('ion-android-favorite ion-android-favorite-outline');
+            // Hiển thị hiệu ứng tim
+            $this.append('<span class="heart-effect"><i class="fa fa-heart"></i></span>');
+            setTimeout(function() {
+              $this.find('.heart-effect').remove();
+            }, 1000);
+          },
+          error: function (error) {
+            console.log(error);
+            var errorHtml = '<div class="float-end alert alert-danger alert-dismissible fade show" role="alert">\n' +
+                    '                                            An error occurred !\n' +
+                    '                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>\n' +
+                    '                                        </div>';
+            $("#alertError").html(errorHtml);
+            setTimeout(function () {
+              $("#alertError").empty();
+            }, 2000);
+          }
+        })
+      })
+      $('#size-select').on('change', function() {
+        const newSize = $(this).val();
+        const url = new URL(window.location.href);
+        url.searchParams.set('page', 1);
+        url.searchParams.set('pageSize', newSize);
+        // Set other parameters only if they have a value
+        const keyword = $('#keyword').val();
+        if (keyword) {
+          url.searchParams.set('keyword', keyword);
+        }
+        const genres = $('#genres').val();
+        if (genres) {
+          url.searchParams.set('genres', genres);
+        }
+        const yearfrom = $('#yearfrom').val();
+        if (yearfrom) {
+          url.searchParams.set('yearfrom', yearfrom);
+        }
+        const yearto = $('#yearto').val();
+        if (yearto) {
+          url.searchParams.set('yearto', yearto);
+        }
+
+        window.location.href = url.toString();
+      });
         $('#size-select').on('change', function() {
         const newSize = $(this).val();
          const url = new URL(window.location.href);

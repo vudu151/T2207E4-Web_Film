@@ -9,4 +9,5 @@ import java.util.List;
 public interface IReviewsService {
     List<Reviews> getAllReviewByMovie(Movies movies);
     int getAverageStarByMovieId(String movieId);
+    List<Movies> getAllReviewedMovies();
 }

@@ -3,8 +3,12 @@ package org.example.film.controllers.rest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.film.commons.cqrs.ISender;
+import org.example.film.models.entities.Movies;
 import org.example.film.models.entities.Reviews;
+import org.example.film.models.requests.movies.DeleteMovieRequest;
 import org.example.film.models.requests.reviews.AddReviewRequest;
+import org.example.film.models.requests.reviews.DeleteReviewRequest;
+import org.example.film.models.requests.reviews.UpdateStatusReviewRequest;
 import org.example.film.services.movies.IMoviesService;
 import org.example.film.services.reviews.IReviewsService;
 import org.example.film.services.reviews.ReviewsService;
@@ -48,6 +52,20 @@ public class ReviewsRestController {
         }
     }
 
+    @GetMapping("/getReview")
+    public ResponseEntity<List<Movies>> getReviewMovie(){
+        try {
+            List<Movies> getReviewMovie = iReviewsService.getAllReviewedMovies();
+            if (!getReviewMovie.isEmpty()){
+                return ResponseEntity.ok(getReviewMovie);
+            }else {
+                return ResponseEntity.notFound().build();
+            }
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
     @GetMapping("/movies/{id}")
     public ResponseEntity<Double> getMovieRating(@PathVariable String id) {
         double averageRating = reviewsService.getAverageStarByMovieId(id);
@@ -68,6 +86,29 @@ public class ReviewsRestController {
             } else {
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("You have already reviewed it");
             }
+        }
+    }
+
+    @PutMapping("/update/status")
+    public ResponseEntity<String> updateStatus(@Valid @RequestBody UpdateStatusReviewRequest updateStatusReviewRequest, BindingResult bindingResult){
+        if (bindingResult.hasErrors()) {
+            return ResponseEntity.badRequest().body(getErrorMap(bindingResult).toString());
+        }
+        try {
+            var result = iSender.send(updateStatusReviewRequest);
+            return ResponseEntity.ok(result.orThrow());
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/deleteReview/{id}")
+    public ResponseEntity<String>delete(@PathVariable String id){
+        if (id == null) {
+            throw new IllegalArgumentException("Id is null.");
+        }else {
+            iSender.send(new DeleteReviewRequest(id));
+            return ResponseEntity.ok("Delete review successfully.");
         }
     }
 

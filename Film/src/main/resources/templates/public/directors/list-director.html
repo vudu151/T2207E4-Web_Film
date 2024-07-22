@@ -86,41 +86,45 @@
                 </div>
                 <div class="col-md-3 col-xs-12 col-sm-12">
                     <div class="sidebar">
+                        <!-- start search -->
                         <div class="searh-form">
                             <h4 class="sb-title">Search celebrity</h4>
-                            <form class="form-style-1 celebrity-form" action="#">
+                            <form class="form-style-1 celebrity-form" th:action="@{/castfind}" method="get">
                                 <div class="row">
                                     <div class="col-md-12 form-it">
                                         <label>Celebrity name</label>
-                                        <input type="text" placeholder="Enter keywords">
+                                        <input type="text" name="keyword" th:value="${keyword}" placeholder="Enter keywords">
                                     </div>
                                     <div class="col-md-12 form-it">
                                         <label>Celebrity Letter</label>
-                                        <select>
-                                            <option value="range">A</option>
-                                            <option value="saab">B</option>
+                                        <select name="letter" class="form-control" id="searchLetter">
+                                            <option value="">All</option>
+                                            <option th:each="ltr : ${letterList}" th:value="${ltr}" th:text="${ltr}"></option>
                                         </select>
+
                                     </div>
                                     <div class="col-md-12 form-it">
-                                        <label>Category</label>
-                                        <select>
-                                            <option value="range">Actress</option>
-                                            <option value="saab">Others</option>
-                                        </select>
+                                        <label>Jobs</label>
+                                        <div class="group-ip">
+                                            <select name="job" multiple class="ui fluid dropdown">
+                                                <option value="">Enter to filter genres</option>
+                                                <option th:each="jb : ${jobsList}" th:value="${jb.name}" th:text="${jb.name}"></option>
+                                            </select>
+                                        </div>
                                     </div>
                                     <div class="col-md-12 form-it">
                                         <label>Year of birth</label>
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <select>
-                                                    <option value="range">1970</option>
-                                                    <option value="number">Other</option>
+                                                <select name="yearfrom">
+                                                    <option value="1800">From</option>
+                                                    <option th:each="year : ${#numbers.sequence(1700, 3100)}" th:value="${year}" th:text="${year}" th:selected="${year == yearfrom}"></option>
                                                 </select>
                                             </div>
                                             <div class="col-md-6">
-                                                <select>
-                                                    <option value="range">1990</option>
-                                                    <option value="number">others</option>
+                                                <select name="yearto">
+                                                    <option value="3100">To</option>
+                                                    <option th:each="year : ${#numbers.sequence(1700, 3100)}" th:value="${year}" th:text="${year}" th:selected="${year == yearto}"></option>
                                                 </select>
                                             </div>
                                         </div>
@@ -131,6 +135,7 @@
                                 </div>
                             </form>
                         </div>
+                        <!-- end search -->
                         <div class="ads">
                             <img src="/public/images/uploads/ads1.png" alt="">
                         </div>
@@ -173,6 +178,50 @@
 </main>
 
 <th:block id="js-resources">
+    <script>var hostUrl = "/";</script>
+    <script>
+        $(document).ready(function() {
+            $('#size-select').on('change', function() {
+                const newSize = $(this).val();
+                const url = new URL(window.location.href);
+                url.searchParams.set('page', 1);
+                url.searchParams.set('pageSize', newSize);
+                // Set other parameters only if they have a value
+                const keyword = $('#keyword').val();
+                if (keyword) {
+                    url.searchParams.set('keyword', keyword);
+                }
+                const letter = $('#letter').val();
+                if (letter) {
+                    url.searchParams.set('letter', letter);
+                }
+                const job = $('#job').val();
+                if (job) {
+                    url.searchParams.set('job', job);
+                }
+                const yearfrom = $('#yearfrom').val();
+                if (yearfrom) {
+                    url.searchParams.set('yearfrom', yearfrom);
+                }
+                const yearto = $('#yearto').val();
+                if (yearto) {
+                    url.searchParams.set('yearto', yearto);
+                }
+
+                window.location.href = url.toString();
+            });
+        });
+    </script>
+    <script th:src="@{/plugins/custom/datatables/datatables.bundle.js}"></script>
+    <script>
+        const searchInput = document.querySelector('input[name="keyword"]');
+        searchInput.addEventListener('keyup', (event) => {
+            if (event.key === 'Enter') {
+                event.preventDefault(); // Prevent default form submission
+                searchInput.form.submit(); // Manually submit the form
+            }
+        });
+    </script>
 </th:block>
 </body>
 </html>

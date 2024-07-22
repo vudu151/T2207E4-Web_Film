@@ -23,6 +23,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -65,7 +66,18 @@ public class GlobalModelInterceptor implements HandlerInterceptor {
             List<Genre> genreList = genreService.getListGenres().stream().filter(g -> g.getStatus() == 1).toList();
             modelAndView.addObject("genreList", genreList);
 
-            List<Movies> getMovieSlide = iMoviesService.getListMovies().stream().filter(movies -> movies.getIsPopular() == 0 && movies.getStatus() == 1).limit(12).collect(Collectors.toList());
+            List<Movies> getMovieSlide = iMoviesService.getListMovies().stream().filter(movies -> movies.getIsPopular() == 0 && movies.getStatus() == 1)
+                    .sorted(Comparator.comparing(Movies::getTotalView).reversed()
+                            .thenComparing(Movies::getRelease).reversed())
+                    .limit(12)
+                    .collect(Collectors.toList());
+            int maxView = getMovieSlide.stream()
+                            .mapToInt(Movies::getTotalView)
+                            .max()
+                            .orElse(0);
+            getMovieSlide = getMovieSlide.stream().filter(movies -> movies.getTotalView() == maxView)
+                            .collect(Collectors.toList());
+
             modelAndView.addObject("categoryMovieList", iCategoriesMoviesService.getListCategoriesMovies());
             modelAndView.addObject("getMovieSlide", getMovieSlide);
 
@@ -78,17 +90,32 @@ public class GlobalModelInterceptor implements HandlerInterceptor {
             modelAndView.addObject("celebrityList", celebrityList);
 
             //Lấy danh sách phim bộ
-            List<Movies> getMovieBySeriesInPopular = iMoviesService.getListMovies().stream().filter(movies -> movies.getIsSeries() == 0 && movies.getIsPopular()==0 && movies.getStatus() == 1).limit(12).collect(Collectors.toList());
+            List<Movies> getMovieBySeriesInPopular = iMoviesService.getListMovies().stream()
+                    .filter(movies -> movies.getIsSeries() == 0 && movies.getIsPopular()==0 && movies.getStatus() == 1).limit(12)
+                    .sorted(Comparator.comparing(Movies::getRelease).reversed())
+                    .collect(Collectors.toList());
             modelAndView.addObject("getMovieBySeriesInPopular",getMovieBySeriesInPopular);
 
-            List<Movies> getMovieBySeriesInCommingSoon = iMoviesService.getListMovies().stream().filter(movies -> movies.getIsSeries() == 0 && movies.getScreeningStatus()==0 && movies.getStatus() == 1).limit(12).collect(Collectors.toList());
+            List<Movies> getMovieBySeriesInCommingSoon = iMoviesService.getListMovies().stream()
+                    .filter(movies -> movies.getIsSeries() == 0 && movies.getScreeningStatus()==0 && movies.getStatus() == 1)
+                    .limit(12)
+                    .sorted(Comparator.comparing(Movies::getRelease).reversed())
+                    .collect(Collectors.toList());
             modelAndView.addObject("getMovieBySeriesInCommingSoon",getMovieBySeriesInCommingSoon);
 
             //Lấy danh sách phim lẻ
-            List<Movies> getMovieBySinglePopular = iMoviesService.getListMovies().stream().filter(movies -> movies.getIsSeries() == 1 && movies.getIsPopular()==0 && movies.getStatus() == 1).limit(12).collect(Collectors.toList());
+            List<Movies> getMovieBySinglePopular = iMoviesService.getListMovies().stream()
+                    .filter(movies -> movies.getIsSeries() == 1 && movies.getIsPopular()==0 && movies.getStatus() == 1)
+                    .limit(12)
+                    .sorted(Comparator.comparing(Movies::getRelease).reversed())
+                    .collect(Collectors.toList());
             modelAndView.addObject("getMovieBySinglePopular",getMovieBySinglePopular);
 
-            List<Movies> getMovieBySingleInCommingSoon = iMoviesService.getListMovies().stream().filter(movies -> movies.getIsSeries() == 1 && movies.getScreeningStatus()==0 && movies.getStatus() == 1).limit(12).collect(Collectors.toList());
+            List<Movies> getMovieBySingleInCommingSoon = iMoviesService.getListMovies().stream()
+                    .filter(movies -> movies.getIsSeries() == 1 && movies.getScreeningStatus()==0 && movies.getStatus() == 1)
+                    .limit(12)
+                    .sorted(Comparator.comparing(Movies::getRelease).reversed())
+                    .collect(Collectors.toList());
             modelAndView.addObject("getMovieBySingleInCommingSoon",getMovieBySingleInCommingSoon);
 
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
