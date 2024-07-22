@@ -5,6 +5,7 @@ import org.example.film.models.entities.*;
 import org.example.film.services.actors.IActorService;
 import org.example.film.services.castings.ICastingService;
 import org.example.film.services.celebrities.ICelebritiesService;
+import org.example.film.services.genres.IGenresService;
 import org.example.film.services.movies.IMoviesService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,12 +24,18 @@ public class CastingUserController {
     private final IMoviesService iMoviesService;
     private final ICelebritiesService iCelebritiesService;
     private final IActorService iActorService;
+    private final IGenresService iGenresService;
 
     @GetMapping("/get/")
     public String getCasting(@RequestParam(name = "page", defaultValue = "1") int page,
                              @RequestParam(name = "size", defaultValue = "2") int size,
+                             @RequestParam(defaultValue = "") String keyword,
+                             @RequestParam(defaultValue = "") String genres,
+                             @RequestParam( defaultValue = "1800") int yearfrom,
+                             @RequestParam(  defaultValue = "3100") int yearto,
                              Model model) {
         List<Actors> getListActors = iActorService.findAllActors().stream().filter(a -> a.getStatus() == 1).toList();
+        List<Genre> genreList = iGenresService.getListGenres();
         // Phân trang
         int startIndex = (page - 1) * size;
         int endIndex = Math.min(startIndex + size, getListActors.size());
@@ -38,6 +45,11 @@ public class CastingUserController {
         model.addAttribute("currentPage", page);
         model.addAttribute("size", size); // Thay size bằng giá trị phù hợp từ controller của bạn
         model.addAttribute("totalPages", (int) Math.ceil((double) getListActors.size() / size));
+        model.addAttribute("keyword", keyword);
+        model.addAttribute("genres", genres);
+        model.addAttribute("yearfrom", yearfrom);
+        model.addAttribute("yearto", yearto);
+        model.addAttribute("genreList", genreList);
         return "public/casts/list-casting";
 
     }

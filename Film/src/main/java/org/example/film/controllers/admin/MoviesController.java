@@ -64,14 +64,22 @@ public class MoviesController {
 
     @GetMapping("/api/slug/{slug}")
     public String getPageMovieSlug(@PathVariable String slug, Model model) {
-        Movie movie = iMoviesService.getMoviePageApiSlug(slug);
-        boolean isMovie = movie != null;
-        if(!isMovie){
+        try {
+            Movie movie = iMoviesService.getMoviePageApiSlug(slug);
+            if (movie != null) {
+                model.addAttribute("movie", movie);
+                model.addAttribute("pathImage", "https://img.ophim.live/uploads/movies/");
+                return "admin/movies/apiMovieSlug";
+            } else {
+                // Nếu không tìm thấy movie, trả về trang HTML khác
+                return "admin/movies/pageNotFountApi";
+            }
+        } catch (Exception e) {
+            // Xử lý lỗi khi không tìm thấy movie
+            e.printStackTrace();
+            model.addAttribute("errorMessage", "Không tìm thấy phim với slug: " + slug);
             return "admin/movies/pageNotFountApi";
         }
-        model.addAttribute("movie", movie); // Sửa lại để add đối tượng movie
-        model.addAttribute("pathImage", "https://img.ophim.live/uploads/movies/");
-        return "admin/movies/apiMovieSlug"; // Trả về tên của trang view mà bạn muốn render
     }
 
 

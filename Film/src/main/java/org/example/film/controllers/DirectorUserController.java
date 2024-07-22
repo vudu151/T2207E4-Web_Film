@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.film.models.entities.*;
 import org.example.film.services.celebrities.ICelebritiesService;
 import org.example.film.services.directors.IDirectorsService;
+import org.example.film.services.genres.IGenresService;
 import org.example.film.services.jobs.IJobsService;
 import org.example.film.services.jobs.JobsService;
 import org.example.film.services.movies.IMoviesService;
@@ -26,21 +27,19 @@ public class DirectorUserController {
     public final IMoviesService iMoviesService;
     public final ICelebritiesService iCelebritiesService;
     public final IJobsService iJobsService;
+    private final IGenresService iGenresService;
 
     @GetMapping("/get/")
     public String getDirector(@RequestParam(name = "page", defaultValue = "1") int page,
                               @RequestParam(name = "size", defaultValue = "2") int size,
                               @RequestParam(defaultValue = "") String keyword,
-                              @RequestParam(defaultValue = "") String letter,
-                              @RequestParam(defaultValue = "") String job,
-                              @RequestParam( defaultValue = "1700") int yearfrom,
+                              @RequestParam(defaultValue = "") String genres,
+                              @RequestParam( defaultValue = "1800") int yearfrom,
                               @RequestParam(  defaultValue = "3100") int yearto,
                               Model model){
         List<Director> getListDirector = iDirectorsService.getAllDirector().stream().filter(d -> d.getStatus() == 1).toList();
         List<Job> jobsList = iJobsService.getListJobs();
-        List<String> letterList = IntStream.rangeClosed('A', 'Z')
-                .mapToObj(i -> String.valueOf((char) i))
-                .collect(Collectors.toList());
+        List<Genre> genreList = iGenresService.getListGenres();
         int startIndex = (page - 1) * size;
         int endIndex = Math.min(startIndex + size, getListDirector.size());
         List<Director> paginatedListDirector = getListDirector.subList(startIndex, endIndex);
@@ -49,12 +48,11 @@ public class DirectorUserController {
         model.addAttribute("size", size); // Thay size bằng giá trị phù hợp từ controller của bạn
         model.addAttribute("totalPages", (int) Math.ceil((double) getListDirector.size() / size));
         model.addAttribute("keyword", keyword);
-        model.addAttribute("letter", letter);
-        model.addAttribute("letterList", letterList);
-        model.addAttribute("job", job);
+        model.addAttribute("genres", genres);
         model.addAttribute("jobsList", jobsList);
         model.addAttribute("yearfrom", yearfrom);
         model.addAttribute("yearto", yearto);
+        model.addAttribute("genreList", genreList);
         return "public/directors/list-director";
     }
 

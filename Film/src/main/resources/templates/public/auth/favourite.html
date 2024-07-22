@@ -37,7 +37,7 @@
                     <div class="hero-ct">
                         <ul class="breadcumb">
                             <li class="active"><a href="#">Home</a></li>
-                            <li> <span class="ion-ios-arrow-right"></span>Profile</li>
+                            <li> <span class="ion-ios-arrow-right"></span>Favourites</li>
                             <li> <span style="display: none" class="idAccount" th:text="${idUser}"></span></li>
                         </ul>
                     </div>
@@ -59,61 +59,45 @@
                         <div class="user-fav">
                             <p>Account Details</p>
                             <ul>
-                                <li  class="active"><a th:href="@{/profile}">Profile</a></li>
-                                <li><a th:href="'/user/favourite/' + ${idUser}">Favorite movies</a></li>
+                                <li><a th:href="@{/profile}">Profile</a></li>
+                                <li class="active"><a th:href="'/user/favourite/' + ${idUser}">Favorite movies</a></li>
                             </ul>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-9 col-sm-12 col-xs-12">
-                    <div class="form-style-1 user-pro">
-                        <form id="formProfile" class="user" style="padding-bottom: 0">
-                            <div class="row">
-                                <h4 class="col-md-6">Profile details</h4>
-                                <div class="col-md-6" style="float: right; color: #d4e82a;font-weight: bold;margin-top: -4px;font-family: 'Dosis', sans-serif;">
-                                    LEVEL ACCOUNT :
-                                    <span id="level" style="color: #d4e82a; margin-left: 20px"></span>
-                                </div>
+                    <div class="flex-wrap-movielist">
+                        <div class="movie-item-style-2 movie-item-style-1" th:each="favourite:${getFavourites}">
+                            <img th:src="${favourite.movies.poster}" alt="">
+                            <div class="hvr-inner">
+                                <a  th:href="'/movie/get/' + ${favourite.movies.id}"> Watch <i class="ion-android-arrow-dropright"></i> </a>
                             </div>
-                            <div class="row" hidden="">
-                                <div class="col-md-6 form-it">
-                                    <label>Id</label>
-                                    <input type="text" id="account_id">
-                                </div>
+                            <div class="mv-item-eth">
+                                <h6>
+                                    <a th:if="${account_id != null and #lists.contains(favoriteMovieIds, favourite.movies.id)}"
+                                       type="button"
+                                       class="btn btn-warning waves-effect waves-light favorite-icon"
+                                       th:attr="data-movie-id=${favourite.movies.id}">
+                                        <i class="ion-android-favorite"></i>
+                                    </a>
+                                    <a th:if="${account_id != null and not #lists.contains(favoriteMovieIds, favourite.movies.id)}"
+                                       type="button"
+                                       class="btn btn-warning waves-effect waves-light favorite-icon"
+                                       th:attr="data-movie-id=${favourite.movies.id}">
+                                        <i class="ion-android-favorite-outline"></i>
+                                    </a>
+                                    <a th:if="${account_id == null}"
+                                       type="button"
+                                       class="btn btn-warning waves-effect waves-light favorite-icon heart-error">
+                                        <i class="ion-android-favorite-outline"></i>
+                                    </a>
+                                </h6>
                             </div>
-                            <div class="row">
-                                <div class="col-md-6 form-it">
-                                    <label>Username</label>
-                                    <input type="text" id="username">
-                                    <span class="error username_err"></span>
-                                </div>
-                                <div class="col-md-6 form-it">
-                                    <label>Email</label>
-                                    <input type="text" id="email">
-                                    <span class="error email_err"></span>
-                                </div>
+                            <div class="mv-item-infor">
+                                <h6><a href="#" th:text="${favourite.movies.name}"></a></h6>
+                                <p class="rate"><i class="ion-android-star"></i><span>8.1</span> /10</p>
                             </div>
-                            <div class="row">
-                                <div class="col-md-6 form-it">
-                                    <label>Address</label>
-                                    <input type="text" id="address">
-                                    <span class="error address_err"></span>
-                                </div>
-                                <div class="col-md-6 form-it">
-                                    <label>Gender</label>
-                                    <select id="gender">
-                                        <option value=1>Male</option>
-                                        <option value=0>Female</option>
-                                    </select>
-                                    <span class="error gender_err"></span>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-2" style="float: right; margin-top: 16px">
-                                    <input class="submit changeProfile" type="submit" value="save">
-                                </div>
-                            </div>
-                        </form>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -198,84 +182,46 @@
                 });
             });
 
-
-
-            //2.Save edit data
-            function validateUsername(){
-                var username = $("#username").val();
-                if(username.trim() === ""){
-                    $(".username_err").text("The username is not null.");
-                    return false;
-                } else if(username.length < 2){
-                    $(".username_err").text("The username must be at least 2 characters long.");
-                    return false;
-                } else {
-                    $(".username_err").text("");
-                    return true;
-                }
-            }
-            function validateEmail(){
-                var email = $("#email").val();
-                var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-                if(email.trim() === ""){
-                    $(".email_err").text("The email is not null.");
-                    return false;
-                } else if(!emailRegex.test(email)){
-                    $(".email_err").text("Email is not valid.");
-                    return false;
-                } else {
-                    $(".email_err").text("");
-                    return true;
-                }
-            }
-
-            $("#username").on("input", validateUsername);
-            $("#email").on("input", validateEmail);
-
-            $(".changeProfile").click(function (event){
-                event.preventDefault();
-                if(!validateUsername()){
-                    return false;
-                }
-                if(!validateEmail()){
-                    return false;
-                }
-
-
-                var username = $("#username").val();
-                var email = $("#email").val();
-                var address = $("#address").val();
-                var gender = $("#gender").val() == 1 ? true : false;
+            $('.favorite-icon').click(function (e){
+                e.preventDefault();
+                debugger;
+                let movieId = $(this).data('movie-id');
+                let accountId = $('.idAccount').text();
                 var formData = {
-                    userName: username,
-                    email: email,
-                    address: address,
-                    gender: gender
+                    movies: movieId,
+                    account: accountId,
                 };
                 $.ajax({
-                    url: '/v1/auth/edit',
-                    type: 'PUT',
+                    url: "/v1/favouritesMovies/add",
+                    type: 'POST',
                     contentType: "application/json; charset=utf-8",
                     data: JSON.stringify(formData),
-                    success: function (){
-                        setTimeout(function (){
-                            window.location.reload();
-                        });
+                    success: function (result) {
+                        var $this = $('.favorite-icon[data-movie-id="' + movieId + '"]');
+                        $this.toggleClass('btn-warning btn-danger');
+                        $this.find('i').toggleClass('ion-android-favorite ion-android-favorite-outline');
+                        // Hiển thị hiệu ứng tim
+                        $this.append('<span class="heart-effect"><i class="fa fa-heart"></i></span>');
+                        setTimeout(function() {
+                            $this.find('.heart-effect').remove();
+                        }, 1000);
+                        location.reload();
+
                     },
-                    error: function (error){
+                    error: function (error) {
+                        console.log(error);
                         var errorHtml = '<div class="float-end alert alert-danger alert-dismissible fade show" role="alert">\n' +
-                            '                                            <i class="mdi mdi-block-helper me-2"></i>\n' +
-                            '                                           An error has occurred !\n' +
+                            '                                            An error occurred !\n' +
                             '                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>\n' +
                             '                                        </div>';
                         $("#alertError").html(errorHtml);
-                        setTimeout(function() {
+                        setTimeout(function () {
                             $("#alertError").empty();
                         }, 2000);
                     }
-                });
-            });
+                })
+            })
+
         });
     </script>
 </th:block>

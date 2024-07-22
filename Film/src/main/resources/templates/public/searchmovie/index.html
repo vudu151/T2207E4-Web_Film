@@ -63,7 +63,7 @@
               </div>
               <div class="mv-item-eth">
                 <h6>
-                  <a th:if="${account_id != null and #lists.contains(favoriteMovieIds, listMovie.id)}"
+                  <a th:if="${account_id != null and #lists.contains(favoriteMovieIds, movie.id)}"
                      type="button"
                      class="btn btn-warning waves-effect waves-light favorite-icon"
                      th:attr="data-movie-id=${movie.id}">
@@ -91,52 +91,25 @@
           <!-- end movie list-->
           <div class="topbar-filter">
             <label>Movies per page:</label>
-            <select  id="size-select" th:attr="data-url=@{/moviefind(page=1)}">
+            <select id="size-select" th:attr="data-url=@{/moviefind(page=1)}">
               <option th:selected="${pageSize == 5}" th:value="5">5</option>-->
               <option th:selected="${pageSize == 10}" th:value="10">10</option>
               <option th:selected="${pageSize == 25}" th:value="25">25</option>
               <option th:selected="${pageSize == 50}" th:value="50">50</option>
             </select>
-                </div>
-              </div>
-                  <div class="col-sm-12 col-md-7 d-flex align-items-center justify-content-center justify-content-md-end">
-                    <div class="dataTables_paginate paging_simple_numbers">
-            <ul class="pagination2">
-              <li class="paginate_button page-item previous"
-                      th:classappend="${currentPages != null && currentPages > 1} ? '' : 'disabled'"   >
-<!--        th:classappend="${currentPage } > 1 ? '' : 'disabled'"     -->
-                <a th:href="@{/moviefind(page=${currentPages - 1}, pageSize=${pageSize}, keyword=${keyword}, genres=${genres}, yearfrom=${yearfrom}, yearto=${yearto})}" class="page-link">
-                  <i class="previous"></i>
-                </a>
-              </li>
-              <li class="paginate_button page-item"   th:classappend="${currentPages == i} ? 'active' : ''"
-                  th:each="i : ${#numbers.sequence(1, totalPages)}" >
-<!--                  th:classappend="${currentPages == i} ? 'active' : ''" th:each="i : ${#numbers.sequence(1,totalPages != null ? totalPages : 1)}"-->
+          <div class="pagination2">
+            <span>Page <span></span> of <span th:text="${totalPages}"></span>:</span>
+            <!-- Nút Previous -->
+            <a th:classappend="${currentPages != null && currentPages > 1} ? '' : 'disabled'" th:href="@{/moviefind(page=${currentPages - 1}, pageSize=${pageSize}, keyword=${keyword}, genres=${genres}, yearfrom=${yearfrom}, yearto=${yearto})}" class="page-link">Previous</a>
 
-                <a class="page-link" th:href="@{/moviefind(page=${i}, pageSize=${pageSize} ,keyword=${keyword}, genres=${genres}, yearfrom=${yearfrom}, yearto=${yearto})}"
-                   th:text="${i}">1</a>
-              </li>
-              <li class="paginate_button page-item next" th:classappend="(${currentPages} < ${totalPages}) ? '' : 'disabled'">
-                <a class="page-link" th:href="@{/moviefind(page=${currentPages + 1}, pageSize=${pageSize}, keyword=${keyword}, genres=${genres}, yearfrom=${yearfrom}, yearto=${yearto})}"><i class="next"></i></a>
-              </li>
+            <!-- Các trang -->
+            <a th:classappend="${currentPages == i} ? 'active' : ''" th:each="i : ${#numbers.sequence(1, totalPages)}"
+               th:text="${i}"></a>
 
-            <div class="pagination2">
-              <span>Page <span th:classappend="${currentPages != null && currentPages > 1} ? '' : 'disabled'"></span> of <span th:text="${totalPages}"></span>:</span>
-
-              <!-- Nút Previous -->
-              <a th:href="@{/moviefind(page=${currentPages - 1}, pageSize=${pageSize}, keyword=${keyword}, genres=${genres}, yearfrom=${yearfrom}, yearto=${yearto})}" class="page-link">Previous</a>
-
-              <!-- Các trang -->
-              <a th:classappend="${currentPages == i} ? 'active' : ''" th:each="i : ${#numbers.sequence(1, totalPages)}"
-                  th:text="${i}"></a>
-
-              <!-- Nút Next -->
-              <a th:classappend="(${currentPages} < ${totalPages}) ? '' : 'disabled'" th:href="@{/moviefind(page=${currentPages + 1}, pageSize=${pageSize}, keyword=${keyword}, genres=${genres}, yearfrom=${yearfrom}, yearto=${yearto})}">Next</a>
-            </div>
-
+            <!-- Nút Next -->
+            <a th:classappend="(${currentPages} < ${totalPages}) ? '' : 'disabled'" th:href="@{/moviefind(page=${currentPages + 1}, pageSize=${pageSize}, keyword=${keyword}, genres=${genres}, yearfrom=${yearfrom}, yearto=${yearto})}">Next</a>
           </div>
-
-
+          </div>
         </div>
         <div class="col-md-4 col-sm-12 col-xs-12">
           <div class="sidebar">

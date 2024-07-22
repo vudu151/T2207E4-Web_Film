@@ -3,6 +3,7 @@ package org.example.film.controllers;
 import lombok.RequiredArgsConstructor;
 import org.example.film.models.entities.*;
 import org.example.film.services.celebrities.ICelebritiesService;
+import org.example.film.services.genres.IGenresService;
 import org.example.film.services.movies.IMoviesService;
 import org.example.film.services.writers.IWritersService;
 import org.springframework.stereotype.Controller;
@@ -22,12 +23,17 @@ public class WriterUserController {
     public final IMoviesService iMoviesService;
     public final ICelebritiesService iCelebritiesService;
     public final IWritersService iWritersService;
-
+    public final IGenresService iGenresService;
     @GetMapping("/get/")
     public String getWriter(@RequestParam(name = "page", defaultValue = "1") int page,
                             @RequestParam(name = "size", defaultValue = "2") int size,
+                            @RequestParam(defaultValue = "") String keyword,
+                            @RequestParam(defaultValue = "") String genres,
+                            @RequestParam( defaultValue = "1800") int yearfrom,
+                            @RequestParam(  defaultValue = "3100") int yearto,
                             Model model){
         List<Writers> getAllWriter = iWritersService.getAllWriters();
+        List<Genre> genreList = iGenresService.getListGenres();
         int startIndex = (page - 1) * size;
         int endIndex = Math.min(startIndex + size, getAllWriter.size());
         List<Writers> paginatedListWriters = getAllWriter.subList(startIndex, endIndex);
@@ -35,6 +41,11 @@ public class WriterUserController {
         model.addAttribute("currentPage", page);
         model.addAttribute("size", size); // Thay size bằng giá trị phù hợp từ controller của bạn
         model.addAttribute("totalPages", (int) Math.ceil((double) getAllWriter.size() / size));
+        model.addAttribute("keyword", keyword);
+        model.addAttribute("genres", genres);
+        model.addAttribute("yearfrom", yearfrom);
+        model.addAttribute("yearto", yearto);
+        model.addAttribute("genreList", genreList);
         return "public/writers/list-writer";
     }
     @GetMapping("/{id}")

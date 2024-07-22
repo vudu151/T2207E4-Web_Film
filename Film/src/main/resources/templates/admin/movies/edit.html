@@ -406,7 +406,6 @@
 
                         // Populate selectize for genre list
                         var selectize = $('#selectize-maximum')[0].selectize;
-                        selectize.clearOptions();
                         if (movie.genreList) {
                             movie.genreList.forEach(function (genre) {
                                 selectize.addOption({ value: genre.id, text: genre.name });

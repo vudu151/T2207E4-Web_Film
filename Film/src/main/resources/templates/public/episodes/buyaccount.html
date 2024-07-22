@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{/public/layout/layout :: main-fragment(
+                                                ~{:: title},
+                                                ~{:: #css-resources},
+                                                ~{:: #main-content},
+                                                ~{:: #js-resources}
+                                               )}">
+<head>
+    <!-- Basic need -->
+    <title>Block Buster | Movies</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="">
+
+    <th:block id="css-resources"></th:block>
+</head>
+<body>
+
+<main id="main-content">
+    <div class="hero common-hero">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="hero-ct">
+                        <h1>Notication</h1>
+                        <ul class="breadcumb">
+                            <li class="active"><a href="#">Home</a></li>
+                            <li> <span class="ion-ios-arrow-right"></span> <span>Notication</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-single">
+        <div class="container">
+                <div class="w-100 row">
+                        <img src="/public/images/buy-account.gif" style="max-height: 400px">
+                    <span class="text-white" style="color: white; font-size: 24px; font-weight: bold ">You Can Buy Account</span>
+                </div>
+        </div>
+    </div>
+</main>
+<th:block id="js-resources">
+    <script>
+        $('.heart-error').click(function (e){
+            e.preventDefault();
+            alert("You need to log in to add movies to favorites")
+        })
+        $('.favorite-icon').click(function (e){
+            e.preventDefault();
+            debugger;
+            let movieId = $(this).data('movie-id');
+            let accountId = $('.idAccount').text();
+            var formData = {
+                movies: movieId,
+                account: accountId,
+            };
+            $.ajax({
+                url: "/v1/favouritesMovies/add",
+                type: 'POST',
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(formData),
+                success: function (result) {
+                    var $this = $('.favorite-icon[data-movie-id="' + movieId + '"]');
+                    $this.toggleClass('btn-warning btn-danger');
+                    $this.find('i').toggleClass('ion-android-favorite ion-android-favorite-outline');
+                    // Hiển thị hiệu ứng tim
+                    $this.append('<span class="heart-effect"><i class="fa fa-heart"></i></span>');
+                    setTimeout(function() {
+                        $this.find('.heart-effect').remove();
+                    }, 1000);
+                },
+                error: function (error) {
+                    console.log(error);
+                    var errorHtml = '<div class="float-end alert alert-danger alert-dismissible fade show" role="alert">\n' +
+                        '                                            An error occurred !\n' +
+                        '                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>\n' +
+                        '                                        </div>';
+                    $("#alertError").html(errorHtml);
+                    setTimeout(function () {
+                        $("#alertError").empty();
+                    }, 2000);
+                }
+            })
+        })
+        $('#size-select').on('change', function() {
+            const newSize = $(this).val();
+            const url = new URL(window.location.href);
+            url.searchParams.set('page', 1);
+            url.searchParams.set('pageSize', newSize);
+            // Set other parameters only if they have a value
+            const keyword = $('#keyword').val();
+            if (keyword) {
+                url.searchParams.set('keyword', keyword);
+            }
+            const genres = $('#genres').val();
+            if (genres) {
+                url.searchParams.set('genres', genres);
+            }
+            const yearfrom = $('#yearfrom').val();
+            if (yearfrom) {
+                url.searchParams.set('yearfrom', yearfrom);
+            }
+            const yearto = $('#yearto').val();
+            if (yearto) {
+                url.searchParams.set('yearto', yearto);
+            }
+
+            window.location.href = url.toString();
+        });
+        const searchInput = document.querySelector('input[name="keyword"]');
+        searchInput.addEventListener('keyup', (event) => {
+            if (event.key === 'Enter') {
+                event.preventDefault(); // Prevent default form submission
+                searchInput.form.submit(); // Manually submit the form
+            }
+        });
+    </script>
+    <script th:src="@{/plugins/custom/datatables/datatables.bundle.js}"></script>
+</th:block>
+</body>
+</html>
