@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Revenue Statistics</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+<h1>Revenue Statistics</h1>
+
+<form th:action="@{/revenue-dashboard}" method="post">
+    <label for="revenue_start">Start Date:</label>
+    <input type="date" id="revenue_start" name="revenue_start" th:value="${startDate}" required>
+    <label for="revenue_end">End Date:</label>
+    <input type="date" id="revenue_end" name="revenue_end" th:value="${endDate}" required>
+    <button type="submit">Filter</button>
+</form>
+
+<div>
+    <h2>Total Revenue: <span th:text="${totalRevenue}"></span></h2>
+    <h2>Total Payments 5: <span th:text="${totalPayments5}"></span></h2>
+    <h2>Total Payments 10: <span th:text="${totalPayments10}"></span></h2>
+</div>
+
+<canvas id="revenueChart"></canvas>
+
+<script th:inline="javascript">
+    const ctx = document.getElementById('revenueChart').getContext('2d');
+    const revenueData = /*[[${revenueData}]]*/ []; // Parse JSON data
+
+    const labels = revenueData.map(item => `${item.month}/${item.year}`);
+    const payments5 = revenueData.map(item => item.totalpayments5);
+    const payments10 = revenueData.map(item => item.totalpayments10);
+
+    const myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Total Payments 5',
+                data: payments5,
+                borderColor: 'blue',
+                borderWidth: 1
+            }, {
+                label: 'Total Payments 10',
+                data: payments10,
+                borderColor: 'red',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
+</body>
+</html>
