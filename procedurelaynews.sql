@@ -29,7 +29,7 @@ BEGIN
     -- Truy vấn dữ liệu phân trang và tìm kiếm level <2 
     
      SELECT 
-       c.*,         (SELECT totalRecords) AS total_news,
+       c.*,         (SELECT totalRecords) AS total_newss,
 		(SELECT totalPages) AS total_pageds
     FROM news c
    
@@ -37,7 +37,7 @@ BEGIN
 AND  c.name LIKE CONCAT('%', LOWER(searchKeyword), '%')
  
     GROUP BY c.id, c.name
-    ORDER BY c.name DESC
+    ORDER BY c.created_add DESC
     LIMIT startIdx, pageSize;
 
  
