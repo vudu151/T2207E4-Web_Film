@@ -37,7 +37,7 @@
     <div class="page-single">
         <div class="container">
             <div class="row ipad-width2">
-                <div class="col-md-9 col-sm-12 col-xs-12">
+                <div class="col-md-8 col-sm-12 col-xs-12">
                     <div class="topbar-filter">
                         <p>Found <span th:text="${getListDirector.size()} + ' Actors'"> </span> in total</p>
                         <label>Sort by:</label>
@@ -84,47 +84,40 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3 col-xs-12 col-sm-12">
+                <div class="col-md-4 col-sm-12 col-xs-12">
                     <div class="sidebar">
-                        <!-- start search -->
+                        <!--start search side bar -->
                         <div class="searh-form">
-                            <h4 class="sb-title">Search celebrity</h4>
-                            <form class="form-style-1 celebrity-form" th:action="@{/castfind}" method="get">
+                            <h4 class="sb-title">Search for movie</h4>
+                            <form class="form-style-1" th:action="@{/moviefind}" method="get">
                                 <div class="row">
                                     <div class="col-md-12 form-it">
-                                        <label>Celebrity name</label>
+                                        <label>Movie name</label>
                                         <input type="text" name="keyword" th:value="${keyword}" placeholder="Enter keywords">
                                     </div>
                                     <div class="col-md-12 form-it">
-                                        <label>Celebrity Letter</label>
-                                        <select name="letter" class="form-control" id="searchLetter">
-                                            <option value="">All</option>
-                                            <option th:each="ltr : ${letterList}" th:value="${ltr}" th:text="${ltr}"></option>
-                                        </select>
-
-                                    </div>
-                                    <div class="col-md-12 form-it">
-                                        <label>Jobs</label>
+                                        <label>Genres & Subgenres</label>
                                         <div class="group-ip">
-                                            <select name="job" multiple class="ui fluid dropdown">
+                                            <select name="genres" multiple class="ui fluid dropdown">
                                                 <option value="">Enter to filter genres</option>
-                                                <option th:each="jb : ${jobsList}" th:value="${jb.name}" th:text="${jb.name}"></option>
+                                                <option th:each="genre : ${genreList}" th:value="${genre.name}" th:text="${genre.name}"></option>
                                             </select>
                                         </div>
                                     </div>
+
                                     <div class="col-md-12 form-it">
-                                        <label>Year of birth</label>
+                                        <label>Release Year</label>
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <select name="yearfrom">
                                                     <option value="1800">From</option>
-                                                    <option th:each="year : ${#numbers.sequence(1700, 3100)}" th:value="${year}" th:text="${year}" th:selected="${year == yearfrom}"></option>
+                                                    <option th:each="year : ${#numbers.sequence(1800, 3100)}" th:value="${year}" th:text="${year}" th:selected="${year == yearfrom}"></option>
                                                 </select>
                                             </div>
                                             <div class="col-md-6">
                                                 <select name="yearto">
                                                     <option value="3100">To</option>
-                                                    <option th:each="year : ${#numbers.sequence(1700, 3100)}" th:value="${year}" th:text="${year}" th:selected="${year == yearto}"></option>
+                                                    <option th:each="year : ${#numbers.sequence(1800, 3100)}" th:value="${year}" th:text="${year}" th:selected="${year == yearto}"></option>
                                                 </select>
                                             </div>
                                         </div>
@@ -135,38 +128,21 @@
                                 </div>
                             </form>
                         </div>
-                        <!-- end search -->
+                        <!--end search side bar-->
+
                         <div class="ads">
                             <img src="/public/images/uploads/ads1.png" alt="">
                         </div>
-                        <div class="celebrities">
-                            <h4 class="sb-title">featured celebrity</h4>
-                            <div class="celeb-item">
-                                <a href="#"><img src="/public/images/uploads/ava1.jpg" alt=""></a>
-                                <div class="celeb-author">
-                                    <h6><a href="#">Samuel N. Jack</a></h6>
-                                    <span>Actor</span>
+                        <div class="sb-facebook sb-it">
+                            <h4 class="sb-title">Find us on Facebook</h4>
+                            <iframe src="" data-src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fhaintheme%2F%3Ffref%3Dts&tabs=timeline&width=340&height=315px&small_header=true&adapt_container_width=false&hide_cover=false&show_facepile=true&appId"  height="315" style="width:100%;border:none;overflow:hidden" ></iframe>
+                        </div>
+                        <div class="sb-twitter sb-it">
+                            <h4 class="sb-title">Tweet to us</h4>
+                            <div class="slick-tw">
+                                <div class="tweet item" id="599202861751410688">
                                 </div>
-                            </div>
-                            <div class="celeb-item">
-                                <a href="#"><img src="/public/images/uploads/ava2.jpg" alt=""></a>
-                                <div class="celeb-author">
-                                    <h6><a href="#">Benjamin Carroll</a></h6>
-                                    <span>Actor</span>
-                                </div>
-                            </div>
-                            <div class="celeb-item">
-                                <a href="#"><img src="/public/images/uploads/ava3.jpg" alt=""></a>
-                                <div class="celeb-author">
-                                    <h6><a href="#">Beverly Griffin</a></h6>
-                                    <span>Actor</span>
-                                </div>
-                            </div>
-                            <div class="celeb-item">
-                                <a href="#"><img src="/public/images/uploads/ava4.jpg" alt=""></a>
-                                <div class="celeb-author">
-                                    <h6><a href="#">Justin Weaver</a></h6>
-                                    <span>Actor</span>
+                                <div class="tweet item" id="297462728598122498">
                                 </div>
                             </div>
                         </div>
@@ -191,13 +167,9 @@
                 if (keyword) {
                     url.searchParams.set('keyword', keyword);
                 }
-                const letter = $('#letter').val();
-                if (letter) {
-                    url.searchParams.set('letter', letter);
-                }
-                const job = $('#job').val();
-                if (job) {
-                    url.searchParams.set('job', job);
+                const genres = $('#genres').val();
+                if (genres) {
+                    url.searchParams.set('genres', genres);
                 }
                 const yearfrom = $('#yearfrom').val();
                 if (yearfrom) {
@@ -210,18 +182,16 @@
 
                 window.location.href = url.toString();
             });
+            const searchInput = document.querySelector('input[name="keyword"]');
+            searchInput.addEventListener('keyup', (event) => {
+                if (event.key === 'Enter') {
+                    event.preventDefault(); // Prevent default form submission
+                    searchInput.form.submit(); // Manually submit the form
+                }
+            });
         });
     </script>
     <script th:src="@{/plugins/custom/datatables/datatables.bundle.js}"></script>
-    <script>
-        const searchInput = document.querySelector('input[name="keyword"]');
-        searchInput.addEventListener('keyup', (event) => {
-            if (event.key === 'Enter') {
-                event.preventDefault(); // Prevent default form submission
-                searchInput.form.submit(); // Manually submit the form
-            }
-        });
-    </script>
 </th:block>
 </body>
 </html>

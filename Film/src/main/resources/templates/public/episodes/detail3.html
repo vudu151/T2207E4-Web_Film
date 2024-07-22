@@ -35,6 +35,7 @@
 
 <main id="main-content">
     <span style="display: none" class="idMovie" th:text="${getMovie.id}"></span>
+    <span style="display: none" class="idAccount" th:text="${account_id}"></span>
 <span></span>
 <span></span>
 <span></span>
@@ -44,7 +45,7 @@
 <span></span>
     <br>  <br>  <br>  <br>  <br>  <br>  <br>  <br>
 
-    <div class="trailers full-width">
+    <div class="trailers full-width" style="height: 1000px">
         <!--   -->
         <div class=" row ipad-width">
             <!--           " style="margin-top: 100px;-->
@@ -57,14 +58,14 @@
                     <span>/</span>
                     <span><a th:text="${getMovie.name}" th:href="'/movie/get/' + ${getMovie.id}"></a></span>
                     <span>/</span>
-                    <span>Episode 1</span>
+                    <span th:text="${getEpisode.name}"></span>
                 </div>
                 <section class="videos">
-                    <div class="slider-for-2 video-ft">
+                    <div class="slider-for-2 video-ft" th:if="${getEpisode.movieId.isApi == 0}">
                         <div class="video-container" >
                            <div id="episode-number" style="position: absolute">
                                <video id="video" style="width: 1280px">
-                                <source style="width: 100%"  src="https://res.cloudinary.com/vuxuandu/video/upload/v1719156836/fptaptech/video/807e1790-481b-4b84-b0d3-a039ce71fa7d.mp4.mp4" type=video/mp4>
+                                   <source style="width: 100%"  th:src="${getEpisode.link}" type=video/mp4>
                                 Your browser does not support the video tag.</video>
                            </div>
                             <span class="custom-loader"></span>
@@ -154,6 +155,9 @@
                             </div>
                         </div>
                     </div>
+                    <div class="slider-for-2 video-ft" th:if="${getEpisode.movieId.isApi == 1}">
+                        <iframe th:src="${getEpisode.link}"></iframe>
+                    </div>
                     <!--playlist-->
                     <div class="slider-nav-2 thumb-ft">
                         <div class="item" th:each="relateMovie:${relatedMovies}">
@@ -161,17 +165,18 @@
                                 <img th:src="${relateMovie.poster}" alt="photo by Barn Images" width="4096"
                                      height="2737">
                             </div>
-                            <a th:href="'/movie/get/' + ${relateMovie.id}">
-                                <div class="trailer-infor">
-                                    <h4 class="desc" th:text="${relateMovie.name}"></h4>
-                                    <br>
-                                    <h4 class="desc" th:text="${relateMovie.description}"></h4>
+                            <a th:href="'/movie/get/' + ${relateMovie.id}" class="d-flex justify-content-around">
+                                <div class="trailer-infor" style="display: flex; flex-direction: column; justify-content: space-around; height: 100% !important;">
+                                    <h4 class="desc"><span th:text="${relateMovie.name}"></span></h4>
+                                    <h4 class="desc">Genre: <span  th:each="genre:${relateMovie.genreList}" th:text="${genre.name}"></span></h4>
                                 </div>
                             </a>
                         </div>
                     </div>
                 </section>
-
+                <div class="viewMovie" style="margin-top: 10px">
+                    <span style="margin-right: 2px; color: #abb7c4">View: </span><span style="color: #abb7c4" th:text="${getMovie.totalView}"></span>
+                </div>
                 <div class="frameTitleMovie marginFrame">
                     <p class="titleListEpisode">
                         <i class="ion-ios-film"></i>
@@ -187,6 +192,18 @@
                             </span>
                         </li>
                     </ul>
+                </div>
+
+                <div class="frameTitleMovie marginFrame">
+                    <p class="titleListEpisode">
+                        <span>Description</span>
+                    </p>
+                    <div style="background-color: #0f2133; padding: 12px">
+                        <span th:text="${getEpisode.movieId.name}"></span>
+                        -
+                        <span th:text="'Episode: ' + ${getEpisode.name}"></span>
+                        <p th:text="${getEpisode.movieId.description}"></p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -216,74 +233,80 @@
                         </div>
                         <!-- comment items -->
                         <div class="comments">
-                            <h4>04 Comments</h4>
-                            <div class="cmt-item flex-it">
-                                <img th:src="@{/public/images/uploads/author.png}" alt="">
-                                <div class="author-infor">
-                                    <div class="flex-it2">
-                                        <h6><a href="#">Steve Perry</a></h6> <span class="time"> - 27 Mar 2017</span>
+                            <h4><span th:text="${getReviewByMovie.size()}"></span> Comments</h4>
+                            <div class="cmt-item" style="display: flex" th:each="reviewByMovie:${getReviewByMovie}">
+                                <img th:src="${reviewByMovie.account.avatar}" style="width: 70px; height: 70px; object-fit: cover" alt="">
+                                <div class="author-infor" style="display: flex; flex-direction: column; justify-content: space-around; padding-top: 0px">
+                                    <div class="flex-it2" style="margin-bottom: 8px">
+                                        <h6><a href="#" th:text="${reviewByMovie.account.userName}"></a></h6> <span class="time" th:text="${#dates.format(reviewByMovie.createAt, 'dd MMMM yyyy')}"></span>
                                     </div>
-                                    <p>Even though Journey's classic vocalist Steve Perry didn’t reunite with the band
-                                        during their Rock Hall performance (to the dismay of hopeful fans), he did offer
-                                        up a touching speech.</p>
-                                    <p><a class="rep-btn" href="#">+ Reply</a></p>
-                                </div>
-                            </div>
-                            <div class="cmt-item flex-it reply">
-                                <img th:src="@{/public/images/uploads/author2.png}" alt="">
-                                <div class="author-infor">
-                                    <div class="flex-it2">
-                                        <h6><a href="#">Joss Whedon</a></h6> <span class="time"> - 27 Mar 2017</span>
+                                    <div class="no-star" th:if="${reviewByMovie.status == 1}">
+                                        <i class="ion-android-star" style="margin-right: 4px" th:each="i : ${#numbers.sequence(1, reviewByMovie.getStar())}"></i>
                                     </div>
-                                    <p>Prince died not long after the 2016 Rock Hall ceremony, so this year's edition
-                                        featured Lenny Kravitz and a full gospel choir performing a swamp-funk take on
-                                        When Doves Cry.</p>
-                                </div>
-                            </div>
-                            <div class="cmt-item flex-it reply">
-                                <img th:src="@{/public/images/uploads/author3.png}" alt="">
-                                <div class="author-infor">
-                                    <div class="flex-it2">
-                                        <h6><a href="#">Dave McNary</a></h6> <span class="time"> - 27 Mar 2017</span>
+                                    <div class="no-star" th:if="${reviewByMovie.status == 0}">
+                                        <p style="color: #555555">Vote star are under consideration...</p>
                                     </div>
-                                    <p>Blue Sky Studios is one of the world’s leading digital animation movie studios
-                                        and we are proud of their commitment to stay and grow in Connecticut.</p>
-                                </div>
-                            </div>
-                            <div class="cmt-item flex-it">
-                                <img th:src="@{/public/images/uploads/author4.png}" alt="">
-                                <div class="author-infor">
-                                    <div class="flex-it2">
-                                        <h6><a href="#">Margot Robbie</a></h6> <span class="time"> - 27 Mar 2017</span>
-                                    </div>
-                                    <p>Joan Baez was the sharpest of the Rock Hall inductees, singing about deportees
-                                        and talking social activism as well as joking about her age and the likelihood
-                                        that a good portion of the Barclays. </p>
-                                    <p><a class="rep-btn" href="#">+ Reply</a></p>
+                                    <p th:text="${reviewByMovie.comment}"></p>
                                 </div>
                             </div>
                         </div>
                         <div class="comment-form">
                             <h4>Leave a comment</h4>
-                            <form action="">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <input type="text" placeholder="Your name">
-                                    </div>
-                                    <div class="col-md-4">
-                                        <input type="text" placeholder="Your email">
-                                    </div>
-                                    <div class="col-md-4">
-                                        <input type="text" placeholder="Website">
+                            <div class="card" th:if="${account_id != null and buyMovie == 1}">
+                            <form id="formComment" method="post" th:attr="data-movieEpisode-id=${getMovie.id}">
+                                <div class="col-2 d-flex userAndVote">
+                                    <img th:src="${avatarAccount}" width="70" class="rounded-circle mt-2">
+                                    <div class="nameUserAndVote">
+                                        <span th:text="${nameAccount}"></span>
+                                        <br>
+                                        <div class="rating">
+                                            <input type="radio" name="rating" value="10" id="10"><label for="10">☆</label>
+                                            <input type="radio" name="rating" value="9" id="9"><label for="9">☆</label>
+                                            <input type="radio" name="rating" value="8" id="8"><label for="8">☆</label>
+                                            <input type="radio" name="rating" value="7" id="7"><label for="7">☆</label>
+                                            <input type="radio" name="rating" value="6" id="6"><label for="6">☆</label>
+                                            <input type="radio" name="rating" value="5" id="5"><label for="5">☆</label>
+                                            <input type="radio" name="rating" value="4" id="4"><label for="4">☆</label>
+                                            <input type="radio" name="rating" value="3" id="3"><label for="3">☆</label>
+                                            <input type="radio" name="rating" value="2" id="2"><label for="2">☆</label>
+                                            <input type="radio" name="rating" value="1" id="1"><label for="1">☆</label>
+                                        </div>
+                                        <span class="invalid-feedback text-danger"
+                                              id="invalid-feedback-voteStar">Please choose star you vote film</span>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <textarea name="message" id="" placeholder="Message"></textarea>
+                                <div class="col-10">
+                                    <div class="comment-box ml-2">
+                                        <div class="formTitle">
+                                            <h4 for="title" style="color:black">Title</h4>
+                                            <div class="title-area">
+                                                <input id="title" class="form-control" placeholder="what is your Title?" rows="4">
+                                            </div>
+                                            <span class="invalid-feedback text-danger"
+                                                  id="invalid-feedback-title">Please you input title</span>
+                                        </div>
+                                        <div class="formComment">
+                                            <h4 for="comment" style="color:black">Comment</h4>
+                                            <div class="comment-area">
+                                                <textarea id="comment" class="form-control" placeholder="what is your comment?" rows="4"></textarea>
+                                            </div>
+                                            <span class="invalid-feedback text-danger"
+                                                  id="invalid-feedback-comment">Please you input comment</span>
+                                        </div>
+
                                     </div>
                                 </div>
-                                <input class="submit" type="submit" placeholder="submit">
+                                <div class="comment-btns mt-2">
+                                    <button type="submit" class="buttonCommentSend">Send</button>
+                                </div>
                             </form>
+                            </div>
+                            <div class="card" th:if="${account_id != null and buyMovie == 0}">
+                                <p>You need to buy account in to review</p>
+                            </div>
+                            <div class="card" th:if="${account_id == null}">
+                                <p>You need to log in to comment</p>
+                            </div>
                         </div>
                         <!-- comment form -->
                     </div>
@@ -297,6 +320,83 @@
 </main>
 
 <th:block id="js-resources">
+    <script>
+        $(document).ready(function () {
+            $("#formComment").submit(function (event){
+                debugger;
+                event.preventDefault();
+                let accountId = $('.idAccount').text();
+                let movieId = $('.idMovie').text();
+                let title = $('#title').val();
+                let comment = $('#comment').val();
+                let rating = $('input[name="rating"]:checked').val();
+// Kiểm tra xem các trường đã được nhập đủ hay chưa
+                if (!rating) {
+                    $('#invalid-feedback-voteStar').show();
+                    return;
+                } else {
+                    $('#invalid-feedback-voteStar').hide();
+                }
+
+                if (title.trim() === '') {
+                    $('#invalid-feedback-title').show();
+                    return
+                } else {
+                    $('#invalid-feedback-title').hide();
+                }
+                if (comment.trim() === '') {
+                    $('#invalid-feedback-comment').show();
+                    return;
+                } else {
+                    $('#invalid-feedback-comment').hide();
+                }
+
+                var formData = {
+                    accountId: accountId,
+                    title: title,
+                    comment: comment,
+                    movies: movieId,
+                    star: rating
+                };
+                $.ajax({
+                    url: "/v1/reviews/add",
+                    type: 'POST',
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify(formData),
+                    success: function (result) {
+                        Swal.fire({
+                            title: 'Success!',
+                            text: 'Comment posted successfully.',
+                            icon: 'success',
+                            confirmButtonText: 'OK'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                // Reset form after successful post
+                                $('#formComment')[0].reset();
+                                setTimeout(function () {
+                                    window.location.href = "/movie/get/"+movieId;
+                                });
+                            }
+                        });
+                    },
+                    error: function (xhr, status, error) {
+                        let errorMessage = "An error occurred.";
+                        if (xhr.responseJSON && xhr.responseJSON.message) {
+                            errorMessage = xhr.responseJSON.message;
+                        } else if (xhr.responseText) {
+                            errorMessage = xhr.responseText;
+                        }
+                        Swal.fire({
+                            title: 'Error!',
+                            text: errorMessage,
+                            icon: 'error',
+                            confirmButtonText: 'OK'
+                        });
+                    }
+                });
+            })
+        })
+    </script>
     <script
             type="module"
             src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"
