@@ -38,13 +38,13 @@ public class RevenueController {
         if (revenueEnd == null) {
             revenueEnd = LocalDate.now();
         }
-        String endDate = revenueEnd.format(DateTimeFormatter.ISO_DATE);
-        String startDate = revenueStart.format(DateTimeFormatter.ISO_DATE);
+//        String endDate = revenueEnd.format(DateTimeFormatter.ISO_DATE);
+//        String startDate = revenueStart.format(DateTimeFormatter.ISO_DATE);
 
 
             List<revenueSp> revenueList = revenueService.getRevenueStats(
-                startDate,
-endDate        );
+                revenueStart,
+revenueEnd        );
         BigDecimal totalRevenue = revenueList.stream().map(revenueSp::getTotalrevenue).reduce(BigDecimal.ZERO, BigDecimal::add);
         int totalPayments5 = revenueList.stream().mapToInt(revenueSp::getTotalpayments5).sum();
         int totalPayments10 = revenueList.stream().mapToInt(revenueSp::getTotalpayments10).sum();
@@ -53,8 +53,8 @@ endDate        );
         model.addAttribute("totalRevenue", totalRevenue);
         model.addAttribute("totalPayments5", totalPayments5);
         model.addAttribute("totalPayments10", totalPayments10);
-        model.addAttribute("startDate", startDate.toString()); // Pass start date for form
-        model.addAttribute("endDate", endDate.toString());
+        model.addAttribute("startDate", revenueStart.toString()); // Pass start date for form
+        model.addAttribute("endDate", revenueEnd.toString());
 
         return "admin/dashboard/dashboard";
     }
@@ -69,12 +69,12 @@ endDate        );
         if (revenueEnd == null) {
             revenueEnd = LocalDate.now();
         }
-        String endDate = revenueEnd.format(DateTimeFormatter.ISO_DATE);
-        String startDate = revenueStart.format(DateTimeFormatter.ISO_DATE);
+//        String endDate = revenueEnd.format(DateTimeFormatter.ISO_DATE);
+//        String startDate = revenueStart.format(DateTimeFormatter.ISO_DATE);
 
         List<revenueSp> revenueList = revenueService.getRevenueStats(
-                startDate,
-                endDate
+                revenueStart,
+                revenueEnd
         );
         BigDecimal totalRevenue = revenueList.stream().map(revenueSp::getTotalrevenue).reduce(BigDecimal.ZERO, BigDecimal::add);
         int totalPayments5 = revenueList.stream().mapToInt(revenueSp::getTotalpayments5).sum();
