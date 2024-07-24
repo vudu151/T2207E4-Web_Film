@@ -610,7 +610,12 @@
            // AJAX review
            $('.heart-error').click(function (e){
                e.preventDefault();
-               alert("You need to log in to add movies to favorites")
+               Swal.fire({
+                   title: 'Error!',
+                   text: "you loggin favorite movie",
+                   icon: 'error',
+                   confirmButtonText: 'OK'
+               });
            })
            $('.favorite-icon').click(function (e){
                e.preventDefault();

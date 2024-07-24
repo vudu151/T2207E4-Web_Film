@@ -103,7 +103,7 @@ public class MoviesService implements IMoviesService{
     @Override
     public Movie getMoviePageApiSlug(String slug) {
 
-        String apiMovie = "https://ophim1.com/phim/" + slug;
+            String apiMovie = "https://ophim1.com/phim/" + slug;
         ResponseEntity<MovieSlugRespone> response = restTemplate.getForEntity(apiMovie, MovieSlugRespone.class);
         MovieSlugRespone responseBody = response.getBody();
 
